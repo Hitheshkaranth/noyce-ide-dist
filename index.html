@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noyce IDE | Download</title>
+    <link rel="icon" type="image/png" href="/noyce_logo.png">
+    <style>
+        :root {
+            --noyce-bg: #0d1117;
+            --noyce-panel: #161b22;
+            --noyce-border: #30363d;
+            --noyce-blue: #378add;
+            --noyce-green: #00e676;
+            --noyce-text: #c9d1d9;
+            --noyce-muted: #8b949e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--noyce-bg);
+            color: var(--noyce-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .background-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 230, 118, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo {
+            height: 80px;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 20px rgba(0, 230, 118, 0.3));
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            letter-spacing: -0.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--noyce-green);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+
+        .download-card {
+            background-color: var(--noyce-panel);
+            border: 1px solid var(--noyce-border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .version-badge {
+            background: rgba(0, 230, 118, 0.1);
+            color: var(--noyce-green);
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            border: 1px solid rgba(0, 230, 118, 0.2);
+        }
+
+        .description {
+            color: var(--noyce-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .download-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .download-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--noyce-border);
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:hover {
+            border-color: var(--noyce-green);
+            background: rgba(0, 230, 118, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .download-btn svg {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 1rem;
+            fill: var(--noyce-muted);
+            transition: fill 0.2s ease;
+        }
+
+        .download-btn:hover svg {
+            fill: var(--noyce-green);
+        }
+
+        .btn-label {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .btn-sub {
+            font-size: 0.7rem;
+            color: var(--noyce-muted);
+            margin-top: 0.25rem;
+        }
+
+        .source-link {
+            display: block;
+            margin-top: 1.5rem;
+            color: var(--noyce-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .source-link:hover {
+            color: white;
+        }
+
+        footer {
+            margin-top: 3rem;
+            color: var(--noyce-muted);
+            font-size: 0.8rem;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-glow"></div>
+
+    <header>
+        <img src="/noyce_logo.png" alt="Noyce Logo" class="logo">
+        <h1>Noyce IDE</h1>
+        <div class="subtitle">AI-Native Safety-Critical Development</div>
+    </header>
+
+    <div class="download-card">
+        <div class="version-badge">v1.0.0 Stable</div>
+        <p class="description">
+            Experience the next generation of embedded development. <br>
+            Noyce IDE provides AI-assisted workflows, real-time hardware tracing, <br>
+            and full traceability for safety-critical systems.
+        </p>
+
+        <div class="download-options">
+            <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg" class="download-btn">
+                <svg viewBox="0 0 24 24"><path d="M17.05,20.28c-.96,.95-2,1.72-3.11,1.72s-1.46-.71-2.73-.71-1.63,.72-2.73,.72-2.15-.77-3.11-1.72C3.39,18.3,1.67,14.68,1.67,11.23c0-5.54,3.58-8.46,7.03-8.46,1.78,0,3.46,.63,4.55,.63s3.15-.75,5.18-.75c2.14,0,4.82,.8,6.43,3.02-4.52,2.33-3.8,8.43,.71,10.29-.9,2.15-2.23,4.11-3.52,5.36M15.03,4.67c-.83-1-1.39-2.38-1.39-3.77,0-.19,.02-.38,.07-.56,1.4,.06,2.78,.94,3.61,1.93,.83,.99,1.39,2.44,1.39,3.77,0,.21-.03,.42-.08,.63-1.26-.05-2.76-.99-3.6-2Z"/></svg>
+                <span class="btn-label">macOS</span>
+                <span class="btn-sub">Apple Silicon (.dmg)</span>
+            </a>
+            <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi" class="download-btn">
+                <svg viewBox="0 0 24 24"><path d="M0,12.001L0,3.66L9.623,2.4L9.623,11.353L0,11.353ZM10.915,2.232L24,0.511L24,11.353L10.915,11.353L10.915,2.232ZM24,12.648L24,23.489L10.915,21.768L10.915,12.648L24,12.648ZM9.623,12.648L9.623,21.601L0,20.341L0,12.648L9.623,12.648Z"/></svg>
+                <span class="btn-label">Windows</span>
+                <span class="btn-sub">x64 (.msi)</span>
+            </a>
+        </div>
+
+        <a href="https://github.com/Hitheshkaranth/noyce_ide" class="source-link">
+            View Source on GitHub &rarr;
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2026 Noyce IDE Project. Private / Proprietary.
+    </footer>
+</body>
+</html>
