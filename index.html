@@ -69,7 +69,11 @@
             border-bottom: 1px solid var(--noyce-border);
             font-size: 0.8rem;
         }
-        .titlebar .left { display: flex; align-items: center; gap: 10px; color: var(--noyce-muted); }
+        .titlebar .left { display: flex; align-items: center; gap: 12px; color: var(--noyce-muted); }
+        .titlebar .brand { display: flex; align-items: center; gap: 8px; }
+        .titlebar .brand img { height: 22px; width: 22px; filter: drop-shadow(0 0 6px rgba(0,230,118,0.4)); }
+        .titlebar .brand span { font-weight: 700; color: var(--noyce-text); letter-spacing: -0.01em; font-size: 0.88rem; }
+        .titlebar .sep { width: 1px; height: 16px; background: var(--noyce-border); }
         .titlebar .dots { display: flex; gap: 6px; }
         .titlebar .dots span { width: 11px; height: 11px; border-radius: 50%; background: var(--noyce-surface); border: 1px solid var(--noyce-border); }
         .titlebar .dots span:nth-child(1) { background: #ff5f57; border-color: #e0443e; }
@@ -85,6 +89,36 @@
         /* --- Hero --- */
         .hero { display: grid; grid-template-columns: 1fr; gap: 40px; margin-bottom: 72px; }
         @media (min-width: 900px) { .hero { grid-template-columns: 1fr 1fr; align-items: center; } }
+
+        .hero-logo {
+            display: inline-flex; align-items: center; gap: 14px;
+            margin-bottom: 22px;
+            animation: logoIn 0.7s cubic-bezier(.2,.8,.2,1) both;
+        }
+        .hero-logo .mark {
+            position: relative;
+            width: 72px; height: 72px;
+            border-radius: 16px;
+            padding: 10px;
+            background: linear-gradient(135deg, rgba(0,230,118,0.12), rgba(55,138,221,0.12), rgba(127,119,221,0.12));
+            border: 1px solid var(--noyce-border);
+            box-shadow: 0 8px 32px -8px rgba(0,230,118,0.25), 0 0 0 1px rgba(255,255,255,0.02) inset;
+        }
+        .hero-logo .mark::after {
+            content: ''; position: absolute; inset: -1px; border-radius: 16px; pointer-events: none;
+            background: conic-gradient(from 180deg at 50% 50%, rgba(0,230,118,0.3), rgba(55,138,221,0.3), rgba(127,119,221,0.3), rgba(0,230,118,0.3));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
+            padding: 1px;
+            opacity: 0.5;
+            animation: spinSlow 8s linear infinite;
+        }
+        .hero-logo .mark img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 12px rgba(0,230,118,0.35)); }
+        .hero-logo .wordmark { display: flex; flex-direction: column; line-height: 1; }
+        .hero-logo .wordmark .name { font-size: 1.65rem; font-weight: 800; letter-spacing: -0.02em; color: white; }
+        .hero-logo .wordmark .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--noyce-muted); margin-top: 6px; letter-spacing: 0.04em; }
+        @keyframes logoIn { from { opacity: 0; transform: translateY(-8px) scale(0.96); } to { opacity: 1; transform: none; } }
+        @keyframes spinSlow { to { transform: rotate(360deg); } }
 
         .eyebrow {
             display: inline-flex; align-items: center; gap: 8px;
@@ -406,7 +440,12 @@
     <div class="titlebar">
         <div class="left">
             <div class="dots"><span></span><span></span><span></span></div>
-            <span class="path">noyce-ide · v1.0.0 'Lovelace'</span>
+            <div class="sep"></div>
+            <div class="brand">
+                <img src="noyce_logo.png" alt="Noyce IDE">
+                <span>Noyce IDE</span>
+            </div>
+            <span class="path">· v1.0.0 'Lovelace'</span>
         </div>
         <div class="right">
             <span class="status-dot pulse"></span>
@@ -418,6 +457,13 @@
     <main>
         <section class="hero">
             <div>
+                <div class="hero-logo">
+                    <div class="mark"><img src="noyce_logo.png" alt="Noyce IDE logo"></div>
+                    <div class="wordmark">
+                        <span class="name">Noyce IDE</span>
+                        <span class="tag">v1.0.0 · 'Lovelace'</span>
+                    </div>
+                </div>
                 <span class="eyebrow"><span class="pulse"></span> AI-NATIVE · SAFETY-CRITICAL</span>
                 <h1 class="headline">
                     The embedded IDE that <span class="grad">thinks</span> in safety requirements.
@@ -671,7 +717,8 @@
     </main>
 
     <footer>
-        © 2026 Noyce IDE · built with <a href="https://tauri.app">Tauri</a> · <a href="https://github.com/Hitheshkaranth/noyce_ide">source</a> · <a href="https://github.com/Hitheshkaranth/noyce_ide/releases">releases</a>
+        <img src="noyce_logo.png" alt="" style="height:20px;width:20px;vertical-align:-4px;margin-right:8px;opacity:0.85;filter:drop-shadow(0 0 6px rgba(0,230,118,0.35));">
+        © 2026 Noyce IDE · built with <a href="https://tauri.app">Tauri</a> · <a href="https://github.com/Hitheshkaranth/noyce_ide">source</a> · <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases">releases</a>
     </footer>
 </body>
 </html>
