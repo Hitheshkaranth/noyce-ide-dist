@@ -199,23 +199,171 @@
         .feature p { color: var(--noyce-muted); font-size: 0.88rem; }
 
         /* --- Downloads --- */
-        .downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-        .download-card {
+        .dl-wrap {
+            background: linear-gradient(180deg, var(--noyce-panel) 0%, rgba(12,25,41,0.5) 100%);
+            border: 1px solid var(--noyce-border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .dl-head {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            padding: 16px 22px;
+            background: var(--noyce-surface);
+            border-bottom: 1px solid var(--noyce-border);
+            gap: 12px;
+        }
+        .dl-head .rel { display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; }
+        .dl-head .badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 3px 10px; border-radius: 99px;
+            background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.3);
+            color: var(--noyce-accent); font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        .dl-head .changelog { color: var(--noyce-muted); font-size: 0.8rem; transition: color 0.2s; }
+        .dl-head .changelog:hover { color: var(--noyce-accent); }
+
+        .dl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; }
+        .dl-card {
+            position: relative;
             display: flex; flex-direction: column;
-            padding: 24px;
+            padding: 28px 26px;
+            border-right: 1px solid var(--noyce-border);
+            transition: all 0.2s ease;
+            color: white; overflow: hidden;
+        }
+        .dl-card:last-child { border-right: none; }
+        .dl-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(0,230,118,0.08), transparent 60%);
+            opacity: 0; transition: opacity 0.25s;
+        }
+        .dl-card:hover::before { opacity: 1; }
+        .dl-card:hover { background: rgba(255,255,255,0.015); }
+        .dl-card.featured { background: linear-gradient(180deg, rgba(0,230,118,0.04), transparent 70%); }
+        .dl-card .os-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; position: relative; z-index: 1; }
+        .dl-card .os-ico {
+            width: 52px; height: 52px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--noyce-surface); border: 1px solid var(--noyce-border);
+            transition: all 0.2s;
+        }
+        .dl-card:hover .os-ico { border-color: var(--noyce-accent); background: rgba(0,230,118,0.06); }
+        .dl-card .os-ico svg { width: 26px; height: 26px; fill: var(--noyce-text); transition: fill 0.2s; }
+        .dl-card:hover .os-ico svg { fill: var(--noyce-accent); }
+        .dl-card .recommended {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase;
+            color: var(--noyce-accent);
+            padding: 3px 8px; border: 1px solid rgba(0,230,118,0.3); border-radius: 4px;
+            background: rgba(0,230,118,0.06);
+        }
+        .dl-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 4px; position: relative; z-index: 1; }
+        .dl-card .arch { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--noyce-muted); margin-bottom: 18px; position: relative; z-index: 1; }
+        .dl-card .specs { display: flex; gap: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--noyce-dim); margin-bottom: 22px; position: relative; z-index: 1; }
+        .dl-card .specs span b { color: var(--noyce-muted); font-weight: 500; }
+        .dl-card .dl-btn {
+            margin-top: auto;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 11px 16px; border-radius: 8px;
+            font-weight: 600; font-size: 0.88rem;
+            background: var(--noyce-surface); border: 1px solid var(--noyce-border);
+            color: var(--noyce-text);
+            transition: all 0.18s;
+            position: relative; z-index: 1;
+        }
+        .dl-card .dl-btn svg { width: 14px; height: 14px; fill: currentColor; }
+        .dl-card.featured .dl-btn { background: linear-gradient(135deg, rgba(0,230,118,0.18), rgba(55,138,221,0.18)); border-color: rgba(0,230,118,0.4); color: var(--noyce-accent); }
+        .dl-card:hover .dl-btn { border-color: var(--noyce-accent); color: var(--noyce-accent); }
+
+        .dl-foot {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            padding: 14px 22px;
+            background: rgba(6,13,24,0.5);
+            border-top: 1px solid var(--noyce-border);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: var(--noyce-muted);
+            gap: 10px;
+        }
+        .dl-foot a { color: var(--noyce-muted); transition: color 0.2s; }
+        .dl-foot a:hover { color: var(--noyce-accent); }
+        .dl-foot .group { display: flex; gap: 16px; flex-wrap: wrap; }
+
+        @media (max-width: 860px) {
+            .dl-card { border-right: none; border-bottom: 1px solid var(--noyce-border); }
+            .dl-card:last-child { border-bottom: none; }
+        }
+
+        /* --- Screenshots showcase --- */
+        .showcase {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        @media (min-width: 900px) { .showcase { grid-template-columns: 2fr 1fr; } }
+        .shot-main {
+            position: relative;
             background: var(--noyce-panel);
             border: 1px solid var(--noyce-border);
-            border-radius: 10px;
-            transition: all 0.2s ease;
-            color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
         }
-        .download-card:hover { border-color: var(--noyce-accent); background: rgba(0,230,118,0.03); transform: translateY(-2px); }
-        .download-card .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-        .download-card svg { width: 28px; height: 28px; fill: var(--noyce-muted); transition: fill 0.2s; }
-        .download-card:hover svg { fill: var(--noyce-accent); }
-        .download-card .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--noyce-dim); text-transform: uppercase; letter-spacing: 0.08em; }
-        .download-card .label { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
-        .download-card .sub { font-size: 0.8rem; color: var(--noyce-muted); font-family: 'JetBrains Mono', monospace; }
+        .shot-main-head {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 14px;
+            background: var(--noyce-surface);
+            border-bottom: 1px solid var(--noyce-border);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+        }
+        .shot-main-head .dots span { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .shot-main-head .dots span:nth-child(1) { background: #ff5f57; }
+        .shot-main-head .dots span:nth-child(2) { background: #febc2e; }
+        .shot-main-head .dots span:nth-child(3) { background: #28c840; }
+        .shot-main-head .file { color: var(--noyce-text); }
+        .shot-main-head .file .accent { color: var(--noyce-accent); }
+        .shot-main-head .right-meta { margin-left: auto; color: var(--noyce-muted); }
+        .shot-main .img-wrap { position: relative; aspect-ratio: 16/10; background: var(--noyce-bg); overflow: hidden; }
+        .shot-main .img-wrap img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
+        .shot-main .caption {
+            padding: 14px 18px;
+            border-top: 1px solid var(--noyce-border);
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.85rem;
+        }
+        .shot-main .caption .num {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+            color: var(--noyce-accent);
+            padding: 3px 8px; border: 1px solid rgba(0,230,118,0.25); border-radius: 4px;
+            background: rgba(0,230,118,0.05);
+        }
+        .shot-main .caption .desc { color: var(--noyce-muted); }
+
+        .thumbs { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; align-content: start; }
+        @media (min-width: 900px) { .thumbs { grid-template-columns: 1fr; max-height: 560px; overflow-y: auto; padding-right: 4px; } }
+        .thumbs::-webkit-scrollbar { width: 6px; }
+        .thumbs::-webkit-scrollbar-thumb { background: var(--noyce-border); border-radius: 3px; }
+        .thumb {
+            cursor: pointer;
+            display: flex; gap: 10px; align-items: center;
+            padding: 8px;
+            background: var(--noyce-panel);
+            border: 1px solid var(--noyce-border);
+            border-radius: 8px;
+            transition: all 0.15s;
+        }
+        .thumb:hover { border-color: var(--noyce-blue); background: rgba(55,138,221,0.04); }
+        .thumb.active { border-color: var(--noyce-accent); background: rgba(0,230,118,0.05); }
+        .thumb .t-img {
+            width: 84px; height: 52px; flex-shrink: 0;
+            border-radius: 4px; overflow: hidden;
+            background: var(--noyce-bg);
+            border: 1px solid var(--noyce-border);
+        }
+        .thumb .t-img img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb .t-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .thumb .t-num { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--noyce-dim); letter-spacing: 0.06em; }
+        .thumb.active .t-num { color: var(--noyce-accent); }
+        .thumb .t-title { font-size: 0.82rem; color: var(--noyce-text); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         /* --- Footer --- */
         footer {
@@ -357,21 +505,71 @@
                 <div class="line"></div>
                 <span class="kbd">SCREENSHOTS</span>
             </div>
-            <div class="shots">
-                <div class="shot">
-                    <img src="https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/05-traceability-graph.png" alt="Traceability Graph">
-                    <div class="cap"><span class="n">05</span> · traceability graph</div>
+            <div class="showcase">
+                <div class="shot-main">
+                    <div class="shot-main-head">
+                        <div class="dots"><span></span><span></span><span></span></div>
+                        <span class="file" id="shotFile"><span class="accent">●</span> welcome.noyce</span>
+                        <span class="right-meta" id="shotMeta">view: welcome</span>
+                    </div>
+                    <div class="img-wrap">
+                        <img id="shotImg" src="https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/01-welcome-screen.png" alt="Noyce IDE screenshot">
+                    </div>
+                    <div class="caption">
+                        <span class="num" id="shotNum">01</span>
+                        <span class="desc" id="shotDesc">Welcome screen — start a new safety-critical project or import an existing one.</span>
+                    </div>
                 </div>
-                <div class="shot">
-                    <img src="https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/06-live-dashboard.png" alt="Live Dashboard">
-                    <div class="cap"><span class="n">06</span> · live hardware dashboard</div>
-                </div>
-                <div class="shot">
-                    <img src="https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/07-compliance-dashboard.png" alt="Compliance Dashboard">
-                    <div class="cap"><span class="n">07</span> · DO-178C compliance</div>
+                <div class="thumbs" id="thumbs">
+                    <!-- populated by JS -->
                 </div>
             </div>
         </section>
+
+        <script>
+            const shots = [
+                { n: '01', file: 'welcome.noyce',               view: 'welcome',             title: 'Welcome screen',           desc: 'Welcome screen — start a new safety-critical project or import an existing one.', img: '01-welcome-screen.png' },
+                { n: '02', file: 'stm32_motor_controller',      view: 'editor',              title: 'Project imported',         desc: 'STM32 motor-controller project freshly imported into the editor.',                img: '02-stm32-project-imported.png' },
+                { n: '03', file: 'main.c',                      view: 'ai-pipeline: running',title: 'AI pipeline active',       desc: '6-agent AI pipeline running — requirements flowing through architecture to code.', img: '03-ai-pipeline-active.png' },
+                { n: '04', file: 'main.c',                      view: 'ai-pipeline: done',   title: 'AI pipeline complete',     desc: 'Pipeline complete — generated code linked to originating requirements.',          img: '04-ai-pipeline-done.png' },
+                { n: '05', file: 'traceability.graph',          view: 'graph',               title: 'Traceability graph',       desc: 'Live traceability graph linking requirements, code, tests, and verification.',     img: '05-traceability-graph.png' },
+                { n: '06', file: 'dashboard.live',              view: 'hardware',            title: 'Live hardware dashboard',  desc: 'Real-time ITM/SWD streams, register state, and telemetry — in the editor.',       img: '06-live-dashboard.png' },
+                { n: '07', file: 'compliance.do178c',           view: 'DAL-B',               title: 'DO-178C compliance',       desc: 'Compliance dashboard auto-generated from dev activity — DAL-A through DAL-D.',    img: '07-compliance-dashboard.png' },
+            ];
+            const base = 'https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/';
+            const thumbs = document.getElementById('thumbs');
+            const shotImg = document.getElementById('shotImg');
+            const shotFile = document.getElementById('shotFile');
+            const shotMeta = document.getElementById('shotMeta');
+            const shotNum = document.getElementById('shotNum');
+            const shotDesc = document.getElementById('shotDesc');
+
+            shots.forEach((s, i) => {
+                const el = document.createElement('div');
+                el.className = 'thumb' + (i === 0 ? ' active' : '');
+                el.innerHTML = `
+                    <div class="t-img"><img src="${base}${s.img}" alt="${s.title}" loading="lazy"></div>
+                    <div class="t-text">
+                        <span class="t-num">${s.n} / 07</span>
+                        <span class="t-title">${s.title}</span>
+                    </div>`;
+                el.addEventListener('click', () => {
+                    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                    el.classList.add('active');
+                    shotImg.style.opacity = '0';
+                    setTimeout(() => {
+                        shotImg.src = base + s.img;
+                        shotFile.innerHTML = `<span class="accent">●</span> ${s.file}`;
+                        shotMeta.textContent = 'view: ' + s.view;
+                        shotNum.textContent = s.n;
+                        shotDesc.textContent = s.desc;
+                        shotImg.style.opacity = '1';
+                    }, 150);
+                });
+                thumbs.appendChild(el);
+            });
+            shotImg.style.transition = 'opacity 0.15s';
+        </script>
 
         <section>
             <div class="section-title">
@@ -379,31 +577,81 @@
                 <div class="line"></div>
                 <span class="kbd">STABLE</span>
             </div>
-            <div class="downloads">
-                <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg" class="download-card">
-                    <div class="top">
-                        <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.96.95-2 1.72-3.11 1.72s-1.46-.71-2.73-.71-1.63.72-2.73.72-2.15-.77-3.11-1.72C3.39 18.3 1.67 14.68 1.67 11.23c0-5.54 3.58-8.46 7.03-8.46 1.78 0 3.46.63 4.55.63s3.15-.75 5.18-.75c2.14 0 4.82.8 6.43 3.02-4.52 2.33-3.8 8.43.71 10.29-.9 2.15-2.23 4.11-3.52 5.36M15.03 4.67c-.83-1-1.39-2.38-1.39-3.77 0-.19.02-.38.07-.56 1.4.06 2.78.94 3.61 1.93.83.99 1.39 2.44 1.39 3.77 0 .21-.03.42-.08.63-1.26-.05-2.76-.99-3.6-2Z"/></svg>
-                        <span class="tag">.dmg</span>
+            <div class="dl-wrap">
+                <div class="dl-head">
+                    <div class="rel">
+                        <span class="badge"><span style="width:6px;height:6px;border-radius:50%;background:var(--noyce-accent);box-shadow:0 0 8px var(--noyce-accent);"></span>STABLE</span>
+                        <span>v1.0.0 · 'Lovelace'</span>
                     </div>
-                    <div class="label">macOS</div>
-                    <div class="sub">Apple Silicon (aarch64)</div>
-                </a>
-                <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi" class="download-card">
-                    <div class="top">
-                        <svg viewBox="0 0 24 24"><path d="M0 12V3.66L9.62 2.4v8.95H0zM10.91 2.23L24 .51v10.84H10.91zM24 12.65V23.49L10.91 21.77v-9.12zM9.62 12.65v8.95L0 20.34v-7.69z"/></svg>
-                        <span class="tag">.msi</span>
+                    <a class="changelog" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest">Release notes &rarr;</a>
+                </div>
+                <div class="dl-grid">
+                    <div class="dl-card featured">
+                        <div class="os-row">
+                            <div class="os-ico">
+                                <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.96.95-2 1.72-3.11 1.72s-1.46-.71-2.73-.71-1.63.72-2.73.72-2.15-.77-3.11-1.72C3.39 18.3 1.67 14.68 1.67 11.23c0-5.54 3.58-8.46 7.03-8.46 1.78 0 3.46.63 4.55.63s3.15-.75 5.18-.75c2.14 0 4.82.8 6.43 3.02-4.52 2.33-3.8 8.43.71 10.29-.9 2.15-2.23 4.11-3.52 5.36M15.03 4.67c-.83-1-1.39-2.38-1.39-3.77 0-.19.02-.38.07-.56 1.4.06 2.78.94 3.61 1.93.83.99 1.39 2.44 1.39 3.77 0 .21-.03.42-.08.63-1.26-.05-2.76-.99-3.6-2Z"/></svg>
+                            </div>
+                            <span class="recommended">Recommended</span>
+                        </div>
+                        <h3>macOS</h3>
+                        <div class="arch">Apple Silicon · aarch64</div>
+                        <div class="specs">
+                            <span><b>.dmg</b></span>
+                            <span><b>macOS 12+</b></span>
+                            <span><b>~18 MB</b></span>
+                        </div>
+                        <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg" class="dl-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 3v14m0 0l-5-5m5 5l5-5M5 21h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Download .dmg
+                        </a>
                     </div>
-                    <div class="label">Windows</div>
-                    <div class="sub">x64 (en-US)</div>
-                </a>
-                <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest" class="download-card">
-                    <div class="top">
-                        <svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 100 24 12 12 0 000-24zm-1 17.93a8 8 0 01-6.93-6.93H7v-2H4.07A8 8 0 0111 4.07V7h2V4.07A8 8 0 0119.93 11H17v2h2.93A8 8 0 0113 19.93V17h-2v2.93z"/></svg>
-                        <span class="tag">all</span>
+
+                    <div class="dl-card">
+                        <div class="os-row">
+                            <div class="os-ico">
+                                <svg viewBox="0 0 24 24"><path d="M0 3.66L9.62 2.4v8.95H0zM10.91 2.23L24 .51v10.84H10.91zM24 12.65V23.49L10.91 21.77v-9.12zM9.62 12.65v8.95L0 20.34v-7.69z"/></svg>
+                            </div>
+                        </div>
+                        <h3>Windows</h3>
+                        <div class="arch">x64 · en-US</div>
+                        <div class="specs">
+                            <span><b>.msi</b></span>
+                            <span><b>Win 10+</b></span>
+                            <span><b>~22 MB</b></span>
+                        </div>
+                        <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi" class="dl-btn">
+                            <svg viewBox="0 0 24 24"><path d="M12 3v14m0 0l-5-5m5 5l5-5M5 21h14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Download .msi
+                        </a>
                     </div>
-                    <div class="label">Other platforms</div>
-                    <div class="sub">Linux · source · checksums</div>
-                </a>
+
+                    <div class="dl-card">
+                        <div class="os-row">
+                            <div class="os-ico">
+                                <svg viewBox="0 0 24 24"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.148-.11 1.486.17.337.501.492.86.603.717.222 1.715.251 2.528.65.878.418 1.77.927 2.605 1.062.398.068.797.068 1.132-.029.305-.084.557-.262.738-.513.149-.204.192-.465.264-.701.069-.235.13-.411.17-.47.18-.297.48-.38.86-.407.382-.027.845-.017 1.335.015.82.056 1.74.14 2.622.039.824-.071 1.558-.277 2.121-.593.322-.181.597-.396.77-.676.18-.286.247-.653.097-1.055a.463.463 0 00-.046-.097c-.085-.145-.211-.272-.346-.365-.08-.055-.2-.098-.348-.136-.136-.035-.296-.068-.48-.102-.51-.095-1.236-.22-1.874-.513-.638-.293-1.234-.736-1.652-1.35-.418-.614-.646-1.414-.646-2.408 0-.87.171-1.67.436-2.38.265-.71.624-1.33 1.003-1.81.338-.428.74-.808 1.19-1.13.75-.535 1.57-.91 2.35-1.12.39-.105.73-.185 1.05-.242.32-.058.62-.097.9-.117a7.5 7.5 0 011.44.02c.45.05.85.14 1.22.27.74.26 1.3.68 1.65 1.33-.12.18-.215.4-.276.65-.06.249-.085.528-.074.83.02.604.16 1.302.379 2.044.22.742.52 1.526.88 2.267.35.71.763 1.391 1.203 1.886.22.246.444.453.673.625.228.17.459.304.691.397l.006.003c.36.15.704.19 1.038.12.335-.07.644-.222.905-.443.26-.22.477-.495.64-.821.162-.326.27-.693.331-1.1.06-.407.072-.851.034-1.334-.038-.483-.124-1.01-.258-1.572-.134-.563-.312-1.16-.526-1.778a18.42 18.42 0 00-.748-1.839 19.88 19.88 0 00-.88-1.662 16.69 16.69 0 00-.936-1.386 10.62 10.62 0 00-.915-1.04 5.78 5.78 0 00-.817-.642 3.21 3.21 0 00-.654-.322 1.97 1.97 0 00-.513-.115 2.17 2.17 0 00-.362-.004c-.115.01-.24.033-.374.066-.268.066-.572.178-.9.33-.329.152-.68.343-1.04.57-.362.226-.73.484-1.087.76a14.52 14.52 0 00-1.015.873c-.33.313-.63.634-.91.96a11.1 11.1 0 00-1.38 2.05c.07-.34.116-.684.13-1.02.014-.338-.003-.656-.047-.95a3.54 3.54 0 00-.194-.806 2.67 2.67 0 00-.347-.608 2.04 2.04 0 00-.475-.42 1.61 1.61 0 00-.57-.246 2.25 2.25 0 00-1.306.117z"/></svg>
+                            </div>
+                        </div>
+                        <h3>Linux &amp; Source</h3>
+                        <div class="arch">AppImage · .deb · source</div>
+                        <div class="specs">
+                            <span><b>tar.gz</b></span>
+                            <span><b>SHA-256</b></span>
+                            <span><b>MIT</b></span>
+                        </div>
+                        <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest" class="dl-btn">
+                            <svg viewBox="0 0 24 24"><path d="M7 17l10-10M17 7H9m8 0v8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            All assets
+                        </a>
+                    </div>
+                </div>
+                <div class="dl-foot">
+                    <span>Verified via GitHub Releases · SHA-256 checksums included</span>
+                    <div class="group">
+                        <a href="https://github.com/Hitheshkaranth/noyce_ide/blob/main/RELEASE_NOTES.md">Changelog</a>
+                        <a href="https://github.com/Hitheshkaranth/noyce_ide/issues">Report issue</a>
+                        <a href="https://github.com/Hitheshkaranth/noyce_ide">Source</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
