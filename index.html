@@ -91,32 +91,39 @@
         @media (min-width: 900px) { .hero { grid-template-columns: 1fr 1fr; align-items: center; } }
 
         .hero-logo {
-            display: inline-flex; align-items: center; gap: 14px;
-            margin-bottom: 22px;
+            display: inline-flex; align-items: center; gap: 24px;
+            margin-bottom: 32px;
             animation: logoIn 0.7s cubic-bezier(.2,.8,.2,1) both;
         }
         .hero-logo .mark {
             position: relative;
-            width: 72px; height: 72px;
-            border-radius: 16px;
-            padding: 10px;
+            width: 140px; height: 140px;
+            border-radius: 28px;
+            padding: 18px;
             background: linear-gradient(135deg, rgba(0,230,118,0.12), rgba(55,138,221,0.12), rgba(127,119,221,0.12));
             border: 1px solid var(--noyce-border);
-            box-shadow: 0 8px 32px -8px rgba(0,230,118,0.25), 0 0 0 1px rgba(255,255,255,0.02) inset;
+            box-shadow: 0 14px 48px -12px rgba(0,230,118,0.35), 0 0 0 1px rgba(255,255,255,0.02) inset;
         }
         .hero-logo .mark::after {
-            content: ''; position: absolute; inset: -1px; border-radius: 16px; pointer-events: none;
-            background: conic-gradient(from 180deg at 50% 50%, rgba(0,230,118,0.3), rgba(55,138,221,0.3), rgba(127,119,221,0.3), rgba(0,230,118,0.3));
+            content: ''; position: absolute; inset: -1px; border-radius: 28px; pointer-events: none;
+            background: conic-gradient(from 180deg at 50% 50%, rgba(0,230,118,0.35), rgba(55,138,221,0.35), rgba(127,119,221,0.35), rgba(0,230,118,0.35));
             -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             -webkit-mask-composite: xor; mask-composite: exclude;
-            padding: 1px;
-            opacity: 0.5;
+            padding: 1.5px;
+            opacity: 0.6;
             animation: spinSlow 8s linear infinite;
         }
-        .hero-logo .mark img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 12px rgba(0,230,118,0.35)); }
+        .hero-logo .mark img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 20px rgba(0,230,118,0.45)); }
         .hero-logo .wordmark { display: flex; flex-direction: column; line-height: 1; }
-        .hero-logo .wordmark .name { font-size: 1.65rem; font-weight: 800; letter-spacing: -0.02em; color: white; }
-        .hero-logo .wordmark .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--noyce-muted); margin-top: 6px; letter-spacing: 0.04em; }
+        .hero-logo .wordmark .name { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.03em; color: white; }
+        .hero-logo .wordmark .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--noyce-muted); margin-top: 10px; letter-spacing: 0.06em; }
+        @media (max-width: 520px) {
+            .hero-logo .mark { width: 104px; height: 104px; padding: 14px; border-radius: 22px; }
+            .hero-logo .wordmark .name { font-size: 1.8rem; }
+        }
+
+        .titlebar .brand img { height: 26px !important; width: 26px !important; }
+        .titlebar .brand span { font-size: 0.95rem !important; }
         @keyframes logoIn { from { opacity: 0; transform: translateY(-8px) scale(0.96); } to { opacity: 1; transform: none; } }
         @keyframes spinSlow { to { transform: rotate(360deg); } }
 
