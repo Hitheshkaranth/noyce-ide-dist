@@ -312,6 +312,89 @@
         .models .m-row.off .name::before { color: var(--noyce-dim); }
         .models .m-row .size { color: var(--noyce-muted); font-size: 0.74rem; }
 
+        /* Multi-agent routing */
+        .agents-wrap {
+            background: var(--noyce-panel);
+            border: 1px solid var(--noyce-border);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .agents-head {
+            padding: 16px 22px;
+            background: var(--noyce-surface);
+            border-bottom: 1px solid var(--noyce-border);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 12px;
+        }
+        .agents-head .title { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: var(--noyce-text); }
+        .agents-head .title .accent { color: var(--noyce-accent); }
+        .mode-toggle { display: flex; gap: 0; border: 1px solid var(--noyce-border); border-radius: 8px; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; }
+        .mode-toggle span {
+            padding: 6px 12px; color: var(--noyce-muted);
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .mode-toggle span.on.local { background: rgba(0,230,118,0.1); color: var(--noyce-accent); }
+        .mode-toggle span.on.cloud { background: rgba(55,138,221,0.1); color: var(--noyce-blue); }
+        .mode-toggle span + span { border-left: 1px solid var(--noyce-border); }
+
+        .agents-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1px; background: var(--noyce-border);
+        }
+        .agent-card {
+            background: var(--noyce-panel);
+            padding: 18px;
+            display: flex; flex-direction: column; gap: 10px;
+            transition: background 0.2s;
+        }
+        .agent-card:hover { background: var(--noyce-surface); }
+        .agent-card .role {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .agent-card .role .chip {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.78rem;
+            background: var(--noyce-surface); border: 1px solid var(--noyce-border);
+        }
+        .agent-card .role .chip.g { color: var(--noyce-accent); border-color: rgba(0,230,118,0.3); background: rgba(0,230,118,0.06); }
+        .agent-card .role .chip.b { color: var(--noyce-blue);   border-color: rgba(55,138,221,0.3); background: rgba(55,138,221,0.06); }
+        .agent-card .role .chip.p { color: var(--noyce-purple); border-color: rgba(127,119,221,0.3); background: rgba(127,119,221,0.06); }
+        .agent-card .role .chip.a { color: var(--noyce-amber);  border-color: rgba(255,193,7,0.3);  background: rgba(255,193,7,0.06); }
+        .agent-card .role .name { font-size: 0.95rem; font-weight: 600; color: white; }
+        .agent-card .role .sub { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; color: var(--noyce-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+        .agent-card .desc { font-size: 0.82rem; color: var(--noyce-muted); }
+        .agent-card .route {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 10px; margin-top: auto;
+            background: var(--noyce-bg);
+            border: 1px solid var(--noyce-border);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+        }
+        .agent-card .route.local { border-color: rgba(0,230,118,0.3); }
+        .agent-card .route.cloud { border-color: rgba(55,138,221,0.3); }
+        .agent-card .route .pin { width: 6px; height: 6px; border-radius: 50%; }
+        .agent-card .route.local .pin { background: var(--noyce-accent); box-shadow: 0 0 6px var(--noyce-accent); }
+        .agent-card .route.cloud .pin { background: var(--noyce-blue); box-shadow: 0 0 6px var(--noyce-blue); }
+        .agent-card .route .arrow { color: var(--noyce-dim); }
+        .agent-card .route .target { color: var(--noyce-text); }
+        .agent-card .route .scope { margin-left: auto; color: var(--noyce-dim); }
+
+        .agents-foot {
+            padding: 14px 22px;
+            background: rgba(6,13,24,0.5);
+            border-top: 1px solid var(--noyce-border);
+            font-family: 'JetBrains Mono', monospace; font-size: 0.76rem;
+            color: var(--noyce-muted);
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+        }
+        .agents-foot .legend { display: flex; gap: 16px; flex-wrap: wrap; }
+        .agents-foot .legend span { display: inline-flex; align-items: center; gap: 6px; }
+        .agents-foot .legend .d { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+        .agents-foot .legend .d.local { background: var(--noyce-accent); box-shadow: 0 0 6px var(--noyce-accent); }
+        .agents-foot .legend .d.cloud { background: var(--noyce-blue); box-shadow: 0 0 6px var(--noyce-blue); }
+
         /* Demo CTA */
         .demo-cta {
             display: grid; grid-template-columns: 1fr; gap: 24px;
@@ -723,6 +806,114 @@
                         <div class="m-row off"><span class="name">llama3.1:70b</span><span class="size">idle</span></div>
                         <div class="m-row off"><span class="name">mistral-large:123b</span><span class="size">idle</span></div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Parallel agents · you pick the role, you pick the model</h2>
+                <div class="line"></div>
+                <span class="kbd">MULTI-AGENT</span>
+            </div>
+            <div class="agents-wrap">
+                <div class="agents-head">
+                    <div class="title"><span class="accent">▸</span> role assignment · parallel execution · per-agent routing</div>
+                    <div class="mode-toggle">
+                        <span class="on local"><span style="width:6px;height:6px;border-radius:50%;background:var(--noyce-accent);box-shadow:0 0 6px var(--noyce-accent);display:inline-block;"></span>LOCAL · ITAR</span>
+                        <span class="on cloud"><span style="width:6px;height:6px;border-radius:50%;background:var(--noyce-blue);box-shadow:0 0 6px var(--noyce-blue);display:inline-block;"></span>CLOUD · NON-ITAR</span>
+                    </div>
+                </div>
+                <div class="agents-grid">
+                    <div class="agent-card">
+                        <div class="role"><div class="chip g">AR</div><div class="name">Architect</div><div class="sub">role · 01</div></div>
+                        <div class="desc">Decomposes requirements, drafts system architecture, picks MCU/MPU targets.</div>
+                        <div class="route local"><span class="pin"></span><span class="target">gemma3:27b</span><span class="arrow">→</span><span>local · on-device</span><span class="scope">ITAR</span></div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="role"><div class="chip b">DV</div><div class="name">Developer</div><div class="sub">role · 02</div></div>
+                        <div class="desc">Writes firmware against the architecture; enforces MISRA C and house style.</div>
+                        <div class="route local"><span class="pin"></span><span class="target">qwen2.5-coder:32b</span><span class="arrow">→</span><span>local · on-device</span><span class="scope">ITAR</span></div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="role"><div class="chip p">RV</div><div class="name">Reviewer</div><div class="sub">role · 03</div></div>
+                        <div class="desc">Cross-checks diffs against requirements, coding standards, and prior reviews.</div>
+                        <div class="route local"><span class="pin"></span><span class="target">deepseek-coder-v2:16b</span><span class="arrow">→</span><span>local · on-device</span><span class="scope">ITAR</span></div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="role"><div class="chip a">TS</div><div class="name">Tester</div><div class="sub">role · 04</div></div>
+                        <div class="desc">Generates unit / boundary / MC-DC tests, drives HIL runs, files findings.</div>
+                        <div class="route local"><span class="pin"></span><span class="target">llama3.1:70b</span><span class="arrow">→</span><span>local · on-device</span><span class="scope">ITAR</span></div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="role"><div class="chip b">DC</div><div class="name">Doc Writer</div><div class="sub">role · 05</div></div>
+                        <div class="desc">Keeps design docs, API refs, and changelogs synced with the code.</div>
+                        <div class="route cloud"><span class="pin"></span><span class="target">gemini-2.5-pro</span><span class="arrow">→</span><span>cloud API</span><span class="scope">NON-ITAR</span></div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="role"><div class="chip p">CP</div><div class="name">Compliance</div><div class="sub">role · 06</div></div>
+                        <div class="desc">Maps every artifact to DO-178C / ISO 26262 objectives and files evidence.</div>
+                        <div class="route cloud"><span class="pin"></span><span class="target">claude-opus-4.6</span><span class="arrow">→</span><span>cloud API</span><span class="scope">NON-ITAR</span></div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="role"><div class="chip g">RS</div><div class="name">Researcher</div><div class="sub">role · 07</div></div>
+                        <div class="desc">Surveys datasheets, errata, app-notes, and reference designs for the team.</div>
+                        <div class="route cloud"><span class="pin"></span><span class="target">codex · gpt-5</span><span class="arrow">→</span><span>cloud API</span><span class="scope">NON-ITAR</span></div>
+                    </div>
+                    <div class="agent-card">
+                        <div class="role"><div class="chip a">+</div><div class="name">Custom Role</div><div class="sub">role · N</div></div>
+                        <div class="desc">Define your own — safety analyst, HW driver, integrator — point it at any model.</div>
+                        <div class="route local"><span class="pin"></span><span class="target">&lt;any model&gt;</span><span class="arrow">→</span><span>local or cloud</span><span class="scope">YOU PICK</span></div>
+                    </div>
+                </div>
+                <div class="agents-foot">
+                    <span>Agents run <b style="color:var(--noyce-text);font-weight:600">in parallel</b>, each assigned a role and a model. Routing is per-agent: keep ITAR/EAR work local, offload the rest.</span>
+                    <div class="legend">
+                        <span><span class="d local"></span>local · sovereign</span>
+                        <span><span class="d cloud"></span>cloud · Gemini / Claude / Codex</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Humans stay in the loop — always</h2>
+                <div class="line"></div>
+                <span class="kbd">HUMAN REVIEW</span>
+            </div>
+            <div class="usecases">
+                <div class="usecase">
+                    <span class="tag">Review &amp; optimize</span>
+                    <h3>Every stage is a checkpoint.</h3>
+                    <p>
+                        Agents propose, humans decide. At any point in the pipeline — architecture,
+                        code, tests, documentation, compliance — an engineer can step in to review,
+                        refactor, or reject the agents' output. Every intervention is recorded and
+                        feeds back into the traceability graph as part of the audit trail.
+                    </p>
+                    <ul>
+                        <li>Inline diff &amp; comment UI at each agent handoff</li>
+                        <li>"Block &amp; rework" or "accept &amp; continue" at any stage</li>
+                        <li>All human edits timestamped and tied to requirement IDs</li>
+                        <li>Per-role approval policies (e.g. Compliance needs two signoffs)</li>
+                    </ul>
+                </div>
+                <div class="usecase auto">
+                    <span class="tag">Monitor &amp; visualize</span>
+                    <h3>Graph view + widget dashboards.</h3>
+                    <p>
+                        Two built-in views give the team a live picture of where the project stands:
+                        a <b style="color:var(--noyce-text);font-weight:600">traceability graph</b> showing how requirements flow through code,
+                        tests, and verification, and a <b style="color:var(--noyce-text);font-weight:600">widget dashboard</b> tracking
+                        compliance level, coverage, and open findings in real time.
+                    </p>
+                    <ul>
+                        <li>Graph: click any node to jump to code / test / requirement</li>
+                        <li>Widgets: DO-178C / ISO 26262 objective completion, DAL/ASIL targets</li>
+                        <li>Red/amber/green indicators per requirement &amp; per build</li>
+                        <li>Exportable evidence snapshots at any moment in the project</li>
+                    </ul>
                 </div>
             </div>
         </section>
