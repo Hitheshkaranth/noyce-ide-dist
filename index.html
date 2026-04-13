@@ -3,231 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noyce IDE | Download</title>
-    <link rel="icon" type="image/png" href="/noyce_logo.png">
+    <title>Noyce IDE — AI-Native IDE for Safety-Critical Development</title>
+    <meta name="description" content="Noyce IDE — AI-native embedded development environment with DO-178C compliance, hardware debug, and 6-agent AI pipeline.">
+    <link rel="icon" type="image/png" href="noyce_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --noyce-bg: #0d1117;
-            --noyce-panel: #161b22;
-            --noyce-border: #30363d;
-            --noyce-blue: #378add;
-            --noyce-green: #00e676;
-            --noyce-text: #c9d1d9;
-            --noyce-muted: #8b949e;
+            --noyce-bg:      #060d18;
+            --noyce-panel:   #0c1929;
+            --noyce-surface: #111f33;
+            --noyce-border:  #1a2d4a;
+            --noyce-accent:  #00e676;
+            --noyce-blue:    #378ADD;
+            --noyce-purple:  #7F77DD;
+            --noyce-amber:   #ffc107;
+            --noyce-text:    #e8edf3;
+            --noyce-muted:   #7a8ba3;
+            --noyce-dim:     #4a5e78;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body {
-            background-color: var(--noyce-bg);
+        html, body {
+            background: var(--noyce-bg);
             color: var(--noyce-text);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-feature-settings: "cv02","cv03","cv04","cv11";
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
             overflow-x: hidden;
         }
 
-        .background-glow {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(0, 230, 118, 0.03) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: -1;
+        code, .mono { font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace; }
+
+        a { color: inherit; text-decoration: none; }
+
+        .bg-glow {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background:
+              radial-gradient(circle at 15% 10%, rgba(55,138,221,0.10) 0%, transparent 45%),
+              radial-gradient(circle at 85% 20%, rgba(127,119,221,0.08) 0%, transparent 45%),
+              radial-gradient(circle at 50% 90%, rgba(0,230,118,0.06) 0%, transparent 55%);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeInDown 0.8s ease-out;
+        .grid-bg {
+            position: fixed; inset: 0; pointer-events: none; z-index: 0;
+            background-image:
+              linear-gradient(var(--noyce-border) 1px, transparent 1px),
+              linear-gradient(90deg, var(--noyce-border) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.35), transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.35), transparent 70%);
+            opacity: 0.35;
         }
 
-        .logo {
-            height: 80px;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 0 20px rgba(0, 230, 118, 0.3));
+        /* --- Top bar mimics the IDE title bar --- */
+        .titlebar {
+            position: relative; z-index: 2;
+            height: 44px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px;
+            background: var(--noyce-panel);
+            border-bottom: 1px solid var(--noyce-border);
+            font-size: 0.8rem;
         }
+        .titlebar .left { display: flex; align-items: center; gap: 10px; color: var(--noyce-muted); }
+        .titlebar .dots { display: flex; gap: 6px; }
+        .titlebar .dots span { width: 11px; height: 11px; border-radius: 50%; background: var(--noyce-surface); border: 1px solid var(--noyce-border); }
+        .titlebar .dots span:nth-child(1) { background: #ff5f57; border-color: #e0443e; }
+        .titlebar .dots span:nth-child(2) { background: #febc2e; border-color: #d89f24; }
+        .titlebar .dots span:nth-child(3) { background: #28c840; border-color: #1aab29; }
+        .titlebar .path { font-family: 'JetBrains Mono', monospace; color: var(--noyce-dim); }
+        .titlebar .right { display: flex; align-items: center; gap: 14px; color: var(--noyce-muted); font-size: 0.75rem; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--noyce-accent); box-shadow: 0 0 8px var(--noyce-accent); }
 
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 900;
+        /* --- Layout --- */
+        main { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 64px 24px 96px; }
+
+        /* --- Hero --- */
+        .hero { display: grid; grid-template-columns: 1fr; gap: 40px; margin-bottom: 72px; }
+        @media (min-width: 900px) { .hero { grid-template-columns: 1fr 1fr; align-items: center; } }
+
+        .eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 5px 12px; border-radius: 99px;
+            background: rgba(0,230,118,0.08);
+            border: 1px solid rgba(0,230,118,0.25);
+            color: var(--noyce-accent);
+            font-size: 0.72rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.12em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .eyebrow .pulse { width: 6px; height: 6px; border-radius: 50%; background: var(--noyce-accent); box-shadow: 0 0 10px var(--noyce-accent); }
+
+        h1.headline {
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -0.035em;
+            margin: 18px 0 18px;
             color: white;
-            letter-spacing: -0.05rem;
-            margin-bottom: 0.5rem;
+        }
+        h1.headline .grad {
+            background: linear-gradient(135deg, var(--noyce-accent) 0%, var(--noyce-blue) 50%, var(--noyce-purple) 100%);
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            color: var(--noyce-green);
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-        }
+        .lede { color: var(--noyce-muted); font-size: 1.05rem; max-width: 540px; margin-bottom: 28px; }
 
-        .download-card {
-            background-color: var(--noyce-panel);
+        .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 12px 20px; border-radius: 8px;
+            font-weight: 600; font-size: 0.92rem;
+            border: 1px solid var(--noyce-border);
+            background: var(--noyce-surface);
+            color: white;
+            transition: all 0.18s ease;
+        }
+        .btn:hover { transform: translateY(-1px); border-color: var(--noyce-blue); background: rgba(55,138,221,0.08); }
+        .btn.primary {
+            background: linear-gradient(135deg, rgba(0,230,118,0.18), rgba(55,138,221,0.18));
+            border-color: rgba(0,230,118,0.4);
+            color: var(--noyce-accent);
+        }
+        .btn.primary:hover { border-color: var(--noyce-accent); box-shadow: 0 0 24px rgba(0,230,118,0.15); }
+        .btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+        .meta { display: flex; gap: 18px; font-size: 0.78rem; color: var(--noyce-dim); font-family: 'JetBrains Mono', monospace; }
+        .meta b { color: var(--noyce-muted); font-weight: 500; }
+
+        /* --- Preview panel (IDE mock) --- */
+        .preview {
+            position: relative;
+            background: var(--noyce-panel);
             border: 1px solid var(--noyce-border);
             border-radius: 12px;
-            padding: 2.5rem;
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            animation: fadeInUp 0.8s ease-out;
+            overflow: hidden;
+            box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
         }
-
-        .version-badge {
-            background: rgba(0, 230, 118, 0.1);
-            color: var(--noyce-green);
-            padding: 0.25rem 0.75rem;
-            border-radius: 99px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            display: inline-block;
-            border: 1px solid rgba(0, 230, 118, 0.2);
+        .preview-head {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 14px;
+            background: var(--noyce-surface);
+            border-bottom: 1px solid var(--noyce-border);
         }
-
-        .description {
+        .preview-head .dots span { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .preview-head .dots span:nth-child(1) { background: #ff5f57; }
+        .preview-head .dots span:nth-child(2) { background: #febc2e; }
+        .preview-head .dots span:nth-child(3) { background: #28c840; }
+        .preview-head .tab {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+            padding: 4px 10px; border-radius: 4px;
+            background: var(--noyce-panel); border: 1px solid var(--noyce-border);
             color: var(--noyce-muted);
-            margin-bottom: 2.5rem;
-            line-height: 1.6;
+        }
+        .preview-head .tab .accent { color: var(--noyce-accent); }
+        .preview img { display: block; width: 100%; height: auto; }
+
+        /* --- Section title --- */
+        .section-title { display: flex; align-items: baseline; gap: 14px; margin-bottom: 28px; }
+        .section-title h2 { font-size: 1.5rem; font-weight: 700; color: white; letter-spacing: -0.02em; }
+        .section-title .line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--noyce-border), transparent); }
+        .section-title .kbd {
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--noyce-dim);
+            padding: 3px 8px; border: 1px solid var(--noyce-border); border-radius: 4px;
         }
 
-        .download-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
+        section { margin-bottom: 72px; }
 
-        .download-btn {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.03);
+        /* --- Features grid --- */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .feature {
+            padding: 22px;
+            background: var(--noyce-panel);
+            border: 1px solid var(--noyce-border);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .feature:hover { border-color: var(--noyce-blue); transform: translateY(-2px); }
+        .feature .icon {
+            width: 34px; height: 34px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 14px;
+            background: rgba(55,138,221,0.1); border: 1px solid rgba(55,138,221,0.25);
+            color: var(--noyce-blue);
+            font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.85rem;
+        }
+        .feature.green .icon { background: rgba(0,230,118,0.08); border-color: rgba(0,230,118,0.25); color: var(--noyce-accent); }
+        .feature.purple .icon { background: rgba(127,119,221,0.1); border-color: rgba(127,119,221,0.3); color: var(--noyce-purple); }
+        .feature.amber .icon { background: rgba(255,193,7,0.08); border-color: rgba(255,193,7,0.25); color: var(--noyce-amber); }
+        .feature h3 { font-size: 1rem; font-weight: 600; color: white; margin-bottom: 6px; }
+        .feature p { color: var(--noyce-muted); font-size: 0.88rem; }
+
+        /* --- Downloads --- */
+        .downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .download-card {
+            display: flex; flex-direction: column;
+            padding: 24px;
+            background: var(--noyce-panel);
+            border: 1px solid var(--noyce-border);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            color: white;
+        }
+        .download-card:hover { border-color: var(--noyce-accent); background: rgba(0,230,118,0.03); transform: translateY(-2px); }
+        .download-card .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+        .download-card svg { width: 28px; height: 28px; fill: var(--noyce-muted); transition: fill 0.2s; }
+        .download-card:hover svg { fill: var(--noyce-accent); }
+        .download-card .tag { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--noyce-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+        .download-card .label { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+        .download-card .sub { font-size: 0.8rem; color: var(--noyce-muted); font-family: 'JetBrains Mono', monospace; }
+
+        /* --- Footer --- */
+        footer {
+            position: relative; z-index: 1;
+            border-top: 1px solid var(--noyce-border);
+            padding: 28px 24px;
+            text-align: center;
+            color: var(--noyce-dim);
+            font-size: 0.78rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        footer a { color: var(--noyce-muted); }
+        footer a:hover { color: var(--noyce-accent); }
+
+        /* --- Screenshots --- */
+        .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .shot {
+            background: var(--noyce-panel);
             border: 1px solid var(--noyce-border);
             border-radius: 8px;
-            color: white;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            position: relative;
             overflow: hidden;
         }
+        .shot img { display: block; width: 100%; height: auto; }
+        .shot .cap { padding: 10px 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--noyce-muted); border-top: 1px solid var(--noyce-border); }
+        .shot .cap .n { color: var(--noyce-accent); }
 
-        .download-btn:hover {
-            border-color: var(--noyce-green);
-            background: rgba(0, 230, 118, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .download-btn svg {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 1rem;
-            fill: var(--noyce-muted);
-            transition: fill 0.2s ease;
-        }
-
-        .download-btn:hover svg {
-            fill: var(--noyce-green);
-        }
-
-        .btn-label {
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .btn-sub {
-            font-size: 0.7rem;
-            color: var(--noyce-muted);
-            margin-top: 0.25rem;
-        }
-
-        .source-link {
-            display: block;
-            margin-top: 1.5rem;
-            color: var(--noyce-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-
-        .source-link:hover {
-            color: white;
-        }
-
-        footer {
-            margin-top: 3rem;
-            color: var(--noyce-muted);
-            font-size: 0.8rem;
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .pulse { animation: pulse 2s infinite; }
     </style>
 </head>
 <body>
-    <div class="background-glow"></div>
+    <div class="bg-glow"></div>
+    <div class="grid-bg"></div>
 
-    <header>
-        <img src="/noyce_logo.png" alt="Noyce Logo" class="logo">
-        <h1>Noyce IDE</h1>
-        <div class="subtitle">AI-Native Safety-Critical Development</div>
-    </header>
-
-    <div class="download-card">
-        <div class="version-badge">v1.0.0 Stable</div>
-        <p class="description">
-            Experience the next generation of embedded development. <br>
-            Noyce IDE provides AI-assisted workflows, real-time hardware tracing, <br>
-            and full traceability for safety-critical systems.
-        </p>
-
-        <div class="download-options">
-            <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg" class="download-btn">
-                <svg viewBox="0 0 24 24"><path d="M17.05,20.28c-.96,.95-2,1.72-3.11,1.72s-1.46-.71-2.73-.71-1.63,.72-2.73,.72-2.15-.77-3.11-1.72C3.39,18.3,1.67,14.68,1.67,11.23c0-5.54,3.58-8.46,7.03-8.46,1.78,0,3.46,.63,4.55,.63s3.15-.75,5.18-.75c2.14,0,4.82,.8,6.43,3.02-4.52,2.33-3.8,8.43,.71,10.29-.9,2.15-2.23,4.11-3.52,5.36M15.03,4.67c-.83-1-1.39-2.38-1.39-3.77,0-.19,.02-.38,.07-.56,1.4,.06,2.78,.94,3.61,1.93,.83,.99,1.39,2.44,1.39,3.77,0,.21-.03,.42-.08,.63-1.26-.05-2.76-.99-3.6-2Z"/></svg>
-                <span class="btn-label">macOS</span>
-                <span class="btn-sub">Apple Silicon (.dmg)</span>
-            </a>
-            <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi" class="download-btn">
-                <svg viewBox="0 0 24 24"><path d="M0,12.001L0,3.66L9.623,2.4L9.623,11.353L0,11.353ZM10.915,2.232L24,0.511L24,11.353L10.915,11.353L10.915,2.232ZM24,12.648L24,23.489L10.915,21.768L10.915,12.648L24,12.648ZM9.623,12.648L9.623,21.601L0,20.341L0,12.648L9.623,12.648Z"/></svg>
-                <span class="btn-label">Windows</span>
-                <span class="btn-sub">x64 (.msi)</span>
-            </a>
+    <div class="titlebar">
+        <div class="left">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span class="path">noyce-ide · v1.0.0 'Lovelace'</span>
         </div>
-
-        <a href="https://github.com/Hitheshkaranth/noyce_ide" class="source-link">
-            View Source on GitHub &rarr;
-        </a>
+        <div class="right">
+            <span class="status-dot pulse"></span>
+            <span class="mono">agents: ready</span>
+            <span class="mono">DO-178C: DAL-B</span>
+        </div>
     </div>
 
+    <main>
+        <section class="hero">
+            <div>
+                <span class="eyebrow"><span class="pulse"></span> AI-NATIVE · SAFETY-CRITICAL</span>
+                <h1 class="headline">
+                    The embedded IDE that <span class="grad">thinks</span> in safety requirements.
+                </h1>
+                <p class="lede">
+                    Noyce is an AI-native development environment for embedded &amp; safety-critical systems.
+                    A 6-agent pipeline turns requirements into traceable, DO-178C-aligned firmware — with
+                    real-time hardware debug and live compliance dashboards baked in.
+                </p>
+                <div class="cta-row">
+                    <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg" class="btn primary">
+                        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Download for macOS
+                    </a>
+                    <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi" class="btn">
+                        <svg viewBox="0 0 24 24"><path d="M0 3.66L9.62 2.4v8.95H0zM10.91 2.23L24 .51v10.84H10.91zM24 12.65V23.49L10.91 21.77v-9.12zM9.62 12.65v8.95L0 20.34v-7.69z"/></svg>
+                        Download for Windows
+                    </a>
+                    <a href="https://github.com/Hitheshkaranth/noyce_ide" class="btn">
+                        <svg viewBox="0 0 24 24"><path d="M12 .5C5.37.5 0 5.87 0 12.5c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.31 3.49 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 016.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 22.29 24 17.8 24 12.5 24 5.87 18.63.5 12 .5z"/></svg>
+                        View Source
+                    </a>
+                </div>
+                <div class="meta">
+                    <span><b>v1.0.0</b> Lovelace</span>
+                    <span><b>Tauri</b> native</span>
+                    <span><b>MIT</b> licensed</span>
+                </div>
+            </div>
+
+            <div class="preview">
+                <div class="preview-head">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <div class="tab"><span class="accent">●</span> main.c — stm32_motor_controller</div>
+                    <div class="tab" style="margin-left:auto;">ai-pipeline: <span class="accent">active</span></div>
+                </div>
+                <img src="https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/03-ai-pipeline-active.png"
+                     alt="Noyce IDE — AI Pipeline Active"
+                     onerror="this.style.display='none'; this.parentNode.querySelector('.fallback').style.display='flex';">
+                <div class="fallback" style="display:none; aspect-ratio: 16/10; align-items: center; justify-content: center; flex-direction: column; gap: 14px; color: var(--noyce-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
+                    <div style="width:60px;height:60px;border-radius:50%;background:radial-gradient(circle,var(--noyce-accent),transparent 70%);"></div>
+                    <span>6-agent pipeline · <span style="color:var(--noyce-accent)">ready</span></span>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Built for flight-grade firmware</h2>
+                <div class="line"></div>
+                <span class="kbd">FEATURES</span>
+            </div>
+            <div class="features">
+                <div class="feature green">
+                    <div class="icon">AI</div>
+                    <h3>6-Agent Pipeline</h3>
+                    <p>Requirement → architecture → code → test → verification → compliance. Each step traceable.</p>
+                </div>
+                <div class="feature">
+                    <div class="icon">JT</div>
+                    <h3>Hardware Debug</h3>
+                    <p>Live JTAG/SWD tracing, register inspection, and ITM streams — wired straight into the editor.</p>
+                </div>
+                <div class="feature purple">
+                    <div class="icon">TR</div>
+                    <h3>Traceability Graph</h3>
+                    <p>Visualize how every requirement maps to code, tests, and verification artifacts in real time.</p>
+                </div>
+                <div class="feature amber">
+                    <div class="icon">DO</div>
+                    <h3>DO-178C Compliance</h3>
+                    <p>DAL-A through DAL-D dashboards. Evidence packs generated from your actual dev activity.</p>
+                </div>
+                <div class="feature">
+                    <div class="icon">ST</div>
+                    <h3>STM32 / ARM Native</h3>
+                    <p>First-class support for STM32, ARM Cortex-M, and common RTOSes. Import existing projects in seconds.</p>
+                </div>
+                <div class="feature green">
+                    <div class="icon">TA</div>
+                    <h3>Tauri Desktop</h3>
+                    <p>Rust-backed native binaries. Cold-start in under a second — with none of the Electron bloat.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>See it in motion</h2>
+                <div class="line"></div>
+                <span class="kbd">SCREENSHOTS</span>
+            </div>
+            <div class="shots">
+                <div class="shot">
+                    <img src="https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/05-traceability-graph.png" alt="Traceability Graph">
+                    <div class="cap"><span class="n">05</span> · traceability graph</div>
+                </div>
+                <div class="shot">
+                    <img src="https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/06-live-dashboard.png" alt="Live Dashboard">
+                    <div class="cap"><span class="n">06</span> · live hardware dashboard</div>
+                </div>
+                <div class="shot">
+                    <img src="https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/demo-screenshots/07-compliance-dashboard.png" alt="Compliance Dashboard">
+                    <div class="cap"><span class="n">07</span> · DO-178C compliance</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Download v1.0.0 'Lovelace'</h2>
+                <div class="line"></div>
+                <span class="kbd">STABLE</span>
+            </div>
+            <div class="downloads">
+                <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg" class="download-card">
+                    <div class="top">
+                        <svg viewBox="0 0 24 24"><path d="M17.05 20.28c-.96.95-2 1.72-3.11 1.72s-1.46-.71-2.73-.71-1.63.72-2.73.72-2.15-.77-3.11-1.72C3.39 18.3 1.67 14.68 1.67 11.23c0-5.54 3.58-8.46 7.03-8.46 1.78 0 3.46.63 4.55.63s3.15-.75 5.18-.75c2.14 0 4.82.8 6.43 3.02-4.52 2.33-3.8 8.43.71 10.29-.9 2.15-2.23 4.11-3.52 5.36M15.03 4.67c-.83-1-1.39-2.38-1.39-3.77 0-.19.02-.38.07-.56 1.4.06 2.78.94 3.61 1.93.83.99 1.39 2.44 1.39 3.77 0 .21-.03.42-.08.63-1.26-.05-2.76-.99-3.6-2Z"/></svg>
+                        <span class="tag">.dmg</span>
+                    </div>
+                    <div class="label">macOS</div>
+                    <div class="sub">Apple Silicon (aarch64)</div>
+                </a>
+                <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi" class="download-card">
+                    <div class="top">
+                        <svg viewBox="0 0 24 24"><path d="M0 12V3.66L9.62 2.4v8.95H0zM10.91 2.23L24 .51v10.84H10.91zM24 12.65V23.49L10.91 21.77v-9.12zM9.62 12.65v8.95L0 20.34v-7.69z"/></svg>
+                        <span class="tag">.msi</span>
+                    </div>
+                    <div class="label">Windows</div>
+                    <div class="sub">x64 (en-US)</div>
+                </a>
+                <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest" class="download-card">
+                    <div class="top">
+                        <svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 100 24 12 12 0 000-24zm-1 17.93a8 8 0 01-6.93-6.93H7v-2H4.07A8 8 0 0111 4.07V7h2V4.07A8 8 0 0119.93 11H17v2h2.93A8 8 0 0113 19.93V17h-2v2.93z"/></svg>
+                        <span class="tag">all</span>
+                    </div>
+                    <div class="label">Other platforms</div>
+                    <div class="sub">Linux · source · checksums</div>
+                </a>
+            </div>
+        </section>
+    </main>
+
     <footer>
-        &copy; 2026 Noyce IDE Project. Private / Proprietary.
+        © 2026 Noyce IDE · built with <a href="https://tauri.app">Tauri</a> · <a href="https://github.com/Hitheshkaranth/noyce_ide">source</a> · <a href="https://github.com/Hitheshkaranth/noyce_ide/releases">releases</a>
     </footer>
 </body>
 </html>
