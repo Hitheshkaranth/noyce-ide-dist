@@ -9,7 +9,7 @@
   <meta property="og:description" content="AI-assisted embedded development for STM32, telemetry, registers, probes, and real hardware workflows." />
   <meta property="og:image" content="presentation/thumbnail-1920x1080.png" />
   <title>Noyce IDE — The IDE Built for Real Hardware</title>
-  <link rel="icon" href="assets/noyce-mark.svg" />
+  <link rel="icon" href="assets/noyce-logo-large.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -81,6 +81,7 @@
     }
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.02em; }
     .brand img { width: 34px; height: 34px; filter: drop-shadow(0 0 18px rgba(142,230,255,.34)); }
+    .brand .brand-logo { width: 154px; height: auto; max-height: 42px; object-fit: contain; }
     .brand span { font-size: 17px; }
     .nav-links { display: flex; gap: 22px; color: var(--muted); font: 500 13px/1 var(--mono); }
     .nav-links a:hover { color: var(--text); }
@@ -352,7 +353,7 @@
     .node span { color: var(--muted); font-size: 14px; line-height: 1.55; }
     .gallery { display: grid; grid-template-columns: 1.2fr .8fr; gap: 16px; align-items: start; }
     .shot { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #02050a; box-shadow: 0 22px 70px rgba(0,0,0,.42); }
-    .shot img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; padding: 10px; transition: transform .28s ease; }
+    .shot img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; padding: 6px; transition: transform .28s ease; }
     .shot.hero-shot img { aspect-ratio: 16/9; padding: 0; }
     .shot:hover img { transform: scale(1.012); }
     .shot label { display: block; padding: 12px 14px; color: var(--muted); border-top: 1px solid var(--line); font: 500 12px/1 var(--mono); }
@@ -371,6 +372,81 @@
     }
     .launch-card img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; }
     .launch-card label { display: block; padding: 13px 15px; color: var(--muted); border-top: 1px solid var(--line); font: 500 12px/1 var(--mono); }
+    .story {
+      padding: 80px 0;
+      display: grid;
+      gap: 34px;
+      border-top: 1px solid rgba(142,230,255,.1);
+    }
+    .story-panel {
+      min-height: min(760px, calc(100svh - 110px));
+      display: grid;
+      align-items: center;
+      opacity: .72;
+      transform: translateY(28px) scale(.985);
+      animation: storyReveal both ease-out;
+      animation-timeline: view();
+      animation-range: entry 12% cover 42%;
+    }
+    .story-card {
+      border: 1px solid var(--line-strong);
+      border-radius: 22px;
+      overflow: hidden;
+      background: #02050a;
+      box-shadow: var(--shadow), 0 0 110px rgba(82,196,255,.12);
+    }
+    .story-card img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; }
+    .story-card figcaption {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 18px 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font: 500 12px/1.45 var(--mono);
+    }
+    .feature-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr);
+      gap: 24px;
+      align-items: center;
+      margin-top: 24px;
+    }
+    .feature-stage.reverse { grid-template-columns: minmax(300px, .65fr) minmax(0, 1.35fr); }
+    .feature-frame {
+      border: 1px solid var(--line-strong);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #02050a;
+      box-shadow: var(--shadow), 0 0 80px rgba(142,230,255,.08);
+    }
+    .feature-frame img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; }
+    .feature-frame.focus img { object-fit: cover; object-position: center; }
+    .feature-frame.live-capture img {
+      width: 126%;
+      max-width: none;
+      object-fit: cover;
+      object-position: left center;
+      transform: translateX(-2%);
+    }
+    .feature-copy {
+      border-left: 1px solid var(--line);
+      padding-left: 22px;
+    }
+    .feature-copy h3 { margin: 0 0 12px; font-size: 28px; letter-spacing: -.04em; }
+    .feature-copy p { margin: 0 0 18px; color: var(--muted); line-height: 1.62; }
+    .chip-rail {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .chip-rail img {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.025);
+      box-shadow: 0 16px 40px rgba(0,0,0,.24);
+    }
     .telemetry-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
     .metric {
       border: 1px solid var(--line);
@@ -435,6 +511,7 @@
     @keyframes wave { to { transform: translateX(18%); } }
     @keyframes march { to { stroke-dashoffset: -40; } }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
+    @keyframes storyReveal { to { opacity: 1; transform: none; } }
     @media (max-width: 900px) {
       .nav-links { display: none; }
       .hero { min-height: auto; }
@@ -445,7 +522,11 @@
       .actions .btn:not(.primary) { display: none; }
       .hud-card { display: none; }
       .die-card { display: none; }
-      .presentation-grid { grid-template-columns: 1fr; }
+      .presentation-grid, .feature-stage, .feature-stage.reverse { grid-template-columns: 1fr; }
+      .story-panel { min-height: auto; }
+      .story-card figcaption { display: block; }
+      .brand .brand-logo { width: 130px; }
+      .feature-copy { border-left: 0; border-top: 1px solid var(--line); padding: 20px 0 0; }
       .diagram-arrow { transform: rotate(90deg); justify-self: center; }
     }
   </style>
@@ -454,8 +535,7 @@
   <nav class="nav">
     <div class="wrap nav-inner">
       <a class="brand" href="#top" aria-label="Noyce IDE home">
-        <img src="assets/noyce-mark.svg" alt="" />
-        <span>Noyce IDE</span>
+        <img class="brand-logo" src="assets/noyce-logo-horizontal.png" alt="Noyce IDE" />
       </a>
       <div class="nav-links" aria-label="Primary navigation">
         <a href="#hardware">Hardware</a>
@@ -547,22 +627,57 @@
       </div>
     </section>
 
+    <section id="launch-story" class="story" aria-label="Noyce IDE launch story">
+      <div class="wrap">
+        <div class="story-panel">
+          <figure class="story-card">
+            <img src="presentation/card-01-logo.png" alt="Noyce IDE launch title card" loading="lazy">
+            <figcaption><span>Noyce IDE</span><span>Embedded systems workbench built on Code-OSS</span></figcaption>
+          </figure>
+        </div>
+        <div class="story-panel">
+          <figure class="story-card">
+            <img src="presentation/card-02-hook.png" alt="Noyce IDE launch card about certification" loading="lazy">
+            <figcaption><span>Engineering evidence</span><span>AI assistance tied to requirements, traces, diagnostics, and reviews</span></figcaption>
+          </figure>
+        </div>
+        <div class="story-panel">
+          <figure class="story-card">
+            <img src="presentation/card-03-close.png" alt="Noyce IDE launch card about proof-oriented code" loading="lazy">
+            <figcaption><span>Proof-oriented firmware</span><span>Agents generate, explain, test, and connect code back to system intent</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
     <section id="screenshots">
       <div class="wrap">
         <div class="section-head">
-          <div><div class="eyebrow">Product showcase</div><h2>A serious workspace for firmware engineers.</h2></div>
-          <p class="section-copy">Screenshots are treated as product evidence: traceability, project import, compliance, telemetry, and AI-assisted workflows framed as a cohesive embedded engineering environment.</p>
+          <div><div class="eyebrow">Product showcase</div><h2>Readable feature surfaces, not tiny thumbnails.</h2></div>
+          <p class="section-copy">The page now uses cleaner full-screen captures from the IDE and gives each one enough room to communicate the actual feature.</p>
         </div>
-        <div class="showcase-grid">
-          <figure class="shot"><img src="screenshots/05-traceability-graph.png" alt="Noyce traceability graph" loading="lazy"><label>Traceability graph</label><p>Map requirements, generated artifacts, review state, and code relationships without leaving the IDE.</p></figure>
-          <figure class="shot"><img src="screenshots/02-stm32-project-imported.png" alt="Noyce STM32 import workspace" loading="lazy"><label>STM32 import workspace</label><p>Bring CubeIDE/CubeMX projects into a Noyce workspace with hardware-aware indexing.</p></figure>
-          <figure class="shot"><img src="screenshots/07-compliance-dashboard.png" alt="Noyce compliance dashboard" loading="lazy"><label>Compliance dashboard</label><p>Track engineering evidence, diagnostics, review status, and safety workflow readiness.</p></figure>
+        <div class="feature-stage">
+          <figure class="feature-frame"><img src="feature-shots/hardware-pin-matrix.png" alt="Noyce IDE hardware pin configuration screenshot" loading="lazy"></figure>
+          <div class="feature-copy">
+            <h3>Hardware pin configuration</h3>
+            <p>Peripheral assignments, pin roles, and conflict candidates are presented as a visible board-level surface instead of buried configuration files.</p>
+            <div class="badges"><span class="badge">Pin map</span><span class="badge">Peripheral roles</span><span class="badge">Conflict review</span></div>
+          </div>
         </div>
-        <div class="presentation-grid" style="margin-top:16px;">
-          <figure class="launch-card"><img src="presentation/thumbnail-1920x1080.png" alt="Noyce IDE launch artwork" loading="lazy"><label>Launch artwork · Noyce brand system</label></figure>
-          <div class="panel-stack">
-            <figure class="launch-card"><img src="presentation/card-02-hook.png" alt="Noyce IDE launch card about certification" loading="lazy"><label>Launch card · engineering proof positioning</label></figure>
-            <figure class="launch-card"><img src="presentation/card-03-close.png" alt="Noyce IDE launch card about proof-oriented code" loading="lazy"><label>Launch card · proof-oriented AI workflow</label></figure>
+        <div class="feature-stage reverse">
+          <div class="feature-copy">
+            <h3>Compliance dashboard</h3>
+            <p>Safety-oriented review state, requirement coverage, and validation progress are kept inside the same workbench as the firmware.</p>
+            <div class="badges"><span class="badge">Coverage</span><span class="badge">Reviews</span><span class="badge">Validation</span></div>
+          </div>
+          <figure class="feature-frame"><img src="feature-shots/compliance-evidence.png" alt="Noyce IDE compliance evidence dashboard screenshot" loading="lazy"></figure>
+        </div>
+        <div class="feature-stage">
+          <figure class="feature-frame"><img src="feature-shots/agent-sprint-board.png" alt="Noyce IDE AI orchestration sprint board screenshot" loading="lazy"></figure>
+          <div class="feature-copy">
+            <h3>Agent sprint board</h3>
+            <p>Firmware tasks move across design, coding, testing, review, documentation, and traceability lanes with explicit handoffs.</p>
+            <div class="badges"><span class="badge">Agent workflow</span><span class="badge">Handoffs</span><span class="badge">Review gates</span></div>
           </div>
         </div>
       </div>
@@ -597,6 +712,12 @@
   generated patch plan
   build gate pending<span class="cursor"></span></pre>
           </div>
+        </div>
+        <div class="chip-rail" aria-label="AI agent workflow cards">
+          <img src="presentation/chips/chip-01-system-designer.png" alt="System designer agent card" loading="lazy">
+          <img src="presentation/chips/chip-02-coder.png" alt="Coder agent card" loading="lazy">
+          <img src="presentation/chips/chip-03-tester.png" alt="Tester agent card" loading="lazy">
+          <img src="presentation/chips/chip-05-traceability-monitor.png" alt="Traceability monitor agent card" loading="lazy">
         </div>
       </div>
     </section>
@@ -660,10 +781,10 @@
           <p class="section-copy">Noyce is designed around simultaneous engineering work: reading code, checking hardware state, asking an agent, running commands, and validating behavior.</p>
         </div>
         <div class="workbench-grid">
-          <figure class="shot hero-shot"><img src="presentation/card-01-logo.png" alt="Noyce IDE logo presentation card" loading="lazy"><label>Noyce IDE presentation frame</label><p>The brand frame now anchors the workspace story instead of relying on cropped legacy captures.</p></figure>
+          <figure class="shot hero-shot"><img src="feature-shots/hardware-pin-matrix.png" alt="Noyce IDE hardware pin configuration closeup" loading="lazy"><label>Hardware configuration</label><p>Peripheral and pin state are shown as an engineering surface, not a side note.</p></figure>
           <div class="panel-stack">
-            <figure class="shot"><img src="screenshots/06-live-dashboard.png" alt="Noyce live dashboard" loading="lazy"><label>Live hardware dashboard</label><p>Telemetry, signals, and engineering status presented as an operational surface.</p></figure>
-            <figure class="shot"><img src="screenshots/04-ai-pipeline-done.png" alt="Noyce AI review workflow" loading="lazy"><label>AI review workflow</label><p>Agent output is kept inspectable and tied to engineering evidence.</p></figure>
+            <figure class="shot"><img src="feature-shots/compliance-evidence.png" alt="Noyce compliance evidence screenshot" loading="lazy"><label>Compliance evidence</label><p>Requirement coverage and evidence status are visible without opening a separate tool.</p></figure>
+            <figure class="shot"><img src="feature-shots/agent-sprint-board.png" alt="Noyce AI agent sprint board screenshot" loading="lazy"><label>Agent sprint board</label><p>Agent output is kept inspectable and tied to engineering handoffs.</p></figure>
           </div>
         </div>
       </div>
@@ -769,7 +890,7 @@
 
   <footer>
     <div class="wrap footer-grid">
-      <div class="brand"><img src="assets/noyce-mark.svg" alt="" /><span>Noyce IDE</span></div>
+      <div class="brand"><img class="brand-logo" src="assets/noyce-logo-horizontal.png" alt="Noyce IDE" /></div>
       <div class="footer-links">
         <a href="https://github.com/Hitheshkaranth/noyce_ide">GitHub</a>
         <a href="https://github.com/Hitheshkaranth/noyce_ide/releases">Releases</a>
