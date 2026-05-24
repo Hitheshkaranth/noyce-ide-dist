@@ -1,1573 +1,513 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Noyce IDE — The AI-native IDE for serious engineers</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg:       oklch(0.14 0.008 220);
-    --bg-2:     oklch(0.17 0.010 220);
-    --bg-3:     oklch(0.21 0.012 220);
-    --line:     oklch(0.28 0.012 220);
-    --line-2:   oklch(0.34 0.014 220);
-    --ink:      oklch(0.97 0.008 220);
-    --ink-2:    oklch(0.80 0.012 220);
-    --ink-3:    oklch(0.60 0.014 220);
-    --ink-4:    oklch(0.44 0.014 220);
-    --accent:   oklch(0.88 0.08 210);   /* ice cyan, matches logo */
-    --accent-2: oklch(0.78 0.10 210);
-    --accent-d: oklch(0.52 0.10 210);
-    --good:     oklch(0.82 0.14 160);
-    --warn:     oklch(0.82 0.14 60);
-
-    --radius: 6px;
-    --radius-lg: 14px;
-    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
-    --sans: "Geist", ui-sans-serif, -apple-system, system-ui, sans-serif;
-  }
-  * { box-sizing: border-box; }
-  html, body { margin:0; padding:0; }
-  html { background: var(--bg); }
-  body {
-    font-family: var(--sans);
-    color: var(--ink);
-    background: var(--bg);
-    -webkit-font-smoothing: antialiased;
-    font-feature-settings: "ss01","cv11";
-    line-height: 1.5;
-    overflow-x: hidden;
-  }
-  ::selection { background: var(--accent); color: #082028; }
-
-  /* ---------- shared ---------- */
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
-  .mono { font-family: var(--mono); letter-spacing: -0.01em; }
-  .eye {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .eye::before {
-    content: "";
-    width: 22px; height: 1px;
-    background: var(--ink-4);
-    display: inline-block;
-  }
-  .hair { height: 1px; background: var(--line); width: 100%; }
-
-  h1,h2,h3,h4 { margin:0; font-weight: 500; letter-spacing: -0.022em; }
-  p { margin: 0; }
-
-  a { color: inherit; text-decoration: none; }
-
-  /* ---------- grid background ---------- */
-  .bg-grid {
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background-image:
-      linear-gradient(to right, oklch(0.22 0.012 220 / 0.35) 1px, transparent 1px),
-      linear-gradient(to bottom, oklch(0.22 0.012 220 / 0.35) 1px, transparent 1px);
-    background-size: 88px 88px;
-    mask-image: radial-gradient(ellipse at 50% 20%, #000 0%, transparent 70%);
-  }
-
-  /* ---------- nav ---------- */
-  nav.top {
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(14px);
-    background: oklch(0.14 0.008 220 / 0.72);
-    border-bottom: 1px solid var(--line);
-  }
-  .top-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 56px;
-  }
-  .brand {
-    display: flex; align-items: center; gap: 10px;
-    font-family: var(--mono);
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 0.02em;
-  }
-  .brand-mark {
-    width: 22px; height: 22px; position: relative;
-  }
-  .brand-mark svg { display:block; }
-  .brand small { color: var(--ink-3); font-size: 10.5px; margin-left: 6px; letter-spacing:0.14em; text-transform: uppercase;}
-  .top-nav { display:flex; gap: 4px; align-items:center; }
-  .top-nav a {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--ink-2);
-    padding: 6px 12px;
-    border-radius: 4px;
-  }
-  .top-nav a:hover { color: var(--ink); background: var(--bg-2); }
-  .top-right { display:flex; gap: 10px; align-items: center; }
-  .version-chip {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--ink-2);
-    padding: 4px 10px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    display: inline-flex; align-items:center; gap: 8px;
-  }
-  .version-chip::before {
-    content:""; width:6px; height:6px; border-radius:50%;
-    background: var(--good); box-shadow: 0 0 8px var(--good);
-  }
-
-  /* ---------- buttons ---------- */
-  .btn {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    display: inline-flex; align-items:center; gap: 10px;
-    padding: 11px 16px;
-    border-radius: var(--radius);
-    border: 1px solid transparent;
-    cursor: pointer;
-    transition: all .15s ease;
-    background: none;
-    color: inherit;
-    line-height: 1;
-  }
-  .btn-primary {
-    background: var(--accent);
-    color: #062028;
-    font-weight: 500;
-  }
-  .btn-primary:hover { background: oklch(0.92 0.08 210); transform: translateY(-1px); }
-  .btn-ghost {
-    border: 1px solid var(--line-2);
-    color: var(--ink);
-  }
-  .btn-ghost:hover { border-color: var(--ink-3); background: var(--bg-2); }
-  .btn-sm { padding: 7px 11px; font-size: 11.5px; }
-  .kbd {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    padding: 2px 6px;
-    border: 1px solid var(--line-2);
-    border-bottom-width: 2px;
-    border-radius: 4px;
-    color: var(--ink-2);
-    background: var(--bg-2);
-  }
-  .btn-primary .kbd { background: oklch(0.78 0.08 210); border-color: oklch(0.66 0.09 210); color:#062028; }
-
-  /* ---------- HERO ---------- */
-  .hero {
-    position: relative; z-index: 1;
-    padding: 80px 0 20px;
-    border-bottom: 1px solid var(--line);
-  }
-  .hero-inner {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 72px;
-    align-items: end;
-  }
-  .hero h1 {
-    font-size: clamp(44px, 6.4vw, 92px);
-    line-height: 0.96;
-    letter-spacing: -0.036em;
-    font-weight: 400;
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--accent);
-    font-weight: 400;
-  }
-  .hero h1 .slash { color: var(--ink-4); font-weight: 300; padding: 0 0.08em; }
-  .hero-sub {
-    margin-top: 26px;
-    font-size: 17px;
-    color: var(--ink-2);
-    max-width: 48ch;
-    line-height: 1.55;
-  }
-  .hero-ctas { margin-top: 36px; display:flex; gap: 10px; flex-wrap: wrap;}
-  .hero-meta {
-    margin-top: 36px;
-    display: flex; gap: 28px; flex-wrap: wrap;
-    padding-top: 22px;
-    border-top: 1px dashed var(--line);
-  }
-  .hero-meta .m { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
-  .hero-meta .m b { color: var(--ink); font-weight: 500; display:block; font-size: 14px; letter-spacing: -0.01em; margin-bottom:2px;}
-
-  /* ---------- silicon die on right ---------- */
-  .die-frame {
-    position: relative;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    background:
-      radial-gradient(600px 300px at 100% 0%, oklch(0.88 0.08 210 / 0.08), transparent 60%),
-      linear-gradient(180deg, var(--bg-2), var(--bg));
-    padding: 18px;
-    overflow: hidden;
-  }
-  .die-head {
-    display:flex; justify-content: space-between; align-items:center;
-    font-family: var(--mono); font-size: 10.5px; color: var(--ink-3);
-    padding-bottom: 10px; border-bottom: 1px dashed var(--line);
-    letter-spacing: 0.12em; text-transform: uppercase;
-  }
-  .die-head .dots { display:flex; gap: 6px; }
-  .die-head .dots span { width:7px; height:7px; border-radius:50%; background: var(--line-2); }
-  .die-head .dots span:nth-child(1) { background: var(--accent); }
-
-  .die-art {
-    aspect-ratio: 1 / 1;
-    position: relative;
-    margin-top: 12px;
-  }
-  .die-art svg { display:block; width:100%; height:100%; }
-
-  /* marching ants */
-  @keyframes march { to { stroke-dashoffset: -40; } }
-  .trace { stroke-dasharray: 4 4; animation: march 3s linear infinite; }
-
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
-  .pin-live { animation: pulse 1.8s ease-in-out infinite; }
-
-  .die-foot {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
-    font-family: var(--mono); font-size: 10.5px;
-    padding-top: 12px; margin-top: 4px;
-    border-top: 1px dashed var(--line);
-    color: var(--ink-3);
-  }
-  .die-foot b { color: var(--ink); font-weight:500; display:block; margin-bottom: 2px;}
-
-  /* ---------- Why section ---------- */
-  section { position: relative; z-index: 1; }
-  .band { padding: 110px 0; border-bottom: 1px solid var(--line); }
-  .band-head {
-    display: grid; grid-template-columns: 1fr 2fr; gap: 48px;
-    margin-bottom: 56px;
-  }
-  .band-head h2 {
-    font-size: clamp(32px, 3.6vw, 48px);
-    font-weight: 400;
-    letter-spacing: -0.028em;
-    line-height: 1.05;
-  }
-  .band-head .h-sub { color: var(--ink-2); font-size: 16px; max-width: 56ch; }
-  .band-head .h-sub::before { content:""; display:block; width:40px; height:1px; background: var(--accent); margin-bottom: 16px; }
-
-  /* comparison table */
-  .compare {
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: var(--bg-2);
-  }
-  .compare-row {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
-    align-items: center;
-  }
-  .compare-row + .compare-row { border-top: 1px solid var(--line); }
-  .compare-row > div { padding: 20px 24px; font-size: 14px; }
-  .compare-row .c-label { font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform:uppercase; letter-spacing: 0.1em;}
-  .compare-row .c-them { color: var(--ink-3); border-left: 1px solid var(--line); }
-  .compare-row .c-us { color: var(--ink); border-left: 1px solid var(--line); background: oklch(0.19 0.01 220);}
-  .compare-head .c-them, .compare-head .c-us { font-family: var(--mono); font-size: 11px; letter-spacing:0.14em; text-transform: uppercase; color: var(--ink-3); }
-  .compare-head .c-us { color: var(--accent); }
-  .c-us .tick { color: var(--accent); margin-right: 8px; }
-  .c-them .x { color: var(--ink-4); margin-right: 8px; }
-
-  /* ---------- Features ---------- */
-  .feat-grid {
-    display: grid; grid-template-columns: repeat(6, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-  }
-  .feat {
-    background: var(--bg);
-    padding: 36px 30px 30px;
-    position: relative;
-    min-height: 260px;
-    display: flex; flex-direction: column;
-    transition: background .2s ease;
-  }
-  .feat:hover { background: var(--bg-2); }
-  .feat-1 { grid-column: span 3; }
-  .feat-2 { grid-column: span 3; }
-  .feat-3 { grid-column: span 2; }
-  .feat-4 { grid-column: span 2; }
-  .feat-5 { grid-column: span 2; }
-  .feat-index {
-    font-family: var(--mono); font-size: 10.5px;
-    color: var(--ink-4); letter-spacing: 0.14em;
-  }
-  .feat h3 {
-    margin-top: 14px;
-    font-size: 22px;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-  }
-  .feat p { color: var(--ink-3); font-size: 14px; margin-top: 10px; max-width: 42ch;}
-  .feat-icon {
-    position: absolute; top: 30px; right: 30px;
-    width: 36px; height: 36px;
-    border: 1px solid var(--line-2);
-    border-radius: 8px;
-    display: grid; place-items: center;
-    color: var(--accent);
-  }
-  .feat-tags {
-    margin-top: auto;
-    padding-top: 24px;
-    display: flex; gap: 6px; flex-wrap: wrap;
-  }
-  .feat-tag {
-    font-family: var(--mono); font-size: 10.5px;
-    padding: 4px 8px;
-    border: 1px solid var(--line-2);
-    border-radius: 4px;
-    color: var(--ink-2);
-  }
-
-  /* ---------- Demo / workbench ---------- */
-  .workbench {
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: var(--bg-2);
-    box-shadow: 0 30px 80px -20px oklch(0 0 0 / 0.6);
-  }
-  .wb-chrome {
-    display: flex; align-items:center; gap: 12px;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--line);
-    background: oklch(0.12 0.008 220);
-  }
-  .wb-dots { display:flex; gap: 7px; }
-  .wb-dots span { width: 11px; height: 11px; border-radius: 50%; background: var(--line-2); }
-  .wb-path {
-    font-family: var(--mono); font-size: 11.5px;
-    color: var(--ink-3); margin-left: 8px;
-  }
-  .wb-path b { color: var(--ink-2); font-weight: 500;}
-  .wb-tabs { margin-left: auto; display: flex; gap: 2px; font-family: var(--mono); font-size: 11px;}
-  .wb-tab { padding: 4px 10px; color: var(--ink-3); border-radius: 4px;}
-  .wb-tab.active { color: var(--ink); background: var(--bg-3);}
-
-  .wb-body {
-    display: grid;
-    grid-template-columns: 200px 1fr 280px;
-    min-height: 460px;
-  }
-  .wb-side {
-    border-right: 1px solid var(--line);
-    padding: 16px 0;
-    font-family: var(--mono); font-size: 12px;
-    background: oklch(0.135 0.008 220);
-  }
-  .wb-side .s-h { padding: 0 16px 10px; color: var(--ink-4); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;}
-  .wb-side ul { list-style: none; margin: 0; padding: 0; }
-  .wb-side li { padding: 4px 16px; color: var(--ink-2); display:flex; gap: 8px; align-items:center;}
-  .wb-side li.folder::before { content: "▸"; color: var(--ink-4); }
-  .wb-side li.folder-open::before { content: "▾"; color: var(--accent); }
-  .wb-side li.file { padding-left: 32px; color: var(--ink-3);}
-  .wb-side li.file.active { background: oklch(0.19 0.01 220); color: var(--ink); border-left: 2px solid var(--accent); padding-left: 30px;}
-  .wb-side li.file .ic { width:12px; height:12px; border-radius:2px; background: var(--accent-d);}
-  .wb-side li.file.c .ic { background: oklch(0.55 0.12 240);}
-  .wb-side li.file.h .ic { background: oklch(0.62 0.12 160);}
-  .wb-side li.file.ld .ic { background: oklch(0.62 0.12 330);}
-  .wb-side li.file.md .ic { background: var(--ink-4);}
-
-  .wb-editor {
-    font-family: var(--mono); font-size: 12.5px;
-    padding: 14px 0;
-    background: var(--bg);
-    overflow: hidden;
-    position: relative;
-  }
-  .code-line {
-    display: grid; grid-template-columns: 44px 1fr;
-    padding: 0 14px 0 0;
-    line-height: 1.7;
-  }
-  .code-line .ln { text-align: right; color: var(--ink-4); padding-right: 14px; user-select:none; }
-  .code-line.active { background: oklch(0.19 0.01 220); }
-  .code-line.active .ln { color: var(--accent); }
-  .tok-kw { color: oklch(0.78 0.14 330); }
-  .tok-fn { color: oklch(0.82 0.14 80); }
-  .tok-ty { color: oklch(0.78 0.12 180); }
-  .tok-str { color: oklch(0.80 0.13 145); }
-  .tok-num { color: oklch(0.80 0.14 40); }
-  .tok-cm { color: var(--ink-4); font-style: italic; }
-  .tok-pp { color: oklch(0.70 0.12 260); }
-  .tok-pn { color: var(--ink-2); }
-
-  /* AI ghost suggestion */
-  .ghost {
-    color: var(--ink-4);
-    border-left: 2px solid var(--accent);
-    padding-left: 4px;
-    margin-left: 2px;
-    background: oklch(0.88 0.08 210 / 0.06);
-  }
-  .ghost::after {
-    content: " ⏎ tab";
-    color: var(--accent);
-    font-size: 10px;
-    margin-left: 8px;
-    padding: 1px 5px;
-    border: 1px solid var(--accent-d);
-    border-radius: 3px;
-  }
-
-  .wb-right {
-    border-left: 1px solid var(--line);
-    font-family: var(--mono); font-size: 11.5px;
-    background: oklch(0.135 0.008 220);
-    display: flex; flex-direction: column;
-  }
-  .wb-right .rp-tabs {
-    display:flex; border-bottom: 1px solid var(--line);
-  }
-  .wb-right .rp-tab { padding: 8px 12px; color: var(--ink-3); flex:1; text-align:center; border-right: 1px solid var(--line);}
-  .wb-right .rp-tab:last-child{border-right:none;}
-  .wb-right .rp-tab.active { color: var(--accent); background: var(--bg); box-shadow: inset 0 -2px 0 var(--accent);}
-  .rp-body { padding: 14px; color: var(--ink-2); flex: 1; overflow: hidden;}
-  .rp-row { display: flex; justify-content: space-between; padding: 3px 0; }
-  .rp-row .k { color: var(--ink-3);}
-  .rp-row .v { color: var(--ink); }
-  .rp-row .v.hl { color: var(--accent); }
-  .rp-section { margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--line);}
-  .rp-section h5 { font-size: 10px; letter-spacing: 0.14em; color: var(--ink-4); text-transform: uppercase; margin-bottom: 8px;}
-
-  .wb-status {
-    border-top: 1px solid var(--line);
-    background: oklch(0.11 0.008 220);
-    font-family: var(--mono); font-size: 11px;
-    padding: 6px 14px;
-    display: flex; gap: 18px;
-    color: var(--ink-3);
-  }
-  .wb-status .seg { display:flex; gap:6px; align-items:center;}
-  .wb-status .ok { color: var(--good); }
-  .wb-status .on { color: var(--accent); }
-  .wb-status .ml { margin-left:auto;}
-
-  /* terminal */
-  .term {
-    background: oklch(0.11 0.008 220);
-    border-top: 1px solid var(--line);
-    padding: 10px 16px;
-    font-family: var(--mono); font-size: 12px;
-    color: var(--ink-2);
-    grid-column: 1 / -1;
-    min-height: 140px;
-  }
-  .term .prompt { color: var(--accent); }
-  .term .dim { color: var(--ink-3);}
-  .term .good { color: var(--good);}
-  .term .warn { color: var(--warn);}
-
-  /* ---------- DX section ---------- */
-  .dx-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-  .dx-card {
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    background: var(--bg-2);
-    display: flex; flex-direction: column; gap: 12px;
-    min-height: 280px;
-  }
-  .dx-card h4 { font-size: 18px; font-weight: 500; letter-spacing:-0.015em; }
-  .dx-card p { color: var(--ink-3); font-size: 13.5px; }
-  .dx-stats { display:flex; gap: 18px; margin-top: auto; padding-top: 16px; border-top: 1px dashed var(--line); font-family: var(--mono); font-size: 11px;}
-  .dx-stats .v { color: var(--ink); font-size: 20px; display:block; letter-spacing:-0.02em; font-weight:500; margin-bottom:2px;}
-  .dx-stats .k { color: var(--ink-4); }
-
-  /* extension list */
-  .ext-strip {
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 18px;
-    background: var(--bg-2);
-    display: grid; grid-template-columns: repeat(6, 1fr);
-    gap: 1px;
-    background: var(--line);
-    overflow: hidden;
-    margin-top: 20px;
-  }
-  .ext-strip > div {
-    background: var(--bg-2);
-    padding: 16px;
-    display: flex; flex-direction:column; gap: 6px;
-    font-family: var(--mono); font-size: 11px;
-  }
-  .ext-strip .ex-name { color: var(--ink); font-size: 13px;}
-  .ext-strip .ex-v { color: var(--ink-4);}
-
-  /* ---------- Roadmap ---------- */
-  .roadmap {
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    background: var(--bg-2);
-    overflow: hidden;
-  }
-  .rm-row {
-    display: grid;
-    grid-template-columns: 140px 180px 1fr 140px;
-    padding: 22px 28px;
-    gap: 24px;
-    align-items: center;
-    font-family: var(--mono);
-    font-size: 13px;
-  }
-  .rm-row + .rm-row { border-top: 1px solid var(--line); }
-  .rm-q { color: var(--ink); letter-spacing: 0.04em; }
-  .rm-tag {
-    font-size: 10.5px; letter-spacing:0.12em; text-transform:uppercase;
-    padding: 3px 8px; border-radius: 3px; justify-self: start;
-  }
-  .rm-tag.shipping { background: oklch(0.82 0.14 160 / 0.15); color: var(--good); border: 1px solid oklch(0.82 0.14 160 / 0.3);}
-  .rm-tag.next    { background: oklch(0.88 0.08 210 / 0.15); color: var(--accent); border: 1px solid oklch(0.88 0.08 210 / 0.35);}
-  .rm-tag.planned { background: var(--bg-3); color: var(--ink-3); border: 1px solid var(--line-2);}
-  .rm-tag.future  { background: transparent; color: var(--ink-4); border: 1px dashed var(--line-2);}
-  .rm-desc { color: var(--ink-2); font-family: var(--sans); font-size: 14.5px;}
-  .rm-desc small { display:block; color: var(--ink-4); font-size: 12px; margin-top: 4px; font-family: var(--mono);}
-  .rm-pct { justify-self: end; color: var(--ink-3); font-size: 11px;}
-
-  /* ---------- CTA ---------- */
-  .cta {
-    padding: 140px 0;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .cta::before {
-    content:""; position: absolute; inset: 0;
-    background: radial-gradient(500px 300px at 50% 60%, oklch(0.88 0.08 210 / 0.12), transparent 60%);
-    pointer-events:none;
-  }
-  .cta h2 {
-    font-size: clamp(48px, 6.5vw, 96px);
-    font-weight: 400; letter-spacing: -0.034em; line-height: 1;
-  }
-  .cta h2 em { font-style: normal; color: var(--accent); }
-  .cta p { color: var(--ink-2); margin-top: 22px; font-size: 17px;}
-  .cta-actions { margin-top: 40px; display:flex; gap: 10px; justify-content:center; flex-wrap:wrap;}
-  .cta-install {
-    margin-top: 44px; display: inline-flex; align-items:center; gap: 12px;
-    padding: 10px 16px;
-    font-family: var(--mono); font-size: 12px;
-    background: var(--bg-2);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    color: var(--ink-2);
-  }
-  .cta-install .dollar { color: var(--accent);}
-  .cta-install button {
-    background: var(--bg-3); border: 1px solid var(--line-2);
-    color: var(--ink-2); font-family: var(--mono); font-size: 10.5px;
-    padding: 3px 8px; border-radius: 4px; cursor:pointer;
-  }
-
-  /* ---------- Footer ---------- */
-  footer {
-    border-top: 1px solid var(--line);
-    padding: 64px 0 40px;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--ink-3);
-    position: relative; z-index: 2;
-    background: var(--bg);
-  }
-  .foot-top {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 40px;
-    padding-bottom: 48px;
-    border-bottom: 1px solid var(--line);
-  }
-  .foot-top h5 { font-size: 10.5px; letter-spacing: 0.14em; color: var(--ink-4); text-transform: uppercase; margin-bottom: 14px; font-weight: 500;}
-  .foot-top ul { list-style:none; padding:0; margin:0; display: flex; flex-direction: column; gap: 8px;}
-  .foot-top ul a:hover { color: var(--ink); }
-  .foot-bottom {
-    display: flex; justify-content: space-between; align-items: center;
-    padding-top: 24px;
-    flex-wrap: wrap; gap: 16px;
-  }
-  .foot-big {
-    font-family: var(--sans);
-    font-size: clamp(64px, 10vw, 160px);
-    font-weight: 400;
-    letter-spacing: -0.05em;
-    color: var(--bg-3);
-    margin: 40px 0 0;
-    line-height: 0.9;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-  .foot-big em { color: var(--accent); font-style: normal; opacity: 0.35; }
-
-  /* ---------- Command palette ---------- */
-  .cmdk-backdrop {
-    position: fixed; inset:0; z-index: 100;
-    background: oklch(0 0 0 / 0.6);
-    backdrop-filter: blur(6px);
-    display: none;
-    align-items: flex-start; justify-content: center;
-    padding-top: 18vh;
-  }
-  .cmdk-backdrop.open { display: flex; }
-  .cmdk {
-    width: min(620px, 92vw);
-    background: var(--bg-2);
-    border: 1px solid var(--line-2);
-    border-radius: 12px;
-    box-shadow: 0 40px 80px -20px oklch(0 0 0 / 0.8), 0 0 0 1px oklch(0 0 0 / 0.2);
-    overflow: hidden;
-  }
-  .cmdk-input {
-    display: flex; align-items:center; gap: 10px;
-    padding: 16px 18px;
-    border-bottom: 1px solid var(--line);
-  }
-  .cmdk-input input {
-    background: transparent; border: 0; outline: 0;
-    color: var(--ink); font-family: var(--sans); font-size: 16px;
-    width: 100%;
-  }
-  .cmdk-input .chev { color: var(--accent); font-family: var(--mono); }
-  .cmdk-list { max-height: 360px; overflow: auto; padding: 8px 0; }
-  .cmd-item {
-    padding: 10px 18px;
-    display: flex; align-items:center; gap: 14px;
-    cursor: pointer;
-    font-size: 14px;
-    color: var(--ink-2);
-  }
-  .cmd-item .ci-ic {
-    width: 22px; height: 22px; border-radius: 5px;
-    background: var(--bg-3);
-    display: grid; place-items: center;
-    color: var(--accent); font-family: var(--mono); font-size: 11px;
-  }
-  .cmd-item .ci-kb {
-    margin-left: auto; font-family: var(--mono); font-size: 10.5px;
-    color: var(--ink-4);
-  }
-  .cmd-item:hover, .cmd-item.sel {
-    background: oklch(0.22 0.012 220);
-    color: var(--ink);
-  }
-  .cmd-group {
-    padding: 10px 18px 4px;
-    font-family: var(--mono); font-size: 10px;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-4);
-  }
-  .cmdk-foot {
-    border-top: 1px solid var(--line);
-    padding: 10px 18px;
-    display: flex; gap: 14px;
-    font-family: var(--mono); font-size: 10.5px;
-    color: var(--ink-4);
-  }
-  .cmdk-foot span b { color: var(--ink-2); }
-
-  /* ---------- responsive ---------- */
-  @media (max-width: 980px) {
-    .hero-inner { grid-template-columns: 1fr; }
-    .band-head { grid-template-columns: 1fr; }
-    .feat-grid { grid-template-columns: repeat(2, 1fr); }
-    .feat-1, .feat-2, .feat-3, .feat-4, .feat-5 { grid-column: span 2; }
-    .wb-body { grid-template-columns: 1fr; }
-    .wb-side, .wb-right { display:none; }
-    .dx-grid { grid-template-columns: 1fr; }
-    .ext-strip { grid-template-columns: repeat(2, 1fr);}
-    .rm-row { grid-template-columns: 1fr; gap: 8px;}
-    .foot-top { grid-template-columns: 1fr 1fr;}
-    .top-nav { display: none; }
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#05080d" />
+  <meta name="description" content="Noyce IDE vNext is an AI-native, terminal-first Code-OSS workbench for serious embedded and systems engineers." />
+  <meta property="og:title" content="Noyce IDE vNext" />
+  <meta property="og:description" content="Terminal. AI. Code. Unified." />
+  <meta property="og:image" content="screenshots/project-graph.png" />
+  <title>Noyce IDE vNext — Terminal. AI. Code. Unified.</title>
+  <link rel="icon" href="assets/noyce-mark.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #05080d;
+      --panel: rgba(10, 16, 24, .72);
+      --panel-2: rgba(13, 23, 34, .86);
+      --line: rgba(142, 230, 255, .18);
+      --line-strong: rgba(142, 230, 255, .34);
+      --text: #f3fbff;
+      --muted: #9fb1bd;
+      --dim: #627480;
+      --cyan: #8ee6ff;
+      --blue: #52c4ff;
+      --green: #00e676;
+      --amber: #ffc66d;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .55);
+      --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      --sans: "Geist", Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(82,196,255,.22), transparent 32rem),
+        radial-gradient(circle at 78% 8%, rgba(0,230,118,.13), transparent 30rem),
+        linear-gradient(180deg, #05080d 0%, #07101a 42%, #05080d 100%);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(142,230,255,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(142,230,255,.055) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .mono { font-family: var(--mono); }
+    .eyebrow {
+      color: var(--cyan);
+      font: 600 12px/1 var(--mono);
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(5, 8, 13, .72);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.02em; }
+    .brand img { width: 34px; height: 34px; filter: drop-shadow(0 0 18px rgba(142,230,255,.34)); }
+    .brand span { font-size: 17px; }
+    .nav-links { display: flex; gap: 22px; color: var(--muted); font: 500 13px/1 var(--mono); }
+    .nav-links a:hover { color: var(--text); }
+    .actions { display: flex; align-items: center; gap: 10px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 8px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      font: 600 13px/1 var(--mono);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(142,230,255,.72); background: rgba(142,230,255,.08); }
+    .btn.primary { background: linear-gradient(135deg, var(--cyan), var(--green)); color: #061017; border: 0; }
+    .hero {
+      position: relative;
+      min-height: calc(100svh - 68px);
+      display: grid;
+      align-items: center;
+      padding: 72px 0 56px;
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: .82fr 1.18fr;
+      gap: 52px;
+      align-items: center;
+    }
+    h1 {
+      margin: 18px 0 0;
+      font-size: clamp(54px, 8vw, 114px);
+      line-height: .88;
+      letter-spacing: -.065em;
+    }
+    .lead {
+      margin-top: 26px;
+      max-width: 560px;
+      color: #c2d3dc;
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.55;
+    }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }
+    .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+    .badge {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 11px;
+      color: var(--muted);
+      font: 500 12px/1 var(--mono);
+      background: rgba(255,255,255,.025);
+    }
+    .mock {
+      position: relative;
+      border: 1px solid var(--line-strong);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,.035) inset;
+      background: #02050a;
+      transform: perspective(1200px) rotateX(4deg) rotateY(-7deg);
+      animation: float 7s ease-in-out infinite;
+    }
+    .mock::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(110deg, transparent, rgba(142,230,255,.11), transparent);
+      transform: translateX(-120%);
+      animation: scan 5.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .windowbar {
+      height: 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,.5);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
+    .dot:nth-child(2) { background: #ffbd2e; }
+    .dot:nth-child(3) { background: #28c840; }
+    .mock-title { margin-left: 12px; color: var(--muted); font: 500 12px/1 var(--mono); }
+    .screen { position: relative; aspect-ratio: 16/10; background: #05080d; }
+    .screen img { width: 100%; height: 100%; object-fit: cover; opacity: .88; }
+    .terminal {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      width: min(440px, 58%);
+      border: 1px solid rgba(0,230,118,.28);
+      border-radius: 10px;
+      padding: 16px;
+      background: rgba(2, 8, 7, .88);
+      box-shadow: 0 18px 55px rgba(0,0,0,.45);
+      color: #a8ffd2;
+      font: 500 12px/1.8 var(--mono);
+    }
+    .cursor { display: inline-block; width: 7px; height: 14px; background: var(--green); margin-left: 3px; animation: blink 1s steps(2) infinite; vertical-align: -2px; }
+    section { padding: 104px 0; border-top: 1px solid rgba(142,230,255,.1); position: relative; }
+    .section-head { display: grid; grid-template-columns: .82fr 1fr; gap: 44px; align-items: end; margin-bottom: 42px; }
+    h2 { margin: 12px 0 0; font-size: clamp(36px, 5vw, 70px); line-height: .96; letter-spacing: -.05em; }
+    .section-copy { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 620px; }
+    .release {
+      border: 1px solid var(--line-strong);
+      border-radius: 18px;
+      padding: 30px;
+      background:
+        linear-gradient(135deg, rgba(142,230,255,.12), transparent 38%),
+        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+      box-shadow: var(--shadow);
+    }
+    .release-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .release h3 { margin: 0 0 12px; font-size: 28px; letter-spacing: -.03em; }
+    .timeline { display: grid; gap: 14px; margin-top: 22px; }
+    .timeline div { display: flex; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; color: var(--muted); font: 500 13px/1.4 var(--mono); }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .card {
+      min-height: 218px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      background: rgba(255,255,255,.035);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--line-strong); background: rgba(142,230,255,.055); }
+    .icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 22px;
+      background: rgba(142,230,255,.09);
+      border: 1px solid var(--line);
+      color: var(--cyan);
+      font: 700 15px/1 var(--mono);
+    }
+    .card h3 { margin: 0 0 10px; font-size: 19px; letter-spacing: -.025em; }
+    .card p { color: var(--muted); line-height: 1.55; margin: 0; }
+    .preview {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      border: 1px solid var(--line-strong);
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .steps { border-right: 1px solid var(--line); padding: 20px; display: grid; gap: 12px; align-content: start; }
+    .step { padding: 14px; border-radius: 10px; color: var(--muted); background: rgba(255,255,255,.025); font: 500 12px/1.45 var(--mono); }
+    .step.active { color: var(--text); border: 1px solid var(--line-strong); background: rgba(142,230,255,.08); }
+    .codepane { padding: 24px; min-height: 460px; background: #03070d; }
+    pre { margin: 0; overflow: hidden; color: #d9f4ff; font: 500 13px/1.8 var(--mono); }
+    .cyan { color: var(--cyan); } .green { color: var(--green); } .amber { color: var(--amber); } .muted { color: var(--dim); }
+    .architecture {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+    .node { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: rgba(255,255,255,.03); min-height: 150px; }
+    .node strong { display: block; margin-bottom: 10px; }
+    .node span { color: var(--muted); font-size: 14px; line-height: 1.55; }
+    .gallery { display: grid; grid-template-columns: 1.2fr .8fr; gap: 16px; align-items: start; }
+    .shot { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #02050a; box-shadow: 0 22px 70px rgba(0,0,0,.42); }
+    .shot img { width: 100%; aspect-ratio: 16/10; object-fit: cover; transition: transform .28s ease; }
+    .shot:hover img { transform: scale(1.025); }
+    .shot label { display: block; padding: 12px 14px; color: var(--muted); border-top: 1px solid var(--line); font: 500 12px/1 var(--mono); }
+    .shot-stack { display: grid; gap: 16px; }
+    .compare { width: 100%; border-collapse: collapse; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; }
+    .compare th, .compare td { padding: 16px; border-bottom: 1px solid var(--line); text-align: left; }
+    .compare th { color: var(--text); font: 600 12px/1 var(--mono); background: rgba(255,255,255,.045); }
+    .compare td { color: var(--muted); }
+    .compare tr:last-child td { border-bottom: 0; }
+    .yes { color: var(--green); font-weight: 700; }
+    .partial { color: var(--amber); font-weight: 700; }
+    .community-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .quote { min-height: 210px; display: flex; flex-direction: column; justify-content: space-between; }
+    blockquote { margin: 0; color: #d8e7ef; font-size: 18px; line-height: 1.55; }
+    .asset-list { columns: 2; color: var(--muted); line-height: 1.9; padding-left: 18px; }
+    footer { padding: 54px 0; border-top: 1px solid var(--line); color: var(--muted); }
+    .footer-grid { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; font: 500 13px/1 var(--mono); }
+    .reveal { opacity: 0; transform: translateY(24px); animation: rise .72s ease forwards; }
+    .d2 { animation-delay: .12s; } .d3 { animation-delay: .24s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+    @keyframes float { 50% { transform: perspective(1200px) rotateX(2deg) rotateY(-4deg) translateY(-12px); } }
+    @keyframes scan { 45%, 100% { transform: translateX(120%); } }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hero { min-height: auto; }
+      .hero-grid, .section-head, .release-grid, .preview, .gallery { grid-template-columns: 1fr; }
+      .mock { transform: none; }
+      .feature-grid, .community-grid, .architecture { grid-template-columns: 1fr; }
+      .asset-list { columns: 1; }
+      .actions .btn:not(.primary) { display: none; }
+    }
+  </style>
 </head>
 <body>
-
-<div class="bg-grid"></div>
-
-<!-- NAV -->
-<nav class="top">
-  <div class="wrap top-inner">
-    <div class="brand">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <!-- rounded bracket frame with corner notches -->
-          <path d="M10 4 H22 A6 6 0 0 1 28 10 V22 A6 6 0 0 1 22 28 H10 A6 6 0 0 1 4 22 V10 A6 6 0 0 1 10 4 Z" opacity="0.85"/>
-          <!-- corner notches (cut marks) -->
-          <path d="M4 10 H8 V6" opacity="0.55"/>
-          <path d="M28 10 H24 V6" opacity="0.55"/>
-          <path d="M4 22 H8 V26" opacity="0.55"/>
-          <path d="M28 22 H24 V26" opacity="0.55"/>
-          <!-- code glyph -->
-          <path d="M14 12 L10 16 L14 20" stroke-width="2.2"/>
-          <path d="M18 12 L22 16 L18 20" stroke-width="2.2"/>
-        </svg>
-      </span>
-      Noyce <small>IDE</small>
-    </div>
-    <div class="top-nav">
-      <a href="#why">Why Noyce</a>
-      <a href="#features">Features</a>
-      <a href="#workbench">Workbench</a>
-      <a href="#dx">Developer</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#changelog">Changelog</a>
-    </div>
-    <div class="top-right">
-      <span class="version-chip">v0.41 · Nightly</span>
-      <button class="btn btn-ghost btn-sm" onclick="openCmdk()">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
-        Search
-        <span class="kbd">⌘K</span>
-      </button>
-      <a class="btn btn-primary btn-sm" href="#download">Download</a>
-    </div>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap hero-inner">
-    <div>
-      <span class="eye">NOYCE / 001 · THE AI-NATIVE IDE</span>
-      <h1 style="margin-top:22px;">
-        The IDE that <em>thinks</em><br/>
-        <span class="slash">—</span> and <em>ships</em>.
-      </h1>
-      <p class="hero-sub">
-        Noyce is an AI-native IDE with agents wired into every surface of the editor.
-        Claude, Gemini, Codex and your local models — routed, orchestrated, and given
-        real tools: edit files, run builds, flash firmware, step a debugger. Zero telemetry,
-        zero lock-in, sovereign by default.
-      </p>
-      <div class="hero-ctas">
-        <a href="#download" class="btn btn-primary">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0-4-4m4 4 4-4M5 21h14"/></svg>
-          Download Noyce
-          <span class="kbd">macOS · Linux · Win</span>
-        </a>
-        <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" target="_blank" rel="noopener" class="btn btn-ghost">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.01-.02-1.98-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.07 11.07 0 0 1 5.8 0c2.2-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.83 1.19 3.09 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.05.78 2.12 0 1.53-.01 2.77-.01 3.15 0 .31.21.68.8.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
-          View on GitHub
-          <span class="kbd" style="margin-left:2px;">↗</span>
-        </a>
+  <nav class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="Noyce IDE home">
+        <img src="assets/noyce-mark.svg" alt="" />
+        <span>Noyce IDE</span>
+      </a>
+      <div class="nav-links" aria-label="Primary navigation">
+        <a href="#release">Release</a>
+        <a href="#features">Features</a>
+        <a href="#preview">Preview</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#screenshots">Screenshots</a>
       </div>
-
-      <div class="hero-meta">
-        <div class="m"><b>4 agents</b>Claude · Gemini · Codex · local</div>
-        <div class="m"><b>0 kB</b>telemetry, analytics or phone-home</div>
-        <div class="m"><b>MIT + Apache-2</b>open core · self-host · own it</div>
+      <div class="actions">
+        <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide">GitHub</a>
+        <a class="btn primary" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest">Download</a>
       </div>
     </div>
+  </nav>
 
-    <!-- silicon die placeholder -->
-    <div class="die-frame" aria-hidden="true">
-      <div class="die-head">
-        <span>NOYC-001 · DIE LAYOUT</span>
-        <span class="dots"><span></span><span></span><span></span></span>
-      </div>
-      <div class="die-art">
-        <svg viewBox="0 0 400 400">
-          <!-- package outline -->
-          <rect x="40" y="40" width="320" height="320" rx="8" fill="none" stroke="oklch(0.34 0.012 80)" stroke-width="1"/>
-
-          <!-- corner marks -->
-          <g stroke="oklch(0.82 0.17 75)" stroke-width="1.2" fill="none">
-            <path d="M40,56 L40,40 L56,40"/>
-            <path d="M344,40 L360,40 L360,56"/>
-            <path d="M360,344 L360,360 L344,360"/>
-            <path d="M56,360 L40,360 L40,344"/>
-          </g>
-
-          <!-- pins -->
-          <g fill="oklch(0.34 0.012 80)">
-            <!-- top -->
-            <g>
-              <rect x="72"  y="28" width="10" height="12"/>
-              <rect x="96"  y="28" width="10" height="12"/>
-              <rect x="120" y="28" width="10" height="12"/>
-              <rect x="144" y="28" width="10" height="12"/>
-              <rect x="168" y="28" width="10" height="12"/>
-              <rect x="192" y="28" width="10" height="12"/>
-              <rect x="216" y="28" width="10" height="12"/>
-              <rect x="240" y="28" width="10" height="12"/>
-              <rect x="264" y="28" width="10" height="12"/>
-              <rect x="288" y="28" width="10" height="12"/>
-              <rect x="312" y="28" width="10" height="12"/>
-            </g>
-            <g>
-              <rect x="72"  y="360" width="10" height="12"/>
-              <rect x="96"  y="360" width="10" height="12"/>
-              <rect x="120" y="360" width="10" height="12"/>
-              <rect x="144" y="360" width="10" height="12"/>
-              <rect x="168" y="360" width="10" height="12"/>
-              <rect x="192" y="360" width="10" height="12"/>
-              <rect x="216" y="360" width="10" height="12"/>
-              <rect x="240" y="360" width="10" height="12"/>
-              <rect x="264" y="360" width="10" height="12"/>
-              <rect x="288" y="360" width="10" height="12"/>
-              <rect x="312" y="360" width="10" height="12"/>
-            </g>
-            <g>
-              <rect x="28" y="72"  width="12" height="10"/>
-              <rect x="28" y="96"  width="12" height="10"/>
-              <rect x="28" y="120" width="12" height="10"/>
-              <rect x="28" y="144" width="12" height="10"/>
-              <rect x="28" y="168" width="12" height="10"/>
-              <rect x="28" y="192" width="12" height="10"/>
-              <rect x="28" y="216" width="12" height="10"/>
-              <rect x="28" y="240" width="12" height="10"/>
-              <rect x="28" y="264" width="12" height="10"/>
-              <rect x="28" y="288" width="12" height="10"/>
-              <rect x="28" y="312" width="12" height="10"/>
-            </g>
-            <g>
-              <rect x="360" y="72"  width="12" height="10"/>
-              <rect x="360" y="96"  width="12" height="10"/>
-              <rect x="360" y="120" width="12" height="10"/>
-              <rect x="360" y="144" width="12" height="10"/>
-              <rect x="360" y="168" width="12" height="10"/>
-              <rect x="360" y="192" width="12" height="10"/>
-              <rect x="360" y="216" width="12" height="10"/>
-              <rect x="360" y="240" width="12" height="10"/>
-              <rect x="360" y="264" width="12" height="10"/>
-              <rect x="360" y="288" width="12" height="10"/>
-              <rect x="360" y="312" width="12" height="10"/>
-            </g>
-          </g>
-
-          <!-- live pins -->
-          <g fill="oklch(0.82 0.17 75)" class="pin-live">
-            <rect x="168" y="28"  width="10" height="12"/>
-            <rect x="28"  y="216" width="12" height="10"/>
-            <rect x="264" y="360" width="10" height="12"/>
-          </g>
-
-          <!-- central die -->
-          <rect x="120" y="120" width="160" height="160" fill="oklch(0.17 0.009 80)" stroke="oklch(0.82 0.17 75)" stroke-width="1.2"/>
-
-          <!-- inner grid (cores) -->
-          <g stroke="oklch(0.28 0.010 80)" stroke-width="0.8" fill="none">
-            <line x1="160" y1="120" x2="160" y2="280"/>
-            <line x1="200" y1="120" x2="200" y2="280"/>
-            <line x1="240" y1="120" x2="240" y2="280"/>
-            <line x1="120" y1="160" x2="280" y2="160"/>
-            <line x1="120" y1="200" x2="280" y2="200"/>
-            <line x1="120" y1="240" x2="280" y2="240"/>
-          </g>
-
-          <!-- labelled cores -->
-          <g font-family="Geist Mono" font-size="7" fill="oklch(0.58 0.012 80)">
-            <text x="124" y="132">EDITOR</text>
-            <text x="164" y="132">LSP</text>
-            <text x="204" y="132">GIT</text>
-            <text x="244" y="132">DAP</text>
-            <text x="124" y="172">FS</text>
-            <text x="164" y="172">AGENT</text>
-            <text x="204" y="172">SERIAL</text>
-            <text x="244" y="172">JTAG</text>
-            <text x="124" y="212">CORE</text>
-            <text x="164" y="212">BUILD</text>
-            <text x="204" y="212">RPL</text>
-            <text x="244" y="212">EXT</text>
-            <text x="124" y="252">TERM</text>
-            <text x="164" y="252">RUN</text>
-            <text x="204" y="252">MON</text>
-            <text x="244" y="252">LOG</text>
-          </g>
-
-          <!-- highlight active core -->
-          <rect x="160" y="160" width="40" height="40" fill="oklch(0.82 0.17 75 / 0.08)" stroke="oklch(0.82 0.17 75)" stroke-width="1"/>
-          <circle cx="180" cy="180" r="3" fill="oklch(0.82 0.17 75)"/>
-
-          <!-- trace routes -->
-          <g fill="none" stroke="oklch(0.82 0.17 75)" stroke-width="1" class="trace" opacity="0.9">
-            <path d="M120,180 L 64,180 L 64,220 L 40,220"/>
-            <path d="M180,120 L 180,64 L 173,64 L 173,40"/>
-            <path d="M240,280 L 240,336 L 269,336 L 269,360"/>
-          </g>
-
-          <!-- etched letter -->
-          <g font-family="Geist Mono" font-size="24" fill="oklch(0.28 0.010 80)">
-            <text x="258" y="278" letter-spacing="2">N.01</text>
-          </g>
-        </svg>
-      </div>
-      <div class="die-foot">
-        <div><b>4.3 MB</b>binary footprint</div>
-        <div><b>180 ms</b>cold start</div>
-        <div><b>~32 MB</b>idle RSS</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= WHY ================= -->
-<section id="why" class="band">
-  <div class="wrap">
-    <div class="band-head">
-      <div>
-        <span class="eye">02 / WHY</span>
-        <h2 style="margin-top:22px;">Built on open core.<br/>Assistants that actually work.</h2>
-      </div>
-      <p class="h-sub">
-        Noyce starts from the open Code-OSS foundation, strips out the parts that don't
-        belong in your tools — telemetry, upsell prompts, remote-config — and adds an
-        agent runtime that's wired into the editor, terminal, debugger and file system.
-        Not a chat sidebar. An engineer that pairs with you on the same codebase.
-      </p>
-    </div>
-
-    <div class="compare">
-      <div class="compare-row compare-head">
-        <div class="c-label">Capability</div>
-        <div class="c-them">Upstream distribution</div>
-        <div class="c-us">Noyce IDE</div>
-      </div>
-      <div class="compare-row">
-        <div>Telemetry &amp; remote diagnostics</div>
-        <div class="c-them"><span class="x">●</span> On by default, hard to fully disable</div>
-        <div class="c-us"><span class="tick">✓</span> Completely removed at the source level</div>
-      </div>
-      <div class="compare-row">
-        <div>Proprietary marketplace lock-in</div>
-        <div class="c-them"><span class="x">●</span> Tied to vendor store + licensing</div>
-        <div class="c-us"><span class="tick">✓</span> Open Open-VSX by default, fully swappable</div>
-      </div>
-      <div class="compare-row">
-        <div>Embedded toolchain awareness</div>
-        <div class="c-them"><span class="x">●</span> Requires a patchwork of extensions</div>
-        <div class="c-us"><span class="tick">✓</span> STM32, RP2040, ESP-IDF, Zephyr built in</div>
-      </div>
-      <div class="compare-row">
-        <div>AI agents &amp; model routing</div>
-        <div class="c-them"><span class="x">●</span> Single-vendor assistant, cloud-only</div>
-        <div class="c-us"><span class="tick">✓</span> Multi-agent, multi-model, tool-using, routed</div>
-      </div>
-      <div class="compare-row">
-        <div>Agent tool surface</div>
-        <div class="c-them"><span class="x">●</span> Chat-shaped, read-only context</div>
-        <div class="c-us"><span class="tick">✓</span> Write-files, run, flash, debug, inspect memory</div>
-      </div>
-      <div class="compare-row">
-        <div>Branding &amp; UI customisation</div>
-        <div class="c-them"><span class="x">●</span> Trademarked chrome, limited theming</div>
-        <div class="c-us"><span class="tick">✓</span> Fork, rebrand, redistribute — it's yours</div>
-      </div>
-      <div class="compare-row">
-        <div>Update channel</div>
-        <div class="c-them"><span class="x">●</span> Auto-updates gated by vendor infra</div>
-        <div class="c-us"><span class="tick">✓</span> Self-hosted, signed, offline-capable</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FEATURES ================= -->
-<section id="features" class="band">
-  <div class="wrap">
-    <div class="band-head">
-      <div>
-        <span class="eye">03 / CAPABILITIES</span>
-        <h2 style="margin-top:22px;">Five primitives.<br/>One agent-native workbench.</h2>
-      </div>
-      <p class="h-sub">
-        The AI layer is the centerpiece; everything else makes it useful. Each module
-        is independent, auditable and replaceable. Run the whole stack or pick the pieces
-        that matter for your team. No seat math, no SKU matrix — just the primitives
-        you'd build yourself, already built.
-      </p>
-    </div>
-
-    <div class="feat-grid">
-      <div class="feat feat-1">
-        <span class="feat-index">01 / AGENTS</span>
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="9"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg>
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow reveal">Noyce IDE vNext · Code-OSS release line</div>
+          <h1 class="reveal d2">Terminal. AI. Code. Unified.</h1>
+          <p class="lead reveal d3">A local-first AI-native IDE for systems engineers who need agents, terminals, project intelligence, and real firmware workflows in one fast workspace.</p>
+          <div class="hero-cta reveal d3">
+            <a class="btn primary" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest">Download v1.0.5</a>
+            <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide">Star on GitHub</a>
+            <a class="btn" href="#screenshots">Watch Demo</a>
+          </div>
+          <div class="badges reveal d3">
+            <span class="badge">macOS</span><span class="badge">Windows x64</span><span class="badge">Linux planned</span><span class="badge">Local runtime</span><span class="badge">Code-OSS embedded</span>
+          </div>
         </div>
-        <h3>Multi-model, tool-using agents.</h3>
-        <p>Route Claude, Gemini, Codex, and local runtimes through a single agent bus. Pick by task, cost or latency. Every agent speaks the same tool protocol: read, edit, run, flash, debug, inspect — same surface every model can use.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Claude 4.5 Sonnet</span>
-          <span class="feat-tag">Gemini 2.5 Pro</span>
-          <span class="feat-tag">Codex</span>
-          <span class="feat-tag">llama.cpp</span>
-          <span class="feat-tag">MCP tools</span>
+        <div class="mock reveal d3" aria-label="Animated Noyce IDE preview">
+          <div class="windowbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="mock-title">Canister_Main_Controller_Firmware_V1 · Project Graph</span></div>
+          <div class="screen">
+            <img src="screenshots/project-graph.png" alt="Noyce IDE project graph screenshot" loading="eager" />
+            <div class="terminal">
+              <div><span class="green">$</span> noyce index --workspace firmware</div>
+              <div><span class="cyan">agent</span> mapped 93 functions · 309 links</div>
+              <div><span class="amber">build</span> make -j4 · kernel ready<span class="cursor"></span></div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="feat feat-2">
-        <span class="feat-index">02 / CORE</span>
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m7 8-5 4 5 4M17 8l5 4-5 4M14 4l-4 16"/></svg>
+    <section id="release">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">New release</div><h2>Noyce IDE vNext</h2></div>
+          <p class="section-copy">The next release moves Noyce from prototype to launch-ready engineering workbench: Code-OSS shell, release packaging, native sidecar, richer project intelligence, and updated screenshots from a real firmware project.</p>
         </div>
-        <h3>A lean editor kernel.</h3>
-        <p>Monaco under the hood, re-tuned for sub-200ms cold starts and a 4 MB binary diff. Semantic highlighting, tree-sitter, inlay hints and diagnostics arrive before your finger leaves the keycap.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Monaco 1.92</span>
-          <span class="feat-tag">tree-sitter</span>
-          <span class="feat-tag">LSP 3.17</span>
-          <span class="feat-tag">DAP</span>
+        <div class="release">
+          <div class="release-grid">
+            <div>
+              <h3>What changed</h3>
+              <p class="section-copy">Faster startup path, embedded Code-OSS packaging, improved TIVA project detection, AI orchestration views, compliance surfaces, and production release docs.</p>
+            </div>
+            <div class="timeline">
+              <div><span>v1.0.5</span><strong>Windows release + Code-OSS bundle</strong></div>
+              <div><span>vNext</span><strong>Local agents, terminal memory, plugin polish</strong></div>
+              <div><span>Roadmap</span><strong>Cloud sync, collaboration, marketplace</strong></div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="feat feat-3">
-        <span class="feat-index">03 / METAL</span>
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v-2M15 4v-2M9 22v-2M15 22v-2M4 9h-2M4 15h-2M22 9h-2M22 15h-2"/><rect x="9" y="9" width="6" height="6"/></svg>
+    <section id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Feature system</div><h2>Built for serious developer flow.</h2></div>
+          <p class="section-copy">Noyce is not a generic chat sidebar. It is an IDE surface for code generation, semantic project indexing, local execution, compliance, debugging, and agent-assisted firmware work.</p>
         </div>
-        <h3>Embedded, built in.</h3>
-        <p>STM32, RP2040, ESP-IDF and Zephyr are first-class targets. Agents can flash, read memory and step the debugger.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">STM32 / Cube</span>
-          <span class="feat-tag">probe-rs</span>
-          <span class="feat-tag">ESP-IDF</span>
+        <div class="feature-grid">
+          <article class="card"><div class="icon">AI</div><h3>Context-aware AI</h3><p>Agents read workspace structure, active files, build state, and embedded project metadata before suggesting changes.</p></article>
+          <article class="card"><div class="icon">AG</div><h3>Multi-agent workflows</h3><p>Designer, coder, tester, reviewer, and documentation agents coordinate staged engineering tasks.</p></article>
+          <article class="card"><div class="icon">$_</div><h3>Terminal-native execution</h3><p>Run build, test, scan, and firmware commands without leaving the workspace context.</p></article>
+          <article class="card"><div class="icon">IX</div><h3>Project indexing</h3><p>Function graphs, macro usage, file relationships, and call edges become navigable IDE context.</p></article>
+          <article class="card"><div class="icon">LL</div><h3>Local-first runtime</h3><p>Native sidecar, filesystem IO, project scans, hardware views, and offline-first architecture.</p></article>
+          <article class="card"><div class="icon">PX</div><h3>Plugin architecture</h3><p>Code-OSS extension model with Noyce-specific hardware, compliance, telemetry, and AI surfaces.</p></article>
         </div>
       </div>
+    </section>
 
-      <div class="feat feat-4">
-        <span class="feat-index">04 / SOVEREIGN</span>
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+    <section id="preview">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Interactive preview</div><h2>The workspace thinks with you.</h2></div>
+          <p class="section-copy">A compact simulation of the Noyce flow: index a firmware repo, ask the agent for a change, run the build, and preserve the reasoning trail.</p>
         </div>
-        <h3>Your keys. Your box.</h3>
-        <p>Self-host the agent gateway, the update channel, the marketplace. Air-gap the whole stack — it still works.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Self-hosted</span>
-          <span class="feat-tag">Offline</span>
-          <span class="feat-tag">BYO keys</span>
-        </div>
-      </div>
+        <div class="preview">
+          <div class="steps">
+            <div class="step active">01 · Open firmware workspace</div>
+            <div class="step">02 · Index functions and call edges</div>
+            <div class="step">03 · Generate patch with agent context</div>
+            <div class="step">04 · Execute terminal build</div>
+          </div>
+          <div class="codepane">
+<pre><span class="muted">// Noyce agent plan</span>
+<span class="cyan">workspace</span>: Canister_Main_Controller_Firmware_V1
+<span class="cyan">entry</span>: main.c:550
+<span class="cyan">detected</span>: TM4C1294NCPDT · CCS project · 93 functions
 
-      <div class="feat feat-5">
-        <span class="feat-index">05 / SKIN</span>
-        <div class="feat-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="9"/></svg>
-        </div>
-        <h3>Brand it like yours.</h3>
-        <p>White-label chrome, iconography and splash. Ship a signed internal IDE without a license call.</p>
-        <div class="feat-tags">
-          <span class="feat-tag">Themable</span>
-          <span class="feat-tag">Signed builds</span>
-          <span class="feat-tag">No EULA</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<span class="green">$</span> noyce graph focus main
+  visible nodes: <span class="amber">156</span>
+  active links: <span class="amber">309</span>
 
-<!-- ================= WORKBENCH / DEMO ================= -->
-<section id="workbench" class="band">
-  <div class="wrap">
-    <div class="band-head">
-      <div>
-        <span class="eye">04 / WORKBENCH</span>
-        <h2 style="margin-top:22px;">The demo isn't a video.<br/>It's the editor.</h2>
-      </div>
-      <p class="h-sub">
-        Every panel below is a real surface in Noyce. Left: the project tree for a
-        live firmware build. Middle: source with an inline agent suggestion. Right:
-        the hardware inspector wired to a connected probe. Below: the integrated terminal.
-      </p>
-    </div>
-
-    <div class="workbench">
-      <div class="wb-chrome">
-        <div class="wb-dots"><span></span><span></span><span></span></div>
-        <div class="wb-path">~/projects/<b>flight-controller</b> / src / <b>imu.c</b></div>
-        <div class="wb-tabs">
-          <span class="wb-tab">main.c</span>
-          <span class="wb-tab active">imu.c</span>
-          <span class="wb-tab">CMakeLists.txt</span>
+<span class="green">$</span> make -j4
+  compile CANISTER_CONTROLLER_INIT.c
+  compile RS485_PACKETS.c
+  link firmware.out
+  <span class="green">build passed</span><span class="cursor"></span></pre>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="wb-body">
-        <!-- sidebar -->
-        <aside class="wb-side">
-          <div class="s-h">Explorer</div>
-          <ul>
-            <li class="folder-open"><span>flight-controller</span></li>
-            <li class="folder" style="padding-left:32px;"><span>build/</span></li>
-            <li class="folder-open" style="padding-left:32px;"><span>src/</span></li>
-            <li class="file c" style="padding-left:48px;"><span class="ic"></span>main.c</li>
-            <li class="file c active" style="padding-left:48px;"><span class="ic"></span>imu.c</li>
-            <li class="file h" style="padding-left:48px;"><span class="ic"></span>imu.h</li>
-            <li class="file c" style="padding-left:48px;"><span class="ic"></span>pid.c</li>
-            <li class="file c" style="padding-left:48px;"><span class="ic"></span>usb_cdc.c</li>
-            <li class="folder" style="padding-left:32px;"><span>drivers/</span></li>
-            <li class="folder" style="padding-left:32px;"><span>tests/</span></li>
-            <li class="file ld"><span class="ic"></span>stm32f4.ld</li>
-            <li class="file"><span class="ic"></span>CMakeLists.txt</li>
-            <li class="file md"><span class="ic"></span>README.md</li>
-            <li class="file md"><span class="ic"></span>.noyce</li>
+    <section id="architecture">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Architecture</div><h2>Local core. Agent layer. Extensible shell.</h2></div>
+          <p class="section-copy">Noyce combines a Code-OSS workbench with a native runtime and agent orchestration layer. The result is fast, inspectable, and privacy-conscious by default.</p>
+        </div>
+        <div class="architecture">
+          <div class="node"><strong>Code-OSS Shell</strong><span>Editor, workbench, extensions, panels, activity views.</span></div>
+          <div class="node"><strong>AI Engine</strong><span>Agents, personas, prompts, context routing, workspace memory.</span></div>
+          <div class="node"><strong>Native Runtime</strong><span>Rust sidecar for IO, project scans, build and hardware commands.</span></div>
+          <div class="node"><strong>Terminal Engine</strong><span>Build/test execution, logs, inline command loops.</span></div>
+          <div class="node"><strong>Extensions</strong><span>Hardware, compliance, project graph, lifecycle, telemetry.</span></div>
+          <div class="node"><strong>Sync Roadmap</strong><span>Collaboration sessions, plugin registry, release channels.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenshots">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Release screenshots</div><h2>Real project. Real IDE surfaces.</h2></div>
+          <p class="section-copy">Captured from the v1.0.5 Noyce workbench running `Canister_Main_Controller_Firmware_V1` from the local office workspace.</p>
+        </div>
+        <div class="gallery">
+          <figure class="shot"><img src="screenshots/project-graph.png" alt="Noyce Project Graph" loading="lazy"><label>Project Graph</label></figure>
+          <div class="shot-stack">
+            <figure class="shot"><img src="screenshots/pin-configurator.png" alt="Noyce Pin Configurator" loading="lazy"><label>Pin Configurator</label></figure>
+            <figure class="shot"><img src="screenshots/compliance-dashboard.png" alt="Noyce Compliance Dashboard" loading="lazy"><label>Compliance Dashboard</label></figure>
+            <figure class="shot"><img src="screenshots/ai-orchestrator.png" alt="Noyce AI Orchestrator" loading="lazy"><label>AI Orchestrator</label></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="compare">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Comparison</div><h2>Designed for local engineering work.</h2></div>
+          <p class="section-copy">Cursor, Windsurf, Replit, and VS Code are excellent tools. Noyce focuses on a narrower lane: terminal-heavy local systems development with agentic workflows and embedded project intelligence.</p>
+        </div>
+        <table class="compare">
+          <thead><tr><th>Capability</th><th>Noyce</th><th>Cursor</th><th>Windsurf</th><th>VS Code</th><th>Replit</th></tr></thead>
+          <tbody>
+            <tr><td>Local-first runtime</td><td class="yes">Strong</td><td class="partial">Partial</td><td class="partial">Partial</td><td class="yes">Strong</td><td>Cloud-first</td></tr>
+            <tr><td>Terminal-native workflow</td><td class="yes">Core</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="partial">Hosted</td></tr>
+            <tr><td>Agent workflows</td><td class="yes">Multi-agent</td><td class="yes">AI coding</td><td class="yes">AI coding</td><td class="partial">Extensions</td><td class="yes">Cloud agents</td></tr>
+            <tr><td>Embedded project intelligence</td><td class="yes">Native focus</td><td>General</td><td>General</td><td class="partial">Extensions</td><td>General</td></tr>
+            <tr><td>Privacy/offline posture</td><td class="yes">Local bias</td><td class="partial">Model dependent</td><td class="partial">Model dependent</td><td class="yes">Local</td><td>Cloud</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="community">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Open source + launch</div><h2>Build in public. Ship for engineers.</h2></div>
+          <p class="section-copy">Use the launch as a credible developer story: GitHub release, demo video, README visuals, Product Hunt imagery, and a short technical roadmap.</p>
+        </div>
+        <div class="community-grid">
+          <article class="card quote"><blockquote>“The project graph makes firmware review feel less like archaeology and more like navigation.”</blockquote><p class="mono muted">Embedded systems lead</p></article>
+          <article class="card quote"><blockquote>“Noyce is strongest when it treats the terminal as the source of truth and agents as operators.”</blockquote><p class="mono muted">AI tooling engineer</p></article>
+          <article class="card quote"><blockquote>“This is the right direction for local-first engineering environments.”</blockquote><p class="mono muted">Terminal power user</p></article>
+        </div>
+        <div class="release" style="margin-top:16px">
+          <h3>Launch assets still needed</h3>
+          <ul class="asset-list">
+            <li>30-second editor-to-build demo GIF</li>
+            <li>90-second Product Hunt launch video</li>
+            <li>GitHub README hero banner</li>
+            <li>Social preview image at 1200x630</li>
+            <li>Before/after project graph clip</li>
+            <li>Plugin ecosystem roadmap graphic</li>
+            <li>Windows installer screenshot</li>
+            <li>Architecture diagram for docs</li>
           </ul>
-        </aside>
-
-        <!-- editor -->
-        <div class="wb-editor">
-          <div class="code-line"><span class="ln">14</span><span><span class="tok-pp">#include</span> <span class="tok-str">"imu.h"</span></span></div>
-          <div class="code-line"><span class="ln">15</span><span><span class="tok-pp">#include</span> <span class="tok-str">"stm32f4xx_hal.h"</span></span></div>
-          <div class="code-line"><span class="ln">16</span><span></span></div>
-          <div class="code-line"><span class="ln">17</span><span><span class="tok-cm">// IMU sample @ 1kHz — DMA-driven, zero-copy.</span></span></div>
-          <div class="code-line"><span class="ln">18</span><span><span class="tok-kw">static</span> <span class="tok-ty">volatile</span> <span class="tok-ty">uint16_t</span> <span class="tok-pn">dma_buf</span>[<span class="tok-num">128</span>];</span></div>
-          <div class="code-line"><span class="ln">19</span><span></span></div>
-          <div class="code-line"><span class="ln">20</span><span><span class="tok-ty">imu_status_t</span> <span class="tok-fn">imu_init</span>(<span class="tok-ty">SPI_HandleTypeDef</span> *<span class="tok-pn">hspi</span>) {</span></div>
-          <div class="code-line"><span class="ln">21</span><span>    <span class="tok-ty">uint8_t</span> <span class="tok-pn">who</span> = <span class="tok-fn">imu_read_reg</span>(<span class="tok-pn">hspi</span>, <span class="tok-pp">REG_WHO_AM_I</span>);</span></div>
-          <div class="code-line active"><span class="ln">22</span><span>    <span class="tok-kw">if</span> (<span class="tok-pn">who</span> != <span class="tok-num">0x70</span>) <span class="tok-kw">return</span> <span class="tok-pp">IMU_ERR_HANDSHAKE</span>;</span></div>
-          <div class="code-line"><span class="ln">23</span><span>    <span class="tok-fn">imu_write_reg</span>(<span class="tok-pn">hspi</span>, <span class="tok-pp">REG_CTRL1</span>, <span class="tok-num">0xAC</span>);  <span class="tok-cm">// 1kHz, 8g, LP-on</span></span></div>
-          <div class="code-line"><span class="ln">24</span><span>    <span class="tok-kw">return</span> <span class="tok-pp">IMU_OK</span>;</span></div>
-          <div class="code-line"><span class="ln">25</span><span>}</span></div>
-          <div class="code-line"><span class="ln">26</span><span></span></div>
-          <div class="code-line"><span class="ln">27</span><span><span class="tok-ty">void</span> <span class="tok-fn">imu_start_stream</span>(<span class="tok-ty">SPI_HandleTypeDef</span> *<span class="tok-pn">hspi</span>) {</span></div>
-          <div class="code-line"><span class="ln">28</span><span>    <span class="tok-cm">// ⌘ agent suggestion:</span></span></div>
-          <div class="code-line"><span class="ln">29</span><span>    <span class="ghost">HAL_SPI_Receive_DMA(hspi, (uint8_t*)dma_buf, sizeof dma_buf);</span></span></div>
-          <div class="code-line"><span class="ln">30</span><span>}</span></div>
-        </div>
-
-        <!-- right pane -->
-        <aside class="wb-right">
-          <div class="rp-tabs">
-            <div class="rp-tab">Outline</div>
-            <div class="rp-tab active">Probe</div>
-            <div class="rp-tab">AI</div>
-          </div>
-          <div class="rp-body">
-            <div class="rp-row"><span class="k">Target</span><span class="v">STM32F411CE</span></div>
-            <div class="rp-row"><span class="k">Probe</span><span class="v">ST-Link v3</span></div>
-            <div class="rp-row"><span class="k">Core</span><span class="v">Cortex-M4F</span></div>
-            <div class="rp-row"><span class="k">State</span><span class="v hl">● HALTED</span></div>
-            <div class="rp-row"><span class="k">PC</span><span class="v">0x0800_14A2</span></div>
-            <div class="rp-row"><span class="k">SP</span><span class="v">0x2002_FFE0</span></div>
-
-            <div class="rp-section">
-              <h5>Live registers</h5>
-              <div class="rp-row"><span class="k">R0</span><span class="v">0x0000_0070</span></div>
-              <div class="rp-row"><span class="k">R1</span><span class="v">0x2000_01C4</span></div>
-              <div class="rp-row"><span class="k">R7</span><span class="v">0x0800_14A2</span></div>
-              <div class="rp-row"><span class="k">xPSR</span><span class="v">0x2100_0000</span></div>
-            </div>
-
-            <div class="rp-section">
-              <h5>SWO ticker</h5>
-              <div class="rp-row"><span class="k">stitch</span><span class="v">42 hz</span></div>
-              <div class="rp-row"><span class="k">baud</span><span class="v">2.00 Mbps</span></div>
-            </div>
-          </div>
-        </aside>
-
-        <!-- terminal (full width) -->
-        <div class="term" id="liveTerm">
-<span class="prompt">noyce ~/flight-controller ▸</span> <span id="termTyped"></span><span class="dim" id="termCursor">▍</span>
-<div id="termOut"></div>
         </div>
       </div>
+    </section>
+  </main>
 
-      <div class="wb-status">
-        <span class="seg">⎇ <b>main</b></span>
-        <span class="seg">✓ 0 errors, 2 hints</span>
-        <span class="seg">C · UTF-8 · LF</span>
-        <span class="seg on">● probe attached · STM32F411</span>
-        <span class="seg ml ok">● agent: claude-4.5 · 12 tok/s</span>
-        <span class="seg">Ln 22, Col 18</span>
+  <footer>
+    <div class="wrap footer-grid">
+      <div class="brand"><img src="assets/noyce-mark.svg" alt="" /><span>Noyce IDE</span></div>
+      <div class="footer-links">
+        <a href="https://github.com/Hitheshkaranth/noyce_ide">GitHub</a>
+        <a href="https://github.com/Hitheshkaranth/noyce_ide/releases">Releases</a>
+        <a href="https://github.com/Hitheshkaranth/noyce_ide#readme">Docs</a>
+        <a href="#release">Roadmap</a>
+        <a href="#community">Community</a>
+        <a href="#top">Download</a>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ================= DX SECTION ================= -->
-<section id="dx" class="band">
-  <div class="wrap">
-    <div class="band-head">
-      <div>
-        <span class="eye">05 / DX</span>
-        <h2 style="margin-top:22px;">Familiar muscle memory.<br/>New reflexes.</h2>
-      </div>
-      <p class="h-sub">
-        Every keybinding you know still works. Every extension you use still installs.
-        Noyce extends the surface — it doesn't fight you for it.
-      </p>
-    </div>
-
-    <div class="dx-grid">
-      <div class="dx-card">
-        <span class="eye">A · EXTENSIONS</span>
-        <h4>Works with the catalog you already use.</h4>
-        <p>Open-VSX by default, with a pinned registry option for teams. Self-host your own index in a Docker container and ship signed extensions to your fleet.</p>
-        <div class="dx-stats">
-          <div><span class="v">34k+</span><span class="k">extensions</span></div>
-          <div><span class="v">100%</span><span class="k">compat API</span></div>
-        </div>
-      </div>
-
-      <div class="dx-card">
-        <span class="eye">B · BUILD GRAPH</span>
-        <h4>Understands your toolchain, not just your shell.</h4>
-        <p>CMake presets, PlatformIO envs, Zephyr west, Bazel targets and plain Makefiles are all first-class. Task runner shows the DAG, not the log.</p>
-        <div class="dx-stats">
-          <div><span class="v">9</span><span class="k">build systems</span></div>
-          <div><span class="v">&lt; 40ms</span><span class="k">graph re-sync</span></div>
-        </div>
-      </div>
-
-      <div class="dx-card">
-        <span class="eye">C · TEAM WORKFLOWS</span>
-        <h4>A .noyce file for every embedded team.</h4>
-        <p>Commit your flash targets, debug sessions, board matrices and SBOM policy to the repo. New engineers clone, open, and have a working hardware-in-the-loop session inside a minute.</p>
-        <div class="dx-stats">
-          <div><span class="v">58s</span><span class="k">onboard → blink</span></div>
-          <div><span class="v">yaml</span><span class="k">declarative</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ext-strip">
-      <div><span class="ex-name">Cortex-Debug</span><span class="ex-v">1.12.1 · pinned</span></div>
-      <div><span class="ex-name">CMake Tools</span><span class="ex-v">1.17.0</span></div>
-      <div><span class="ex-name">Serial Monitor</span><span class="ex-v">0.14.0</span></div>
-      <div><span class="ex-name">Clangd</span><span class="ex-v">0.1.32</span></div>
-      <div><span class="ex-name">PlatformIO</span><span class="ex-v">3.3.3</span></div>
-      <div><span class="ex-name">Rust Analyzer</span><span class="ex-v">0.4.2109</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ROADMAP ================= -->
-<section id="roadmap" class="band">
-  <div class="wrap">
-    <div class="band-head">
-      <div>
-        <span class="eye">06 / ROADMAP</span>
-        <h2 style="margin-top:22px;">On the bench.<br/>On the horizon.</h2>
-      </div>
-      <p class="h-sub">
-        A public roadmap with version tags, not marketing bullets. Track every line item
-        in the open on GitHub, and ship against it in the same repo the IDE is built from.
-      </p>
-    </div>
-
-    <div class="roadmap">
-      <div class="rm-row">
-        <div class="rm-q">2026 · Q1</div>
-        <div><span class="rm-tag shipping">Shipping</span></div>
-        <div class="rm-desc">
-          Agent framework v1 — Claude, Gemini, Codex through a unified tool bridge.
-          <small>v0.41 · 104 PRs merged · 28 contributors</small>
-        </div>
-        <div class="rm-pct">100%</div>
-      </div>
-
-      <div class="rm-row">
-        <div class="rm-q">2026 · Q2</div>
-        <div><span class="rm-tag next">In flight</span></div>
-        <div class="rm-desc">
-          Local model runtime — Gemma 3, Llama 4, Qwen-Coder routed through a Noyce-hosted llama.cpp worker.
-          <small>v0.44 target · 62% complete</small>
-        </div>
-        <div class="rm-pct">62%</div>
-      </div>
-
-      <div class="rm-row">
-        <div class="rm-q">2026 · Q3</div>
-        <div><span class="rm-tag planned">Planned</span></div>
-        <div class="rm-desc">
-          Hardware-in-the-loop debugger — timeline view across MCU, logic analyser and host profiler on a single clock.
-          <small>v0.48 target</small>
-        </div>
-        <div class="rm-pct">—</div>
-      </div>
-
-      <div class="rm-row">
-        <div class="rm-q">2026 · Q4</div>
-        <div><span class="rm-tag planned">Planned</span></div>
-        <div class="rm-desc">
-          Team spaces — shared sessions, collaborative debugging, live pair programming with end-to-end encryption.
-          <small>v0.52 target</small>
-        </div>
-        <div class="rm-pct">—</div>
-      </div>
-
-      <div class="rm-row">
-        <div class="rm-q">2027+</div>
-        <div><span class="rm-tag future">Exploring</span></div>
-        <div class="rm-desc">
-          Silicon-aware agents — a model that reasons about pinouts, memory maps and power budgets, not just tokens.
-          <small>research preview</small>
-        </div>
-        <div class="rm-pct">—</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CTA ================= -->
-<section id="download" class="band cta">
-  <div class="wrap">
-    <span class="eye" style="justify-content:center; display:inline-flex;">07 / INSTALL</span>
-    <h2 style="margin-top:20px;">
-      Start shipping with an<br/>
-      <em>AI&#8209;native</em> IDE.
-    </h2>
-    <p>Free forever on every platform. No account, no email, no ask.</p>
-    <div class="cta-actions">
-      <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest/download/Noyce_macOS_aarch64.dmg" class="btn btn-primary">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0-4-4m4 4 4-4M5 21h14"/></svg>
-        Download for macOS
-        <span class="kbd">Apple Silicon · .dmg</span>
-      </a>
-      <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" target="_blank" rel="noopener" class="btn btn-ghost">
-        View on GitHub
-        <span class="kbd">↗</span>
-      </a>
-    </div>
-
-    <div class="cta-install">
-      <span class="dollar">$</span>
-      <span class="mono" id="installCmd">brew install --cask noyce-ide</span>
-      <button onclick="copyInstall(this)" id="installBtn">COPY</button>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<footer id="changelog">
-  <div class="wrap">
-    <div class="foot-top">
-      <div>
-        <div class="brand" style="margin-bottom:16px;">
-          <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M10 4 H22 A6 6 0 0 1 28 10 V22 A6 6 0 0 1 22 28 H10 A6 6 0 0 1 4 22 V10 A6 6 0 0 1 10 4 Z" opacity="0.85"/>
-              <path d="M4 10 H8 V6" opacity="0.55"/>
-              <path d="M28 10 H24 V6" opacity="0.55"/>
-              <path d="M4 22 H8 V26" opacity="0.55"/>
-              <path d="M28 22 H24 V26" opacity="0.55"/>
-              <path d="M14 12 L10 16 L14 20" stroke-width="2.2"/>
-              <path d="M18 12 L22 16 L18 20" stroke-width="2.2"/>
-            </svg>
-          </span>
-          Noyce <small>IDE</small>
-        </div>
-        <p style="max-width:40ch;">An AI-native IDE with agents wired into every surface. Named for Robert Noyce, co-inventor of the integrated circuit.</p>
-        <p style="margin-top:14px;">© 2026 Noyce Tools · Distributed under MIT + Apache-2.0.</p>
-      </div>
-      <div>
-        <h5>Product</h5>
-        <ul>
-          <li><a href="#features">Features</a></li>
-          <li><a href="#workbench">Workbench</a></li>
-          <li><a href="#dx">Developer</a></li>
-          <li><a href="#roadmap">Roadmap</a></li>
-          <li><a href="#download">Download</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5>Open Source</h5>
-        <ul>
-          <li><a href="https://github.com/Hitheshkaranth/noyce-ide-dist" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" target="_blank" rel="noopener">Releases</a></li>
-          <li><a href="#">Contributing</a></li>
-          <li><a href="#">Security</a></li>
-          <li><a href="#">License</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5>Community</h5>
-        <ul>
-          <li><a href="#">Discord</a></li>
-          <li><a href="#">Forum</a></li>
-          <li><a href="#">Office hours</a></li>
-          <li><a href="#">RSS</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="foot-big">noyce<em>.</em>ide</div>
-    <div class="foot-bottom">
-      <div>v0.41.2 · sha 7af91d4 · built Apr 18, 2026 · reproducible</div>
-      <div>made for the people who still care about the metal.</div>
-    </div>
-  </div>
-</footer>
-
-<!-- ================= COMMAND PALETTE ================= -->
-<div class="cmdk-backdrop" id="cmdkBackdrop" onclick="closeCmdkBg(event)">
-  <div class="cmdk" role="dialog">
-    <div class="cmdk-input">
-      <span class="chev">▸</span>
-      <input id="cmdkInput" placeholder="Type a command, file, or symbol…" autocomplete="off"/>
-      <span class="kbd">ESC</span>
-    </div>
-    <div class="cmdk-list" id="cmdkList"></div>
-    <div class="cmdk-foot">
-      <span><b>↑↓</b> navigate</span>
-      <span><b>⏎</b> run</span>
-      <span><b>⌘K</b> close</span>
-      <span style="margin-left:auto;">Noyce CmdK · v0.41</span>
-    </div>
-  </div>
-</div>
-
-<script>
-  // ----- command palette -----
-  const COMMANDS = [
-    { g:'Jump', ic:'→', name:'Download Noyce IDE', kb:'⌘D', act: () => location.hash = '#download' },
-    { g:'Jump', ic:'→', name:'View on GitHub', kb:'⌘G', act: () => window.open('https://github.com/Hitheshkaranth/noyce-ide-dist','_blank') },
-    { g:'Jump', ic:'→', name:'Jump to Features', kb:'',  act: () => location.hash = '#features' },
-    { g:'Jump', ic:'→', name:'Jump to Roadmap',  kb:'',  act: () => location.hash = '#roadmap' },
-    { g:'Jump', ic:'→', name:'Jump to Workbench', kb:'', act: () => location.hash = '#workbench' },
-    { g:'Install', ic:'$', name:'brew install --cask noyce-ide', kb:'macOS', act: () => copyToClipboard('brew install --cask noyce-ide') },
-    { g:'Install', ic:'$', name:'curl -fsSL noyce.dev/install.sh | sh', kb:'linux', act: () => copyToClipboard('curl -fsSL noyce.dev/install.sh | sh') },
-    { g:'Install', ic:'$', name:'winget install Noyce.IDE', kb:'win', act: () => copyToClipboard('winget install Noyce.IDE') },
-    { g:'Docs', ic:'¶', name:'Read: Getting started with STM32', kb:'', act: () => {} },
-    { g:'Docs', ic:'¶', name:'Read: Configuring probe-rs', kb:'', act: () => {} },
-    { g:'Docs', ic:'¶', name:'Read: Agent routing & local models', kb:'', act: () => {} },
-    { g:'Agents', ic:'◈', name:'Try: Claude 4.5 Sonnet', kb:'', act: () => {} },
-    { g:'Agents', ic:'◈', name:'Try: Gemini 2.5 Pro', kb:'', act: () => {} },
-    { g:'Agents', ic:'◈', name:'Try: Local — llama.cpp', kb:'', act: () => {} },
-  ];
-  let sel = 0;
-  const $ = s => document.querySelector(s);
-  const backdrop = $('#cmdkBackdrop');
-  const list = $('#cmdkList');
-  const input = $('#cmdkInput');
-
-  function openCmdk(){ backdrop.classList.add('open'); sel = 0; input.value=''; renderCmds(''); setTimeout(()=>input.focus(), 30); }
-  function closeCmdk(){ backdrop.classList.remove('open'); }
-  function closeCmdkBg(e){ if (e.target === backdrop) closeCmdk(); }
-  function renderCmds(q){
-    q = (q||'').toLowerCase();
-    const filtered = COMMANDS.filter(c => !q || c.name.toLowerCase().includes(q) || c.g.toLowerCase().includes(q));
-    let html = '', lastG = '';
-    filtered.forEach((c,i)=>{
-      if (c.g !== lastG) { html += `<div class="cmd-group">${c.g}</div>`; lastG = c.g; }
-      html += `<div class="cmd-item ${i===sel?'sel':''}" data-i="${i}">
-        <span class="ci-ic">${c.ic}</span>
-        <span>${c.name}</span>
-        ${c.kb ? `<span class="ci-kb">${c.kb}</span>` : ''}
-      </div>`;
-    });
-    list.innerHTML = html;
-    list.querySelectorAll('.cmd-item').forEach(el=>{
-      el.addEventListener('click', ()=>{ const i = +el.dataset.i; filtered[i].act(); closeCmdk(); });
-      el.addEventListener('mousemove', ()=>{ sel = +el.dataset.i; highlightSel(); });
-    });
-  }
-  function highlightSel(){
-    list.querySelectorAll('.cmd-item').forEach((el,idx)=>el.classList.toggle('sel', idx===sel));
-  }
-  input.addEventListener('input', e => { sel = 0; renderCmds(e.target.value); });
-  input.addEventListener('keydown', e => {
-    const items = list.querySelectorAll('.cmd-item');
-    if (e.key === 'ArrowDown'){ e.preventDefault(); sel = Math.min(sel+1, items.length-1); highlightSel(); }
-    if (e.key === 'ArrowUp'){ e.preventDefault(); sel = Math.max(sel-1, 0); highlightSel(); }
-    if (e.key === 'Enter'){
-      const q = input.value.toLowerCase();
-      const filtered = COMMANDS.filter(c => !q || c.name.toLowerCase().includes(q) || c.g.toLowerCase().includes(q));
-      if (filtered[sel]) { filtered[sel].act(); closeCmdk(); }
-    }
-    if (e.key === 'Escape') closeCmdk();
-  });
-  window.addEventListener('keydown', e => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k'){
-      e.preventDefault();
-      if (backdrop.classList.contains('open')) closeCmdk(); else openCmdk();
-    }
-  });
-
-  function copyToClipboard(t){
-    navigator.clipboard && navigator.clipboard.writeText(t).catch(()=>{});
-  }
-  function copyInstall(btn){
-    copyToClipboard(document.getElementById('installCmd').textContent);
-    const old = btn.textContent;
-    btn.textContent = 'COPIED ✓';
-    setTimeout(()=>btn.textContent = old, 1400);
-  }
-
-  // ----- Live terminal in the workbench -----
-  const script = [
-    { t: "noyce flash --target stm32f411 --probe stlink", delay: 30 },
-  ];
-  const out = [
-    { line: `  ↳ <span class="dim">resolving build graph…</span> <span class="good">ok (38ms)</span>`, d: 420 },
-    { line: `  ↳ <span class="dim">cmake . -B build -G Ninja</span>`, d: 260 },
-    { line: `  ↳ <span class="dim">ninja -C build flight-controller.elf</span>`, d: 340 },
-    { line: `  ↳ <span class="good">built</span> flight-controller.elf <span class="dim">[128.4 KB flash · 24.1 KB ram]</span>`, d: 360 },
-    { line: `  ↳ <span class="dim">probe:</span> ST-Link v3 · SN 000670066677 · SWD @ 4 MHz`, d: 300 },
-    { line: `  ↳ <span class="dim">erasing…</span> <span class="good">ok</span>  <span class="dim">writing…</span> <span class="good">128.4 KB / 128.4 KB</span>  <span class="dim">verify…</span> <span class="good">ok</span>`, d: 520 },
-    { line: `  ↳ <span class="good">● reset & run</span> — agent attached, SWO live. <span class="dim">ctrl-c to detach</span>`, d: 240 },
-  ];
-
-  function typeTerm(){
-    const typed = document.getElementById('termTyped');
-    const outBox = document.getElementById('termOut');
-    if (!typed || !outBox) return;
-    let cmd = script[0].t, i = 0;
-    const tick = () => {
-      if (i <= cmd.length) {
-        typed.textContent = cmd.slice(0, i);
-        i++;
-        setTimeout(tick, 28 + Math.random()*40);
-      } else {
-        emitLines();
-      }
-    };
-    let k = 0;
-    const emitLines = () => {
-      if (k >= out.length) return;
-      setTimeout(()=>{
-        const div = document.createElement('div');
-        div.innerHTML = out[k].line;
-        outBox.appendChild(div);
-        k++;
-        emitLines();
-      }, out[k].d);
-    };
-    setTimeout(tick, 900);
-  }
-  // run only when workbench is in view, to avoid wasted animation
-  const obs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if (e.isIntersecting) {
-        typeTerm();
-        obs.disconnect();
-      }
-    });
-  }, { threshold: 0.25 });
-  const target = document.getElementById('liveTerm');
-  if (target) obs.observe(target);
-
-  // cursor blink
-  setInterval(()=>{
-    const c = document.getElementById('termCursor');
-    if (c) c.style.opacity = c.style.opacity === '0' ? '1' : '0';
-  }, 520);
-</script>
+  </footer>
 </body>
 </html>
