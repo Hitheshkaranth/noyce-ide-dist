@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="noyce_logo.png" alt="Noyce IDE" width="160" />
-
-# Noyce IDE
+<img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" width="620" />
 
 ### The AI-native IDE for safety-critical embedded engineering
 
