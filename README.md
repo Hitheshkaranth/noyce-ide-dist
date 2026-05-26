@@ -70,6 +70,12 @@ Static Analysis → Build → Unit Tests → HIL Tests → Docs & Traceability. 
 
 A live dependency view of every function, file, and macro in the workspace. Click any symbol to see its callers, callees, and macro neighbourhood — independent of toolchain.
 
+### Pin Configurator — full-package pinmux, peripheral-aware
+
+<img src="screenshots/10-pin-configurator.png" alt="Pin Configurator with TQFP128 package" />
+
+Visual pin map for the active MCU (TM4C129, STM32F4/G/H, RP2040, …). Pick from the peripheral list on the left to highlight candidate pins, click any pin on the chip package to assign its alternate function, and review the legend's GPIO / Analog / AF / conflict states inline. Pin assignments load directly from the imported project (`.ioc`, TivaWare, generic).
+
 ### AI model preferences — multi-provider, per-persona
 
 <img src="screenshots/05-ai-models.png" alt="AI models page" />
