@@ -1,905 +1,731 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#05080d" />
-  <meta name="description" content="Noyce IDE is an AI-assisted embedded systems IDE for STM32, hardware telemetry, register visualization, and Code-OSS based firmware workflows." />
-  <meta property="og:title" content="Noyce IDE — The IDE Built for Real Hardware" />
-  <meta property="og:description" content="AI-assisted embedded development for STM32, telemetry, registers, probes, and real hardware workflows." />
-  <meta property="og:image" content="presentation/thumbnail-1920x1080.png" />
-  <title>Noyce IDE — The IDE Built for Real Hardware</title>
-  <link rel="icon" href="icons_resources/logo_large.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #05080d;
-      --panel: rgba(10, 16, 24, .72);
-      --panel-2: rgba(13, 23, 34, .86);
-      --line: rgba(142, 230, 255, .18);
-      --line-strong: rgba(142, 230, 255, .34);
-      --text: #f3fbff;
-      --muted: #9fb1bd;
-      --dim: #627480;
-      --cyan: #8ee6ff;
-      --blue: #52c4ff;
-      --green: #00e676;
-      --amber: #ffc66d;
-      --shadow: 0 28px 90px rgba(0, 0, 0, .55);
-      --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-      --sans: "Geist", Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; background: var(--bg); }
-    body {
-      margin: 0;
-      color: var(--text);
-      font-family: var(--sans);
-      background:
-        radial-gradient(circle at 18% 0%, rgba(82,196,255,.22), transparent 32rem),
-        radial-gradient(circle at 78% 8%, rgba(0,230,118,.13), transparent 30rem),
-        linear-gradient(180deg, #05080d 0%, #07101a 42%, #05080d 100%);
-      overflow-x: hidden;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(142,230,255,.055) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(142,230,255,.055) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: linear-gradient(to bottom, black, transparent 82%);
-    }
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-    .mono { font-family: var(--mono); }
-    .eyebrow {
-      color: var(--cyan);
-      font: 600 12px/1 var(--mono);
-      letter-spacing: .16em;
-      text-transform: uppercase;
-    }
-    .nav {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      backdrop-filter: blur(18px);
-      background: rgba(5, 8, 13, .72);
-      border-bottom: 1px solid var(--line);
-    }
-    .nav-inner {
-      height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -.02em; }
-    .brand img { width: 34px; height: 34px; filter: drop-shadow(0 0 18px rgba(142,230,255,.34)); }
-    .brand .brand-logo { width: 154px; height: auto; max-height: 42px; object-fit: contain; }
-    .brand span { font-size: 17px; }
-    .nav-links { display: flex; gap: 22px; color: var(--muted); font: 500 13px/1 var(--mono); }
-    .nav-links a:hover { color: var(--text); }
-    .actions { display: flex; align-items: center; gap: 10px; }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 42px;
-      padding: 0 16px;
-      border-radius: 8px;
-      border: 1px solid var(--line-strong);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      font: 600 13px/1 var(--mono);
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .btn:hover { transform: translateY(-1px); border-color: rgba(142,230,255,.72); background: rgba(142,230,255,.08); }
-    .btn.primary { background: linear-gradient(135deg, var(--cyan), var(--green)); color: #061017; border: 0; }
-    .hero {
-      position: relative;
-      min-height: calc(100svh - 68px);
-      display: grid;
-      align-items: center;
-      padding: 72px 0 56px;
-      overflow: hidden;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: .82fr 1.18fr;
-      gap: 52px;
-      align-items: center;
-    }
-    h1 {
-      margin: 18px 0 0;
-      font-size: clamp(54px, 8vw, 114px);
-      line-height: .88;
-      letter-spacing: -.065em;
-    }
-    .lead {
-      margin-top: 26px;
-      max-width: 560px;
-      color: #c2d3dc;
-      font-size: clamp(17px, 2vw, 21px);
-      line-height: 1.55;
-    }
-    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }
-    .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
-    .badge {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px 11px;
-      color: var(--muted);
-      font: 500 12px/1 var(--mono);
-      background: rgba(255,255,255,.025);
-    }
-    .mock {
-      position: relative;
-      border: 1px solid var(--line-strong);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,.035) inset;
-      background: #02050a;
-      transform: perspective(1200px) rotateX(4deg) rotateY(-7deg);
-      animation: float 7s ease-in-out infinite;
-    }
-    .mock::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(110deg, transparent, rgba(142,230,255,.11), transparent);
-      transform: translateX(-120%);
-      animation: scan 5.8s ease-in-out infinite;
-      pointer-events: none;
-    }
-    .windowbar {
-      height: 40px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 14px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,.5);
-    }
-    .dot { width: 10px; height: 10px; border-radius: 50%; background: #ff5f57; }
-    .dot:nth-child(2) { background: #ffbd2e; }
-    .dot:nth-child(3) { background: #28c840; }
-    .mock-title { margin-left: 12px; color: var(--muted); font: 500 12px/1 var(--mono); }
-    .screen { position: relative; aspect-ratio: 16/10; background: #05080d; }
-    .screen img { width: 100%; height: 100%; object-fit: cover; opacity: .88; }
-    .terminal {
-      position: absolute;
-      left: 24px;
-      bottom: 24px;
-      width: min(440px, 58%);
-      border: 1px solid rgba(0,230,118,.28);
-      border-radius: 10px;
-      padding: 16px;
-      background: rgba(2, 8, 7, .88);
-      box-shadow: 0 18px 55px rgba(0,0,0,.45);
-      color: #a8ffd2;
-      font: 500 12px/1.8 var(--mono);
-    }
-    .hud-card {
-      position: absolute;
-      right: 22px;
-      border: 1px solid rgba(142,230,255,.28);
-      border-radius: 12px;
-      padding: 13px 14px;
-      min-width: 190px;
-      background: rgba(5, 10, 15, .82);
-      box-shadow: 0 18px 50px rgba(0,0,0,.42);
-      backdrop-filter: blur(14px);
-      font: 600 12px/1.45 var(--mono);
-      color: var(--muted);
-    }
-    .hud-card b { color: var(--text); display: block; font-size: 14px; margin-top: 4px; }
-    .hud-card.one { top: 70px; }
-    .hud-card.two { top: 170px; right: auto; left: 24px; }
-    .hud-card.three { bottom: 128px; }
-    .cursor { display: inline-block; width: 7px; height: 14px; background: var(--green); margin-left: 3px; animation: blink 1s steps(2) infinite; vertical-align: -2px; }
-    .die-frame {
-      position: relative;
-      border: 1px solid var(--line-strong);
-      border-radius: 20px;
-      background:
-        radial-gradient(600px 340px at 100% 0%, rgba(82,196,255,.18), transparent 62%),
-        radial-gradient(520px 300px at 12% 96%, rgba(0,230,118,.12), transparent 58%),
-        linear-gradient(180deg, rgba(16,28,40,.9), rgba(3,7,13,.96));
-      padding: 18px;
-      overflow: hidden;
-      box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,.035) inset;
-      transform: perspective(1200px) rotateX(3deg) rotateY(-5deg);
-      animation: floatDie 7s ease-in-out infinite;
-    }
-    .die-frame::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(90deg, rgba(142,230,255,.05) 1px, transparent 1px),
-        linear-gradient(rgba(142,230,255,.05) 1px, transparent 1px);
-      background-size: 28px 28px;
-      mask-image: radial-gradient(circle at 50% 44%, black, transparent 78%);
-    }
-    .die-head {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font: 600 10.5px/1 var(--mono);
-      color: var(--muted);
-      padding-bottom: 12px;
-      border-bottom: 1px dashed var(--line);
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-    .die-head .dots { display: flex; gap: 6px; }
-    .die-head .dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(142,230,255,.24); }
-    .die-head .dots span:first-child { background: var(--cyan); box-shadow: 0 0 18px rgba(142,230,255,.7); }
-    .die-art {
-      position: relative;
-      z-index: 1;
-      aspect-ratio: 1 / 1;
-      margin-top: 12px;
-    }
-    .die-art svg { display: block; width: 100%; height: 100%; filter: drop-shadow(0 24px 42px rgba(0,0,0,.45)); }
-    .trace { stroke-dasharray: 4 4; animation: march 3s linear infinite; }
-    .pin-live { animation: pulse 1.8s ease-in-out infinite; }
-    .die-card {
-      position: absolute;
-      z-index: 2;
-      border: 1px solid rgba(142,230,255,.28);
-      border-radius: 12px;
-      padding: 12px 14px;
-      background: rgba(4, 10, 16, .82);
-      backdrop-filter: blur(14px);
-      box-shadow: 0 18px 50px rgba(0,0,0,.42);
-      color: var(--muted);
-      font: 600 11px/1.45 var(--mono);
-    }
-    .die-card b { display: block; color: var(--text); font-size: 14px; margin-top: 4px; letter-spacing: -.02em; }
-    .die-card.ai { top: 78px; right: 22px; }
-    .die-card.probe { left: 22px; bottom: 92px; }
-    .die-foot {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      padding-top: 12px;
-      margin-top: 4px;
-      border-top: 1px dashed var(--line);
-      color: var(--muted);
-      font: 500 10.5px/1.35 var(--mono);
-    }
-    .die-foot b { color: var(--text); font-weight: 600; display: block; margin-bottom: 2px; }
-    section { padding: 104px 0; border-top: 1px solid rgba(142,230,255,.1); position: relative; }
-    .section-head { display: grid; grid-template-columns: .82fr 1fr; gap: 44px; align-items: end; margin-bottom: 42px; }
-    h2 { margin: 12px 0 0; font-size: clamp(36px, 5vw, 70px); line-height: .96; letter-spacing: -.05em; }
-    .section-copy { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 620px; }
-    .release {
-      border: 1px solid var(--line-strong);
-      border-radius: 18px;
-      padding: 30px;
-      background:
-        linear-gradient(135deg, rgba(142,230,255,.12), transparent 38%),
-        linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
-      box-shadow: var(--shadow);
-    }
-    .release-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .release h3 { margin: 0 0 12px; font-size: 28px; letter-spacing: -.03em; }
-    .timeline { display: grid; gap: 14px; margin-top: 22px; }
-    .timeline div { display: flex; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; color: var(--muted); font: 500 13px/1.4 var(--mono); }
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-    .card {
-      min-height: 218px;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 20px;
-      background: rgba(255,255,255,.035);
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-    .card:hover { transform: translateY(-4px); border-color: var(--line-strong); background: rgba(142,230,255,.055); }
-    .icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 22px;
-      background: rgba(142,230,255,.09);
-      border: 1px solid var(--line);
-      color: var(--cyan);
-      font: 700 15px/1 var(--mono);
-    }
-    .card h3 { margin: 0 0 10px; font-size: 19px; letter-spacing: -.025em; }
-    .card p { color: var(--muted); line-height: 1.55; margin: 0; }
-    .preview {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      border: 1px solid var(--line-strong);
-      border-radius: 18px;
-      overflow: hidden;
-      background: var(--panel);
-      box-shadow: var(--shadow);
-    }
-    .steps { border-right: 1px solid var(--line); padding: 20px; display: grid; gap: 12px; align-content: start; }
-    .step { padding: 14px; border-radius: 10px; color: var(--muted); background: rgba(255,255,255,.025); font: 500 12px/1.45 var(--mono); }
-    .step.active { color: var(--text); border: 1px solid var(--line-strong); background: rgba(142,230,255,.08); }
-    .codepane { padding: 24px; min-height: 460px; background: #03070d; }
-    pre { margin: 0; overflow: hidden; color: #d9f4ff; font: 500 13px/1.8 var(--mono); }
-    .cyan { color: var(--cyan); } .green { color: var(--green); } .amber { color: var(--amber); } .muted { color: var(--dim); }
-    .architecture {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 12px;
-      align-items: stretch;
-    }
-    .node { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: rgba(255,255,255,.03); min-height: 150px; }
-    .node strong { display: block; margin-bottom: 10px; }
-    .node span { color: var(--muted); font-size: 14px; line-height: 1.55; }
-    .gallery { display: grid; grid-template-columns: 1.2fr .8fr; gap: 16px; align-items: start; }
-    .shot { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #02050a; box-shadow: 0 22px 70px rgba(0,0,0,.42); }
-    .shot img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; padding: 6px; transition: transform .28s ease; }
-    .shot.hero-shot img { aspect-ratio: 16/9; padding: 0; }
-    .shot:hover img { transform: scale(1.012); }
-    .shot label { display: block; padding: 12px 14px; color: var(--muted); border-top: 1px solid var(--line); font: 500 12px/1 var(--mono); }
-    .shot-stack { display: grid; gap: 16px; }
-    .showcase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .shot p { color: var(--muted); padding: 0 14px 14px; margin: -2px 0 0; font-size: 14px; line-height: 1.5; }
-    .workbench-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; align-items: stretch; }
-    .panel-stack { display: grid; gap: 16px; }
-    .presentation-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 16px; align-items: start; }
-    .launch-card {
-      border: 1px solid var(--line-strong);
-      border-radius: 18px;
-      overflow: hidden;
-      background: #02050a;
-      box-shadow: var(--shadow), 0 0 70px rgba(82,196,255,.1);
-    }
-    .launch-card img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; }
-    .launch-card label { display: block; padding: 13px 15px; color: var(--muted); border-top: 1px solid var(--line); font: 500 12px/1 var(--mono); }
-    .story {
-      padding: 80px 0;
-      display: grid;
-      gap: 34px;
-      border-top: 1px solid rgba(142,230,255,.1);
-    }
-    .story-panel {
-      min-height: min(760px, calc(100svh - 110px));
-      display: grid;
-      align-items: center;
-      opacity: .72;
-      transform: translateY(28px) scale(.985);
-      animation: storyReveal both ease-out;
-      animation-timeline: view();
-      animation-range: entry 12% cover 42%;
-    }
-    .story-card {
-      border: 1px solid var(--line-strong);
-      border-radius: 22px;
-      overflow: hidden;
-      background: #02050a;
-      box-shadow: var(--shadow), 0 0 110px rgba(82,196,255,.12);
-    }
-    .story-card img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; }
-    .story-card figcaption {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 18px 20px;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font: 500 12px/1.45 var(--mono);
-    }
-    .feature-stage {
-      display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr);
-      gap: 24px;
-      align-items: center;
-      margin-top: 24px;
-    }
-    .feature-stage.reverse { grid-template-columns: minmax(300px, .65fr) minmax(0, 1.35fr); }
-    .feature-frame {
-      border: 1px solid var(--line-strong);
-      border-radius: 18px;
-      overflow: hidden;
-      background: #02050a;
-      box-shadow: var(--shadow), 0 0 80px rgba(142,230,255,.08);
-    }
-    .feature-frame img { width: 100%; aspect-ratio: 16/9; object-fit: contain; background: #02050a; }
-    .feature-frame.focus img { object-fit: cover; object-position: center; }
-    .feature-frame.live-capture img {
-      width: 126%;
-      max-width: none;
-      object-fit: cover;
-      object-position: left center;
-      transform: translateX(-2%);
-    }
-    .feature-copy {
-      border-left: 1px solid var(--line);
-      padding-left: 22px;
-    }
-    .feature-copy h3 { margin: 0 0 12px; font-size: 28px; letter-spacing: -.04em; }
-    .feature-copy p { margin: 0 0 18px; color: var(--muted); line-height: 1.62; }
-    .chip-rail {
-      display: grid;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    .chip-rail img {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      background: rgba(255,255,255,.025);
-      box-shadow: 0 16px 40px rgba(0,0,0,.24);
-    }
-    .telemetry-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-    .metric {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      min-height: 154px;
-      padding: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.018));
-      overflow: hidden;
-      position: relative;
-    }
-    .metric strong { display: block; font-size: 27px; letter-spacing: -.04em; margin: 10px 0 2px; }
-    .metric span { color: var(--muted); font: 500 12px/1.4 var(--mono); }
-    .wave {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 18px;
-      height: 42px;
-      opacity: .75;
-      background:
-        linear-gradient(90deg, transparent 0 7%, rgba(142,230,255,.55) 7% 8%, transparent 8% 16%, rgba(0,230,118,.55) 16% 17%, transparent 17% 28%, rgba(142,230,255,.38) 28% 29%, transparent 29% 42%, rgba(0,230,118,.7) 42% 43%, transparent 43% 56%, rgba(142,230,255,.5) 56% 57%, transparent 57% 74%, rgba(0,230,118,.55) 74% 75%, transparent 75%);
-      animation: wave 3.2s linear infinite;
-    }
-    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-    .flow .step { min-height: 118px; display: flex; flex-direction: column; justify-content: space-between; }
-    .flow .step::after { content: "→"; color: var(--cyan); font-size: 22px; }
-    .flow .step:last-child::after { content: "✓"; color: var(--green); }
-    .callout-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
-    .mini-diagram {
-      border: 1px solid var(--line-strong);
-      border-radius: 18px;
-      padding: 24px;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(142,230,255,.13), transparent 18rem),
-        rgba(255,255,255,.03);
-      box-shadow: var(--shadow);
-    }
-    .diagram-row { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 12px; align-items: center; color: var(--muted); font: 600 12px/1.4 var(--mono); }
-    .diagram-box { border: 1px solid var(--line); border-radius: 12px; padding: 16px; min-height: 92px; background: rgba(0,0,0,.24); color: var(--text); }
-    .diagram-arrow { color: var(--cyan); font-size: 24px; }
-    .compare { width: 100%; border-collapse: collapse; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; }
-    .compare th, .compare td { padding: 16px; border-bottom: 1px solid var(--line); text-align: left; }
-    .compare th { color: var(--text); font: 600 12px/1 var(--mono); background: rgba(255,255,255,.045); }
-    .compare td { color: var(--muted); }
-    .compare tr:last-child td { border-bottom: 0; }
-    .yes { color: var(--green); font-weight: 700; }
-    .partial { color: var(--amber); font-weight: 700; }
-    .community-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
-    .quote { min-height: 210px; display: flex; flex-direction: column; justify-content: space-between; }
-    blockquote { margin: 0; color: #d8e7ef; font-size: 18px; line-height: 1.55; }
-    .asset-list { columns: 2; color: var(--muted); line-height: 1.9; padding-left: 18px; }
-    footer { padding: 54px 0; border-top: 1px solid var(--line); color: var(--muted); }
-    .footer-grid { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; font: 500 13px/1 var(--mono); }
-    .reveal { opacity: 0; transform: translateY(24px); animation: rise .72s ease forwards; }
-    .d2 { animation-delay: .12s; } .d3 { animation-delay: .24s; }
-    @keyframes rise { to { opacity: 1; transform: none; } }
-    @keyframes float { 50% { transform: perspective(1200px) rotateX(2deg) rotateY(-4deg) translateY(-12px); } }
-    @keyframes floatDie { 50% { transform: perspective(1200px) rotateX(1deg) rotateY(-2deg) translateY(-10px); } }
-    @keyframes scan { 45%, 100% { transform: translateX(120%); } }
-    @keyframes blink { 50% { opacity: 0; } }
-    @keyframes wave { to { transform: translateX(18%); } }
-    @keyframes march { to { stroke-dashoffset: -40; } }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
-    @keyframes storyReveal { to { opacity: 1; transform: none; } }
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .hero { min-height: auto; }
-      .hero-grid, .section-head, .release-grid, .preview, .gallery, .workbench-grid, .showcase-grid, .telemetry-grid, .flow, .callout-row, .diagram-row { grid-template-columns: 1fr; }
-      .mock, .die-frame { transform: none; }
-      .feature-grid, .community-grid, .architecture { grid-template-columns: 1fr; }
-      .asset-list { columns: 1; }
-      .actions .btn:not(.primary) { display: none; }
-      .hud-card { display: none; }
-      .die-card { display: none; }
-      .presentation-grid, .feature-stage, .feature-stage.reverse { grid-template-columns: 1fr; }
-      .story-panel { min-height: auto; }
-      .story-card figcaption { display: block; }
-      .brand .brand-logo { width: 130px; }
-      .feature-copy { border-left: 0; border-top: 1px solid var(--line); padding: 20px 0 0; }
-      .diagram-arrow { transform: rotate(90deg); justify-self: center; }
-    }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Noyce IDE — The IDE built for firmware that has to be right.</title>
+<meta name="description" content="Noyce IDE is an AI-native, Code-OSS workbench for safety-critical embedded firmware. DO-178C, ISO 26262, MISRA — built in."/>
+<meta name="theme-color" content="#05080d"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="Noyce IDE — The IDE built for firmware that has to be right."/>
+<meta property="og:description" content="AI-native Code-OSS workbench for safety-critical embedded firmware. DO-178C, ISO 26262, MISRA — built in."/>
+<meta property="og:image" content="icons_resources/icon_large.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<link rel="icon" href="icons_resources/logo_large.png"/>
+<link rel="apple-touch-icon" href="icons_resources/icon_large.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-  <nav class="nav">
-    <div class="wrap nav-inner">
-      <a class="brand" href="#top" aria-label="Noyce IDE home">
-        <img class="brand-logo" src="icons_resources/logo_horizontal.png" alt="Noyce IDE" />
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- scroll progress -->
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav class="nav" id="nav" aria-label="Primary">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Noyce IDE — Home">
+      <img class="brand-img" src="icons_resources/logo_horizontal.png" alt="Noyce IDE"/>
+    </a>
+    <ul class="nav-links" role="list">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#ai">AI</a></li>
+      <li><a href="#hardware">Hardware</a></li>
+      <li><a href="#compliance">Compliance</a></li>
+      <li><a href="#download">Download</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a class="btn" href="#" aria-label="GitHub repository">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.56 9.56 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .26.18.58.69.48A10 10 0 0012 2z"/></svg>
+        GitHub
       </a>
-      <div class="nav-links" aria-label="Primary navigation">
-        <a href="#hardware">Hardware</a>
-        <a href="#stm32">STM32</a>
-        <a href="#debug">Debug</a>
-        <a href="#features">Features</a>
-        <a href="#architecture">Architecture</a>
-        <a href="#screenshots">Screenshots</a>
-      </div>
-      <div class="actions">
-        <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide">GitHub</a>
-        <a class="btn primary" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest">Download</a>
+      <a class="btn primary" href="#download" id="nav-cta-dl">Download Beta</a>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+<a id="top"></a>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="pin-grid" aria-hidden="true"></div>
+
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow"><span>NOYCE IDE · 1.0.5</span></div>
+      <h1 class="hero-h">
+        <span class="row"><span>The IDE built</span></span>
+        <span class="row"><span>for firmware that</span></span>
+        <span class="row"><span class="iris">has to be right.</span></span>
+      </h1>
+      <p class="hero-sub">
+        An AI-native, Code-OSS workbench for embedded, safety-critical, and hardware-adjacent teams. Certification evidence, multi-agent review, and pin-aware editing — in one place.
+      </p>
+      <div class="hero-cta">
+        <a class="btn iris-btn lg" id="primary-dl" href="#download">
+          <span class="lbl">Download for macOS</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
+        </a>
+        <a class="btn lg" href="#">View on GitHub</a>
+        <span class="meta">arm64 · 142 MB</span>
       </div>
     </div>
-  </nav>
 
-  <main id="top">
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <div class="eyebrow reveal">Noyce IDE · AI-assisted embedded systems workbench</div>
-          <h1 class="reveal d2">The IDE Built for Real Hardware</h1>
-          <p class="lead reveal d3">A Code-OSS based development platform for STM32 and embedded teams: AI-assisted firmware work, hardware telemetry, register insight, memory inspection, probe workflows, and aerospace-grade traceability in one workspace.</p>
-          <div class="hero-cta reveal d3">
-            <a class="btn primary" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest">Download Noyce IDE</a>
-            <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide">Star on GitHub</a>
-            <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide#readme">View Documentation</a>
-          </div>
-          <div class="badges reveal d3">
-            <span class="badge">STM32 workflows</span><span class="badge">SVD-aware indexing</span><span class="badge">Probe/debug ready</span><span class="badge">Rust sidecar</span><span class="badge">Code-OSS embedded</span>
-          </div>
+    <div class="hero-stage" id="chip-stage" aria-hidden="true">
+      <div class="pedestal"></div>
+      <!-- Three.js canvas inserted here; SVG fallback below -->
+      <svg viewBox="0 0 400 400" style="position:absolute;inset:0;display:none" class="fallback">
+        <!-- if WebGL missing -->
+        <rect x="100" y="100" width="200" height="200" rx="6" fill="#0a0d12" stroke="#1c232d"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- compliance marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <div class="marquee-item">DO-178C Level A</div>
+      <div class="marquee-item">ISO 26262 ASIL D</div>
+      <div class="marquee-item">MISRA C:2012</div>
+      <div class="marquee-item">IEC 61508 SIL 3</div>
+      <div class="marquee-item">IEC 62304 Class C</div>
+      <div class="marquee-item">AUTOSAR CP</div>
+      <div class="marquee-item">CENELEC EN 50128</div>
+      <div class="marquee-item">DO-254</div>
+      <div class="marquee-item">MC/DC Coverage</div>
+      <!-- repeat for seamless loop -->
+      <div class="marquee-item">DO-178C Level A</div>
+      <div class="marquee-item">ISO 26262 ASIL D</div>
+      <div class="marquee-item">MISRA C:2012</div>
+      <div class="marquee-item">IEC 61508 SIL 3</div>
+      <div class="marquee-item">IEC 62304 Class C</div>
+      <div class="marquee-item">AUTOSAR CP</div>
+      <div class="marquee-item">CENELEC EN 50128</div>
+      <div class="marquee-item">DO-254</div>
+      <div class="marquee-item">MC/DC Coverage</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRUST STRIP
+============================================================ -->
+<section class="trust" aria-label="At a glance">
+  <div class="reveal"><div class="num iris">10+</div><div class="lbl">First-party extensions</div></div>
+  <div class="reveal delay-1"><div class="num iris">6</div><div class="lbl">AI personas, one orchestrator</div></div>
+  <div class="reveal delay-2"><div class="num iris">5</div><div class="lbl">MCU vendors, pin-aware</div></div>
+  <div class="reveal delay-3"><div class="num iris">A</div><div class="lbl">DO-178C Level A ready</div></div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 1 — One IDE, every artifact
+============================================================ -->
+<section class="section-pad" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span>CHAPTER 01 · ONE IDE, EVERY ARTIFACT</span></span>
+      <h2>Code, evidence, and silicon —<br/>finally on the same desk.</h2>
+      <p class="lead">Noyce extends the Code-OSS shell you already trust with first-class surfaces for requirements, traceability, MISRA, MC/DC, pin configuration, and on-target debug. No tab-hopping between five tools.</p>
+    </div>
+
+    <div class="glass pedestal-shot reveal delay-1" style="margin-top:64px">
+      <div class="shot-frame" style="aspect-ratio:16/9" data-mock="09" data-asset="screenshots/09-noyce-ai-launcher.png"></div>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat-card reveal">
+        <div class="glyph" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8ee6ff" stroke-width="1.5"><path d="M3 12l3-3 3 3 3-6 3 6 3-3 3 3"/><circle cx="12" cy="12" r="10"/></svg>
         </div>
-        <div class="die-frame reveal d3" aria-label="Noyce embedded controller visual">
-          <div class="die-head">
-            <span>NOYCE-IDE · CONTROLLER WORKBENCH</span>
-            <span class="dots"><span></span><span></span><span></span></span>
-          </div>
-          <div class="die-art">
-            <svg viewBox="0 0 400 400" role="img" aria-label="Stylized embedded controller, probes, agents, and firmware services">
-              <rect x="40" y="40" width="320" height="320" rx="10" fill="none" stroke="rgba(142,230,255,.24)" stroke-width="1"/>
-              <g stroke="rgba(142,230,255,.82)" stroke-width="1.2" fill="none">
-                <path d="M40,56 L40,40 L56,40"/>
-                <path d="M344,40 L360,40 L360,56"/>
-                <path d="M360,344 L360,360 L344,360"/>
-                <path d="M56,360 L40,360 L40,344"/>
-              </g>
-              <g fill="rgba(142,230,255,.28)">
-                <rect x="72" y="28" width="10" height="12"/><rect x="96" y="28" width="10" height="12"/><rect x="120" y="28" width="10" height="12"/><rect x="144" y="28" width="10" height="12"/><rect x="168" y="28" width="10" height="12"/><rect x="192" y="28" width="10" height="12"/><rect x="216" y="28" width="10" height="12"/><rect x="240" y="28" width="10" height="12"/><rect x="264" y="28" width="10" height="12"/><rect x="288" y="28" width="10" height="12"/><rect x="312" y="28" width="10" height="12"/>
-                <rect x="72" y="360" width="10" height="12"/><rect x="96" y="360" width="10" height="12"/><rect x="120" y="360" width="10" height="12"/><rect x="144" y="360" width="10" height="12"/><rect x="168" y="360" width="10" height="12"/><rect x="192" y="360" width="10" height="12"/><rect x="216" y="360" width="10" height="12"/><rect x="240" y="360" width="10" height="12"/><rect x="264" y="360" width="10" height="12"/><rect x="288" y="360" width="10" height="12"/><rect x="312" y="360" width="10" height="12"/>
-                <rect x="28" y="72" width="12" height="10"/><rect x="28" y="96" width="12" height="10"/><rect x="28" y="120" width="12" height="10"/><rect x="28" y="144" width="12" height="10"/><rect x="28" y="168" width="12" height="10"/><rect x="28" y="192" width="12" height="10"/><rect x="28" y="216" width="12" height="10"/><rect x="28" y="240" width="12" height="10"/><rect x="28" y="264" width="12" height="10"/><rect x="28" y="288" width="12" height="10"/><rect x="28" y="312" width="12" height="10"/>
-                <rect x="360" y="72" width="12" height="10"/><rect x="360" y="96" width="12" height="10"/><rect x="360" y="120" width="12" height="10"/><rect x="360" y="144" width="12" height="10"/><rect x="360" y="168" width="12" height="10"/><rect x="360" y="192" width="12" height="10"/><rect x="360" y="216" width="12" height="10"/><rect x="360" y="240" width="12" height="10"/><rect x="360" y="264" width="12" height="10"/><rect x="360" y="288" width="12" height="10"/><rect x="360" y="312" width="12" height="10"/>
-              </g>
-              <g fill="#8ee6ff" class="pin-live">
-                <rect x="168" y="28" width="10" height="12"/>
-                <rect x="28" y="216" width="12" height="10"/>
-                <rect x="264" y="360" width="10" height="12"/>
-              </g>
-              <rect x="120" y="120" width="160" height="160" rx="4" fill="rgba(7,14,21,.94)" stroke="#8ee6ff" stroke-width="1.2"/>
-              <g stroke="rgba(142,230,255,.18)" stroke-width=".8" fill="none">
-                <line x1="160" y1="120" x2="160" y2="280"/><line x1="200" y1="120" x2="200" y2="280"/><line x1="240" y1="120" x2="240" y2="280"/>
-                <line x1="120" y1="160" x2="280" y2="160"/><line x1="120" y1="200" x2="280" y2="200"/><line x1="120" y1="240" x2="280" y2="240"/>
-              </g>
-              <g font-family="Geist Mono, monospace" font-size="7" fill="rgba(195,226,238,.62)">
-                <text x="124" y="132">EDITOR</text><text x="164" y="132">LSP</text><text x="204" y="132">GIT</text><text x="244" y="132">DAP</text>
-                <text x="124" y="172">SVD</text><text x="164" y="172">AGENT</text><text x="204" y="172">RTT</text><text x="244" y="172">JTAG</text>
-                <text x="124" y="212">CORE</text><text x="164" y="212">BUILD</text><text x="204" y="212">MEM</text><text x="244" y="212">EXT</text>
-                <text x="124" y="252">TERM</text><text x="164" y="252">RUN</text><text x="204" y="252">MON</text><text x="244" y="252">LOG</text>
-              </g>
-              <rect x="160" y="160" width="40" height="40" fill="rgba(142,230,255,.1)" stroke="#8ee6ff" stroke-width="1"/>
-              <circle cx="180" cy="180" r="3" fill="#00e676"/>
-              <g fill="none" stroke="#8ee6ff" stroke-width="1" class="trace" opacity=".9">
-                <path d="M120,180 L64,180 L64,220 L40,220"/>
-                <path d="M180,120 L180,64 L173,64 L173,40"/>
-                <path d="M240,280 L240,336 L269,336 L269,360"/>
-              </g>
-              <g font-family="Geist Mono, monospace" font-size="24" fill="rgba(142,230,255,.15)">
-                <text x="250" y="278" letter-spacing="2">N.01</text>
-              </g>
-            </svg>
-            <div class="die-card ai">AI firmware agent<b>SVD + logs + code</b></div>
-            <div class="die-card probe">Probe stream<b>RTT · SWD · memory</b></div>
-          </div>
-          <div class="die-foot">
-            <div><b>Code-OSS</b>embedded workbench</div>
-            <div><b>STM32</b>project import</div>
-            <div><b>Local-first</b>hardware loop</div>
-          </div>
-        </div>
+        <span class="tag">Compliance</span>
+        <h4>Evidence in the editor</h4>
+        <p>DO-178C Table A objectives, ISO 26262 work products, MISRA-C:2012 advisories, MC/DC coverage — surfaced inline alongside the code they govern.</p>
       </div>
-    </section>
-
-    <section id="launch-story" class="story" aria-label="Noyce IDE launch story">
-      <div class="wrap">
-        <div class="story-panel">
-          <figure class="story-card">
-            <img src="presentation/card-01-logo.png" alt="Noyce IDE launch title card" loading="lazy">
-            <figcaption><span>Noyce IDE</span><span>Embedded systems workbench built on Code-OSS</span></figcaption>
-          </figure>
+      <div class="feat-card reveal delay-1">
+        <div class="glyph" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00e676" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
         </div>
-        <div class="story-panel">
-          <figure class="story-card">
-            <img src="presentation/card-02-hook.png" alt="Noyce IDE launch card about certification" loading="lazy">
-            <figcaption><span>Engineering evidence</span><span>AI assistance tied to requirements, traces, diagnostics, and reviews</span></figcaption>
-          </figure>
-        </div>
-        <div class="story-panel">
-          <figure class="story-card">
-            <img src="presentation/card-03-close.png" alt="Noyce IDE launch card about proof-oriented code" loading="lazy">
-            <figcaption><span>Proof-oriented firmware</span><span>Agents generate, explain, test, and connect code back to system intent</span></figcaption>
-          </figure>
-        </div>
+        <span class="tag">Hardware</span>
+        <h4>Aware of the silicon</h4>
+        <p>Pin mux, peripheral registers via SVD, RTOS task viewer, debug-probe sessions, Cortex-M fault decoder, and linker memory maps — wired straight into the workbench.</p>
       </div>
-    </section>
-
-    <section id="screenshots">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">Product showcase</div><h2>Readable feature surfaces, not tiny thumbnails.</h2></div>
-          <p class="section-copy">The page now uses cleaner full-screen captures from the IDE and gives each one enough room to communicate the actual feature.</p>
+      <div class="feat-card reveal delay-2">
+        <div class="glyph" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7c4dff" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M9 12L6 6m9 6l3-6m-9 6l-3 6m9-6l3 6"/></svg>
         </div>
-        <div class="feature-stage">
-          <figure class="feature-frame"><img src="feature-shots/hardware-pin-matrix.png" alt="Noyce IDE hardware pin configuration screenshot" loading="lazy"></figure>
-          <div class="feature-copy">
-            <h3>Hardware pin configuration</h3>
-            <p>Peripheral assignments, pin roles, and conflict candidates are presented as a visible board-level surface instead of buried configuration files.</p>
-            <div class="badges"><span class="badge">Pin map</span><span class="badge">Peripheral roles</span><span class="badge">Conflict review</span></div>
-          </div>
-        </div>
-        <div class="feature-stage reverse">
-          <div class="feature-copy">
-            <h3>Compliance dashboard</h3>
-            <p>Safety-oriented review state, requirement coverage, and validation progress are kept inside the same workbench as the firmware.</p>
-            <div class="badges"><span class="badge">Coverage</span><span class="badge">Reviews</span><span class="badge">Validation</span></div>
-          </div>
-          <figure class="feature-frame"><img src="feature-shots/compliance-evidence.png" alt="Noyce IDE compliance evidence dashboard screenshot" loading="lazy"></figure>
-        </div>
-        <div class="feature-stage">
-          <figure class="feature-frame"><img src="feature-shots/agent-sprint-board.png" alt="Noyce IDE AI orchestration sprint board screenshot" loading="lazy"></figure>
-          <div class="feature-copy">
-            <h3>Agent sprint board</h3>
-            <p>Firmware tasks move across design, coding, testing, review, documentation, and traceability lanes with explicit handoffs.</p>
-            <div class="badges"><span class="badge">Agent workflow</span><span class="badge">Handoffs</span><span class="badge">Review gates</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="ai">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">AI-assisted embedded workflow</div><h2>AI that understands firmware context.</h2></div>
-          <p class="section-copy">Noyce positions AI beside the real engineering surface: source files, register maps, telemetry, build output, debug context, and project topology.</p>
-        </div>
-        <div class="preview">
-          <div class="steps">
-            <div class="step active">01 · Identify active peripheral context</div>
-            <div class="step">02 · Read ISR, HAL, and register usage</div>
-            <div class="step">03 · Generate safe patch plan</div>
-            <div class="step">04 · Run build and review evidence</div>
-          </div>
-          <div class="codepane">
-<pre><span class="muted">// AI firmware assistant</span>
-<span class="cyan">target</span>: STM32 workspace
-<span class="cyan">context</span>: TIM2 ISR · GPIO state · UART RTT logs
-<span class="cyan">svd</span>: peripheral model resolved
-
-<span class="green">$</span> noyce ask "why is the control loop jittering?"
-  reading timer configuration
-  correlating telemetry spikes
-  inspecting register snapshot
-  <span class="amber">suggestion</span>: move ADC sample window outside ISR
-
-<span class="green">$</span> noyce patch --explain --test
-  generated patch plan
-  build gate pending<span class="cursor"></span></pre>
-          </div>
-        </div>
-        <div class="chip-rail" aria-label="AI agent workflow cards">
-          <img src="presentation/chips/chip-01-system-designer.png" alt="System designer agent card" loading="lazy">
-          <img src="presentation/chips/chip-02-coder.png" alt="Coder agent card" loading="lazy">
-          <img src="presentation/chips/chip-03-tester.png" alt="Tester agent card" loading="lazy">
-          <img src="presentation/chips/chip-05-traceability-monitor.png" alt="Traceability monitor agent card" loading="lazy">
-        </div>
-      </div>
-    </section>
-
-    <section id="hardware">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">Hardware telemetry</div><h2>See the board while you write the code.</h2></div>
-          <p class="section-copy">Surface live telemetry, probe status, RTT logs, register snapshots, memory values, and signal behavior in a workspace built for hardware validation.</p>
-        </div>
-        <div class="telemetry-grid">
-          <div class="metric"><span>Probe</span><strong>CMSIS-DAP</strong><span>connected · SWD 4 MHz</span><div class="wave"></div></div>
-          <div class="metric"><span>RTT stream</span><strong>2.4 kB/s</strong><span>logs active</span><div class="wave"></div></div>
-          <div class="metric"><span>Memory watch</span><strong>0x2000</strong><span>SRAM inspection</span><div class="wave"></div></div>
-          <div class="metric"><span>GPIO</span><strong>24 pins</strong><span>state sampled</span><div class="wave"></div></div>
-        </div>
-        <div class="callout-row">
-          <article class="card"><div class="icon">RTT</div><h3>RTT logs</h3><p>Capture firmware logs close to the code that produced them.</p></article>
-          <article class="card"><div class="icon">MEM</div><h3>Memory inspection</h3><p>Watch buffers, flags, counters, and control state while debugging.</p></article>
-          <article class="card"><div class="icon">REG</div><h3>Register snapshots</h3><p>Inspect peripheral state with SVD-aware names instead of raw hex alone.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="stm32">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">STM32 import</div><h2>From CubeMX to an indexed Noyce workspace.</h2></div>
-          <p class="section-copy">Import STM32CubeIDE and CubeMX projects, resolve device metadata, prepare generated workspace files, and let Noyce index the firmware with hardware context.</p>
-        </div>
-        <div class="mini-diagram">
-          <div class="diagram-row">
-            <div class="diagram-box">STM32 project<br><span class="muted">.ioc · source · linker · startup</span></div>
-            <div class="diagram-arrow">→</div>
-            <div class="diagram-box">Noyce importer<br><span class="muted">device detect · SVD resolve</span></div>
-            <div class="diagram-arrow">→</div>
-            <div class="diagram-box">Hardware-aware workspace<br><span class="muted">indexed code · peripherals · tasks</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="debug">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">Debug and registers</div><h2>Peripheral state becomes first-class IDE context.</h2></div>
-          <p class="section-copy">Bring register views, peripheral maps, GPIO states, memory inspection, and probe/debug loops into the same flow as code review and AI assistance.</p>
-        </div>
-        <div class="feature-grid">
-          <article class="card"><div class="icon">SVD</div><h3>SVD-aware model</h3><p>Resolve device peripherals, register names, bitfields, and descriptions when metadata is available.</p></article>
-          <article class="card"><div class="icon">GPIO</div><h3>GPIO state</h3><p>Track pin usage, alternate functions, and sampled state alongside firmware code.</p></article>
-          <article class="card"><div class="icon">DBG</div><h3>Probe workflow</h3><p>Keep probe discovery, target state, memory reads, and logs close to the editor.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="workspace">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">Multi-panel engineering workspace</div><h2>Code, telemetry, AI, logs, and debug panels together.</h2></div>
-          <p class="section-copy">Noyce is designed around simultaneous engineering work: reading code, checking hardware state, asking an agent, running commands, and validating behavior.</p>
-        </div>
-        <div class="workbench-grid">
-          <figure class="shot hero-shot"><img src="feature-shots/hardware-pin-matrix.png" alt="Noyce IDE hardware pin configuration closeup" loading="lazy"><label>Hardware configuration</label><p>Peripheral and pin state are shown as an engineering surface, not a side note.</p></figure>
-          <div class="panel-stack">
-            <figure class="shot"><img src="feature-shots/compliance-evidence.png" alt="Noyce compliance evidence screenshot" loading="lazy"><label>Compliance evidence</label><p>Requirement coverage and evidence status are visible without opening a separate tool.</p></figure>
-            <figure class="shot"><img src="feature-shots/agent-sprint-board.png" alt="Noyce AI agent sprint board screenshot" loading="lazy"><label>Agent sprint board</label><p>Agent output is kept inspectable and tied to engineering handoffs.</p></figure>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="ecosystem">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">Extensions and ecosystem</div><h2>Code-OSS compatibility with embedded-specific tooling.</h2></div>
-          <p class="section-copy">Noyce builds on a familiar editor foundation while adding hardware plugins, AI workflows, telemetry surfaces, compliance panels, and firmware-first project services.</p>
-        </div>
-        <div class="release">
-          <div class="release-grid">
-            <div>
-              <h3>Extension-ready by design</h3>
-              <p class="section-copy">Support the workflows engineers already trust while adding dedicated surfaces for probes, registers, telemetry, traceability, and AI review.</p>
-            </div>
-            <div class="timeline">
-              <div><span>Code-OSS</span><strong>Familiar editor and extension model</strong></div>
-              <div><span>Hardware</span><strong>Probe, register, telemetry, memory tooling</strong></div>
-              <div><span>AI</span><strong>Firmware-aware agents and workspace memory</strong></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="architecture">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">Architecture and performance</div><h2>Rust-powered services under a Code-OSS workbench.</h2></div>
-          <p class="section-copy">A native sidecar handles filesystem operations, project scans, build execution, debug-probe enumeration, telemetry APIs, and embedded import helpers while the workbench stays responsive.</p>
-        </div>
-        <div class="architecture">
-          <div class="node"><strong>Code-OSS foundation</strong><span>Editor shell, commands, panels, keybindings, and extension surfaces.</span></div>
-          <div class="node"><strong>Rust sidecar</strong><span>Fast local services for scans, builds, IO, telemetry, and hardware access.</span></div>
-          <div class="node"><strong>Workspace index</strong><span>Function, file, requirement, macro, and hardware relationships.</span></div>
-          <div class="node"><strong>AI orchestration</strong><span>Firmware-aware prompts, context assembly, staged agent workflows.</span></div>
-          <div class="node"><strong>Telemetry APIs</strong><span>Signals, logs, probe state, memory watches, and register snapshots.</span></div>
-          <div class="node"><strong>Compliance layer</strong><span>Traceability, evidence, review status, and aerospace-grade workflow posture.</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="features">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">Feature grid</div><h2>Everything an embedded IDE should understand.</h2></div>
-          <p class="section-copy">A focused feature set for hardware teams building, debugging, and validating firmware against real devices and real engineering constraints.</p>
-        </div>
-        <div class="feature-grid">
-          <article class="card"><div class="icon">AI</div><h3>AI firmware assistant</h3><p>Ask questions against code, registers, build logs, and workspace state.</p></article>
-          <article class="card"><div class="icon">32</div><h3>STM32 import</h3><p>Import CubeIDE/CubeMX projects and prepare generated Noyce workspace files.</p></article>
-          <article class="card"><div class="icon">SVD</div><h3>SVD-aware peripherals</h3><p>Use device metadata to make registers and bitfields understandable.</p></article>
-          <article class="card"><div class="icon">TEL</div><h3>Live telemetry</h3><p>Stream and inspect hardware signals while developing firmware.</p></article>
-          <article class="card"><div class="icon">REG</div><h3>Register viewer</h3><p>See peripheral state as named engineering context, not only hex dumps.</p></article>
-          <article class="card"><div class="icon">MEM</div><h3>Memory inspection</h3><p>Watch addresses, buffers, flags, and state during debug sessions.</p></article>
-          <article class="card"><div class="icon">PRB</div><h3>Probe integration</h3><p>Discover probes and attach debug workflows to the active workspace.</p></article>
-          <article class="card"><div class="icon">RTT</div><h3>RTT logs</h3><p>Bring firmware logs into the engineering workspace with context.</p></article>
-          <article class="card"><div class="icon">OS</div><h3>RTOS workflows</h3><p>Present tasks, timing, and runtime behavior as first-class development context.</p></article>
-          <article class="card"><div class="icon">EXT</div><h3>Extension support</h3><p>Build on Code-OSS compatibility and Noyce-specific hardware plugins.</p></article>
-          <article class="card"><div class="icon">GEN</div><h3>Workspace generation</h3><p>Turn imported firmware projects into organized Noyce workspaces.</p></article>
-          <article class="card"><div class="icon">A&D</div><h3>Aerospace-grade workflows</h3><p>Support evidence, traceability, review, and safety-oriented engineering discipline.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="timeline">
-      <div class="wrap">
-        <div class="section-head">
-          <div><div class="eyebrow">Engineering workflow</div><h2>From project import to validated hardware behavior.</h2></div>
-          <p class="section-copy">Noyce is designed around the real sequence hardware engineers follow when bringing up and validating embedded systems.</p>
-        </div>
-        <div class="flow">
-          <div class="step active">Import project</div>
-          <div class="step">Connect probe</div>
-          <div class="step">Inspect peripherals</div>
-          <div class="step">Debug firmware</div>
-          <div class="step">Validate behavior</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="download">
-      <div class="wrap">
-        <div class="release">
-          <div class="release-grid">
-            <div>
-              <div class="eyebrow">Download</div>
-              <h2>The future of embedded development starts local.</h2>
-              <p class="section-copy">Install Noyce IDE, open an embedded firmware workspace, connect your probe, and bring AI assistance into the hardware engineering loop.</p>
-            </div>
-            <div class="panel-stack">
-              <a class="btn primary" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest">Download Noyce IDE</a>
-              <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide">GitHub Repository</a>
-              <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide#readme">Documentation</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap footer-grid">
-      <div class="brand"><img class="brand-logo" src="icons_resources/logo_horizontal.png" alt="Noyce IDE" /></div>
-      <div class="footer-links">
-        <a href="https://github.com/Hitheshkaranth/noyce_ide">GitHub</a>
-        <a href="https://github.com/Hitheshkaranth/noyce_ide/releases">Releases</a>
-        <a href="https://github.com/Hitheshkaranth/noyce_ide#readme">Docs</a>
-        <a href="#release">Roadmap</a>
-        <a href="#community">Community</a>
-        <a href="#top">Download</a>
+        <span class="tag">AI</span>
+        <h4>A team, not a chatbot</h4>
+        <p>Six specialist personas — Designer, Coder, Tester, Reviewer, Doc Specialist, Traceability Monitor — orchestrated against the safety case, not your blank line.</p>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
+
+<!-- ============================================================
+     WAVE DIVIDER 1
+============================================================ -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 280" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="irisGrad" x1="0" x2="1">
+        <stop offset="0%" stop-color="#8ee6ff" stop-opacity="0.0"/>
+        <stop offset="20%" stop-color="#8ee6ff"/>
+        <stop offset="50%" stop-color="#00e676"/>
+        <stop offset="80%" stop-color="#7c4dff"/>
+        <stop offset="100%" stop-color="#7c4dff" stop-opacity="0.0"/>
+      </linearGradient>
+    </defs>
+    <g class="iris-line">
+      <path d="M0 140 Q 180 60, 360 140 T 720 140 T 1080 140 T 1440 140"/>
+      <path d="M0 160 Q 180 80, 360 160 T 720 160 T 1080 160 T 1440 160" opacity="0.4"/>
+      <path d="M0 180 Q 180 100, 360 180 T 720 180 T 1080 180 T 1440 180" opacity="0.25"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ============================================================
+     CHAPTER 2 — Multi-agent orchestrator (scroll-jack)
+============================================================ -->
+<section class="section-pad" id="ai">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span>CHAPTER 02 · MULTI-AGENT ORCHESTRATOR</span></span>
+      <h2>Six specialist agents,<br/>one auditable thread.</h2>
+      <p class="lead">Bring your own provider — Anthropic, OpenAI, Google Gemini, Mistral, or run fully on-prem through Ollama or LM Studio. The orchestrator routes by latency, cost, and confidence, and every action is signed against the requirements graph.</p>
+    </div>
+
+    <div class="scrolljack" style="margin-top:80px">
+      <!-- left: kinetic text + steps -->
+      <div>
+        <div class="sj-sticky">
+          <span class="eyebrow"><span>PERSONAS · LIVE</span></span>
+          <div class="kinetic" data-kinetic style="margin-top:24px">
+            <span class="is-active">System Designer</span>
+            <span>Coder</span>
+            <span>Tester</span>
+            <span>Reviewer</span>
+            <span>Doc Specialist</span>
+            <span>Traceability Monitor</span>
+          </div>
+        </div>
+
+        <div class="sj-steps">
+          <div class="sj-step" data-step="0">
+            <h3>The Designer decomposes.</h3>
+            <p>Takes a high-level requirement — "the brake actuator shall respond within 50 ms under ASIL-D conditions" — and emits low-level design items, interfaces, and traceability stubs.</p>
+            <div class="snippet"><span class="c">$</span> noyce <span class="k">decompose</span> REQ-014 <span class="s">--target stm32h7</span></div>
+          </div>
+          <div class="sj-step" data-step="1">
+            <h3>The Coder writes —<br/>the Reviewer pushes back.</h3>
+            <p>Coder drafts the implementation with the SVD and HAL in context; Reviewer scrutinises against MISRA-C, fixed-point arithmetic, ISR safety, and the project's deviation register.</p>
+            <div class="snippet"><span class="k">/* MISRA-C:2012 R.11.5 — explicit cast required */</span></div>
+          </div>
+          <div class="sj-step" data-step="2">
+            <h3>The Tester proves it.</h3>
+            <p>Generates MC/DC harnesses, fault-injection scenarios, hardware-in-the-loop scripts, and ties verification artifacts back to the originating requirement.</p>
+            <div class="snippet"><span class="c">tst:</span> <span class="s">"TST-204 timer accuracy"</span> · <span class="k">mc/dc</span> · 128 iter</div>
+          </div>
+          <div class="sj-step" data-step="3">
+            <h3>The Doc Specialist captures it.</h3>
+            <p>Writes the SDP, SDD, SVP, and review minutes from the live workspace — never from your memory three months later. Section numbers, deviations, and signatures all stay linked.</p>
+            <div class="snippet"><span class="c">SDP §4.2</span> watchdog reset rationale · <span class="s">drafted</span></div>
+          </div>
+          <div class="sj-step" data-step="4">
+            <h3>The Traceability Monitor stitches.</h3>
+            <p>Maintains the REQ → Design → Code → Test thread continuously. Breaks the build when a requirement loses a downstream artifact. Records every link in the audit log.</p>
+            <div class="snippet">trace: 1,284 links · audit-log <span class="s">ready for export</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- right: screenshot crossfade + galaxy -->
+      <div class="sj-sticky" style="position:sticky">
+        <div style="position:relative">
+          <svg class="galaxy" id="galaxy" viewBox="-300 -160 600 320" aria-hidden="true">
+            <circle cx="0" cy="0" r="36" fill="none" stroke="#7c4dff" stroke-opacity="0.4"/>
+            <circle cx="0" cy="0" r="20" fill="#7c4dff" fill-opacity="0.15"/>
+            <text x="0" y="4" text-anchor="middle" fill="#e8f0fa" font-family="Geist Mono, monospace" font-size="9">ORCH</text>
+            <g data-sat><circle r="10" fill="#8ee6ff" fill-opacity="0.25"/><circle r="5" fill="#8ee6ff"/></g>
+            <g data-sat><circle r="10" fill="#00e676" fill-opacity="0.25"/><circle r="5" fill="#00e676"/></g>
+            <g data-sat><circle r="10" fill="#ffc66d" fill-opacity="0.25"/><circle r="5" fill="#ffc66d"/></g>
+            <g data-sat><circle r="10" fill="#ff6dc7" fill-opacity="0.25"/><circle r="5" fill="#ff6dc7"/></g>
+            <g data-sat><circle r="10" fill="#52c4ff" fill-opacity="0.25"/><circle r="5" fill="#52c4ff"/></g>
+            <g data-sat><circle r="10" fill="#7c4dff" fill-opacity="0.25"/><circle r="5" fill="#7c4dff"/></g>
+          </svg>
+          <div class="sj-stage" data-stage>
+            <div class="layer is-active" data-layer data-mock="04" data-asset="screenshots/04-ai-orchestrator.png"></div>
+            <div class="layer" data-layer data-mock="05" data-asset="screenshots/05-ai-models.png"></div>
+            <div class="layer" data-layer data-mock="08" data-asset="screenshots/08-review-workflow.png"></div>
+            <div class="layer" data-layer data-mock="04" data-asset="screenshots/04-ai-orchestrator.png"></div>
+            <div class="layer" data-layer data-mock="03" data-asset="screenshots/03-traceability-graph.png"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 3 — Hardware-aware editing (scroll-jack)
+============================================================ -->
+<section class="section-pad" id="hardware" style="background: linear-gradient(180deg, transparent, rgba(82,196,255,0.025) 30%, transparent);">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span>CHAPTER 03 · HARDWARE-AWARE EDITING</span></span>
+      <h2>The editor reads the datasheet<br/>so you don't have to.</h2>
+      <p class="lead">First-class support for STM32, TI Tiva, Microchip PIC32, Raspberry Pi RP2040, NXP i.MX RT, and generic Cortex-M. Pin mux, SVD-aware peripheral registers, RTOS task viewer, Cortex-M fault decoder, and linker memory maps — all visible without leaving the file.</p>
+    </div>
+
+    <div class="scrolljack" style="margin-top:80px; grid-template-columns: 1.1fr 0.9fr;">
+      <!-- left: micro-stories -->
+      <div>
+        <div class="sj-steps">
+          <div class="sj-step" data-step="0">
+            <h3>Pin mux that knows the board.</h3>
+            <p>Drag a peripheral onto the chip and Noyce resolves the alternate function, conflicts, and pin-level electrical constraints in real time. Exports HAL init code, device-tree fragments, or AUTOSAR ECU config.</p>
+            <div class="snippet"><span class="k">PA9</span>=<span class="s">USART1_TX</span> · alt-fn 7 · drive=high · <span class="c">resolved</span></div>
+          </div>
+          <div class="sj-step" data-step="1">
+            <h3>Peripheral registers, SVD-aware.</h3>
+            <p>Hover any MMIO write to see the register, its fields, reset value, and access semantics — pulled straight from the vendor's SVD. Bitfield ranges, enumerated values, and read-modify-write traps surface inline.</p>
+            <div class="snippet">RCC-&gt;<span class="k">AHB1ENR</span> = <span class="s">RCC_AHB1ENR_GPIOAEN</span>;</div>
+          </div>
+          <div class="sj-step" data-step="2">
+            <h3>RTOS task viewer, on target.</h3>
+            <p>Live task list, stack high-watermark, mutex graph, and deadline misses for FreeRTOS, Zephyr, ThreadX, and bare-metal cooperative schedulers. Attach in 200 ms over SWD or JLink.</p>
+            <div class="snippet">task_safety · prio 31 · stack <span class="s">412/1024</span> · <span class="k">RUNNING</span></div>
+          </div>
+          <div class="sj-step" data-step="3">
+            <h3>Cortex-M fault decoder.</h3>
+            <p>HardFault, BusFault, MemManage, UsageFault — decoded from CFSR/HFSR/MMFAR with the stacked frame walked back to source. No more reading hex registers off a serial console.</p>
+            <div class="snippet"><span class="k">UsageFault</span>: UNDEFINSTR @ <span class="s">0x0801F2A4</span> · task_safety+0x18</div>
+          </div>
+          <div class="sj-step" data-step="4">
+            <h3>Linker memory map.</h3>
+            <p>Visualises FLASH, SRAM, CCM, and external regions; flags overflows before the link fails. Shows per-symbol cost so you can find the 4 KB of debug strings that wandered into your release image.</p>
+            <div class="snippet">FLASH 612K / 2M · SRAM <span class="s">128K</span> / 512K · <span class="k">ok</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- right: pin configurator -->
+      <div class="sj-sticky" style="position:sticky">
+        <div class="sj-stage" data-stage>
+          <div class="layer is-active" data-layer data-mock="10" data-asset="screenshots/10-pin-configurator.png"></div>
+          <div class="layer" data-layer data-mock="10" data-asset="screenshots/10-pin-configurator.png"></div>
+          <div class="layer" data-layer data-mock="10" data-asset="screenshots/10-pin-configurator.png"></div>
+          <div class="layer" data-layer data-mock="10" data-asset="screenshots/10-pin-configurator.png"></div>
+          <div class="layer" data-layer data-mock="10" data-asset="screenshots/10-pin-configurator.png"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 4 — Compliance evidence
+============================================================ -->
+<section class="section-pad" id="compliance">
+  <div class="wrap">
+    <div class="sec-head center reveal" style="margin: 0 auto;">
+      <span class="eyebrow center"><span>CHAPTER 04 · COMPLIANCE EVIDENCE</span></span>
+      <h2 style="text-align:center;">The audit packet writes itself.</h2>
+      <p class="lead" style="text-align:center;">DO-178C, ISO 26262, IEC 61508, EN 50128, IEC 62304 — Noyce keeps a continuous, machine-readable record of which objective each artifact satisfies. Print the dossier the day before review, not the night before.</p>
+    </div>
+
+    <div class="glass pedestal-shot callout-wrap reveal delay-1" style="margin-top:80px">
+      <div class="shot-frame" style="aspect-ratio:16/9" data-mock="02" data-asset="screenshots/02-compliance-dashboard.png"></div>
+
+      <!-- Callout pins overlaid on the screenshot -->
+      <div class="callout-pin" style="top: 30%; left: 18%;"></div>
+      <div class="callout-label mono" style="top: 18%; left: 2%;"><b>10/12</b> Linked · Table A</div>
+
+      <div class="callout-pin" style="top: 30%; right: 30%;"></div>
+      <div class="callout-label mono" style="top: 18%; right: 8%;"><b>170</b> Open MISRA</div>
+
+      <div class="callout-pin" style="bottom: 30%; right: 30%;"></div>
+      <div class="callout-label mono" style="bottom: 18%; right: 8%;"><b>6/12</b> Verification</div>
+
+      <svg class="callout-leader" viewBox="0 0 1000 540" preserveAspectRatio="none">
+        <path d="M 100 110 L 180 175"/>
+        <path d="M 850 110 L 700 175"/>
+        <path d="M 850 430 L 700 365"/>
+      </svg>
+    </div>
+
+    <div class="cov-grid reveal delay-2">
+      <div>
+        <span class="mono-tag">DO-178C · TABLE A</span>
+        <h4>Objectives, automatic.</h4>
+        <ul>
+          <li>Software Development Plan (A-1)</li>
+          <li>Software Verification Plan (A-2)</li>
+          <li>High-Level Requirements (A-5)</li>
+          <li>Low-Level Requirements (A-6)</li>
+          <li>Source Code Review (A-7)</li>
+          <li>Executable Object Code (A-8)</li>
+        </ul>
+      </div>
+      <div>
+        <span class="mono-tag">MISRA C:2012 · PER-RULE</span>
+        <h4>Every advisory, traceable.</h4>
+        <ul>
+          <li>Mandatory, Required, Advisory tiers</li>
+          <li>Per-rule deviation register with sign-off</li>
+          <li>Per-file and per-function dashboards</li>
+          <li>Decoded R-numbers and rationale</li>
+          <li>Amendment 1 + Amendment 2 ready</li>
+          <li>Exportable to PDF and CSV</li>
+        </ul>
+      </div>
+      <div>
+        <span class="mono-tag">MC/DC · COVERAGE</span>
+        <h4>Decisions, not just lines.</h4>
+        <ul>
+          <li>Statement, branch, and MC/DC in one pass</li>
+          <li>Per-decision short-circuit analysis</li>
+          <li>Gap report tied to source lines</li>
+          <li>Instrumentation that survives -O2</li>
+          <li>Aggregation across HIL and host runs</li>
+          <li>SHA-256 receipts per measurement</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 5 — Traceability
+============================================================ -->
+<section class="section-pad">
+  <div class="wrap">
+    <div class="trace-split">
+      <div class="reveal">
+        <span class="eyebrow"><span>CHAPTER 05 · TRACEABILITY</span></span>
+        <h2 style="margin-top:18px">REQ → Design → Test,<br/>kept honest.</h2>
+        <p class="lead" style="margin-top:18px">The traceability graph is built from the actual workspace, not a side spreadsheet. The Rust sidecar re-indexes on save, the orchestrator audits the thread, and broken links fail the build.</p>
+        <div class="trace-stats">
+          <div class="trace-stat"><span class="v">1,284</span><span class="l">live REQ ⇄ Design ⇄ Test links</span></div>
+          <div class="trace-stat"><span class="v">412 ms</span><span class="l">Sidecar full workspace re-index</span></div>
+          <div class="trace-stat"><span class="v">0</span><span class="l">orphan requirements before merge</span></div>
+          <div class="trace-stat"><span class="v">SHA</span><span class="l">cryptographic audit log per change</span></div>
+        </div>
+      </div>
+      <div class="glass reveal delay-1" style="padding:24px;">
+        <div class="shot-frame" style="aspect-ratio:16/10" data-mock="03" data-asset="screenshots/03-traceability-graph.png"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 6 — Build & ship
+============================================================ -->
+<section class="section-pad">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span>CHAPTER 06 · BUILD &amp; SHIP</span></span>
+      <h2>Configure. Compile. Lint. Test.<br/>Sign. Flash.</h2>
+      <p class="lead">Reproducible, hermetic, signed. The build pipeline lights up stage-by-stage in front of you, archives the artifact with its provenance manifest, and pushes the binary to the bench in one motion.</p>
+    </div>
+
+    <div class="pipeline reveal delay-1" id="pipeline">
+      <div class="stage"><div class="num">01</div><h4>Configure</h4><p>CMake gen · 0.4 s</p><span class="dot"></span></div>
+      <div class="stage"><div class="num">02</div><h4>Compile</h4><p>arm-gcc -O2 · 12.1 s</p><span class="dot"></span></div>
+      <div class="stage"><div class="num">03</div><h4>Lint</h4><p>MISRA · 0 viol</p><span class="dot"></span></div>
+      <div class="stage"><div class="num">04</div><h4>Test</h4><p>Unity · 184 pass</p><span class="dot"></span></div>
+      <div class="stage"><div class="num">05</div><h4>Cover</h4><p>MC/DC · 87.3 %</p><span class="dot"></span></div>
+      <div class="stage"><div class="num">06</div><h4>Sign</h4><p>ed25519 · ok</p><span class="dot"></span></div>
+      <div class="stage"><div class="num">07</div><h4>Flash</h4><p>STM32 · 612 KB</p><span class="dot"></span></div>
+    </div>
+
+    <div class="glass pedestal-shot reveal delay-2" style="margin-top:80px">
+      <div class="shot-frame" style="aspect-ratio:16/9" data-mock="06" data-asset="screenshots/06-build-pipeline.png"></div>
+    </div>
+
+    <div class="tilt-wrap">
+      <div class="reveal">
+        <span class="eyebrow"><span>STARTERS</span></span>
+        <h3 style="margin-top:18px; font-size:clamp(28px,3.2vw,44px);">Six certification-ready templates.</h3>
+        <p style="margin-top:18px; font-size:17px;">STM32 H7, TI Tiva, Microchip PIC32, Raspberry Pi RP2040, NXP i.MX RT, generic Cortex-M33 — each pre-wired with CMake, linker, HAL, deviation register, and the MISRA profile your standard requires.</p>
+      </div>
+      <div class="tilt-card reveal delay-1">
+        <div class="shot-frame" style="aspect-ratio:16/9" data-mock="07" data-asset="screenshots/07-project-templates.png"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 7 — Project Intelligence
+============================================================ -->
+<section class="section-pad">
+  <div class="wrap">
+    <div class="trace-split" style="grid-template-columns: 1.1fr 0.9fr">
+      <div class="glass reveal" style="padding:24px;">
+        <div class="shot-frame" style="aspect-ratio:16/10" data-mock="01" data-asset="screenshots/01-project-graph.png"></div>
+      </div>
+      <div class="reveal delay-1">
+        <span class="eyebrow"><span>CHAPTER 07 · PROJECT INTELLIGENCE</span></span>
+        <h2 style="margin-top:18px">A live map of your firmware.</h2>
+        <p class="lead" style="margin-top:18px">The project graph is computed by the Rust sidecar from the real workspace — translation units, header dependencies, ISR boundaries, RTOS tasks, requirement anchors, test fixtures. Pan and zoom to spot the subsystem that grew teeth.</p>
+        <ul style="list-style:none; padding:0; margin:24px 0 0; display:flex; flex-direction:column; gap:14px; color:var(--ink-2); font-size:15px;">
+          <li style="display:flex; gap:14px; align-items:baseline;"><span style="font-family:Geist Mono,monospace; color:var(--cyan); min-width:90px;">indexer</span> Rust sidecar, &lt; 500 ms full-workspace reindex on save</li>
+          <li style="display:flex; gap:14px; align-items:baseline;"><span style="font-family:Geist Mono,monospace; color:var(--green); min-width:90px;">surface</span> React UI with D3-driven panning, zooming, and filtering</li>
+          <li style="display:flex; gap:14px; align-items:baseline;"><span style="font-family:Geist Mono,monospace; color:var(--amber); min-width:90px;">query</span> Selector language for "all ISRs that touch DMA1"</li>
+          <li style="display:flex; gap:14px; align-items:baseline;"><span style="font-family:Geist Mono,monospace; color:var(--violet); min-width:90px;">audit</span> Each node carries its REQ and verification status</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WAVE DIVIDER 2
+============================================================ -->
+<div class="wave-divider" aria-hidden="true">
+  <svg viewBox="0 0 1440 280" preserveAspectRatio="none">
+    <g class="iris-line">
+      <path d="M0 140 Q 240 220, 480 140 T 960 140 T 1440 140"/>
+      <path d="M0 120 Q 240 200, 480 120 T 960 120 T 1440 120" opacity="0.4"/>
+      <path d="M0 100 Q 240 180, 480 100 T 960 100 T 1440 100" opacity="0.25"/>
+    </g>
+  </svg>
+</div>
+
+<!-- ============================================================
+     ARCHITECTURE
+============================================================ -->
+<section class="section-pad" style="background: radial-gradient(800px 400px at 50% 30%, rgba(124,77,255,0.07), transparent 60%);">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin: 0 auto; text-align:center; align-items:center;">
+      <span class="eyebrow center"><span>ARCHITECTURE</span></span>
+      <h2 style="text-align:center;">Three layers, one contract.</h2>
+      <p class="lead" style="text-align:center; max-width:60ch;">A Code-OSS shell hosts the React UI; the React UI talks to a Rust sidecar over a typed RPC. The sidecar owns parsing, indexing, and the requirements graph — and stays out of the main thread.</p>
+    </div>
+
+    <div class="arch-stack reveal delay-1" aria-hidden="true">
+      <div class="arch-layer l1">
+        <h5>React UI</h5>
+        <span class="sub">Surfaces · Editor overlays</span>
+        <div class="row">
+          <span class="chip">PinConfigurator</span>
+          <span class="chip">ComplianceDash</span>
+          <span class="chip">TraceGraph</span>
+          <span class="chip">AILauncher</span>
+        </div>
+      </div>
+      <div class="arch-layer l2">
+        <h5>Code-OSS Shell</h5>
+        <span class="sub">Extensions · Workbench</span>
+        <div class="row">
+          <span class="chip">noyce.compliance</span>
+          <span class="chip">noyce.trace</span>
+          <span class="chip">noyce.ai</span>
+          <span class="chip">noyce.pins</span>
+          <span class="chip">noyce.debug</span>
+        </div>
+      </div>
+      <div class="arch-layer l3">
+        <h5>Rust Sidecar</h5>
+        <span class="sub">Indexer · RPC · Graph</span>
+        <div class="row">
+          <span class="chip">tree-sitter</span>
+          <span class="chip">svd-parser</span>
+          <span class="chip">misra-engine</span>
+          <span class="chip">trace-store</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arch-legend">
+      <div class="reveal">
+        <h4>Code-OSS Shell</h4>
+        <p>The familiar workbench, extension host, and editor surface — extended with 10+ first-party packages. We don't fork Code-OSS; we extend it, so your <code>settings.json</code>, themes, and keybindings come along.</p>
+      </div>
+      <div class="reveal delay-1">
+        <h4>React UI</h4>
+        <p>Every embedded-specific surface — pin mux, trace graph, compliance dash — is a React panel mounted into the workbench via the Webview API. State is pulled from the sidecar over <code>rpc.invoke</code>.</p>
+      </div>
+      <div class="reveal delay-2">
+        <h4>Rust Sidecar</h4>
+        <p>Owns parsing (tree-sitter), SVD, MISRA, the trace store, and the project graph. Communicates over a typed JSON-RPC with cancellation, batching, and incremental subscriptions. Keeps the main thread free.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DEMO REEL
+============================================================ -->
+<section class="section-pad">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span>SHOWCASE</span></span>
+      <h2>The whole IDE, in motion.</h2>
+    </div>
+
+    <div class="reel reveal delay-1" id="reel">
+      <div class="reel-progress"><div class="bar"></div></div>
+      <div class="reel-caption mono">01-project-graph</div>
+      <div class="reel-slide is-active" data-caption="01-project-graph" data-mock="01" data-asset="screenshots/01-project-graph.png"></div>
+      <div class="reel-slide" data-caption="02-compliance-dashboard" data-mock="02" data-asset="screenshots/02-compliance-dashboard.png"></div>
+      <div class="reel-slide" data-caption="03-traceability-graph" data-mock="03" data-asset="screenshots/03-traceability-graph.png"></div>
+      <div class="reel-slide" data-caption="04-ai-orchestrator" data-mock="04" data-asset="screenshots/04-ai-orchestrator.png"></div>
+      <div class="reel-slide" data-caption="05-ai-models" data-mock="05" data-asset="screenshots/05-ai-models.png"></div>
+      <div class="reel-slide" data-caption="06-build-pipeline" data-mock="06" data-asset="screenshots/06-build-pipeline.png"></div>
+      <div class="reel-slide" data-caption="07-project-templates" data-mock="07" data-asset="screenshots/07-project-templates.png"></div>
+      <div class="reel-slide" data-caption="08-review-workflow" data-mock="08" data-asset="screenshots/08-review-workflow.png"></div>
+      <div class="reel-slide" data-caption="09-noyce-ai-launcher" data-mock="09" data-asset="screenshots/09-noyce-ai-launcher.png"></div>
+      <div class="reel-slide" data-caption="10-pin-configurator" data-mock="10" data-asset="screenshots/10-pin-configurator.png"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TECH STACK
+============================================================ -->
+<section class="section-pad-sm">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin: 0 auto; text-align:center; align-items:center;">
+      <span class="eyebrow center"><span>BUILT ON</span></span>
+      <h3 style="text-align:center;">Standards you already work in.</h3>
+    </div>
+    <div class="pills reveal delay-1">
+      <span class="pill"><span class="dot" style="background:#3178c6"></span>TypeScript</span>
+      <span class="pill"><span class="dot" style="background:#61dafb"></span>React 18</span>
+      <span class="pill"><span class="dot" style="background:#646cff"></span>Vite</span>
+      <span class="pill"><span class="dot" style="background:#06b6d4"></span>Tailwind</span>
+      <span class="pill"><span class="dot" style="background:#0078d4"></span>Code-OSS</span>
+      <span class="pill"><span class="dot" style="background:#2f74c0"></span>Electron</span>
+      <span class="pill"><span class="dot" style="background:#dea584"></span>Rust</span>
+      <span class="pill"><span class="dot" style="background:#3a8bff"></span>Monaco</span>
+      <span class="pill"><span class="dot" style="background:#f9a03c"></span>D3</span>
+      <span class="pill"><span class="dot" style="background:#000000; outline:1px solid #555"></span>xterm.js</span>
+      <span class="pill"><span class="dot" style="background:#45ba4b"></span>Playwright</span>
+      <span class="pill"><span class="dot" style="background:#7c4dff"></span>tree-sitter</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     DOWNLOAD
+============================================================ -->
+<section class="section-pad" id="download">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span>GET NOYCE</span></span>
+      <h2>Install. Open a template.<br/>Ship a certified binary.</h2>
+      <p class="lead">Noyce is free during beta. macOS arm64 ships today, Windows is in beta, Linux is on the roadmap.</p>
+    </div>
+
+    <div class="dl-grid">
+      <div class="dl-card primary reveal">
+        <div class="os-row">
+          <div class="os">macOS</div>
+          <div class="status">Released</div>
+        </div>
+        <p class="desc">Universal · macOS 13 Ventura or later · arm64 native, x86_64 supported.</p>
+        <pre class="install"><span class="p">$</span> brew install --cask <span class="c">noyce-ide</span></pre>
+        <a class="btn iris-btn" href="#" style="margin-top:6px">Download · arm64 (142 MB)</a>
+      </div>
+      <div class="dl-card reveal delay-1">
+        <div class="os-row">
+          <div class="os">Windows</div>
+          <div class="status beta">Beta</div>
+        </div>
+        <p class="desc">Windows 11 · x64 · code-signed · MSI and portable.</p>
+        <pre class="install"><span class="p">&gt;</span> winget install <span class="c">Noyce.IDE</span></pre>
+        <a class="btn" href="#" style="margin-top:6px">Download · x64 (168 MB)</a>
+      </div>
+      <div class="dl-card reveal delay-2">
+        <div class="os-row">
+          <div class="os">Linux</div>
+          <div class="status roadmap">Roadmap</div>
+        </div>
+        <p class="desc">Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.</p>
+        <pre class="install"><span class="p">$</span> flatpak install <span class="c">dev.noyce.IDE</span></pre>
+        <a class="btn" href="#" style="margin-top:6px">Notify me</a>
+      </div>
+    </div>
+
+    <div class="model-callout reveal delay-3">
+      <div>
+        <h4>Configure your model</h4>
+        <p>Bring keys from Anthropic, OpenAI, Google Gemini, Mistral — or stay fully on-prem with Ollama or LM Studio. Routing is per-persona.</p>
+      </div>
+      <a class="btn iris-btn lg" href="#">Open AI Models setup →</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top" style="opacity:0.85;" aria-label="Noyce IDE — Home">
+          <img class="brand-img" src="icons_resources/logo_horizontal.png" alt="Noyce IDE"/>
+        </a>
+        <p>An AI-native Code-OSS workbench for safety-critical embedded firmware.</p>
+        <p class="mono" style="font-size:11px; color:var(--ink-3); letter-spacing:0.14em;">v1.0.5 · MIT-licensed core</p>
+      </div>
+      <div>
+        <h5>Product</h5>
+        <ul role="list">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#ai">AI orchestrator</a></li>
+          <li><a href="#hardware">Hardware support</a></li>
+          <li><a href="#compliance">Compliance</a></li>
+          <li><a href="#download">Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <ul role="list">
+          <li><a href="#">Docs</a></li>
+          <li><a href="#">API reference</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">DO-178C guide</a></li>
+          <li><a href="#">ISO 26262 guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Community</h5>
+        <ul role="list">
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Discord</a></li>
+          <li><a href="#">Discussions</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026 NOYCE · MIT LICENSE</div>
+      <div>v1.0.5 · BUILT WITH CODE-OSS, RUST, REACT</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Three.js for hero MCU chip -->
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="mockups.js"></script>
+<script src="scene.js"></script>
+
 </body>
 </html>
