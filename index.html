@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Noyce IDE: the IDE built for firmware that has to be right</title>
 <meta name="description" content="Noyce IDE is an AI-native, Code-OSS workbench for safety-critical embedded firmware. DO-178C, ISO 26262, and MISRA evidence is built in."/>
-<meta name="theme-color" content="#06090f"/>
+<meta name="theme-color" content="#050608"/>
 <meta property="og:type" content="website"/>
 <meta property="og:title" content="Noyce IDE: the IDE built for firmware that has to be right"/>
 <meta property="og:description" content="AI-native Code-OSS workbench for safety-critical embedded firmware. DO-178C, ISO 26262, and MISRA evidence is built in."/>
@@ -19,7 +19,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="icons_resources/icon_large.png"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
@@ -42,11 +42,8 @@
       <li><a href="#download">Download</a></li>
     </ul>
     <div class="nav-cta">
-      <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide" aria-label="GitHub repository">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.56 9.56 0 015 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .26.18.58.69.48A10 10 0 0012 2z"/></svg>
-        GitHub
-      </a>
-      <a class="btn primary" href="#download" id="nav-cta-dl">Download Beta</a>
+      <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide">GitHub</a>
+      <a class="btn accent" href="#download" id="nav-cta-dl">Download</a>
     </div>
   </div>
 </nav>
@@ -71,20 +68,38 @@
         An AI-native, Code-OSS workbench for embedded and safety-critical teams. Certification evidence, multi-agent review, and pin-aware editing live in one place.
       </p>
       <div class="hero-cta">
-        <a class="btn primary lg" id="primary-dl" href="#download">
+        <a class="btn accent lg" id="primary-dl" href="#download">
           <span class="lbl">Download for macOS</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 4v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>
         </a>
         <a class="btn lg" href="https://github.com/Hitheshkaranth/noyce_ide">View on GitHub</a>
         <span class="meta">arm64 · 142 MB</span>
       </div>
     </div>
 
-    <div class="hero-stage" id="chip-stage" aria-hidden="true">
-      <div class="pedestal"></div>
-      <svg viewBox="0 0 400 400" style="position:absolute;inset:0;display:none" class="fallback">
-        <rect x="100" y="100" width="200" height="200" rx="6" fill="#0d1219" stroke="#1a222d"/>
-      </svg>
+    <div class="hero-instr">
+      <div class="hero-stage ticks" id="chip-stage" aria-hidden="true">
+        <div class="stage-cap mono">MCU · <b>STM32H743</b></div>
+        <div class="pedestal"></div>
+        <svg viewBox="0 0 400 400" style="position:absolute;inset:0;display:none" class="fallback">
+          <rect x="110" y="110" width="180" height="180" rx="3" fill="#0c0e12" stroke="#161a22"/>
+        </svg>
+      </div>
+
+      <div class="panel" aria-label="Target readout">
+        <div class="panel-bar"><span>Target readout</span><span class="live">Live</span></div>
+        <div class="panel-body">
+          <div class="readout"><span class="k">Core</span><span class="v">Cortex-M7 · 480 MHz</span></div>
+          <div class="readout"><span class="k">MISRA</span><span class="v ok">0 open</span></div>
+          <div class="readout"><span class="k">MC/DC</span><span class="v ok">87.3 %</span></div>
+          <div class="readout"><span class="k">Stack</span><span class="v">412 / 1024 B</span></div>
+          <div class="readout"><span class="k">Build</span><span class="v ok">ed25519 signed</span></div>
+          <div class="readout"><span class="k">Trace</span><span class="v">1,284 links</span></div>
+          <div class="panel-meter">
+            <div class="pm-top"><span>Sidecar reindex</span><span>412 ms</span></div>
+            <div class="pm-bar"><i style="--w:88%"></i></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -112,49 +127,50 @@
   </div>
 </section>
 
-<!-- ============================================================ TRUST STRIP ============================================================ -->
+<!-- ============================================================ STATS ============================================================ -->
 <section class="trust" aria-label="At a glance">
-  <div class="reveal"><div class="num">10+</div><div class="lbl">First-party extensions</div></div>
-  <div class="reveal delay-1"><div class="num">6</div><div class="lbl">AI personas, one orchestrator</div></div>
-  <div class="reveal delay-2"><div class="num">6</div><div class="lbl">MCU families, pin-aware</div></div>
-  <div class="reveal delay-3"><div class="num">A</div><div class="lbl">DO-178C Level A ready</div></div>
+  <div class="reveal"><div class="num"><b>10+</b></div><div class="lbl">First-party extensions</div></div>
+  <div class="reveal delay-1"><div class="num"><b>6</b></div><div class="lbl">AI personas, one orchestrator</div></div>
+  <div class="reveal delay-2"><div class="num"><b>6</b></div><div class="lbl">MCU families, pin-aware</div></div>
+  <div class="reveal delay-3"><div class="num"><b>A</b></div><div class="lbl">DO-178C Level A ready</div></div>
 </section>
 
 <!-- ============================================================ FEATURES ============================================================ -->
 <section class="section-pad" id="features">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="label"><span>One IDE, every artifact</span></span>
+      <span class="tag"><span class="sq"></span> Noyce Core</span>
       <h2>Code, evidence, and silicon,<br/>finally on the same desk.</h2>
       <p class="lead">Noyce extends the Code-OSS shell you already trust with first-class surfaces for requirements, traceability, MISRA, MC/DC, pin configuration, and on-target debug. No tab-hopping across five tools.</p>
     </div>
 
-    <div class="glass pedestal-shot reveal delay-1" style="margin-top:60px">
+    <div class="frame ticks reveal delay-1">
+      <div class="cap"><span>project-graph.noyce</span><span class="live">Live</span></div>
       <div class="shot-frame" style="aspect-ratio:16/9" data-mock="01" data-asset="screenshots/01-project-graph.png" data-caption="Project graph of a real STM32 firmware workspace"></div>
     </div>
 
-    <div class="feat-grid">
-      <div class="feat-card reveal">
+    <div class="feat-grid reveal delay-2">
+      <div class="feat-card">
         <div class="glyph" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
         </div>
-        <span class="tag">Compliance</span>
+        <span class="tag-txt">Compliance</span>
         <h4>Evidence in the editor</h4>
         <p>DO-178C Table A objectives, ISO 26262 work products, MISRA C:2012 advisories, and MC/DC coverage, surfaced inline alongside the code they govern.</p>
       </div>
-      <div class="feat-card reveal delay-1">
+      <div class="feat-card">
         <div class="glyph" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
         </div>
-        <span class="tag">Hardware</span>
+        <span class="tag-txt">Hardware</span>
         <h4>Aware of the silicon</h4>
         <p>Pin mux, SVD-driven peripheral registers, an RTOS task viewer, debug-probe sessions, a Cortex-M fault decoder, and linker memory maps, wired into the workbench.</p>
       </div>
-      <div class="feat-card reveal delay-2">
+      <div class="feat-card">
         <div class="glyph" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M9 12L6 6m9 6l3-6m-9 6l-3 6m9-6l3 6"/></svg>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M9 12L6 6m9 6l3-6m-9 6l-3 6m9-6l3 6"/></svg>
         </div>
-        <span class="tag">AI</span>
+        <span class="tag-txt">AI</span>
         <h4>A team, not a chatbot</h4>
         <p>Six specialist personas, from System Designer to Traceability Monitor, orchestrated against the safety case rather than your blank line.</p>
       </div>
@@ -162,30 +178,41 @@
   </div>
 </section>
 
-<!-- ============================================================ WAVE DIVIDER ============================================================ -->
-<div class="wave-divider" aria-hidden="true">
-  <svg viewBox="0 0 1440 240" preserveAspectRatio="none">
-    <g class="accent-line">
-      <path d="M0 120 Q 180 50, 360 120 T 720 120 T 1080 120 T 1440 120"/>
-      <path d="M0 138 Q 180 68, 360 138 T 720 138 T 1080 138 T 1440 138" opacity="0.4"/>
-      <path d="M0 156 Q 180 86, 360 156 T 720 156 T 1080 156 T 1440 156" opacity="0.25"/>
-    </g>
-  </svg>
-</div>
+<!-- ============================================================ VERTICALS ============================================================ -->
+<section class="section-pad-sm divline">
+  <div class="wrap">
+    <div class="verticals-wrap">
+      <div class="reveal">
+        <span class="tag"><span class="sq"></span> Where it ships</span>
+        <h2 style="margin-top:18px">Built for hardware<br/>that has to be right.</h2>
+        <p class="lead" style="margin-top:18px">The same evidence trail, pin-aware editor, and multi-agent review across the regulated industries where a missed requirement is not a bug ticket.</p>
+      </div>
+      <div class="verticals reveal delay-1">
+        <div class="vrow"><span>Avionics</span><span class="vno">DO-178C</span></div>
+        <div class="vrow"><span>Automotive</span><span class="vno">ISO 26262</span></div>
+        <div class="vrow"><span>Medical</span><span class="vno">IEC 62304</span></div>
+        <div class="vrow"><span>Industrial</span><span class="vno">IEC 61508</span></div>
+        <div class="vrow"><span>Rail</span><span class="vno">EN 50128</span></div>
+        <div class="vrow"><span>Defense</span><span class="vno">DO-254</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- ============================================================ AI ORCHESTRATOR (scroll-jack) ============================================================ -->
+<!-- ============================================================ AI ORCHESTRATOR ============================================================ -->
 <section class="section-pad" id="ai">
   <div class="wrap">
     <div class="sec-head reveal">
+      <span class="tag"><span class="sq"></span> Noyce Agents</span>
       <h2>Six specialist agents,<br/>one auditable thread.</h2>
       <p class="lead">Bring your own provider: Anthropic, OpenAI, Google Gemini, or Mistral. Or run fully on-prem through Ollama or LM Studio. The orchestrator routes by latency, cost, and confidence, and signs every action against the requirements graph.</p>
     </div>
 
-    <div class="scrolljack" style="margin-top:72px">
+    <div class="scrolljack" style="margin-top:64px">
       <div>
         <div class="sj-sticky">
-          <span class="label"><span>Personas · live</span></span>
-          <div class="kinetic" data-kinetic style="margin-top:24px">
+          <span class="tag"><span class="sq"></span> Personas · live</span>
+          <div class="kinetic" data-kinetic style="margin-top:22px">
             <span class="is-active">System Designer</span>
             <span>Software Engineer</span>
             <span>Test Engineer</span>
@@ -227,22 +254,25 @@
       <div class="sj-sticky" style="position:sticky">
         <div style="position:relative">
           <svg class="galaxy" id="galaxy" viewBox="-300 -160 600 320" aria-hidden="true">
-            <circle cx="0" cy="0" r="36" fill="none" stroke="#22e07e" stroke-opacity="0.4"/>
-            <circle cx="0" cy="0" r="20" fill="#22e07e" fill-opacity="0.12"/>
-            <text x="0" y="4" text-anchor="middle" fill="#e8f0fa" font-family="Geist Mono, monospace" font-size="9">ORCH</text>
-            <g data-sat><circle r="10" fill="#22e07e" fill-opacity="0.22"/><circle r="5" fill="#22e07e"/></g>
-            <g data-sat><circle r="9" fill="#9fb0c2" fill-opacity="0.18"/><circle r="4.5" fill="#9fb0c2"/></g>
-            <g data-sat><circle r="10" fill="#22e07e" fill-opacity="0.22"/><circle r="5" fill="#22e07e"/></g>
-            <g data-sat><circle r="9" fill="#9fb0c2" fill-opacity="0.18"/><circle r="4.5" fill="#9fb0c2"/></g>
-            <g data-sat><circle r="10" fill="#22e07e" fill-opacity="0.22"/><circle r="5" fill="#22e07e"/></g>
-            <g data-sat><circle r="9" fill="#9fb0c2" fill-opacity="0.18"/><circle r="4.5" fill="#9fb0c2"/></g>
+            <circle cx="0" cy="0" r="34" fill="none" stroke="#22e07e" stroke-opacity="0.4"/>
+            <circle cx="0" cy="0" r="19" fill="#22e07e" fill-opacity="0.12"/>
+            <text x="0" y="4" text-anchor="middle" fill="#f3f6fb" font-family="Geist Mono, monospace" font-size="9">ORCH</text>
+            <g data-sat><circle r="9" fill="#22e07e" fill-opacity="0.22"/><circle r="4.5" fill="#22e07e"/></g>
+            <g data-sat><circle r="8" fill="#9fb0c2" fill-opacity="0.18"/><circle r="4" fill="#9fb0c2"/></g>
+            <g data-sat><circle r="9" fill="#22e07e" fill-opacity="0.22"/><circle r="4.5" fill="#22e07e"/></g>
+            <g data-sat><circle r="8" fill="#9fb0c2" fill-opacity="0.18"/><circle r="4" fill="#9fb0c2"/></g>
+            <g data-sat><circle r="9" fill="#22e07e" fill-opacity="0.22"/><circle r="4.5" fill="#22e07e"/></g>
+            <g data-sat><circle r="8" fill="#9fb0c2" fill-opacity="0.18"/><circle r="4" fill="#9fb0c2"/></g>
           </svg>
-          <div class="sj-stage" data-stage>
-            <div class="layer is-active" data-layer data-mock="04" data-asset="screenshots/04-ai-orchestrator.png" data-caption="AI Orchestrator sprint board"></div>
-            <div class="layer" data-layer data-mock="08" data-asset="screenshots/08-review-workflow.png" data-caption="Code Reviewer workflow"></div>
-            <div class="layer" data-layer data-mock="05" data-asset="screenshots/05-ai-models.png" data-caption="Per-persona AI model configuration"></div>
-            <div class="layer" data-layer data-mock="09" data-asset="screenshots/09-noyce-ai-launcher.png" data-caption="Noyce AI launcher"></div>
-            <div class="layer" data-layer data-mock="03" data-asset="screenshots/03-traceability-graph.png" data-caption="Traceability graph"></div>
+          <div class="frame ticks">
+            <div class="cap"><span>orchestrator.noyce</span><span class="live">Live</span></div>
+            <div class="sj-stage" data-stage>
+              <div class="layer is-active" data-layer data-mock="04" data-asset="screenshots/04-ai-orchestrator.png" data-caption="AI Orchestrator sprint board"></div>
+              <div class="layer" data-layer data-mock="08" data-asset="screenshots/08-review-workflow.png" data-caption="Code Reviewer workflow"></div>
+              <div class="layer" data-layer data-mock="05" data-asset="screenshots/05-ai-models.png" data-caption="Per-persona AI model configuration"></div>
+              <div class="layer" data-layer data-mock="09" data-asset="screenshots/09-noyce-ai-launcher.png" data-caption="Noyce AI launcher"></div>
+              <div class="layer" data-layer data-mock="03" data-asset="screenshots/03-traceability-graph.png" data-caption="Traceability graph"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -250,16 +280,20 @@
   </div>
 </section>
 
-<!-- ============================================================ HARDWARE (bento) ============================================================ -->
-<section class="section-pad" id="hardware" style="background: linear-gradient(180deg, transparent, rgba(34,224,126,0.025) 40%, transparent);">
+<!-- ============================================================ HARDWARE ============================================================ -->
+<section class="section-pad divline" id="hardware">
   <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="tag"><span class="sq"></span> Noyce Hardware</span>
+      <h2>The editor reads the datasheet<br/>so you don't have to.</h2>
+    </div>
     <div class="hw-feature">
-      <div class="glass reveal" style="padding:22px;">
+      <div class="frame ticks reveal">
+        <div class="cap"><span>pin-configurator.noyce</span><span>STM32H743 · LQFP176</span></div>
         <div class="shot-frame" style="aspect-ratio:16/11" data-mock="10" data-asset="screenshots/10-pin-configurator.png" data-caption="Pin Configurator resolving alternate functions on an STM32 package"></div>
       </div>
       <div class="reveal delay-1">
-        <h2>The editor reads the datasheet<br/>so you don't have to.</h2>
-        <p class="lead" style="margin-top:18px">First-class support for STM32, TI Tiva, Microchip PIC32, Raspberry Pi RP2040, NXP i.MX RT, and generic Cortex-M. The hardware surfaces stay in the workbench, next to the code that drives them.</p>
+        <p class="lead">First-class support for STM32, TI Tiva, Microchip PIC32, Raspberry Pi RP2040, NXP i.MX RT, and generic Cortex-M. The hardware surfaces stay in the workbench, next to the code that drives them.</p>
         <div class="mcu-row">
           <span class="mcu-chip">STM32</span>
           <span class="mcu-chip">TI Tiva</span>
@@ -302,30 +336,29 @@
 </section>
 
 <!-- ============================================================ COMPLIANCE ============================================================ -->
-<section class="section-pad" id="compliance">
+<section class="section-pad divline" id="compliance">
   <div class="wrap">
     <div class="sec-head center reveal">
-      <span class="label center"><span>Compliance evidence</span></span>
+      <span class="tag"><span class="sq"></span> Compliance evidence</span>
       <h2 style="text-align:center;">The audit packet writes itself.</h2>
       <p class="lead" style="text-align:center;">DO-178C, ISO 26262, IEC 61508, EN 50128, and IEC 62304. Noyce keeps a continuous, machine-readable record of which objective each artifact satisfies. Print the dossier the day before review, not the night before.</p>
     </div>
 
-    <div class="glass pedestal-shot callout-wrap reveal delay-1" style="margin-top:72px">
+    <div class="frame ticks callout-wrap reveal delay-1" style="margin-top:60px">
+      <div class="cap"><span>compliance-dashboard.noyce</span><span>DO-178C · DAL A</span></div>
       <div class="shot-frame" style="aspect-ratio:16/9" data-mock="02" data-asset="screenshots/02-compliance-dashboard.png" data-caption="DO-178C compliance dashboard with objective status"></div>
 
-      <div class="callout-pin" style="top: 30%; left: 18%;"></div>
-      <div class="callout-label mono" style="top: 18%; left: 2%;"><b>10/12</b> Linked · Table A</div>
-
-      <div class="callout-pin" style="top: 30%; right: 30%;"></div>
-      <div class="callout-label mono" style="top: 18%; right: 8%;"><b>170</b> Open MISRA</div>
-
-      <div class="callout-pin" style="bottom: 30%; right: 30%;"></div>
-      <div class="callout-label mono" style="bottom: 18%; right: 8%;"><b>6/12</b> Verification</div>
+      <div class="callout-pin" style="top: 34%; left: 18%;"></div>
+      <div class="callout-label mono" style="top: 22%; left: 3%;"><b>10/12</b> Linked · Table A</div>
+      <div class="callout-pin" style="top: 34%; right: 30%;"></div>
+      <div class="callout-label mono" style="top: 22%; right: 8%;"><b>170</b> Open MISRA</div>
+      <div class="callout-pin" style="bottom: 26%; right: 30%;"></div>
+      <div class="callout-label mono" style="bottom: 16%; right: 8%;"><b>6/12</b> Verification</div>
 
       <svg class="callout-leader" viewBox="0 0 1000 540" preserveAspectRatio="none">
-        <path d="M 100 110 L 180 175"/>
-        <path d="M 850 110 L 700 175"/>
-        <path d="M 850 430 L 700 365"/>
+        <path d="M 100 130 L 180 195"/>
+        <path d="M 850 130 L 700 195"/>
+        <path d="M 850 420 L 700 360"/>
       </svg>
     </div>
 
@@ -371,11 +404,12 @@
 </section>
 
 <!-- ============================================================ TRACEABILITY ============================================================ -->
-<section class="section-pad">
+<section class="section-pad divline">
   <div class="wrap">
     <div class="trace-split">
       <div class="reveal">
-        <h2>REQ → Design → Test,<br/>kept honest.</h2>
+        <span class="tag"><span class="sq"></span> Traceability</span>
+        <h2 style="margin-top:18px">REQ → Design → Test,<br/>kept honest.</h2>
         <p class="lead" style="margin-top:18px">The traceability graph is built from the actual workspace, not a side spreadsheet. The Rust sidecar re-indexes on save, the orchestrator audits the thread, and broken links fail the build.</p>
         <div class="trace-stats">
           <div class="trace-stat"><span class="v">1,284</span><span class="l">live REQ, Design, and Test links</span></div>
@@ -384,7 +418,8 @@
           <div class="trace-stat"><span class="v">SHA</span><span class="l">cryptographic audit log per change</span></div>
         </div>
       </div>
-      <div class="glass reveal delay-1" style="padding:22px;">
+      <div class="frame ticks reveal delay-1">
+        <div class="cap"><span>traceability-graph.noyce</span><span class="live">Live</span></div>
         <div class="shot-frame" style="aspect-ratio:16/10" data-mock="03" data-asset="screenshots/03-traceability-graph.png" data-caption="Requirements traceability graph"></div>
       </div>
     </div>
@@ -392,9 +427,10 @@
 </section>
 
 <!-- ============================================================ BUILD & SHIP ============================================================ -->
-<section class="section-pad">
+<section class="section-pad divline">
   <div class="wrap">
     <div class="sec-head reveal">
+      <span class="tag"><span class="sq"></span> Build &amp; ship</span>
       <h2>Configure. Compile. Lint.<br/>Test. Sign. Flash.</h2>
       <p class="lead">Reproducible, hermetic, and signed. The build pipeline lights up stage by stage in front of you, archives the artifact with its provenance manifest, and pushes the binary to the bench in one motion.</p>
     </div>
@@ -409,94 +445,47 @@
       <div class="stage"><div class="num">07</div><h4>Flash</h4><p>STM32 · 612 KB</p><span class="dot"></span></div>
     </div>
 
-    <div class="glass pedestal-shot reveal delay-2" style="margin-top:72px">
+    <div class="frame ticks reveal delay-2" style="margin-top:48px">
+      <div class="cap"><span>build-pipeline.noyce</span><span>arm-none-eabi-gcc</span></div>
       <div class="shot-frame" style="aspect-ratio:16/9" data-mock="06" data-asset="screenshots/06-build-pipeline.png" data-caption="Build pipeline running configure through flash"></div>
     </div>
 
     <div class="tilt-wrap">
       <div class="reveal">
-        <h3 style="font-size:clamp(28px,3.2vw,44px);">Six certification-ready templates.</h3>
-        <p style="margin-top:18px; font-size:17px;">STM32 H7, TI Tiva, Microchip PIC32, Raspberry Pi RP2040, NXP i.MX RT, and generic Cortex-M33. Each is pre-wired with CMake, a linker script, the HAL, a deviation register, and the MISRA profile your standard requires.</p>
+        <h3>Six certification-ready templates.</h3>
+        <p style="margin-top:18px; font-size:15.5px;">STM32 H7, TI Tiva, Microchip PIC32, Raspberry Pi RP2040, NXP i.MX RT, and generic Cortex-M33. Each is pre-wired with CMake, a linker script, the HAL, a deviation register, and the MISRA profile your standard requires.</p>
       </div>
       <div class="tilt-card reveal delay-1">
-        <div class="shot-frame" style="aspect-ratio:16/9" data-mock="07" data-asset="screenshots/07-project-templates.png" data-caption="Certification-ready project templates"></div>
+        <div class="frame">
+          <div class="cap"><span>templates.noyce</span><span>6 starters</span></div>
+          <div class="shot-frame" style="aspect-ratio:16/9" data-mock="07" data-asset="screenshots/07-project-templates.png" data-caption="Certification-ready project templates"></div>
+        </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- ============================================================ PROJECT INTELLIGENCE ============================================================ -->
-<section class="section-pad">
-  <div class="wrap">
-    <div class="trace-split" style="grid-template-columns: 1.1fr 0.9fr">
-      <div class="glass reveal" style="padding:22px;">
-        <div class="shot-frame" style="aspect-ratio:16/10" data-mock="01" data-asset="screenshots/01-project-graph.png" data-caption="Live project graph computed by the Rust sidecar"></div>
-      </div>
-      <div class="reveal delay-1">
-        <h2>A live map<br/>of your firmware.</h2>
-        <p class="lead" style="margin-top:18px">The project graph is computed by the Rust sidecar from the real workspace: translation units, header dependencies, ISR boundaries, RTOS tasks, requirement anchors, and test fixtures. Pan and zoom to spot the subsystem that grew teeth.</p>
-        <ul style="list-style:none; padding:0; margin:24px 0 0; display:flex; flex-direction:column; gap:14px; color:var(--ink-2); font-size:15px;">
-          <li style="display:flex; gap:14px; align-items:baseline;"><span class="mono" style="color:var(--accent); min-width:88px;">indexer</span> Rust sidecar, full-workspace reindex on save in under 500 ms</li>
-          <li style="display:flex; gap:14px; align-items:baseline;"><span class="mono" style="color:var(--accent); min-width:88px;">surface</span> React UI with D3-driven panning, zooming, and filtering</li>
-          <li style="display:flex; gap:14px; align-items:baseline;"><span class="mono" style="color:var(--accent); min-width:88px;">query</span> Selector language for "all ISRs that touch DMA1"</li>
-          <li style="display:flex; gap:14px; align-items:baseline;"><span class="mono" style="color:var(--accent); min-width:88px;">audit</span> Each node carries its REQ and verification status</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================================================ WAVE DIVIDER ============================================================ -->
-<div class="wave-divider" aria-hidden="true">
-  <svg viewBox="0 0 1440 240" preserveAspectRatio="none">
-    <g class="accent-line">
-      <path d="M0 120 Q 240 190, 480 120 T 960 120 T 1440 120"/>
-      <path d="M0 102 Q 240 172, 480 102 T 960 102 T 1440 102" opacity="0.4"/>
-      <path d="M0 84 Q 240 154, 480 84 T 960 84 T 1440 84" opacity="0.25"/>
-    </g>
-  </svg>
-</div>
 
 <!-- ============================================================ ARCHITECTURE ============================================================ -->
-<section class="section-pad" style="background: radial-gradient(800px 400px at 50% 30%, rgba(34,224,126,0.06), transparent 60%);">
+<section class="section-pad divline">
   <div class="wrap">
     <div class="sec-head center reveal">
-      <span class="label center"><span>Architecture</span></span>
+      <span class="tag"><span class="sq"></span> Architecture</span>
       <h2 style="text-align:center;">Three layers, one contract.</h2>
       <p class="lead" style="text-align:center; max-width:60ch;">A Code-OSS shell hosts the React UI. The React UI talks to a Rust sidecar over a typed RPC. The sidecar owns parsing, indexing, and the requirements graph, and stays off the main thread.</p>
     </div>
 
     <div class="arch-stack reveal delay-1" aria-hidden="true">
       <div class="arch-layer l1">
-        <h5>React UI</h5>
-        <span class="sub">Surfaces · Editor overlays</span>
-        <div class="row">
-          <span class="chip">PinConfigurator</span>
-          <span class="chip">ComplianceDash</span>
-          <span class="chip">TraceGraph</span>
-          <span class="chip">AILauncher</span>
-        </div>
+        <h5>React UI</h5><span class="sub">Surfaces · Editor overlays</span>
+        <div class="row"><span class="chip">PinConfigurator</span><span class="chip">ComplianceDash</span><span class="chip">TraceGraph</span><span class="chip">AILauncher</span></div>
       </div>
       <div class="arch-layer l2">
-        <h5>Code-OSS Shell</h5>
-        <span class="sub">Extensions · Workbench</span>
-        <div class="row">
-          <span class="chip">noyce.compliance</span>
-          <span class="chip">noyce.trace</span>
-          <span class="chip">noyce.ai</span>
-          <span class="chip">noyce.pins</span>
-          <span class="chip">noyce.debug</span>
-        </div>
+        <h5>Code-OSS Shell</h5><span class="sub">Extensions · Workbench</span>
+        <div class="row"><span class="chip">noyce.compliance</span><span class="chip">noyce.trace</span><span class="chip">noyce.ai</span><span class="chip">noyce.pins</span><span class="chip">noyce.debug</span></div>
       </div>
       <div class="arch-layer l3">
-        <h5>Rust Sidecar</h5>
-        <span class="sub">Indexer · RPC · Graph</span>
-        <div class="row">
-          <span class="chip">tree-sitter</span>
-          <span class="chip">svd-parser</span>
-          <span class="chip">misra-engine</span>
-          <span class="chip">trace-store</span>
-        </div>
+        <h5>Rust Sidecar</h5><span class="sub">Indexer · RPC · Graph</span>
+        <div class="row"><span class="chip">tree-sitter</span><span class="chip">svd-parser</span><span class="chip">misra-engine</span><span class="chip">trace-store</span></div>
       </div>
     </div>
 
@@ -518,9 +507,10 @@
 </section>
 
 <!-- ============================================================ DEMO REEL ============================================================ -->
-<section class="section-pad">
+<section class="section-pad divline">
   <div class="wrap">
     <div class="sec-head reveal">
+      <span class="tag"><span class="sq"></span> Showcase</span>
       <h2>The whole IDE, in motion.</h2>
     </div>
 
@@ -542,10 +532,10 @@
 </section>
 
 <!-- ============================================================ BUILT ON ============================================================ -->
-<section class="section-pad-sm">
+<section class="section-pad-sm divline">
   <div class="wrap">
     <div class="sec-head center reveal">
-      <span class="label center"><span>Built on</span></span>
+      <span class="tag"><span class="sq"></span> Built on</span>
       <h3 style="text-align:center;">Standards you already work in.</h3>
     </div>
     <div class="pills reveal delay-1">
@@ -566,50 +556,50 @@
 </section>
 
 <!-- ============================================================ DOWNLOAD ============================================================ -->
-<section class="section-pad" id="download">
+<section class="section-pad divline" id="download">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="label"><span>Get Noyce</span></span>
+      <span class="tag"><span class="sq"></span> Get Noyce</span>
       <h2>Install. Open a template.<br/>Ship a certified binary.</h2>
       <p class="lead">Noyce is free during beta. macOS arm64 ships today, Windows is in beta, and Linux is on the roadmap.</p>
     </div>
 
     <div class="dl-grid">
-      <div class="dl-card primary reveal">
-        <div class="os-row">
-          <div class="os">macOS</div>
-          <div class="status">Released</div>
+      <div class="panel dl-card primary reveal">
+        <div class="panel-bar"><span>macOS</span><span class="live">Released</span></div>
+        <div class="panel-body">
+          <p class="desc">macOS 13 Ventura or later. arm64 native, x86_64 supported.</p>
+          <pre class="install"><span class="p">$</span> brew install --cask <span class="c">noyce-ide</span></pre>
+          <a class="btn accent" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg">Download · arm64 · 142 MB</a>
         </div>
-        <p class="desc">macOS 13 Ventura or later. arm64 native, x86_64 supported.</p>
-        <pre class="install"><span class="p">$</span> brew install --cask <span class="c">noyce-ide</span></pre>
-        <a class="btn primary" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg">Download · arm64 (142 MB)</a>
       </div>
-      <div class="dl-card reveal delay-1">
-        <div class="os-row">
-          <div class="os">Windows</div>
-          <div class="status beta">Beta</div>
+      <div class="panel dl-card reveal delay-1">
+        <div class="panel-bar"><span>Windows</span><span>Beta</span></div>
+        <div class="panel-body">
+          <p class="desc">Windows 11 · x64 · code-signed · MSI and portable.</p>
+          <pre class="install"><span class="p">&gt;</span> winget install <span class="c">Noyce.IDE</span></pre>
+          <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi">Download · x64 · 168 MB</a>
         </div>
-        <p class="desc">Windows 11 · x64 · code-signed · MSI and portable.</p>
-        <pre class="install"><span class="p">&gt;</span> winget install <span class="c">Noyce.IDE</span></pre>
-        <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi">Download · x64 (168 MB)</a>
       </div>
-      <div class="dl-card reveal delay-2">
-        <div class="os-row">
-          <div class="os">Linux</div>
-          <div class="status roadmap">Roadmap</div>
+      <div class="panel dl-card reveal delay-2">
+        <div class="panel-bar"><span>Linux</span><span>Roadmap</span></div>
+        <div class="panel-body">
+          <p class="desc">Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.</p>
+          <pre class="install"><span class="p">$</span> flatpak install <span class="c">dev.noyce.IDE</span></pre>
+          <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide">Notify me</a>
         </div>
-        <p class="desc">Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.</p>
-        <pre class="install"><span class="p">$</span> flatpak install <span class="c">dev.noyce.IDE</span></pre>
-        <a class="btn" href="https://github.com/Hitheshkaranth/noyce_ide">Notify me</a>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="model-callout reveal delay-3">
-      <div>
-        <h4>Configure your model</h4>
-        <p>Bring keys from Anthropic, OpenAI, Google Gemini, or Mistral, or stay fully on-prem with Ollama or LM Studio. Routing is per-persona.</p>
-      </div>
-      <a class="btn primary lg" href="https://github.com/Hitheshkaranth/noyce_ide">Open AI Models setup →</a>
+<!-- ============================================================ BIG CTA ============================================================ -->
+<section class="bigcta">
+  <div class="wrap inner">
+    <h2 class="reveal">Ship firmware<br/>that has to be right.</h2>
+    <div class="acts reveal delay-1">
+      <a class="btn accent lg" href="#download">Download Noyce</a>
+      <a class="btn lg" href="https://github.com/Hitheshkaranth/noyce_ide">Configure your model</a>
     </div>
   </div>
 </section>
@@ -662,7 +652,6 @@
   </div>
 </footer>
 
-<!-- Three.js for the hero MCU chip -->
 <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 <script src="mockups.js"></script>
 <script src="scene.js"></script>
