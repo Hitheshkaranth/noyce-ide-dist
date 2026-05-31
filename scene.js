@@ -103,12 +103,12 @@
     const key = new THREE.DirectionalLight(0xffffff, 0.85);
     key.position.set(4, 6, 4);
     scene.add(key);
-    const rim = new THREE.PointLight(0x8ee6ff, 1.2, 10);
+    const rim = new THREE.PointLight(0x22e07e, 1.25, 10);
     rim.position.set(-3, 2, -3);
     scene.add(rim);
-    const violet = new THREE.PointLight(0x7c4dff, 0.6, 12);
-    violet.position.set(3, 1, 3);
-    scene.add(violet);
+    const fill = new THREE.PointLight(0xaebccc, 0.45, 12);
+    fill.position.set(3, 1, 3);
+    scene.add(fill);
 
     // pointer-tracking glow
     const cursor = { x: 0, y: 0 };
@@ -141,8 +141,9 @@
         const phase = (idx / N) * Math.PI * 2;
         const wave = Math.sin(t * 1.6 - phase * 3) * 0.5 + 0.5;
         const lift = Math.max(0, wave - 0.8) * 5; // sparse pulses
+        // signal-green emissive pulse (matches the page's single accent)
         pins[k].mesh.material.emissive.setRGB(
-          lift * 0.55, lift * 0.85, lift * 1.0
+          lift * 0.13, lift * 0.88, lift * 0.49
         );
       }
 
