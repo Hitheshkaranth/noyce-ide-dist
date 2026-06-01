@@ -1,0 +1,146 @@
+/* ============================================================
+   Electronics theming — PCB traces, vias, pads, waveform,
+   silkscreen fiducials, circuit-bus dividers
+   ============================================================ */
+
+:root {
+  --copper: #d9a066;      /* solder / via accent */
+  --copper-deep: #b87a3d;
+  --solder: #e8c89a;
+}
+
+/* ---------- PCB trace background layer ---------- */
+.pcb { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pcb .wire { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.pcb .wire.ice { stroke: rgba(125,211,252,0.16); }
+.pcb .wire.violet { stroke: rgba(167,139,250,0.15); }
+.pcb .wire.copper { stroke: rgba(217,160,102,0.18); }
+.pcb .via { fill: #0a0e16; stroke: var(--copper); stroke-width: 1.4; }
+.pcb .via-glow { fill: var(--copper); opacity: 0.0; animation: viaGlow 4s ease-in-out infinite; }
+@keyframes viaGlow { 0%, 100% { opacity: 0; } 50% { opacity: 0.55; } }
+.pcb .pad { fill: rgba(125,211,252,0.10); stroke: rgba(125,211,252,0.30); stroke-width: 1; }
+.pcb .pulse { fill: var(--ice); filter: drop-shadow(0 0 5px var(--ice)); }
+.pcb .pulse.cu { fill: var(--solder); filter: drop-shadow(0 0 5px var(--copper)); }
+
+/* ---------- Oscilloscope waveform ---------- */
+.scope { position: absolute; left: 0; right: 0; bottom: 6%; height: 120px; width: 100%; opacity: 0.5; }
+.scope .grid-h { stroke: rgba(125,211,252,0.06); stroke-width: 1; }
+.scope .trace { fill: none; stroke: var(--ice); stroke-width: 1.6; filter: drop-shadow(0 0 5px rgba(125,211,252,0.6)); }
+.scope .sweep { animation: scopeSweep 9s linear infinite; }
+@keyframes scopeSweep { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.scope .dot { fill: var(--ice); filter: drop-shadow(0 0 6px var(--ice)); }
+
+/* ---------- Silkscreen + fiducials ---------- */
+.silk {
+  position: absolute; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(232,237,248,0.32); pointer-events: none; z-index: 2;
+}
+.fiducial {
+  position: absolute; width: 13px; height: 13px; border-radius: 50%; pointer-events: none; z-index: 2;
+  border: 1px solid rgba(217,160,102,0.5);
+  background:
+    linear-gradient(var(--copper), var(--copper)) center / 9px 1px no-repeat,
+    linear-gradient(var(--copper), var(--copper)) center / 1px 9px no-repeat;
+  opacity: 0.45;
+}
+/* solder-pad bullet */
+.pad-dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; flex: none;
+  background: radial-gradient(circle at 35% 30%, var(--solder), var(--copper-deep));
+  box-shadow: 0 0 6px rgba(217,160,102,0.5); }
+
+/* board corner pads on a card */
+.board { position: relative; }
+.board > .corner-pad { position: absolute; width: 7px; height: 7px; border-radius: 2px;
+  background: linear-gradient(135deg, var(--solder), var(--copper-deep)); opacity: 0.55;
+  box-shadow: 0 0 6px rgba(217,160,102,0.4); }
+.board > .corner-pad.tl { top: 9px; left: 9px; }
+.board > .corner-pad.tr { top: 9px; right: 9px; }
+.board > .corner-pad.bl { bottom: 9px; left: 9px; }
+.board > .corner-pad.br { bottom: 9px; right: 9px; }
+
+/* ---------- Circuit-bus section divider ---------- */
+.bus { position: relative; height: 64px; z-index: 1; }
+.bus svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.bus .rail { stroke: rgba(125,211,252,0.22); stroke-width: 1.4; fill: none; }
+.bus .rail.cu { stroke: rgba(217,160,102,0.30); }
+.bus .node { fill: #0a0e16; stroke: var(--ice); stroke-width: 1.4; }
+.bus .node.cu { stroke: var(--copper); }
+.bus .flow { fill: var(--ice); filter: drop-shadow(0 0 5px var(--ice)); }
+.bus .lbl { fill: rgba(232,237,248,0.28); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; }
+
+/* chip solder pads (gold pins feel) */
+.chip .pin.gold { background: linear-gradient(90deg, var(--copper-deep), var(--solder)); }
+
+/* ---------- IC package shelf ---------- */
+.pkg-head { display: flex; align-items: center; gap: 12px; margin: 6px 0 26px; }
+.pkg-head .pkg-kicker { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ice); }
+.pkg-head .rule { flex: 1; height: 1px; background: linear-gradient(90deg, var(--glass-brd), transparent); }
+.pkg-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.pkg-tile { padding: 22px 14px 16px; display: flex; flex-direction: column; align-items: center; gap: 14px;
+  transition: transform .3s var(--ease), border-color .3s; }
+.pkg-tile:hover { border-color: rgba(125,211,252,0.4); }
+.pkg-stage { height: 92px; display: grid; place-items: center; perspective: 600px; }
+
+/* package body */
+.pkg { position: relative; width: 64px; height: 64px; border-radius: 7px; transform: rotateX(8deg);
+  background: linear-gradient(150deg, #20283a, #0c1019); border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 14px 26px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); transition: transform .35s var(--ease); }
+.pkg-tile:hover .pkg { transform: rotateX(0deg) scale(1.06); }
+.pkg .pdie { position: absolute; inset: 12px; border-radius: 4px;
+  background: radial-gradient(circle at 50% 40%, rgba(125,211,252,0.14), transparent 70%), #0a0e16;
+  border: 1px solid rgba(125,211,252,0.16); display: grid; place-items: center; }
+.pkg .pdie::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: rgba(125,211,252,0.35); box-shadow: 0 0 8px var(--ice); }
+.pkg .pnotch { position: absolute; top: 6px; left: 6px; width: 5px; height: 5px; border-radius: 50%; background: rgba(125,211,252,0.5); }
+
+/* legs on each side (gull-wing) */
+.pkg .leg { position: absolute; }
+.pkg .leg.top, .pkg .leg.bottom { left: 8%; right: 8%; height: 7px;
+  background: repeating-linear-gradient(90deg, var(--solder) 0 2px, transparent 2px 6px); }
+.pkg .leg.top { top: -7px; } .pkg .leg.bottom { bottom: -7px; }
+.pkg .leg.left, .pkg .leg.right { top: 8%; bottom: 8%; width: 7px;
+  background: repeating-linear-gradient(0deg, var(--solder) 0 2px, transparent 2px 6px); }
+.pkg .leg.left { left: -7px; } .pkg .leg.right { right: -7px; }
+
+/* fine pitch (TQFP) */
+.pkg.tqfp .leg.top, .pkg.tqfp .leg.bottom { background: repeating-linear-gradient(90deg, var(--solder) 0 1.5px, transparent 1.5px 4px); }
+.pkg.tqfp .leg.left, .pkg.tqfp .leg.right { background: repeating-linear-gradient(0deg, var(--solder) 0 1.5px, transparent 1.5px 4px); }
+
+/* QFN — short pads, no gull-wing, exposed pad */
+.pkg.qfn { border-radius: 6px; }
+.pkg.qfn .leg { opacity: 0.9; }
+.pkg.qfn .leg.top, .pkg.qfn .leg.bottom { height: 4px; left: 12%; right: 12%; }
+.pkg.qfn .leg.top { top: -3px; } .pkg.qfn .leg.bottom { bottom: -3px; }
+.pkg.qfn .leg.left, .pkg.qfn .leg.right { width: 4px; top: 12%; bottom: 12%; }
+.pkg.qfn .leg.left { left: -3px; } .pkg.qfn .leg.right { right: -3px; }
+.pkg.qfn .pdie { inset: 16px; }
+
+/* BGA — ball grid underneath, no side legs */
+.pkg.bga .leg { display: none; }
+.pkg.bga .pdie { inset: 8px; background:
+  radial-gradient(circle, var(--solder) 1.6px, transparent 2.2px) 0 0 / 11px 11px,
+  #0a0e16; opacity: 0.95; }
+.pkg.bga .pdie::after { display: none; }
+
+/* DIP — long through-hole legs on two sides, taller body */
+.pkg.dip { width: 50px; height: 70px; }
+.pkg.dip .leg.top, .pkg.dip .leg.bottom { display: none; }
+.pkg.dip .leg.left, .pkg.dip .leg.right { width: 9px; top: 6%; bottom: 6%;
+  background: repeating-linear-gradient(0deg, var(--copper-deep) 0 3px, transparent 3px 9px); }
+.pkg.dip .leg.left { left: -9px; } .pkg.dip .leg.right { right: -9px; }
+
+/* SOIC — small, legs on two sides only */
+.pkg.soic { width: 44px; height: 56px; }
+.pkg.soic .leg.top, .pkg.soic .leg.bottom { display: none; }
+.pkg.soic .leg.left, .pkg.soic .leg.right { width: 6px; top: 12%; bottom: 12%; }
+
+.pkg-cap { text-align: center; }
+.pkg-cap b { display: block; font-size: 12.5px; font-weight: 600; letter-spacing: -0.01em; }
+.pkg-cap span { font-family: var(--font-mono); font-size: 9.5px; color: var(--ice); letter-spacing: 0.05em; }
+
+@media (max-width: 900px) { .pkg-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 520px) { .pkg-grid { grid-template-columns: repeat(2, 1fr); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pcb .pulse, .pcb .via-glow, .scope .sweep, .scope .dot, .bus .flow { animation: none !important; }
+  .pcb .pulse, .bus .flow { display: none; }
+}
