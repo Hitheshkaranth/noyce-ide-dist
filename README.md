@@ -30,11 +30,12 @@ Bring requirements, code, certification evidence, hardware tooling, and a multi-
 Modern safety-critical firmware work is fragmented across requirements managers, static analyzers, traceability matrices, CI dashboards, AI assistants, and a stack of vendor IDEs. **Noyce IDE collapses all of that into one Code-OSS workbench** with first-class support for:
 
 - **Hardware-aware editing** — pin maps, peripheral registers, RTOS thread state, schematic views, signal/protocol decoders.
-- **Certification evidence built-in** — DO-178C Table A objectives, MISRA rule decoding, MC/DC coverage, immutable audit trail.
-- **A multi-agent AI pipeline** — system designer, coder, reviewer, tester, doc generator, traceability monitor — each with its own configurable model provider.
+- **Certification evidence built-in** — DO-178C Table A objectives, MISRA rule decoding, MC/DC coverage, immutable audit trail. Each objective routes to its **specialist agent** (System Designer → SRS/SDD, Test Engineer → test cases, Compliance Reviewer → verification records) to generate the artifact.
+- **A 755-tool static-analysis catalog** — browse the vendored [analysis-tools-dev](https://github.com/analysis-tools-dev/static-analysis) catalog filtered to your stack, run a curated executable subset (cppcheck, clang-tidy, ESLint, Ruff, ShellCheck), and apply MISRA single-exit auto-fixes.
+- **A multi-agent AI pipeline** — system designer, coder, reviewer, tester, doc generator, traceability monitor — each with its own configurable model provider; generated objectives sync straight into the AI Orchestrator kanban.
 - **Real CI surfaces** — build, static analysis, unit, HIL, and traceability stages in one live pipeline view.
 
-It looks like the IDE you already use. It works the way safety teams already audit.
+It looks like the IDE you already use, on a clean shadcn-neutral design system. It works the way safety teams already audit.
 
 ---
 
@@ -44,13 +45,13 @@ It looks like the IDE you already use. It works the way safety teams already aud
 
 <img src="screenshots/04-ai-orchestrator.png" alt="AI Orchestrator with kanban sprint" />
 
-The Orchestrator is a kanban board where each card carries a persona (System Designer, Software Engineer, Test Engineer, Doc Specialist, Reviewer Agent) and moves Backlog → To Do → In Progress → Handover → Done. Agent runs are queued into a sprint and dispatched in parallel.
+The Orchestrator is a kanban board where each card carries a persona (System Designer, Software Engineer, Test Engineer, Doc Specialist, Reviewer Agent) and moves Backlog → To Do → In Progress → Handover → Done. Agent runs are queued into a sprint and dispatched in parallel. **Compliance objectives generated on the dashboard sync straight into the board** and sort to the top, each routed to its owning agent — and the whole board persists to the project.
 
 ### DO-178C compliance evidence — at-a-glance and audit-ready
 
 <img src="screenshots/02-compliance-dashboard.png" alt="Compliance dashboard with DO-178C Table A" />
 
-Requirements linked, design evidence, verification evidence, and open MISRA findings — all derived live from the active project. The DO-178C Table A objective table calls out exactly which objectives need attention and what's required to close them.
+Requirements linked, design evidence, verification evidence, and open static-analysis findings — all derived live from the active project. Generate the full objective package with AI, then produce each objective's artifact via its **specialist agent**, and export a one-click DO-178C evidence pack.
 
 ### Traceability graph — REQ ↔ Design ↔ Test, visualised
 
@@ -94,11 +95,17 @@ Every code review packet carries linked changesets, AI agent pre-check results (
 
 Cert-ready starter projects for canister controllers, power distribution units, battery management systems, and flight data recorders — each pre-mapped to a traceability matrix and a compliance profile.
 
-### Single AI launcher — Orchestrator, Agents Chat, and Models in one place
+### MISRA Diagnostics — rule-decoded findings with agent auto-fix
 
-<img src="screenshots/09-noyce-ai-launcher.png" alt="Noyce AI activity bar with Agents Chat" />
+<img src="screenshots/11-misra-diagnostics.png" alt="MISRA Diagnostics panel with auto-fix" />
 
-One activity-bar icon ("Noyce AI") opens a tree launcher with all AI surfaces, the persistent **Agents** chat panel (with per-message model selection), and the **Agent History** thread browser. The chat panel can be dragged to the right sidebar to mimic VS Code Chat.
+Findings from the multi-tool static-analysis run, decoded to the rule (e.g. MISRA C:2025 Rule 15.5 — single point of exit) with severity, control-flow context, and a one-click **Auto-fix** that routes structural rules to a function-level refactor agent and applies the result on the host.
+
+### Quality Trend — live maintainability & complexity
+
+<img src="screenshots/12-quality-trend.png" alt="Quality Trend dashboard" />
+
+Maintainability gauge plus MISRA-open, cyclomatic complexity, and traceability metrics computed in-IDE from the active project's sources — with per-snapshot trend charts to watch quality drift over time.
 
 ---
 
@@ -106,7 +113,8 @@ One activity-bar icon ("Noyce AI") opens a tree launcher with all AI surfaces, t
 
 | Category | Surfaces |
 | --- | --- |
-| **Compliance & Certification** | Compliance Dashboard · Traceability Graph · Requirements Explorer · MISRA Diagnostics · MC/DC Coverage · Annotation Navigator · Audit Log |
+| **Compliance & Certification** | Compliance Dashboard (multi-agent per-objective artifact generation) · DO-178C Evidence Pack · Traceability Graph · Requirements Explorer · MISRA Diagnostics + single-exit auto-fix · MC/DC Coverage · Quality Trend · Annotation Navigator · Audit Log |
+| **Static analysis** | 755-tool catalog (vendored analysis-tools-dev) with language-filtered Browse Catalog · runnable subset (cppcheck · clang-tidy · ESLint · Ruff · ShellCheck) · catalog-driven multi-tool scans |
 | **Hardware-aware editing** | Pin Configurator · Peripheral Registers · Memory View · RTOS Thread Viewer · Schematic Viewer · Debug Probe Panel · Fault Analyzer (Cortex-M CFSR decoded) · Linker Memory Map |
 | **Signal & protocol** | Logic-analyzer Signal Viewer · Serial Monitor · Modbus Monitor · Energy Profiler (LoRa / BLE / sense-burst presets) · Live Data Dashboard (Power / Motor / Comms) |
 | **CI / Build** | Build Pipeline (Static Analysis / Build / Unit / HIL / Docs) · Build Size Treemap · Project Templates · Project Graph |
