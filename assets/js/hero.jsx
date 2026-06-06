@@ -119,7 +119,7 @@ function Hero() {
     <header className="hero" id="top">
       <div className="wrap hero-grid">
         <div className="hero-copy">
-          <span className="kicker">Noyce IDE · 1.0.6</span>
+          <span className="kicker">Noyce IDE · 1.0.7</span>
           <h1 style={{ marginTop: 22 }}>The IDE built for firmware that <span className="grad">has to be right.</span></h1>
           <p className="lede">An AI-native, Code-OSS workbench for embedded and safety-critical teams. Certification evidence, multi-agent review, and pin-aware editing live in one place.</p>
           <div className="hero-actions">

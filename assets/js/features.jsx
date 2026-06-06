@@ -97,14 +97,19 @@ const SCREENSHOTS = [
     title: 'Rule-cited code review and deviation workflow',
   },
   {
-    src: 'screenshots/09-noyce-ai-launcher.png',
-    label: 'Launcher',
-    title: 'Noyce AI entry points where the project needs them',
-  },
-  {
     src: 'screenshots/10-pin-configurator.png',
     label: 'Pin Configurator',
     title: 'Pin-aware hardware setup beside the firmware',
+  },
+  {
+    src: 'screenshots/11-misra-diagnostics.png',
+    label: 'MISRA',
+    title: 'Rule-decoded findings with one-click agent auto-fix',
+  },
+  {
+    src: 'screenshots/12-quality-trend.png',
+    label: 'Quality Trend',
+    title: 'Maintainability and complexity tracked in-IDE',
   },
 ];
 

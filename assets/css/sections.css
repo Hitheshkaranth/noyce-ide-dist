@@ -71,7 +71,7 @@
 .orbit-wrap.paused .packet { animation-play-state: paused; }
 
 /* detail panel for selected agent */
-.agent-detail { min-height: 320px; }
+.agent-detail { min-height: auto; }
 .agent-detail .ad-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
 .agent-detail .ad-ico { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
   background: linear-gradient(135deg, rgba(125,211,252,0.2), rgba(167,139,250,0.2)); border: 1px solid var(--glass-brd); }
@@ -118,7 +118,7 @@
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
-  padding: 12px 14px;
+  padding: 8px 12px;
   border: 1px solid var(--glass-brd);
   border-radius: 12px;
   background: rgba(6,8,12,0.72);
@@ -179,7 +179,7 @@
 
 /* ---------------- MCU / PINOUT ---------------- */
 .mcu-wrap { display: grid; grid-template-columns: 1fr 1.05fr; gap: 48px; align-items: center; }
-.mcu-stage { perspective: 1400px; display: grid; place-items: center; min-height: 460px; }
+.mcu-stage { perspective: 1400px; display: grid; place-items: center; min-height: 360px; }
 .mcu-tilt { transform-style: preserve-3d; transition: transform .4s var(--ease); animation: mcuidle 10s ease-in-out infinite; }
 @keyframes mcuidle { 0%,100% { transform: rotateX(46deg) rotateZ(0deg); } 50% { transform: rotateX(46deg) rotateZ(8deg); } }
 
@@ -244,11 +244,11 @@
 
 @media (max-width: 940px) {
   .mcu-wrap { grid-template-columns: 1fr; gap: 30px; }
-  .mcu-stage { min-height: 380px; }
+  .mcu-stage { min-height: 300px; }
 }
 
 /* ---------------- TRACEABILITY GRAPH ---------------- */
-.trace-stage { position: relative; height: 480px; perspective: 1200px; }
+.trace-stage { position: relative; height: 340px; perspective: 1200px; }
 .trace-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .trace-node {
   position: absolute; transform: translate(-50%, -50%); z-index: 3;
@@ -272,13 +272,13 @@
 
 .trace-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; justify-content: center; }
 .trace-meta { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-top: 44px; }
-.trace-meta .tm { padding: 18px; }
+.trace-meta .tm { padding: 13px 16px; }
 .trace-meta .tm .n { font-size: 26px; font-weight: 600; letter-spacing: -0.02em;
   background: linear-gradient(180deg,#fff,var(--ice)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .trace-meta .tm .l { font-size: 12px; color: var(--ink-2); margin-top: 6px; }
 
 @media (max-width: 720px) {
-  .trace-stage { height: 380px; }
+  .trace-stage { height: 300px; }
   .trace-meta { grid-template-columns: repeat(2,1fr); }
 }
 
