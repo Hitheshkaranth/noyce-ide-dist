@@ -183,13 +183,13 @@
 .mcu-tilt { transform-style: preserve-3d; transition: transform .4s var(--ease); animation: mcuidle 10s ease-in-out infinite; }
 @keyframes mcuidle { 0%,100% { transform: rotateX(46deg) rotateZ(0deg); } 50% { transform: rotateX(46deg) rotateZ(8deg); } }
 
-.chip {
+.mcu-chip {
   position: relative; width: 230px; height: 230px; border-radius: 18px;
   background: linear-gradient(135deg, #1a2230, #0c1019);
   border: 1px solid rgba(255,255,255,0.12); transform-style: preserve-3d;
   box-shadow: 0 40px 80px rgba(0,0,0,0.6), inset 0 2px 0 rgba(255,255,255,0.1);
 }
-.chip .die {
+.mcu-chip .die {
   position: absolute; inset: 30px; border-radius: 10px;
   background:
     repeating-linear-gradient(0deg, rgba(125,211,252,0.05) 0 7px, transparent 7px 14px),
@@ -199,9 +199,9 @@
   border: 1px solid rgba(125,211,252,0.18);
   display: grid; place-items: center;
 }
-.chip .die .mark { font-family: var(--font-mono); font-size: 10px; color: var(--ice); text-align: center; line-height: 1.6; letter-spacing: 0.05em; }
-.chip .die .mark b { font-size: 13px; color: #eaf6ff; display: block; letter-spacing: 0.12em; }
-.chip .notch { position: absolute; top: 38px; left: 12px; width: 9px; height: 9px; border-radius: 50%; background: rgba(125,211,252,0.4); box-shadow: 0 0 8px var(--ice); }
+.mcu-chip .die .mark { font-family: var(--font-mono); font-size: 10px; color: var(--ice); text-align: center; line-height: 1.6; letter-spacing: 0.05em; }
+.mcu-chip .die .mark b { font-size: 13px; color: #eaf6ff; display: block; letter-spacing: 0.12em; }
+.mcu-chip .notch { position: absolute; top: 38px; left: 12px; width: 9px; height: 9px; border-radius: 50%; background: rgba(125,211,252,0.4); box-shadow: 0 0 8px var(--ice); }
 
 /* pins */
 .pin { position: absolute; width: 16px; height: 6px; border-radius: 2px; cursor: pointer;

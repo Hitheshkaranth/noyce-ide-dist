@@ -92,7 +92,7 @@ function MCU() {
           {/* Chip stage */}
           <div className="mcu-stage">
             <div className="mcu-tilt">
-              <div className="chip">
+              <div className="mcu-chip">
                 <span className="notch" />
                 <div className="die"><div className="mark"><b>STM32H743</b>Cortex-M7 · 480 MHz<br />LQFP176</div></div>
                 <span className="silk" style={{ top: 6, right: 12, color: 'rgba(125,211,252,0.45)' }}>U1</span>

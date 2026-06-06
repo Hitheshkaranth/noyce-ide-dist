@@ -69,7 +69,7 @@
 .bus .lbl { fill: rgba(232,237,248,0.28); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; }
 
 /* chip solder pads (gold pins feel) */
-.chip .pin.gold { background: linear-gradient(90deg, var(--copper-deep), var(--solder)); }
+.mcu-chip .pin.gold { background: linear-gradient(90deg, var(--copper-deep), var(--solder)); }
 
 /* ---------- IC package shelf ---------- */
 .pkg-head { display: flex; align-items: center; gap: 12px; margin: 6px 0 26px; }
