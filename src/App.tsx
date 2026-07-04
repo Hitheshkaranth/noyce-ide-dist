@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { ArrowRight, Instagram, Twitter, Globe, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, Instagram, Twitter, Globe } from 'lucide-react'
 
 // ---- VIDEO URLs ----
 const HERO_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4'
@@ -27,7 +27,6 @@ function animateOpacity(el: HTMLElement, from: number, to: number, duration: num
 // ---- HERO ----
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [email, setEmail] = useState('')
 
   useEffect(() => {
     const video = videoRef.current
@@ -57,12 +56,6 @@ function Hero() {
     })
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log('Subscribed:', email)
-    setEmail('')
-  }
-
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden">
       <video
@@ -83,7 +76,7 @@ function Hero() {
             <span className="text-white font-semibold text-lg hidden sm:block">Noyce IDE</span>
             <div className="hidden md:flex items-center gap-8 ml-8">
               <a href="#features" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Features</a>
-              <a href="#philosophy" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Philosophy</a>
+              <a href="#screenshots" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Screenshots</a>
               <a href="#about" className="text-white/80 hover:text-white text-sm font-medium transition-colors">About</a>
             </div>
           </div>
@@ -101,28 +94,29 @@ function Hero() {
           Build it <em className="italic">right.</em>
         </h1>
 
-        <form onSubmit={handleSubmit} className="max-w-xl w-full mb-6">
-          <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-white/40 text-sm"
-            />
-            <button type="submit" className="bg-white rounded-full p-3 text-black flex-shrink-0 hover:bg-white/90 transition-colors">
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
-        </form>
-
-        <p className="text-white text-sm leading-relaxed px-4 mb-6 max-w-md">
-          The AI-native IDE for safety-critical embedded firmware. DO-178C, ISO 26262, and MISRA evidence built in.
+        <p className="text-white text-sm leading-relaxed px-4 mb-8 max-w-lg">
+          The AI-native IDE for safety-critical embedded firmware. DO-178C, ISO 26262, and MISRA evidence built in. Bring requirements, code, certification evidence, hardware tooling, and a multi-agent AI pipeline into one Code-OSS workbench.
         </p>
 
-        <a href="#philosophy" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors">
-          Learn More
-        </a>
+        <div className="flex flex-wrap gap-4 justify-center mb-8">
+          <a href="#screenshots" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors flex items-center gap-2">
+            Explore Features <ArrowRight className="w-4 h-4" />
+          </a>
+          <a href="https://github.com/Hitheshkaranth/noyce_ide" target="_blank" rel="noreferrer" className="bg-white text-black rounded-full px-8 py-3 text-sm font-medium hover:bg-white/90 transition-colors">
+            View on GitHub
+          </a>
+        </div>
+
+        <div className="flex items-center gap-6 text-white/60 text-sm">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            macOS arm64 Ready
+          </span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">Windows Beta</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">Free During Beta</span>
+        </div>
       </div>
 
       <div className="relative z-10 flex justify-center gap-4 pb-12">
@@ -180,7 +174,7 @@ function AboutSection() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="mt-8 text-white/60 text-lg max-w-2xl leading-relaxed"
           >
-            Modern safety-critical firmware work is fragmented across requirements managers, static analyzers, traceability matrices, CI dashboards, AI assistants, and a stack of vendor IDEs. Noyce IDE collapses all of that into one Code-OSS workbench.
+            Modern safety-critical firmware work is fragmented across requirements managers, static analyzers, traceability matrices, CI dashboards, AI assistants, and a stack of vendor IDEs. Noyce IDE collapses all of that into one Code-OSS workbench — purpose-built for DO-178C, ISO 26262, and MISRA-grade firmware teams.
           </motion.p>
         </div>
       </div>
@@ -244,6 +238,182 @@ function FeaturedVideoSection() {
   )
 }
 
+// ---- SCREENSHOTS SECTION ----
+interface ScreenshotProps {
+  title: string
+  description: string
+  features: string[]
+  video?: string
+  index: number
+}
+
+function ScreenshotCard({ title, description, features, video, index }: ScreenshotProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+      transition={{ duration: 0.8, delay: 0.1 * index }}
+      className="grid lg:grid-cols-2 gap-8 items-center"
+    >
+      <div className={`rounded-3xl overflow-hidden aspect-video relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+        {video ? (
+          <video
+            className="w-full h-full object-cover"
+            src={video}
+            muted
+            autoPlay
+            loop
+            playsInline
+            preload="auto"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-[#1a2230] to-[#0c1019] flex items-center justify-center">
+            <div className="liquid-glass rounded-2xl p-8 max-w-sm text-center">
+              <span className="text-white/40 text-xs tracking-widest uppercase block mb-3">{title}</span>
+              <span className="text-white text-lg font-semibold">Live Preview</span>
+            </div>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      </div>
+
+      <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+        <div className="liquid-glass rounded-2xl p-6 md:p-8">
+          <span className="liquid-glass rounded-full px-4 py-1.5 text-white/60 text-xs tracking-widest uppercase inline-block mb-4">
+            Screenshot {String(index + 1).padStart(2, '0')}
+          </span>
+          <h3 className="text-2xl md:text-3xl text-white font-semibold mb-4">{title}</h3>
+          <p className="text-white/60 text-base leading-relaxed mb-6">{description}</p>
+
+          <div className="space-y-3">
+            {features.map((feature, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-2 flex-shrink-0" />
+                <span className="text-white/70 text-sm">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+function ScreenshotsSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+
+  const screenshots: ScreenshotProps[] = [
+    {
+      title: 'AI Orchestrator — Multi-Agent Pipeline',
+      description: 'A kanban board where each card carries a persona (System Designer, Software Engineer, Test Engineer, Doc Specialist, Reviewer Agent) and moves Backlog → To Do → In Progress → Handover → Done. Agent runs are queued into a sprint and dispatched in parallel.',
+      features: [
+        'Six specialist AI personas with configurable model providers',
+        'Compliance objectives generated on the dashboard sync straight into the board',
+        'Sprint-based workflow with parallel agent execution',
+        'Each agent routes to its specialist task type automatically',
+      ],
+      video: STRATEGY_VIDEO,
+      index: 0,
+    },
+    {
+      title: 'Compliance Dashboard — DO-178C Table A',
+      description: 'Requirements linked, design evidence, verification evidence, and open static-analysis findings — all derived live from the active project. Generate the full objective package with AI, then produce each objective\'s artifact via its specialist agent.',
+      features: [
+        'DO-178C Table A objectives tracked in real-time',
+        'MISRA-C open violations count with severity',
+        'MC/DC coverage percentage with trend visualization',
+        'One-click DO-178C evidence pack export',
+      ],
+      video: CRAFT_VIDEO,
+      index: 1,
+    },
+    {
+      title: 'Traceability Graph — REQ ⇄ Design ⇄ Test',
+      description: 'A D3 force-directed graph that ties requirements (SYS-REQ-001, …) to source files, design notes, and test cases. Verified links render green; orphans and gaps render red. The Rust sidecar re-indexes on save.',
+      features: [
+        'Live REQ → Design → Code → Test thread visualization',
+        'Orphan detection breaks the build automatically',
+        'SHA-256 cryptographic audit log per change',
+        '1,284+ links indexed in ~412ms',
+      ],
+      video: PHILOSOPHY_VIDEO,
+      index: 2,
+    },
+    {
+      title: 'Build Pipeline — Static Analysis to Flash',
+      description: 'Static Analysis → Build → Unit Tests → HIL Tests → Docs & Traceability. Live log streams in-pane, with per-stage status. Built for STM32, Tiva, PIC32, and generic Cortex-M targets.',
+      features: [
+        'Per-stage build logs with real-time streaming',
+        'Integrated cppcheck, clang-tidy, ESLint, Ruff, ShellCheck',
+        'Unit test runner with MC/DC coverage tracking',
+        'One-click flash to STM32 · HIL test harness integration',
+      ],
+      video: FEATURED_VIDEO,
+      index: 3,
+    },
+    {
+      title: 'Pin Configurator — Full-Package Pinmux',
+      description: 'Visual pin map for the active MCU (TM4C129, STM32F4/G/H, RP2040, …). Pick from the peripheral list on the left to highlight candidate pins, click any pin on the chip package to assign its alternate function.',
+      features: [
+        'Peripheral list with candidate pins highlighted',
+        'Conflict detection and resolution in real-time',
+        'Pin assignments load from .ioc, TivaWare, or generic project',
+        'GPIO / Analog / AF states shown inline',
+      ],
+      index: 4,
+    },
+    {
+      title: 'MISRA Diagnostics — Rule-Decoded Findings',
+      description: 'Findings from the multi-tool static-analysis run, decoded to the rule (e.g., MISRA C:2025 Rule 15.5 — single point of exit) with severity, control-flow context, and a one-click Auto-fix that routes structural rules to a function-level refactor agent.',
+      features: [
+        'MISRA C:2012 and MISRA C:2025 rule decoding',
+        'One-click agent auto-fix for structural rules',
+        'Deviation register linked to compliance evidence',
+        'Severity and control-flow context shown inline',
+      ],
+      index: 5,
+    },
+  ]
+
+  return (
+    <section
+      ref={ref}
+      id="screenshots"
+      className="bg-black py-28 md:py-40 px-6 overflow-hidden"
+    >
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7 }}
+          className="text-center mb-16 md:mb-24"
+        >
+          <span className="text-white/40 text-sm tracking-widest uppercase block mb-6">
+            Product Screens
+          </span>
+          <h2 className="font-['Instrument_Serif'] text-4xl md:text-6xl lg:text-7xl text-white tracking-tight mb-6">
+            Every surface, explained.
+          </h2>
+          <p className="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">
+            Noyce IDE surfaces live in the workbench, next to the code that drives them. From AI orchestration to pin configuration, each panel is purpose-built for safety-critical teams.
+          </p>
+        </motion.div>
+
+        <div className="space-y-20 md:space-y-32">
+          {screenshots.map((screenshot, index) => (
+            <ScreenshotCard key={screenshot.title} {...screenshot} index={index} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 // ---- PHILOSOPHY SECTION ----
 function PhilosophySection() {
   const ref = useRef(null)
@@ -252,7 +422,6 @@ function PhilosophySection() {
   return (
     <section
       ref={ref}
-      id="philosophy"
       className="bg-black py-28 md:py-40 px-6 overflow-hidden"
     >
       <div className="max-w-6xl mx-auto">
@@ -312,125 +481,6 @@ function PhilosophySection() {
             </div>
           </motion.div>
         </div>
-      </div>
-    </section>
-  )
-}
-
-// ---- SERVICES SECTION ----
-function ServicesSection() {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
-
-  const services = [
-    {
-      video: STRATEGY_VIDEO,
-      tag: 'AI Orchestrator',
-      title: 'Multi-Agent Pipeline',
-      description: 'System designer, coder, reviewer, tester, doc generator, traceability monitor—each with its own configurable model provider. Generated objectives sync straight into the AI Orchestrator kanban.',
-    },
-    {
-      video: CRAFT_VIDEO,
-      tag: 'Compliance',
-      title: 'DO-178C & ISO 26262',
-      description: 'Requirements linked, design evidence, verification evidence, and open static-analysis findings—all derived live from the active project. Export a one-click DO-178C evidence pack.',
-    },
-  ]
-
-  return (
-    <section
-      ref={ref}
-      id="services"
-      className="bg-black py-28 md:py-40 px-6 overflow-hidden"
-    >
-      <div className="max-w-6xl mx-auto bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.02)_0%,_transparent_60%)]">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.7 }}
-          className="flex items-center justify-between mb-12 md:mb-16"
-        >
-          <h2 className="font-['Instrument_Serif'] text-3xl md:text-5xl text-white tracking-tight">
-            What Noyce Does
-          </h2>
-          <span className="hidden md:block text-white/40 text-sm">
-            Core Features
-          </span>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          {services.map((service, index) => (
-            <motion.article
-              key={service.title}
-              initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-              transition={{ duration: 0.8, delay: 0.15 * (index + 1) }}
-              className="liquid-glass rounded-3xl overflow-hidden group"
-            >
-              <div className="relative aspect-video overflow-hidden">
-                <video
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  src={service.video}
-                  muted
-                  autoPlay
-                  loop
-                  playsInline
-                  preload="auto"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-              </div>
-
-              <div className="p-6 md:p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-white/40 text-xs tracking-widest uppercase">
-                    {service.tag}
-                  </span>
-                  <span className="liquid-glass rounded-full p-2">
-                    <ArrowUpRight className="w-4 h-4 text-white" />
-                  </span>
-                </div>
-                <h3 className="text-white text-xl md:text-2xl mb-3 tracking-tight font-semibold">
-                  {service.title}
-                </h3>
-                <p className="text-white/50 text-sm leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-12 md:mt-16"
-        >
-          <div className="liquid-glass rounded-3xl p-6 md:p-10">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <span className="text-white/40 text-xs tracking-widest uppercase block mb-4">
-                  Hardware Support
-                </span>
-                <p className="text-white/70 text-base leading-relaxed">
-                  STM32, TI Tiva, Microchip PIC32, Raspberry Pi RP2040, NXP i.MX RT, and generic Cortex-M. Pin-aware editing, SVD-driven peripheral registers, RTOS task viewer, debug probe panel.
-                </p>
-              </div>
-              <div>
-                <span className="text-white/40 text-xs tracking-widest uppercase block mb-4">
-                  Tech Stack
-                </span>
-                <div className="flex flex-wrap gap-2">
-                  {['React 18', 'TypeScript 5.6', 'Vite 5', 'Tailwind 3', 'Code-OSS', 'Electron', 'Rust Sidecar', 'Monaco', 'D3.js'].map(tech => (
-                    <span key={tech} className="liquid-glass rounded-full px-3 py-1 text-white/60 text-xs">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   )
@@ -524,7 +574,7 @@ function Footer() {
             </a>
           </div>
 
-          <div className="text-white/40 text-sm">
+          <div className="text-white/40 text-sm text-center md:text-right">
             © 2026 Noyce IDE. Built for engineers who ship firmware that has to be right.
           </div>
         </div>
@@ -540,8 +590,8 @@ export default function App() {
       <Hero />
       <AboutSection />
       <FeaturedVideoSection />
+      <ScreenshotsSection />
       <PhilosophySection />
-      <ServicesSection />
       <DownloadSection />
       <Footer />
     </div>
