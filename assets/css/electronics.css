@@ -1,0 +1,60 @@
+/* ============================================================
+   Electronics theming — PCB traces, vias, pads
+   ============================================================ */
+
+:root {
+  --copper: #d9a066;
+  --copper-deep: #b87a3d;
+  --solder: #e8c89a;
+}
+
+/* ---------- PCB trace background layer ---------- */
+.pcb { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pcb .wire { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.pcb .wire.ice { stroke: rgba(125,211,252,0.16); }
+.pcb .wire.violet { stroke: rgba(167,139,250,0.15); }
+.pcb .wire.copper { stroke: rgba(217,160,102,0.18); }
+.pcb .via { fill: #0a0e16; stroke: var(--copper); stroke-width: 1.4; }
+.pcb .via-glow { fill: var(--copper); opacity: 0.0; animation: viaGlow 4s ease-in-out infinite; }
+@keyframes viaGlow { 0%, 100% { opacity: 0; } 50% { opacity: 0.55; } }
+.pcb .pad { fill: rgba(125,211,252,0.10); stroke: rgba(125,211,252,0.30); stroke-width: 1; }
+.pcb .pulse { fill: var(--ice); filter: drop-shadow(0 0 5px var(--ice)); }
+.pcb .pulse.cu { fill: var(--solder); filter: drop-shadow(0 0 5px var(--copper)); }
+
+/* ---------- Oscilloscope waveform ---------- */
+.scope { position: absolute; left: 0; right: 0; bottom: 6%; height: 120px; width: 100%; opacity: 0.5; }
+.scope .grid-h { stroke: rgba(125,211,252,0.06); stroke-width: 1; }
+.scope .trace { fill: none; stroke: var(--ice); stroke-width: 1.6; filter: drop-shadow(0 0 5px rgba(125,211,252,0.6)); }
+.scope .sweep { animation: scopeSweep 9s linear infinite; }
+@keyframes scopeSweep { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ---------- Silkscreen + fiducials ---------- */
+.silk {
+  position: absolute; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(232,237,248,0.32); pointer-events: none; z-index: 2;
+}
+
+/* board corner pads on a card */
+.board { position: relative; }
+.board > .corner-pad { position: absolute; width: 7px; height: 7px; border-radius: 2px;
+  background: linear-gradient(135deg, var(--solder), var(--copper-deep)); opacity: 0.55;
+  box-shadow: 0 0 6px rgba(217,160,102,0.4); }
+.board > .corner-pad.tl { top: 9px; left: 9px; }
+.board > .corner-pad.tr { top: 9px; right: 9px; }
+.board > .corner-pad.bl { bottom: 9px; left: 9px; }
+.board > .corner-pad.br { bottom: 9px; right: 9px; }
+
+/* ---------- Circuit-bus section divider ---------- */
+.bus { position: relative; height: 64px; z-index: 1; }
+.bus svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.bus .rail { stroke: rgba(125,211,252,0.22); stroke-width: 1.4; fill: none; }
+.bus .rail.cu { stroke: rgba(217,160,102,0.30); }
+.bus .node { fill: #0a0e16; stroke: var(--ice); stroke-width: 1.4; }
+.bus .node.cu { stroke: var(--copper); }
+.bus .flow { fill: var(--ice); filter: drop-shadow(0 0 5px var(--ice)); }
+.bus .lbl { fill: rgba(232,237,248,0.28); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.16em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pcb .pulse, .pcb .via-glow, .scope .sweep, .bus .flow { animation: none !important; }
+  .pcb .pulse, .bus .flow { display: none; }
+}

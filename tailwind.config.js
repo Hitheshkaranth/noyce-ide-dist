@@ -5,11 +5,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      fontFamily: {
-        serif: ['Instrument Serif', 'serif'],
-      },
-    },
+    extend: {},
   },
   plugins: [],
 }

@@ -1,17 +1,15 @@
 {
-  "name": "asme-landing",
+  "name": "noyce-ide-landing",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.7",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "framer-motion": "^11.0.0",
-    "lucide-react": "^0.400.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
