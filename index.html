@@ -233,10 +233,13 @@
     const Featured = () => (
       <section className="bg-black pt-6 md:pt-10 pb-20 md:pb-32 px-6 overflow-hidden">
         <div className="max-w-6xl mx-auto">
-          <Reveal y={60} dur={0.9} className="relative rounded-3xl overflow-hidden aspect-video liquid-glass">
-            <video src="web-Prototype/assets/featured.mp4" className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <Reveal y={60} dur={0.9} className="relative rounded-3xl overflow-hidden liquid-glass">
+            <div className="relative aspect-video">
+              <video src="web-Prototype/assets/featured.mp4" className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
+            </div>
+            {/* Overlay on desktop; stacks below the video on mobile so text is never clipped */}
+            <div className="p-6 md:p-10 md:absolute md:bottom-0 md:left-0 md:right-0 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div className="liquid-glass rounded-2xl p-6 md:p-8 max-w-md">
                 <div className="text-white/50 text-xs tracking-[0.25em] uppercase mb-3">Our Approach</div>
                 <p className="text-white text-sm md:text-base leading-relaxed">
