@@ -1,0 +1,599 @@
+import { useEffect, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
+import { ArrowRight, Instagram, Twitter, Globe } from 'lucide-react'
+
+// ---- VIDEO URLs ----
+const HERO_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_074625_a81f018a-956b-43fb-9aee-4d1508e30e6a.mp4'
+const FEATURED_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260402_054547_9875cfc5-155a-4229-8ec8-b7ba7125cbf8.mp4'
+const PHILOSOPHY_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4'
+const STRATEGY_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4'
+const CRAFT_VIDEO = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260324_151826_c7218672-6e92-402c-9e45-f1e0f454bdc4.mp4'
+
+// ---- ANIMATE OPACITY ----
+function animateOpacity(el: HTMLElement, from: number, to: number, duration: number) {
+  const startTime = performance.now()
+  el.style.opacity = String(from)
+
+  function tick(now: number) {
+    const elapsed = now - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const current = from + (to - from) * progress
+    el.style.opacity = String(current)
+    if (progress < 1) requestAnimationFrame(tick)
+  }
+  requestAnimationFrame(tick)
+}
+
+// ---- HERO ----
+function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    video.addEventListener('canplay', () => {
+      video.play().catch(() => {})
+      animateOpacity(video, 0, 1, 500)
+    })
+
+    video.addEventListener('timeupdate', () => {
+      if (!video.duration) return
+      const remaining = video.duration - video.currentTime
+      if (remaining <= 0.55 && remaining > 0.5) {
+        const currentOpacity = parseFloat(video.style.opacity || '1')
+        animateOpacity(video, currentOpacity, 0, 500)
+      }
+    })
+
+    video.addEventListener('ended', () => {
+      video.style.opacity = '0'
+      setTimeout(() => {
+        video.currentTime = 0
+        video.play().catch(() => {})
+        animateOpacity(video, 0, 1, 500)
+      }, 100)
+    })
+  }, [])
+
+  return (
+    <section className="relative min-h-screen flex flex-col overflow-hidden">
+      <video
+        ref={videoRef}
+        className="absolute inset-0 w-full h-full object-cover object-bottom"
+        src={HERO_VIDEO}
+        muted
+        autoPlay
+        playsInline
+        preload="auto"
+        style={{ opacity: 0 }}
+      />
+
+      <nav className="relative z-20 px-6 py-6">
+        <div className="liquid-glass rounded-full max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/icons_resources/icon.svg" alt="Noyce IDE" className="w-8 h-8" />
+            <span className="text-white font-semibold text-lg hidden sm:block">Noyce IDE</span>
+            <div className="hidden md:flex items-center gap-8 ml-8">
+              <a href="#features" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Features</a>
+              <a href="#screenshots" className="text-white/80 hover:text-white text-sm font-medium transition-colors">Screenshots</a>
+              <a href="#about" className="text-white/80 hover:text-white text-sm font-medium transition-colors">About</a>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="https://github.com/Hitheshkaranth/noyce_ide" target="_blank" rel="noreferrer" className="text-white text-sm font-medium hover:text-white/80 transition-colors hidden sm:block">GitHub</a>
+            <a href="#download" className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-colors">
+              Download
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center -translate-y-[20%]">
+        <h1 className="font-['Instrument_Serif'] text-7xl md:text-8xl lg:text-9xl text-white tracking-tight whitespace-nowrap mb-8">
+          Build it <em className="italic">right.</em>
+        </h1>
+
+        <p className="text-white text-sm leading-relaxed px-4 mb-8 max-w-lg">
+          The AI-native IDE for safety-critical embedded firmware. DO-178C, ISO 26262, and MISRA evidence built in. Bring requirements, code, certification evidence, hardware tooling, and a multi-agent AI pipeline into one Code-OSS workbench.
+        </p>
+
+        <div className="flex flex-wrap gap-4 justify-center mb-8">
+          <a href="#screenshots" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors flex items-center gap-2">
+            Explore Features <ArrowRight className="w-4 h-4" />
+          </a>
+          <a href="https://github.com/Hitheshkaranth/noyce_ide" target="_blank" rel="noreferrer" className="bg-white text-black rounded-full px-8 py-3 text-sm font-medium hover:bg-white/90 transition-colors">
+            View on GitHub
+          </a>
+        </div>
+
+        <div className="flex items-center gap-6 text-white/60 text-sm">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            macOS arm64 Ready
+          </span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">Windows Beta</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">Free During Beta</span>
+        </div>
+      </div>
+
+      <div className="relative z-10 flex justify-center gap-4 pb-12">
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all">
+          <Instagram className="w-5 h-5" />
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all">
+          <Twitter className="w-5 h-5" />
+        </a>
+        <a href="https://github.com/Hitheshkaranth/noyce_ide" target="_blank" rel="noopener noreferrer" className="liquid-glass rounded-full p-4 text-white/80 hover:text-white hover:bg-white/5 transition-all">
+          <Globe className="w-5 h-5" />
+        </a>
+      </div>
+    </section>
+  )
+}
+
+// ---- ABOUT SECTION ----
+function AboutSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+
+  return (
+    <section
+      ref={ref}
+      id="about"
+      className="bg-black pt-32 md:pt-44 pb-10 md:pb-14 px-6 overflow-hidden"
+    >
+      <div className="bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.03)_0%,_transparent_70%)]">
+        <div className="max-w-6xl mx-auto">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6 }}
+            className="text-white/40 text-sm tracking-widest uppercase block mb-6"
+          >
+            About Noyce IDE
+          </motion.span>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="font-['Instrument_Serif'] text-4xl md:text-6xl lg:text-7xl text-white leading-[1.1] tracking-tight"
+          >
+            Engineering firmware{' '}
+            <em className="italic text-white/60">for minds that</em>
+            <br className="hidden md:block" />
+            <em className="italic text-white/60">create, build, and certify.</em>
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mt-8 text-white/60 text-lg max-w-2xl leading-relaxed"
+          >
+            Modern safety-critical firmware work is fragmented across requirements managers, static analyzers, traceability matrices, CI dashboards, AI assistants, and a stack of vendor IDEs. Noyce IDE collapses all of that into one Code-OSS workbench — purpose-built for DO-178C, ISO 26262, and MISRA-grade firmware teams.
+          </motion.p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ---- FEATURED VIDEO SECTION ----
+function FeaturedVideoSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+
+  return (
+    <section
+      ref={ref}
+      id="features"
+      className="bg-black pt-6 md:pt-10 pb-20 md:pb-32 px-6 overflow-hidden"
+    >
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+          transition={{ duration: 0.9 }}
+          className="rounded-3xl overflow-hidden aspect-video relative"
+        >
+          <video
+            className="w-full h-full object-cover"
+            src={FEATURED_VIDEO}
+            muted
+            autoPlay
+            loop
+            playsInline
+            preload="auto"
+          />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-end">
+              <div className="liquid-glass rounded-2xl p-6 md:p-8 max-w-md">
+                <span className="text-white/50 text-xs tracking-widest uppercase block mb-3">
+                  Hardware-Aware Editing
+                </span>
+                <p className="text-white text-sm md:text-base leading-relaxed">
+                  Pin maps, peripheral registers, RTOS thread state, schematic views, signal/protocol decoders. Bring requirements, code, certification evidence, hardware tooling, and a multi-agent AI pipeline into one workbench.
+                </p>
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors"
+              >
+                Explore Features
+              </motion.button>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+// ---- SCREENSHOTS SECTION ----
+interface ScreenshotProps {
+  title: string
+  description: string
+  features: string[]
+  video?: string
+  index: number
+}
+
+function ScreenshotCard({ title, description, features, video, index }: ScreenshotProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 60 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+      transition={{ duration: 0.8, delay: 0.1 * index }}
+      className="grid lg:grid-cols-2 gap-8 items-center"
+    >
+      <div className={`rounded-3xl overflow-hidden aspect-video relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+        {video ? (
+          <video
+            className="w-full h-full object-cover"
+            src={video}
+            muted
+            autoPlay
+            loop
+            playsInline
+            preload="auto"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-[#1a2230] to-[#0c1019] flex items-center justify-center">
+            <div className="liquid-glass rounded-2xl p-8 max-w-sm text-center">
+              <span className="text-white/40 text-xs tracking-widest uppercase block mb-3">{title}</span>
+              <span className="text-white text-lg font-semibold">Live Preview</span>
+            </div>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+      </div>
+
+      <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+        <div className="liquid-glass rounded-2xl p-6 md:p-8">
+          <span className="liquid-glass rounded-full px-4 py-1.5 text-white/60 text-xs tracking-widest uppercase inline-block mb-4">
+            Screenshot {String(index + 1).padStart(2, '0')}
+          </span>
+          <h3 className="text-2xl md:text-3xl text-white font-semibold mb-4">{title}</h3>
+          <p className="text-white/60 text-base leading-relaxed mb-6">{description}</p>
+
+          <div className="space-y-3">
+            {features.map((feature, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 mt-2 flex-shrink-0" />
+                <span className="text-white/70 text-sm">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
+function ScreenshotsSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+
+  const screenshots: ScreenshotProps[] = [
+    {
+      title: 'AI Orchestrator — Multi-Agent Pipeline',
+      description: 'A kanban board where each card carries a persona (System Designer, Software Engineer, Test Engineer, Doc Specialist, Reviewer Agent) and moves Backlog → To Do → In Progress → Handover → Done. Agent runs are queued into a sprint and dispatched in parallel.',
+      features: [
+        'Six specialist AI personas with configurable model providers',
+        'Compliance objectives generated on the dashboard sync straight into the board',
+        'Sprint-based workflow with parallel agent execution',
+        'Each agent routes to its specialist task type automatically',
+      ],
+      video: STRATEGY_VIDEO,
+      index: 0,
+    },
+    {
+      title: 'Compliance Dashboard — DO-178C Table A',
+      description: 'Requirements linked, design evidence, verification evidence, and open static-analysis findings — all derived live from the active project. Generate the full objective package with AI, then produce each objective\'s artifact via its specialist agent.',
+      features: [
+        'DO-178C Table A objectives tracked in real-time',
+        'MISRA-C open violations count with severity',
+        'MC/DC coverage percentage with trend visualization',
+        'One-click DO-178C evidence pack export',
+      ],
+      video: CRAFT_VIDEO,
+      index: 1,
+    },
+    {
+      title: 'Traceability Graph — REQ ⇄ Design ⇄ Test',
+      description: 'A D3 force-directed graph that ties requirements (SYS-REQ-001, …) to source files, design notes, and test cases. Verified links render green; orphans and gaps render red. The Rust sidecar re-indexes on save.',
+      features: [
+        'Live REQ → Design → Code → Test thread visualization',
+        'Orphan detection breaks the build automatically',
+        'SHA-256 cryptographic audit log per change',
+        '1,284+ links indexed in ~412ms',
+      ],
+      video: PHILOSOPHY_VIDEO,
+      index: 2,
+    },
+    {
+      title: 'Build Pipeline — Static Analysis to Flash',
+      description: 'Static Analysis → Build → Unit Tests → HIL Tests → Docs & Traceability. Live log streams in-pane, with per-stage status. Built for STM32, Tiva, PIC32, and generic Cortex-M targets.',
+      features: [
+        'Per-stage build logs with real-time streaming',
+        'Integrated cppcheck, clang-tidy, ESLint, Ruff, ShellCheck',
+        'Unit test runner with MC/DC coverage tracking',
+        'One-click flash to STM32 · HIL test harness integration',
+      ],
+      video: FEATURED_VIDEO,
+      index: 3,
+    },
+    {
+      title: 'Pin Configurator — Full-Package Pinmux',
+      description: 'Visual pin map for the active MCU (TM4C129, STM32F4/G/H, RP2040, …). Pick from the peripheral list on the left to highlight candidate pins, click any pin on the chip package to assign its alternate function.',
+      features: [
+        'Peripheral list with candidate pins highlighted',
+        'Conflict detection and resolution in real-time',
+        'Pin assignments load from .ioc, TivaWare, or generic project',
+        'GPIO / Analog / AF states shown inline',
+      ],
+      index: 4,
+    },
+    {
+      title: 'MISRA Diagnostics — Rule-Decoded Findings',
+      description: 'Findings from the multi-tool static-analysis run, decoded to the rule (e.g., MISRA C:2025 Rule 15.5 — single point of exit) with severity, control-flow context, and a one-click Auto-fix that routes structural rules to a function-level refactor agent.',
+      features: [
+        'MISRA C:2012 and MISRA C:2025 rule decoding',
+        'One-click agent auto-fix for structural rules',
+        'Deviation register linked to compliance evidence',
+        'Severity and control-flow context shown inline',
+      ],
+      index: 5,
+    },
+  ]
+
+  return (
+    <section
+      ref={ref}
+      id="screenshots"
+      className="bg-black py-28 md:py-40 px-6 overflow-hidden"
+    >
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7 }}
+          className="text-center mb-16 md:mb-24"
+        >
+          <span className="text-white/40 text-sm tracking-widest uppercase block mb-6">
+            Product Screens
+          </span>
+          <h2 className="font-['Instrument_Serif'] text-4xl md:text-6xl lg:text-7xl text-white tracking-tight mb-6">
+            Every surface, explained.
+          </h2>
+          <p className="text-white/60 text-lg max-w-2xl mx-auto leading-relaxed">
+            Noyce IDE surfaces live in the workbench, next to the code that drives them. From AI orchestration to pin configuration, each panel is purpose-built for safety-critical teams.
+          </p>
+        </motion.div>
+
+        <div className="space-y-20 md:space-y-32">
+          {screenshots.map((screenshot, index) => (
+            <ScreenshotCard key={screenshot.title} {...screenshot} index={index} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ---- PHILOSOPHY SECTION ----
+function PhilosophySection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+
+  return (
+    <section
+      ref={ref}
+      className="bg-black py-28 md:py-40 px-6 overflow-hidden"
+    >
+      <div className="max-w-6xl mx-auto">
+        <motion.h2
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.8 }}
+          className="font-['Instrument_Serif'] text-5xl md:text-7xl lg:text-8xl text-white tracking-tight mb-16 md:mb-24"
+        >
+          Compliance{' '}
+          <em className="italic text-white/40">x</em>{' '}
+          Automation
+        </motion.h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="rounded-3xl overflow-hidden aspect-[4/3]"
+          >
+            <video
+              className="w-full h-full object-cover"
+              src={PHILOSOPHY_VIDEO}
+              muted
+              autoPlay
+              loop
+              playsInline
+              preload="auto"
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col gap-8"
+          >
+            <div>
+              <span className="text-white/40 text-xs tracking-widest uppercase block mb-4">
+                Certification Evidence Built-In
+              </span>
+              <p className="text-white/70 text-base md:text-lg leading-relaxed">
+                DO-178C Table A objectives, MISRA rule decoding, MC/DC coverage, immutable audit trail. Each objective routes to its specialist agent — System Designer, Test Engineer, Compliance Reviewer — to generate the artifact.
+              </p>
+            </div>
+
+            <div className="w-full h-px bg-white/10" />
+
+            <div>
+              <span className="text-white/40 text-xs tracking-widest uppercase block mb-4">
+                A 755-Tool Static Analysis Catalog
+              </span>
+              <p className="text-white/70 text-base md:text-lg leading-relaxed">
+                Browse the vendored analysis-tools-dev catalog filtered to your stack, run a curated executable subset—cppcheck, clang-tidy, ESLint, Ruff, ShellCheck—and apply MISRA single-exit auto-fixes.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ---- DOWNLOAD SECTION ----
+function DownloadSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+
+  const platforms = [
+    { os: 'macOS', status: 'Released', arch: 'arm64', size: '142 MB', cmd: 'brew install --cask noyce-ide' },
+    { os: 'Windows', status: 'Beta', arch: 'x64', size: '168 MB', cmd: 'winget install Noyce.IDE' },
+    { os: 'Linux', status: 'Roadmap', arch: 'AppImage', size: 'Coming Q3', cmd: 'flatpak install dev.noyce.IDE' },
+  ]
+
+  return (
+    <section
+      ref={ref}
+      id="download"
+      className="bg-black py-28 md:py-40 px-6 overflow-hidden"
+    >
+      <div className="max-w-4xl mx-auto text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7 }}
+          className="font-['Instrument_Serif'] text-4xl md:text-6xl text-white tracking-tight mb-6"
+        >
+          Get Noyce IDE
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-white/60 text-lg mb-12 max-w-2xl mx-auto"
+        >
+          Free during beta. macOS arm64 ships today, Windows is in beta, and Linux is on the roadmap.
+        </motion.p>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {platforms.map((platform, index) => (
+            <motion.div
+              key={platform.os}
+              initial={{ opacity: 0, y: 40 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+              transition={{ duration: 0.7, delay: 0.15 * (index + 1) }}
+              className="liquid-glass rounded-2xl p-6 text-center"
+            >
+              <div className="text-2xl font-semibold text-white mb-2">{platform.os}</div>
+              <div className={`text-xs font-medium mb-4 ${platform.status === 'Released' ? 'text-green-400' : platform.status === 'Beta' ? 'text-yellow-400' : 'text-blue-400'}`}>
+                {platform.status}
+              </div>
+              <div className="text-white/40 text-sm mb-4">{platform.arch} · {platform.size}</div>
+              <div className="bg-black/50 rounded-lg px-3 py-2 text-xs font-mono text-white/60 mb-4">
+                $ {platform.cmd}
+              </div>
+              <button className="w-full bg-white text-black rounded-full py-3 text-sm font-medium hover:bg-white/90 transition-colors">
+                {platform.status === 'Roadmap' ? 'Notify Me' : `Download`}
+              </button>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ---- FOOTER ----
+function Footer() {
+  return (
+    <footer className="bg-black border-t border-white/10 py-12 px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-3">
+            <img src="/icons_resources/icon.svg" alt="Noyce IDE" className="w-8 h-8" />
+            <span className="text-white font-semibold">Noyce IDE</span>
+            <span className="text-white/40 text-sm">v1.0.7</span>
+          </div>
+
+          <div className="flex items-center gap-6">
+            <a href="https://github.com/Hitheshkaranth/noyce_ide" target="_blank" rel="noreferrer" className="text-white/60 hover:text-white text-sm transition-colors">
+              GitHub
+            </a>
+            <a href="#" className="text-white/60 hover:text-white text-sm transition-colors">
+              Documentation
+            </a>
+            <a href="#" className="text-white/60 hover:text-white text-sm transition-colors">
+              Changelog
+            </a>
+          </div>
+
+          <div className="text-white/40 text-sm text-center md:text-right">
+            © 2026 Noyce IDE. Built for engineers who ship firmware that has to be right.
+          </div>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+// ---- APP ----
+export default function App() {
+  return (
+    <div className="bg-black min-h-screen">
+      <Hero />
+      <AboutSection />
+      <FeaturedVideoSection />
+      <ScreenshotsSection />
+      <PhilosophySection />
+      <DownloadSection />
+      <Footer />
+    </div>
+  )
+}
