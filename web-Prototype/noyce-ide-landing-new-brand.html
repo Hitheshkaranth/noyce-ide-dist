@@ -1,0 +1,310 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noyce IDE - Build it right.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .instrument-serif {
+            font-family: 'Instrument Serif', serif;
+        }
+        
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.01);
+            background-blend-mode: luminosity;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: none;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .liquid-glass::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1.4px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .glow-effect {
+            box-shadow: 0 0 80px 20px rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        const { ArrowRight, ShieldCheck, Code2, Cpu, Activity, GitMerge, Bot, Download } = lucide;
+
+        // Ensure lucide icons render properly
+        const IconWrapper = ({ icon: Icon, size = 24, className = "" }) => {
+            if (!Icon) return null;
+            const markup = lucide.renderIcon(Icon);
+            return (
+                <div 
+                    className={`inline-flex items-center justify-center ${className}`} 
+                    style={{ width: size, height: size }}
+                    dangerouslySetInnerHTML={{ __html: markup[1].replace('<svg', `<svg width="${size}" height="${size}"`) }} 
+                />
+            );
+        };
+
+        const BackgroundVideo = () => {
+            const videoRef = useRef(null);
+
+            useEffect(() => {
+                const video = videoRef.current;
+                if (!video) return;
+
+                let animationFrame;
+                let fadingOutRef = false;
+
+                const fade = (targetOpacity, duration, callback) => {
+                    cancelAnimationFrame(animationFrame);
+                    const startOpacity = parseFloat(video.style.opacity) || 0;
+                    const startTime = performance.now();
+
+                    const tick = (now) => {
+                        const elapsed = now - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        video.style.opacity = startOpacity + (targetOpacity - startOpacity) * progress;
+
+                        if (progress < 1) {
+                            animationFrame = requestAnimationFrame(tick);
+                        } else if (callback) {
+                            callback();
+                        }
+                    };
+                    animationFrame = requestAnimationFrame(tick);
+                };
+
+                const handleTimeUpdate = () => {
+                    if (!video.duration) return;
+                    const remaining = video.duration - video.currentTime;
+                    if (remaining <= 0.55 && !fadingOutRef) {
+                        fadingOutRef = true;
+                        fade(0, 500);
+                    }
+                };
+
+                const handleEnded = () => {
+                    video.style.opacity = 0;
+                    setTimeout(() => {
+                        video.currentTime = 0;
+                        video.play().then(() => {
+                            fadingOutRef = false;
+                            fade(1, 500);
+                        });
+                    }, 100);
+                };
+
+                video.addEventListener('timeupdate', handleTimeUpdate);
+                video.addEventListener('ended', handleEnded);
+
+                video.style.opacity = 0;
+                video.addEventListener('loadeddata', () => {
+                     fade(1, 500);
+                });
+
+                return () => {
+                    cancelAnimationFrame(animationFrame);
+                    video.removeEventListener('timeupdate', handleTimeUpdate);
+                    video.removeEventListener('ended', handleEnded);
+                };
+            }, []);
+
+            return (
+                <div className="absolute inset-0 z-0 bg-black pointer-events-none translate-y-[17%]">
+                    <video
+                        ref={videoRef}
+                        src="assets/hero.mp4"
+                        muted
+                        playsInline
+                        autoPlay
+                        className="w-full h-full object-cover opacity-0"
+                    />
+                    {/* Subtle gradient overlay to blend video with content */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/80"></div>
+                </div>
+            );
+        };
+
+        const NavBar = () => (
+            <nav className="relative z-20 px-6 py-6 w-full">
+                <div className="liquid-glass rounded-full px-6 py-3 flex items-center justify-between max-w-6xl mx-auto">
+                    <div className="flex items-center">
+                        <img src="mr6ftttf-logo_horizontal.png" alt="Noyce IDE" className="h-6" />
+                    </div>
+                    
+                    <div className="hidden md:flex items-center gap-8">
+                        <a href="#features" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Features</a>
+                        <a href="#showcase" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Showcase</a>
+                        <a href="#about" className="text-white/80 hover:text-white transition-colors text-sm font-medium">About</a>
+                    </div>
+                    
+                    <div className="flex items-center gap-4">
+                        <button className="text-white text-sm font-medium hover:text-white/80 transition-colors hidden sm:block">
+                            Documentation
+                        </button>
+                        <button className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-colors">
+                            Download Beta
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        );
+
+        const Features = () => {
+            const features = [
+                { icon: ShieldCheck, title: "Compliance & Certification", desc: "Automated DO-178C and ISO 26262 artifact generation natively integrated." },
+                { icon: Code2, title: "Static Analysis", desc: "Real-time MISRA C/C++ checking directly in the editor as you type." },
+                { icon: Cpu, title: "Hardware-Aware Editing", desc: "Intelligent autocompletion that understands your MCU registers and memory map." },
+                { icon: Activity, title: "Signal & Protocol", desc: "Native CAN, LIN, and FlexRay decoding and packet inspection built-in." },
+                { icon: GitMerge, title: "Embedded CI/CD", desc: "Hardware-in-the-loop (HIL) testing workflows right from your local environment." },
+                { icon: Bot, title: "Multi-Agent AI", desc: "Specialized agents for code generation, review, and test-case creation." }
+            ];
+
+            return (
+                <section id="features" className="relative z-10 py-24 px-6 max-w-6xl mx-auto w-full">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl text-white instrument-serif mb-4">Engineered for Safety-Critical Systems</h2>
+                        <p className="text-white/60 max-w-2xl mx-auto">Every tool you need to build certified software, integrated into a single high-performance workbench.</p>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {features.map((feature, idx) => (
+                            <div key={idx} className="liquid-glass p-8 rounded-3xl flex flex-col gap-4 group hover:bg-white/[0.02] transition-colors">
+                                <div className="bg-white/10 p-3 rounded-2xl w-fit text-white group-hover:bg-white group-hover:text-black transition-all">
+                                    <IconWrapper icon={feature.icon} size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-medium text-white mb-2">{feature.title}</h3>
+                                    <p className="text-white/60 text-sm leading-relaxed">{feature.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        };
+
+        const Showcase = () => {
+            const screenshots = [
+                { file: "assets/04-ai-orchestrator.png", title: "Multi-agent Orchestrator" },
+                { file: "assets/02-compliance-dashboard.png", title: "DO-178C Compliance Dashboard" },
+                { file: "assets/03-traceability-graph.png", title: "Requirements Traceability Graph" },
+                { file: "assets/06-build-pipeline.png", title: "Embedded CI/CD Pipeline" },
+                { file: "assets/11-misra-diagnostics.png", title: "Real-time MISRA Diagnostics" },
+                { file: "assets/10-pin-configurator.png", title: "Hardware Pin Configurator" }
+            ];
+
+            return (
+                <section id="showcase" className="relative z-10 py-24 px-6 max-w-7xl mx-auto w-full">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl text-white instrument-serif mb-4">A Look Inside</h2>
+                        <p className="text-white/60 max-w-2xl mx-auto">High-fidelity interfaces designed specifically for embedded workflows.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {screenshots.map((item, idx) => (
+                            <div key={idx} className="flex flex-col gap-4">
+                                <div className="liquid-glass rounded-2xl overflow-hidden aspect-[16/10] bg-black/50 p-2">
+                                    <img src={item.file} alt={item.title} className="w-full h-full object-cover rounded-xl border border-white/10" />
+                                </div>
+                                <p className="text-white/80 text-sm text-center font-medium">{item.title}</p>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            );
+        };
+
+        const Footer = () => (
+            <footer className="relative z-10 py-24 flex flex-col items-center justify-center text-center px-6">
+                <div className="mb-8 p-6 rounded-full bg-black/50 glow-effect border border-white/10">
+                    <img src="mr6fu6rg-icon_large.png" alt="Noyce Icon" className="w-16 h-16 object-contain" />
+                </div>
+                
+                <h2 className="text-4xl md:text-5xl text-white instrument-serif mb-8">Ready to build it right?</h2>
+                
+                <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" className="liquid-glass rounded-full px-10 py-4 text-white text-base font-medium hover:bg-white/10 transition-all flex items-center gap-3">
+                    <IconWrapper icon={Download} size={20} />
+                    Download Noyce IDE Beta
+                </a>
+
+                <div className="mt-24 pt-8 border-t border-white/10 w-full max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4">
+                    <img src="mr6ftttf-logo_horizontal.png" alt="Noyce IDE" className="h-5 opacity-60" />
+                    <p className="text-white/40 text-sm">© {new Date().getFullYear()} Noyce. Built for the curious.</p>
+                </div>
+            </footer>
+        );
+
+        const App = () => {
+            return (
+                <div className="min-h-screen bg-black overflow-x-hidden font-sans selection:bg-white/20">
+                    <BackgroundVideo />
+                    
+                    <div className="relative min-h-screen flex flex-col">
+                        <NavBar />
+                        
+                        <main className="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center relative z-10 -mt-10">
+                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
+                                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                                <span className="text-xs font-medium text-white/80 uppercase tracking-wider">Beta Now Available</span>
+                            </div>
+                            
+                            <h1 className="text-6xl md:text-7xl lg:text-8xl text-white mb-6 tracking-tight instrument-serif max-w-5xl leading-[1.1]">
+                                The AI-native IDE for safety-critical engineering
+                            </h1>
+                            
+                            <p className="text-white/60 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                                A high-performance Code-OSS workbench equipped with multi-agent orchestration, DO-178C compliance tracking, and hardware-aware intelligence.
+                            </p>
+                            
+                            <div className="flex items-center gap-4">
+                                <button className="bg-white text-black rounded-full px-8 py-3 text-sm font-medium hover:bg-white/90 transition-colors">
+                                    Get Started
+                                </button>
+                                <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors">
+                                    View on GitHub
+                                </a>
+                            </div>
+                        </main>
+                    </div>
+
+                    <Features />
+                    <Showcase />
+                    <Footer />
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

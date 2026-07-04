@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noyce IDE - The AI-native IDE for safety-critical embedded engineering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+    
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+    
+    .instrument-serif {
+      font-family: 'Instrument Serif', serif;
+    }
+    
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.02);
+      background-blend-mode: luminosity;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .liquid-glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const BackgroundVideo = ({ src, translateY = "-17%" }) => {
+      const videoRef = useRef(null);
+      const fadeRafRef = useRef(null);
+      const fadingOutRef = useRef(false);
+
+      useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+        
+        video.style.opacity = '0';
+        
+        const animateFade = (startOp, endOp, duration, onComplete) => {
+          if (fadeRafRef.current) cancelAnimationFrame(fadeRafRef.current);
+          const startTime = performance.now();
+          
+          const step = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const currentOp = startOp + (endOp - startOp) * progress;
+            if (videoRef.current) videoRef.current.style.opacity = currentOp.toString();
+            
+            if (progress < 1) {
+              fadeRafRef.current = requestAnimationFrame(step);
+            } else if (onComplete) {
+              onComplete();
+            }
+          };
+          fadeRafRef.current = requestAnimationFrame(step);
+        };
+
+        const handleTimeUpdate = () => {
+          if (!video.duration) return;
+          const timeLeft = video.duration - video.currentTime;
+          
+          if (timeLeft <= 0.55 && !fadingOutRef.current) {
+            fadingOutRef.current = true;
+            const currentOp = parseFloat(video.style.opacity) || 1;
+            animateFade(currentOp, 0, 500);
+          }
+        };
+
+        const handleEnded = () => {
+          video.currentTime = 0;
+          fadingOutRef.current = false;
+          video.play().catch(() => {});
+          animateFade(0, 1, 500);
+        };
+
+        const handleLoadedData = () => {
+          fadingOutRef.current = false;
+          animateFade(0, 1, 500);
+        };
+
+        video.addEventListener('timeupdate', handleTimeUpdate);
+        video.addEventListener('ended', handleEnded);
+        video.addEventListener('loadeddata', handleLoadedData);
+
+        return () => {
+          video.removeEventListener('timeupdate', handleTimeUpdate);
+          video.removeEventListener('ended', handleEnded);
+          video.removeEventListener('loadeddata', handleLoadedData);
+          if (fadeRafRef.current) cancelAnimationFrame(fadeRafRef.current);
+        };
+      }, []);
+
+      return (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+          <video
+            ref={videoRef}
+            src={src}
+            autoPlay
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ transform: `translateY(${translateY})` }}
+          />
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+      );
+    };
+
+    const Navbar = () => (
+      <nav className="relative z-20 px-6 py-6 w-full">
+        <div className="liquid-glass rounded-full px-6 py-3 flex items-center justify-between max-w-6xl mx-auto">
+          <div className="flex items-center gap-2">
+            <img src="assets/mr6fibvg-logo_horizontal.png" alt="Noyce IDE" className="h-6 object-contain" />
+          </div>
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Features</a>
+            <a href="#screenshots" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Showcase</a>
+            <a href="#download" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Download</a>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="https://github.com/Hitheshkaranth/noyce_ide" className="text-white text-sm font-medium hover:text-white/80 transition hidden sm:block">GitHub</a>
+            <button className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-colors">
+              Get Started
+            </button>
+          </div>
+        </div>
+      </nav>
+    );
+
+    const FeatureCard = ({ title, desc, icon }) => {
+      return (
+        <div className="liquid-glass p-8 rounded-3xl flex flex-col items-start gap-6 hover:bg-white/[0.04] transition-colors group">
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors">
+            <i data-lucide={icon} className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <h3 className="text-xl font-medium text-white mb-3">{title}</h3>
+            <p className="text-white/60 text-sm leading-relaxed">{desc}</p>
+          </div>
+        </div>
+      );
+    };
+
+    const FeaturesSection = () => {
+      const features = [
+        {
+          title: "Compliance & Certification",
+          desc: "Compliance Dashboard, DO-178C Evidence Pack, Traceability Graph, and MISRA Diagnostics.",
+          icon: "shield-check"
+        },
+        {
+          title: "Static Analysis",
+          desc: "755-tool vendored catalog with rule decoding and single-exit AI auto-fixes.",
+          icon: "code"
+        },
+        {
+          title: "Hardware-Aware Editing",
+          desc: "Visual pin maps, peripheral registers, RTOS thread state, and schematic views.",
+          icon: "cpu"
+        },
+        {
+          title: "Signal & Protocol",
+          desc: "Logic-analyzer Signal Viewer, Serial Monitor, Modbus Monitor, and Live Data Dashboard.",
+          icon: "activity"
+        },
+        {
+          title: "Embedded CI/CD",
+          desc: "Live build stages, unit tests, and HIL tests with in-pane log streams.",
+          icon: "terminal"
+        },
+        {
+          title: "Multi-Agent AI",
+          desc: "System designer, coder, reviewer, and tester agents via Orchestrator kanban.",
+          icon: "bot"
+        }
+      ];
+
+      return (
+        <section id="features" className="relative z-10 py-32 px-6 max-w-6xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="instrument-serif text-5xl md:text-6xl text-white mb-6 tracking-tight">Purpose-Built Features</h2>
+            <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">
+              Everything you need to build safety-critical firmware, engineered for speed, precision, and compliance.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {features.map((f, i) => <FeatureCard key={i} {...f} />)}
+          </div>
+        </section>
+      );
+    };
+
+    const ScreenshotSection = ({ title, id, imgSrc, description }) => (
+      <section id={id} className="relative z-10 py-24 px-6 max-w-6xl mx-auto">
+        <div className="flex flex-col items-center gap-8 text-center mb-12">
+          <h2 className="instrument-serif text-4xl md:text-5xl text-white tracking-tight">{title}</h2>
+          {description && <p className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed">{description}</p>}
+        </div>
+        <div className="w-full rounded-3xl overflow-hidden liquid-glass border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
+          <img src={imgSrc} alt={title} className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity" />
+          {/* Inner vignette for depth */}
+          <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.8)] pointer-events-none" />
+        </div>
+      </section>
+    );
+
+    const App = () => {
+      // Initialize Lucide icons
+      useEffect(() => {
+        if (window.lucide) window.lucide.createIcons();
+      }, []);
+
+      return (
+        <div className="min-h-screen bg-black overflow-x-hidden selection:bg-white/30">
+          <BackgroundVideo src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_115001_bcdaa3b4-03de-47e7-ad63-ae3e392c32d4.mp4" />
+          
+          <Navbar />
+
+          <main>
+            {/* Hero */}
+            <section className="relative z-10 min-h-[80vh] flex flex-col items-center justify-center px-6 text-center -translate-y-12">
+              <h1 className="instrument-serif text-6xl md:text-7xl lg:text-8xl text-white mb-8 tracking-tight max-w-5xl">The AI-native IDE for safety-critical embedded engineering</h1>
+              <p className="text-white/60 max-w-3xl mx-auto text-lg md:text-xl mb-10 leading-relaxed">
+                Bring requirements, code, certification evidence, hardware tooling, and a multi-agent AI pipeline into one Code-OSS-based workbench — purpose-built for DO-178C, ISO 26262, and MISRA-grade firmware teams.
+              </p>
+              <div className="flex items-center gap-4">
+                <a href="https://github.com/Hitheshkaranth/noyce_ide" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
+                  <i data-lucide="github" className="w-4 h-4"></i>
+                  View on GitHub
+                </a>
+              </div>
+            </section>
+
+            {/* Restored Featureset Grid */}
+            <FeaturesSection />
+
+            {/* Screenshots Showcases */}
+            <div id="screenshots" className="py-12">
+              <ScreenshotSection title="Multi-agent Orchestrator" description="Plan, dispatch, and run the agent pipeline. Objectives route to their owning agent and sync straight into the board." id="orchestrator" imgSrc="assets/04-ai-orchestrator.png" />
+              <ScreenshotSection title="DO-178C Compliance Evidence" description="At-a-glance and audit-ready. Requirements linked, design evidence, and verification records derived live from the active project." id="compliance" imgSrc="assets/02-compliance-dashboard.png" />
+              <ScreenshotSection title="Traceability Graph" description="REQ ↔ Design ↔ Test, visualised. A live dependency view that spots orphan code and verification gaps." id="traceability" imgSrc="assets/03-traceability-graph.png" />
+              <ScreenshotSection title="CI/CD Pipeline" description="Embedded build stages with live logs. Static Analysis → Build → Unit Tests → HIL Tests → Docs." id="pipeline" imgSrc="assets/06-build-pipeline.png" />
+              <ScreenshotSection title="MISRA Diagnostics" description="Rule-decoded findings with one-click Auto-fix that routes structural rules to a function-level refactor agent." id="misra" imgSrc="assets/11-misra-diagnostics.png" />
+              <ScreenshotSection title="Pin Configurator" description="Full-package pinmux, peripheral-aware. Pick from the peripheral list to highlight candidate pins and review conflicts inline." id="pin-config" imgSrc="assets/10-pin-configurator.png" />
+            </div>
+
+            {/* Final CTA with Custom Icon */}
+            <section id="download" className="relative z-10 py-32 px-6 flex flex-col items-center text-center">
+              <div className="mb-12 relative">
+                <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-150" />
+                <img src="assets/mr6fi2pd-icon_large.png" alt="Noyce IDE Icon" className="w-32 h-32 relative z-10 drop-shadow-2xl object-contain" />
+              </div>
+              <h2 className="instrument-serif text-5xl md:text-6xl text-white mb-8">Ready to write code?</h2>
+              <button className="liquid-glass rounded-full px-10 py-4 text-white font-medium hover:bg-white/10 transition-colors text-lg shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+                Download Noyce IDE
+              </button>
+            </section>
+          </main>
+          
+          <footer className="relative z-10 border-t border-white/10 py-12 px-6">
+            <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 opacity-60">
+              <img src="assets/mr6fibvg-logo_horizontal.png" alt="Noyce IDE" className="h-4 object-contain opacity-80" />
+              <div className="flex gap-6 text-sm text-white">
+                <a href="#" className="hover:text-white transition">Privacy</a>
+                <a href="#" className="hover:text-white transition">Terms</a>
+                <a href="https://github.com/Hitheshkaranth/noyce_ide" className="hover:text-white transition">GitHub</a>
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

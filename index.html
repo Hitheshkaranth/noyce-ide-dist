@@ -1,54 +1,593 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#06080c" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000000" />
   <meta name="description" content="Noyce IDE is an AI-native, Code-OSS workbench for safety-critical embedded firmware. DO-178C, ISO 26262, and MISRA evidence is built in." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Noyce IDE: the IDE built for firmware that has to be right" />
-  <meta property="og:description" content="AI-native Code-OSS workbench for safety-critical embedded firmware. DO-178C, ISO 26262, and MISRA evidence is built in." />
+  <meta property="og:title" content="Noyce IDE — Build it right." />
+  <meta property="og:description" content="The AI-native IDE for safety-critical embedded engineering. Certification evidence, multi-agent review, and pin-aware editing in one workbench." />
   <meta property="og:image" content="icons_resources/icon_large.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <title>Noyce IDE: the IDE built for firmware that has to be right</title>
+  <title>Noyce IDE — Build it right.</title>
 
   <link rel="icon" type="image/png" sizes="512x512" href="icons_resources/icon_large.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons_resources/icon_large.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="icons_resources/icon_large.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="icons_resources/icon_large.png" />
   <link rel="shortcut icon" type="image/png" href="icons_resources/icon_large.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="icons_resources/icon_large.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-
-  <link rel="stylesheet" href="assets/css/tokens.css" />
-  <link rel="stylesheet" href="assets/css/electronics.css" />
-  <link rel="stylesheet" href="assets/css/hero.css" />
-  <link rel="stylesheet" href="assets/css/sections.css" />
-  <link rel="stylesheet" href="assets/css/graph.css" />
-</head>
-<body>
-  <div id="root"></div>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
 
-  <script type="text/babel" src="assets/js/shared.jsx"></script>
-  <script type="text/babel" src="assets/js/pcb.jsx"></script>
-  <script type="text/babel" src="assets/js/background.jsx"></script>
-  <script type="text/babel" src="assets/js/nav.jsx"></script>
-  <script type="text/babel" src="assets/js/hero.jsx"></script>
-  <script type="text/babel" src="assets/js/features.jsx"></script>
-  <script type="text/babel" src="assets/js/agents.jsx"></script>
-  <script type="text/babel" src="assets/js/mcu.jsx"></script>
-  <script type="text/babel" src="assets/js/trace.jsx"></script>
-  <script type="text/babel" src="assets/js/graph_engine.jsx"></script>
-  <script type="text/babel" src="assets/js/graph_section.jsx"></script>
-  <script type="text/babel" src="assets/js/download.jsx"></script>
-  <script type="text/babel" src="assets/js/footer.jsx"></script>
-  <script type="text/babel" src="assets/js/app.jsx"></script>
+    body {
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .font-instrument { font-family: 'Instrument Serif', serif; }
+    .mono { font-family: ui-monospace, 'JetBrains Mono', 'SF Mono', monospace; }
+
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.01);
+      background-blend-mode: luminosity;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: none;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .liquid-glass::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.4px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .glow-effect { filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.3)); }
+    .caret { display:inline-block; width:8px; height:1em; background:#7dd3fc; margin-left:2px; vertical-align:-2px; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    /* ---------- Background video (fades in/out on loop) ---------- */
+    const BackgroundVideo = () => {
+      const videoRef = useRef(null);
+      const fadeRef = useRef(null);
+      const fadingOutRef = useRef(false);
+
+      useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const startFade = (targetOpacity, duration, callback) => {
+          if (fadeRef.current) cancelAnimationFrame(fadeRef.current);
+          const startOpacity = parseFloat(video.style.opacity) || 0;
+          const startTime = performance.now();
+          const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easeProgress = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+            video.style.opacity = startOpacity + (targetOpacity - startOpacity) * easeProgress;
+            if (progress < 1) fadeRef.current = requestAnimationFrame(animate);
+            else if (callback) callback();
+          };
+          fadeRef.current = requestAnimationFrame(animate);
+        };
+
+        const handleTimeUpdate = () => {
+          const timeLeft = video.duration - video.currentTime;
+          if (timeLeft <= 0.55 && !fadingOutRef.current) {
+            fadingOutRef.current = true;
+            startFade(0, 500);
+          }
+        };
+        const handleEnded = () => {
+          video.style.opacity = '0';
+          setTimeout(() => {
+            video.currentTime = 0;
+            video.play().catch(() => {});
+            fadingOutRef.current = false;
+            startFade(1, 500);
+          }, 100);
+        };
+        const handleLoaded = () => {
+          video.style.opacity = '0';
+          video.play().catch(() => {});
+          startFade(1, 500);
+        };
+
+        video.addEventListener('timeupdate', handleTimeUpdate);
+        video.addEventListener('ended', handleEnded);
+        video.addEventListener('loadeddata', handleLoaded);
+        if (video.readyState >= 3) handleLoaded();
+
+        return () => {
+          video.removeEventListener('timeupdate', handleTimeUpdate);
+          video.removeEventListener('ended', handleEnded);
+          video.removeEventListener('loadeddata', handleLoaded);
+          if (fadeRef.current) cancelAnimationFrame(fadeRef.current);
+        };
+      }, []);
+
+      return (
+        <div className="absolute inset-0 z-0 overflow-hidden bg-black pointer-events-none">
+          <video
+            ref={videoRef}
+            src="web-Prototype/assets/hero.mp4"
+            className="absolute top-0 left-0 w-full h-[134%] object-cover -translate-y-[17%]"
+            muted
+            playsInline
+            style={{ opacity: 0 }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/90 pointer-events-none"></div>
+        </div>
+      );
+    };
+
+    /* ---------- Navbar ---------- */
+    const Navbar = () => (
+      <nav className="relative z-20 px-6 py-6 w-full">
+        <div className="liquid-glass rounded-full px-6 py-3 flex items-center justify-between max-w-5xl mx-auto">
+          <div className="flex items-center gap-8">
+            <a href="#top" className="flex items-center gap-2">
+              <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-6 w-auto" />
+            </a>
+            <div className="hidden md:flex items-center gap-6">
+              <a href="#features" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Features</a>
+              <a href="#hardware" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Hardware</a>
+              <a href="#ai" className="text-white/80 hover:text-white transition-colors text-sm font-medium">AI Agents</a>
+              <a href="#compliance" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Compliance</a>
+            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="https://github.com/Hitheshkaranth/noyce_ide" className="text-white hover:text-white/80 transition-colors text-sm font-medium hidden sm:block">View on GitHub</a>
+            <a href="#download" className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-colors">Download</a>
+          </div>
+        </div>
+      </nav>
+    );
+
+    /* ---------- Hero ---------- */
+    const Hero = () => {
+      const stats = [
+        ['10+', 'First-party extensions'],
+        ['6', 'AI personas, one orchestrator'],
+        ['6', 'MCU families, pin-aware'],
+        ['A', 'DO-178C Level A ready'],
+      ];
+      return (
+        <section className="relative min-h-screen flex flex-col overflow-hidden" id="top">
+          <BackgroundVideo />
+          <Navbar />
+          <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center -translate-y-[6%]">
+            <span className="mono text-xs tracking-widest uppercase text-white/50 mb-6">Noyce IDE · v1.0.7</span>
+            <h1 className="font-instrument text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white mb-6 tracking-tight drop-shadow-lg">
+              Build it right.
+            </h1>
+            <p className="text-xl md:text-2xl text-white/80 mb-4 max-w-2xl font-light">
+              The AI-native IDE for safety-critical embedded engineering.
+            </p>
+            <p className="text-sm text-white/50 mb-10 max-w-xl mx-auto leading-relaxed">
+              An AI-native, Code-OSS workbench for embedded and safety-critical teams. Certification evidence,
+              multi-agent review, and pin-aware editing live in one place.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <a href="https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg" className="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-white/90 transition-colors flex items-center gap-2">
+                <i data-lucide="download" className="w-4 h-4"></i>
+                Download for macOS
+              </a>
+              <a href="https://github.com/Hitheshkaranth/noyce_ide" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors flex items-center gap-2">
+                <i data-lucide="github" className="w-4 h-4"></i>
+                View on GitHub
+              </a>
+              <span className="mono text-xs text-white/40">arm64 · 142 MB</span>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-6 mt-16 max-w-2xl">
+              {stats.map(([n, l], i) => (
+                <div key={i} className="text-center">
+                  <div className="font-instrument text-4xl md:text-5xl text-white">{n}</div>
+                  <div className="text-white/50 text-xs mt-1">{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- Features ---------- */
+    const FeatureCard = ({ icon, title, description }) => (
+      <div className="liquid-glass p-6 rounded-2xl flex flex-col gap-4 text-left hover:bg-white/[0.02] transition-colors">
+        <div className="text-white/90"><i data-lucide={icon} className="w-6 h-6"></i></div>
+        <div>
+          <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
+          <p className="text-white/60 text-sm leading-relaxed">{description}</p>
+        </div>
+      </div>
+    );
+
+    const Features = () => {
+      const features = [
+        { icon: 'shield-check', title: 'Evidence in the editor',
+          desc: 'DO-178C Table A objectives, ISO 26262 work products, MISRA C:2012 advisories, and MC/DC coverage — surfaced inline alongside the code they govern.' },
+        { icon: 'activity', title: 'Static analysis, rule-decoded',
+          desc: 'Real-time MISRA C:2012 and CERT C diagnostics with rule citations and one-click agent auto-fix, right inside your editor.' },
+        { icon: 'cpu', title: 'Aware of the silicon',
+          desc: 'Pin mux, SVD-driven peripheral registers, an RTOS task viewer, a Cortex-M fault decoder, and linker memory maps — wired into the workbench.' },
+        { icon: 'git-branch', title: 'Traceability kept honest',
+          desc: 'REQ → Design → Code → Test threaded continuously by a Rust sidecar that re-indexes on save and fails the build on orphaned requirements.' },
+        { icon: 'git-merge', title: 'Embedded CI/CD',
+          desc: 'Signed builds, lint, tests, and release evidence, with hardware-in-the-loop testing and flashing integrated into the pipeline.' },
+        { icon: 'bot', title: 'A team, not a chatbot',
+          desc: 'Six specialist personas orchestrated against the safety case — bring your own provider or run fully on-prem through Ollama or LM Studio.' },
+      ];
+      return (
+        <section id="features" className="relative z-20 bg-black py-24 px-6 border-t border-white/10">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="mono text-xs tracking-widest uppercase text-white/40">Noyce Core</span>
+              <h2 className="font-instrument text-4xl md:text-5xl mt-3 mb-4">Code, evidence, and silicon on the same desk.</h2>
+              <p className="text-white/60 max-w-2xl mx-auto">Noyce extends the Code-OSS shell you already trust with first-class surfaces for requirements, traceability, MISRA, MC/DC, pin configuration, and on-target debug — no tab-hopping across five tools.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {features.map((f, i) => <FeatureCard key={i} {...f} />)}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- AI Agents ---------- */
+    const AGENTS = [
+      { name: 'System Designer', role: 'decompose', ico: 'compass',
+        body: 'Takes a high-level requirement — "the brake actuator shall respond within 50 ms under ASIL-D conditions" — and emits low-level design items, interfaces, and traceability stubs.',
+        cmd: 'noyce decompose REQ-014 --target stm32h7' },
+      { name: 'Software Engineer', role: 'implement', ico: 'code',
+        body: 'Drafts the implementation with the SVD and HAL in context — fixed-point aware, ISR-safe, and wired to the deviation register from the first line.',
+        cmd: 'noyce impl LLR-072 --hal stm32h7 --misra' },
+      { name: 'Test Engineer', role: 'prove', ico: 'flask-conical',
+        body: 'Generates MC/DC harnesses, fault-injection scenarios, and hardware-in-the-loop scripts, then ties each verification artifact back to the originating requirement.',
+        cmd: 'noyce verify TST-204 --mcdc --hil' },
+      { name: 'Code Reviewer', role: 'scrutinise', ico: 'search-check',
+        body: 'Pushes back against MISRA C, fixed-point arithmetic, ISR safety, and the project deviation register — every comment cites a rule, not an opinion.',
+        cmd: 'noyce review --rule R.11.5 --explain' },
+      { name: 'Doc Generator', role: 'capture', ico: 'file-text',
+        body: 'Writes the SDP, SDD, SVP, and review minutes from the live workspace — section numbers, deviations, and signatures stay linked, not reconstructed from memory.',
+        cmd: 'noyce doc SDP --section 4.2 --sign' },
+      { name: 'Traceability Monitor', role: 'stitch', ico: 'git-fork',
+        body: 'Maintains the REQ → Design → Code → Test thread continuously, breaks the build when a requirement loses a downstream artifact, and records every link in the audit log.',
+        cmd: 'noyce trace --audit --fail-on-orphan' },
+    ];
+
+    const Agents = () => {
+      const [active, setActive] = useState(0);
+      const [typed, setTyped] = useState('');
+      const a = AGENTS[active];
+
+      useEffect(() => {
+        setTyped('');
+        let i = 0;
+        const id = setInterval(() => {
+          i++; setTyped(a.cmd.slice(0, i));
+          if (i >= a.cmd.length) clearInterval(id);
+        }, 26);
+        return () => clearInterval(id);
+      }, [active]);
+
+      return (
+        <section id="ai" className="relative z-20 bg-black py-24 px-6 border-t border-white/10">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="mono text-xs tracking-widest uppercase text-white/40">Noyce Agents</span>
+              <h2 className="font-instrument text-4xl md:text-5xl mt-3 mb-4">Six specialist agents, one auditable thread.</h2>
+              <p className="text-white/60 max-w-2xl mx-auto">Bring your own provider — Anthropic, OpenAI, Google Gemini, or Mistral — or run fully on-prem through Ollama or LM Studio. The orchestrator routes by latency, cost, and confidence, and signs every action against the requirements graph.</p>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
+              <div className="lg:col-span-2 flex flex-col gap-2">
+                {AGENTS.map((ag, i) => (
+                  <button key={ag.name} onClick={() => setActive(i)} onMouseEnter={() => setActive(i)}
+                    className={'liquid-glass rounded-xl px-5 py-4 flex items-center gap-4 text-left transition-colors ' + (active === i ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]')}>
+                    <span className={'w-9 h-9 rounded-lg grid place-items-center shrink-0 ' + (active === i ? 'text-sky-300 bg-sky-300/10' : 'text-white/70')}>
+                      <i data-lucide={ag.ico} className="w-5 h-5"></i>
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold text-white">{ag.name}</span>
+                      <span className="block text-xs text-white/40">{ag.role}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <div className="lg:col-span-3 liquid-glass rounded-2xl p-8">
+                <div className="flex items-center gap-4 mb-5">
+                  <span className="w-12 h-12 rounded-xl grid place-items-center bg-sky-300/10 text-sky-300"><i data-lucide={a.ico} className="w-6 h-6"></i></span>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white">{a.name}</h3>
+                    <div className="text-xs text-white/40 uppercase tracking-wider">{a.role}</div>
+                  </div>
+                </div>
+                <p className="text-white/70 leading-relaxed mb-6">{a.body}</p>
+                <div className="mono text-sm text-sky-300 bg-black/50 border border-white/10 rounded-lg px-4 py-3">
+                  <span className="text-white/40">$ </span>{typed}<span className="caret"></span>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-5">
+                  <span className="mono text-[11px] text-white/60 border border-white/10 rounded-full px-3 py-1">routes by confidence</span>
+                  <span className="mono text-[11px] text-white/60 border border-white/10 rounded-full px-3 py-1">signs against graph</span>
+                  <span className="mono text-[11px] text-white/60 border border-white/10 rounded-full px-3 py-1">audit-logged</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- Hardware ---------- */
+    const Hardware = () => {
+      const targets = ['STM32', 'TI Tiva', 'PIC32', 'RP2040', 'i.MX RT', 'Cortex-M'];
+      const items = [
+        { ico: 'circuit-board', h: 'Pin mux that knows the board', p: 'Drag a peripheral onto the chip and Noyce resolves the alternate function, conflicts, and pin-level electrical constraints in real time, then exports HAL init, device-tree, or AUTOSAR ECU config.', c: 'PA9=USART1_TX · alt-fn 7 · drive=high · resolved' },
+        { ico: 'binary', h: 'Peripheral registers, SVD-aware', p: 'Hover any MMIO write to see the register, its fields, reset value, and access semantics — pulled straight from the vendor SVD. Bitfield ranges and read-modify-write traps surface inline.', c: 'RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;' },
+        { ico: 'list-tree', h: 'RTOS task viewer', p: 'Live task list, stack high-watermark, and deadline misses for FreeRTOS, Zephyr, and ThreadX over SWD or J-Link.', c: 'task_safety · prio 31 · RUNNING' },
+        { ico: 'triangle-alert', h: 'Cortex-M fault decoder', p: 'HardFault, BusFault, MemManage, and UsageFault decoded from CFSR/HFSR with the stacked frame walked back to source.', c: 'UsageFault: UNDEFINSTR @ 0x0801F2A4' },
+        { ico: 'memory-stick', h: 'Linker memory map', p: 'Visualises FLASH, SRAM, CCM, and external regions, and flags overflows before the link fails. Per-symbol cost included.', c: 'FLASH 612K / 2M · SRAM 128K / 512K · ok' },
+      ];
+      return (
+        <section id="hardware" className="relative z-20 bg-[#050505] py-24 px-6 border-t border-white/5">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <span className="mono text-xs tracking-widest uppercase text-white/40">Noyce Hardware</span>
+              <h2 className="font-instrument text-4xl md:text-5xl mt-3 mb-4">The editor reads the datasheet so you don't have to.</h2>
+              <p className="text-white/60 max-w-2xl mx-auto">First-class support for STM32, TI Tiva, Microchip PIC32, Raspberry Pi RP2040, NXP i.MX RT, and generic Cortex-M. The hardware surfaces stay in the workbench, next to the code that drives them.</p>
+              <div className="flex flex-wrap justify-center gap-2 mt-6">
+                {targets.map((t) => (
+                  <span key={t} className="mono text-xs text-sky-300/90 border border-sky-300/20 bg-sky-300/[0.04] rounded-full px-3 py-1">{t}</span>
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {items.map((f, i) => (
+                <div key={i} className="liquid-glass rounded-2xl p-6 flex gap-4">
+                  <span className="w-10 h-10 rounded-lg grid place-items-center shrink-0 text-violet-300 bg-violet-300/10"><i data-lucide={f.ico} className="w-5 h-5"></i></span>
+                  <div>
+                    <h4 className="text-white font-semibold mb-1.5">{f.h}</h4>
+                    <p className="text-white/60 text-sm leading-relaxed mb-3">{f.p}</p>
+                    <code className="mono text-[12px] text-sky-300/90 bg-black/50 border border-white/10 rounded px-2 py-1 inline-block">{f.c}</code>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- Traceability / Compliance ---------- */
+    const Compliance = () => {
+      const metrics = [
+        ['1,284', 'live REQ, Design, and Test links'],
+        ['412 ms', 'sidecar full-workspace re-index'],
+        ['0', 'orphan requirements before merge'],
+        ['SHA', 'cryptographic audit log per change'],
+      ];
+      return (
+        <section id="compliance" className="relative z-20 bg-black py-24 px-6 border-t border-white/10">
+          <div className="max-w-5xl mx-auto text-center">
+            <span className="mono text-xs tracking-widest uppercase text-white/40">Traceability</span>
+            <h2 className="font-instrument text-4xl md:text-5xl mt-3 mb-4">REQ → Design → Test, kept honest.</h2>
+            <p className="text-white/60 max-w-2xl mx-auto mb-12">Built from the actual workspace, not a side spreadsheet. The Rust sidecar re-indexes on save, the orchestrator audits the thread, and broken links fail the build.</p>
+            <div className="liquid-glass rounded-2xl p-3 mb-12">
+              <div className="rounded-xl overflow-hidden border border-white/10 bg-black/50">
+                <img src="screenshots/03-traceability-graph.png" alt="Traceability graph" className="w-full h-auto object-cover" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {metrics.map(([n, l], i) => (
+                <div key={i} className="liquid-glass rounded-xl p-5">
+                  <div className="font-instrument text-3xl md:text-4xl text-white">{n}</div>
+                  <div className="text-white/50 text-xs mt-1 leading-snug">{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- Showcase ---------- */
+    const ScreenshotCard = ({ src, title, label }) => (
+      <div className="liquid-glass p-2 rounded-2xl flex flex-col">
+        <div className="rounded-xl overflow-hidden border border-white/10 bg-black/50">
+          <img src={src} alt={title} loading="lazy" className="w-full h-auto object-cover" />
+        </div>
+        <div className="p-4">
+          <span className="mono text-[11px] text-sky-300/80 uppercase tracking-wider">{label}</span>
+          <p className="text-sm font-medium text-white/80 mt-1">{title}</p>
+        </div>
+      </div>
+    );
+
+    const Showcase = () => {
+      const shots = [
+        { label: 'AI Orchestrator', title: 'Specialist agents routed against project context', src: 'screenshots/04-ai-orchestrator.png' },
+        { label: 'Compliance', title: 'DO-178C, ISO 26262, MISRA, and MC/DC status', src: 'screenshots/02-compliance-dashboard.png' },
+        { label: 'Build Pipeline', title: 'Signed builds, lint, tests, and release evidence', src: 'screenshots/06-build-pipeline.png' },
+        { label: 'MISRA', title: 'Rule-decoded findings with one-click agent auto-fix', src: 'screenshots/11-misra-diagnostics.png' },
+        { label: 'Pin Configurator', title: 'Pin-aware hardware setup beside the firmware', src: 'screenshots/10-pin-configurator.png' },
+        { label: 'Project Graph', title: 'Call graph, files, and safety metadata in one surface', src: 'screenshots/01-project-graph.png' },
+      ];
+      return (
+        <section id="showcase" className="relative z-20 bg-[#050505] py-24 px-6 border-t border-white/5">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="mono text-xs tracking-widest uppercase text-white/40">Product Screens</span>
+              <h2 className="font-instrument text-4xl md:text-5xl mt-3 mb-4">A unified workbench.</h2>
+              <p className="text-white/60 max-w-2xl mx-auto">Deep integration across the entire embedded lifecycle — graph, compliance, traceability, AI, build, and pin configuration.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {shots.map((s, i) => <ScreenshotCard key={i} {...s} />)}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- Download ---------- */
+    const CopyCmd = ({ cmd }) => {
+      const [copied, setCopied] = useState(false);
+      const copy = () => {
+        navigator.clipboard?.writeText(cmd).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1400); }).catch(() => {});
+      };
+      return (
+        <button onClick={copy} className="w-full flex items-center justify-between gap-3 bg-black/50 border border-white/10 rounded-lg px-3 py-2 hover:bg-black/70 transition-colors">
+          <span className="mono text-xs text-white/70 truncate">{cmd}</span>
+          <span className="mono text-[11px] text-white/40 shrink-0">{copied ? '✓ copied' : 'copy'}</span>
+        </button>
+      );
+    };
+
+    const Download = () => {
+      const cards = [
+        { os: 'macOS', status: 'Released', sc: 'text-green-400 bg-green-400/10', desc: 'macOS 13 Ventura or later. arm64 native, x86_64 supported.',
+          cmd: 'brew install --cask noyce-ide', pkg: 'arm64 · 142 MB', sig: 'ed25519 · notarized',
+          href: 'https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg', cta: 'Download · arm64', primary: true },
+        { os: 'Windows', status: 'Beta', sc: 'text-amber-400 bg-amber-400/10', desc: 'Windows 11 · x64 · code-signed · MSI and portable.',
+          cmd: 'winget install Noyce.IDE', pkg: 'x64 · 168 MB', sig: 'Authenticode · signed',
+          href: 'https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi', cta: 'Download · x64', primary: false },
+        { os: 'Linux', status: 'Roadmap', sc: 'text-sky-400 bg-sky-400/10', desc: 'Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.',
+          cmd: 'flatpak install dev.noyce.IDE', pkg: 'AppImage · deb', sig: 'sha256 · planned',
+          href: 'https://github.com/Hitheshkaranth/noyce_ide', cta: 'Notify me', primary: false },
+      ];
+      return (
+        <section id="download" className="relative z-20 bg-black py-24 px-6 border-t border-white/10">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="mono text-xs tracking-widest uppercase text-white/40">Get Noyce</span>
+              <h2 className="font-instrument text-4xl md:text-5xl mt-3 mb-4">Install. Open a template. Ship a certified binary.</h2>
+              <p className="text-white/60 max-w-2xl mx-auto">Noyce is free during beta. macOS arm64 ships today, Windows is in beta, and Linux is on the roadmap.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {cards.map((c) => (
+                <div key={c.os} className="liquid-glass rounded-2xl p-6 flex flex-col">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-2xl font-instrument text-white">{c.os}</h3>
+                    <span className={'mono text-[11px] rounded-full px-3 py-1 ' + c.sc}>{c.status}</span>
+                  </div>
+                  <p className="text-white/60 text-sm leading-relaxed mb-4 flex-1">{c.desc}</p>
+                  <div className="mb-3"><CopyCmd cmd={c.cmd} /></div>
+                  <div className="flex items-center justify-between text-[11px] text-white/40 mono mb-1"><span>package</span><span>{c.pkg}</span></div>
+                  <div className="flex items-center gap-2 text-[11px] text-white/40 mono mb-5"><i data-lucide="shield-check" className="w-3.5 h-3.5 text-green-400"></i>{c.sig}</div>
+                  <a href={c.href} className={'rounded-full px-6 py-3 text-sm font-medium flex items-center justify-center gap-2 transition-colors ' + (c.primary ? 'bg-white text-black hover:bg-white/90' : 'liquid-glass text-white hover:bg-white/5')}>
+                    <i data-lucide="download" className="w-4 h-4"></i>{c.cta}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- Closing CTA ---------- */
+    const CTA = () => (
+      <section className="relative z-20 bg-black py-32 px-6 border-t border-white/10 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none"></div>
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+          <div className="mb-8 glow-effect">
+            <img src="icons_resources/icon_large.png" alt="Noyce IDE" className="w-24 h-24 object-contain opacity-90" />
+          </div>
+          <h2 className="font-instrument text-5xl md:text-7xl mb-6">Ship firmware that has to be right.</h2>
+          <p className="text-white/60 mb-10 text-lg">Join the future of safety-critical systems engineering.</p>
+          <a href="#download" className="bg-white text-black px-10 py-4 rounded-full font-semibold text-lg hover:bg-white/90 transition-colors flex items-center gap-2">
+            Get Noyce IDE <i data-lucide="arrow-right" className="w-5 h-5"></i>
+          </a>
+        </div>
+      </section>
+    );
+
+    /* ---------- Footer ---------- */
+    const Footer = () => {
+      const cols = [
+        { h: 'Product', links: [['Features', '#features'], ['AI orchestrator', '#ai'], ['Hardware support', '#hardware'], ['Compliance', '#compliance'], ['Download', '#download']] },
+        { h: 'Resources', links: [['Docs', 'https://github.com/Hitheshkaranth/noyce_ide'], ['Changelog', 'https://github.com/Hitheshkaranth/noyce_ide'], ['DO-178C guide', 'https://github.com/Hitheshkaranth/noyce_ide'], ['ISO 26262 guide', 'https://github.com/Hitheshkaranth/noyce_ide']] },
+        { h: 'Community', links: [['GitHub', 'https://github.com/Hitheshkaranth/noyce_ide'], ['Discussions', 'https://github.com/Hitheshkaranth/noyce_ide/discussions'], ['Issues', 'https://github.com/Hitheshkaranth/noyce_ide/issues']] },
+      ];
+      return (
+        <footer className="relative z-20 bg-black border-t border-white/10 py-14 px-6">
+          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="col-span-2 md:col-span-1">
+              <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-6 w-auto mb-4 opacity-90" />
+              <p className="text-white/50 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for safety-critical embedded firmware.</p>
+              <p className="text-white/30 text-xs mt-3 mono">v1.0.7 · Free during beta</p>
+            </div>
+            {cols.map((col) => (
+              <div key={col.h}>
+                <h5 className="text-white/80 text-sm font-semibold mb-3">{col.h}</h5>
+                <div className="flex flex-col gap-2">
+                  {col.links.map(([t, href]) => (
+                    <a key={t} href={href} className="text-white/50 hover:text-white text-sm transition-colors">{t}</a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="max-w-6xl mx-auto mt-12 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-white/40 text-xs">© 2026 Noyce · All rights reserved · Built with Code-OSS, Rust, and React</p>
+            <a href="https://github.com/Hitheshkaranth/noyce_ide" aria-label="GitHub" className="liquid-glass rounded-full p-3 text-white/80 hover:text-white hover:bg-white/5 transition-all">
+              <i data-lucide="github" className="w-5 h-5"></i>
+            </a>
+          </div>
+        </footer>
+      );
+    };
+
+    /* ---------- App ---------- */
+    const App = () => {
+      useEffect(() => {
+        const render = () => { if (window.lucide) window.lucide.createIcons(); };
+        render();
+        const id = setInterval(render, 400);
+        setTimeout(() => clearInterval(id), 3000);
+        return () => clearInterval(id);
+      });
+      return (
+        <div className="min-h-screen bg-black text-white selection:bg-white/30">
+          <Hero />
+          <Features />
+          <Agents />
+          <Hardware />
+          <Compliance />
+          <Showcase />
+          <Download />
+          <CTA />
+          <Footer />
+        </div>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
 </body>
 </html>

@@ -1,0 +1,182 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noyce IDE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.01);
+      background-blend-mode: luminosity;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      border: none;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .liquid-glass::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.4px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-black text-white antialiased selection:bg-white/30 selection:text-white">
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const ArrowRight = ({ className }) => (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+        <path d="M5 12h14"/>
+        <path d="m12 5 7 7-7 7"/>
+      </svg>
+    );
+
+    function BackgroundVideo() {
+      const videoRef = useRef(null);
+      const animationFrameRef = useRef(null);
+      const currentOpacityRef = useRef(0);
+      const fadingOutRef = useRef(false);
+
+      const setOpacity = (val) => {
+        currentOpacityRef.current = val;
+        if (videoRef.current) {
+          videoRef.current.style.opacity = val.toString();
+        }
+      };
+
+      const fadeTo = (targetOpacity, durationInMs) => {
+        if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+        const startOpacity = currentOpacityRef.current;
+        const startTime = performance.now();
+
+        const animate = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / durationInMs, 1);
+          const newOpacity = startOpacity + (targetOpacity - startOpacity) * progress;
+          
+          setOpacity(newOpacity);
+
+          if (progress < 1) {
+            animationFrameRef.current = requestAnimationFrame(animate);
+          }
+        };
+        animationFrameRef.current = requestAnimationFrame(animate);
+      };
+
+      const handleTimeUpdate = () => {
+        const video = videoRef.current;
+        if (!video) return;
+        const timeLeft = video.duration - video.currentTime;
+        if (timeLeft <= 0.55 && !fadingOutRef.current) {
+          fadingOutRef.current = true;
+          fadeTo(0, 500);
+        }
+      };
+
+      const handleEnded = () => {
+        const video = videoRef.current;
+        if (!video) return;
+        setOpacity(0);
+        setTimeout(() => {
+          video.currentTime = 0;
+          video.play();
+          fadingOutRef.current = false;
+          fadeTo(1, 500);
+        }, 100);
+      };
+
+      const handleLoadedData = () => {
+        fadeTo(1, 500);
+      };
+
+      return (
+        <div className="absolute inset-0 z-0 overflow-hidden bg-black">
+          {/* Shifted down and scaled slightly to crop as specified */}
+          <div className="absolute inset-0 scale-[1.35] translate-y-[17%]">
+            <video
+              ref={videoRef}
+              src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_115001_bcdaa3b4-03de-47e7-ad63-ae3e392c32d4.mp4"
+              className="w-full h-full object-cover"
+              muted
+              playsInline
+              autoPlay
+              onTimeUpdate={handleTimeUpdate}
+              onEnded={handleEnded}
+              onLoadedData={handleLoadedData}
+              style={{ opacity: 0 }}
+            />
+          </div>
+          <div className="absolute inset-0 bg-black/20" />
+        </div>
+      );
+    }
+
+    const App = () => {
+      return (
+        <div className="min-h-screen bg-black overflow-hidden relative flex flex-col font-sans">
+          <BackgroundVideo />
+          
+          {/* Navigation */}
+          <nav className="relative z-20 px-6 py-6">
+            <div className="rounded-full px-6 py-3 flex items-center justify-between max-w-5xl mx-auto liquid-glass">
+              <div className="flex items-center gap-8">
+                <a href="#" className="flex items-center">
+                  <img src="mr6ftttf-logo_horizontal.png" alt="Noyce IDE" className="h-5 object-contain" />
+                </a>
+                <div className="hidden md:flex items-center gap-8">
+                  <a href="#" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Features</a>
+                  <a href="#" className="text-white/80 hover:text-white transition-colors text-sm font-medium">Documentation</a>
+                  <a href="#" className="text-white/80 hover:text-white transition-colors text-sm font-medium">About</a>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <a href="#" className="text-white hover:text-white/80 transition-colors text-sm font-medium px-4 py-2 hidden sm:block">GitHub</a>
+                <a href="#" className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium hover:bg-white/5 transition-colors">Download</a>
+              </div>
+            </div>
+          </nav>
+
+          {/* Hero Content */}
+          <main className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center -translate-y-[10%]">
+            <h1 
+              className="text-5xl md:text-6xl lg:text-7xl text-white mb-6 tracking-tight max-w-4xl mx-auto leading-tight"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              The AI-native IDE for safety-critical engineering
+            </h1>
+            <div className="max-w-xl w-full space-y-8 flex flex-col items-center">
+              <p className="text-white/70 text-lg leading-relaxed px-4">
+                Hardware-aware editing, seamless DO-178C compliance, and multi-agent AI orchestration in one unified workbench.
+              </p>
+              <a href="#" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/10 transition-colors inline-flex items-center gap-2 group">
+                View on GitHub
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
+          </main>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

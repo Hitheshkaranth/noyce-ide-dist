@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" fill="none">
+  <rect x="2" y="10" width="28" height="28" rx="4" fill="url(#grad)" stroke="#22e07e" stroke-width="1"/>
+  <rect x="6" y="14" width="20" height="20" rx="2" fill="#0a0e15"/>
+  <circle cx="10" cy="18" r="1.5" fill="#22e07e"/>
+  <rect x="10" y="22" width="12" height="1" fill="#22e07e" opacity="0.5"/>
+  <rect x="10" y="25" width="8" height="1" fill="#22e07e" opacity="0.3"/>
+  <rect x="10" y="28" width="10" height="1" fill="#22e07e" opacity="0.3"/>
+  <!-- pins -->
+  <rect x="4" y="8" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="9" y="8" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="14" y="8" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="19" y="8" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="24" y="8" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="4" y="37" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="9" y="37" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="14" y="37" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="19" y="37" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <rect x="24" y="37" width="2" height="3" fill="#22e07e" opacity="0.7"/>
+  <text x="40" y="32" font-family="Inter Tight, sans-serif" font-size="22" font-weight="600" fill="white">Noyce IDE</text>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a2230"/>
+      <stop offset="100%" stop-color="#0c1019"/>
+    </linearGradient>
+  </defs>
+</svg>

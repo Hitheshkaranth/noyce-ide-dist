@@ -1,0 +1,308 @@
+{
+  "schema": "open-design.design-manifest.v1",
+  "title": "32965cab-1243-48c2-8bea-60f98c72c0ec",
+  "entryFile": "hero-section-2.html",
+  "sourceFiles": {
+    "all": [
+      "assets/01-project-graph.png",
+      "assets/02-compliance-dashboard.png",
+      "assets/03-traceability-graph.png",
+      "assets/04-ai-orchestrator.png",
+      "assets/05-ai-models.png",
+      "assets/06-build-pipeline.png",
+      "assets/07-project-templates.png",
+      "assets/08-review-workflow.png",
+      "assets/10-pin-configurator.png",
+      "assets/11-misra-diagnostics.png",
+      "assets/12-quality-trend.png",
+      "assets/craft.mp4",
+      "assets/featured.mp4",
+      "assets/hero.mp4",
+      "assets/icon.svg",
+      "assets/logo_horizontal.svg",
+      "assets/philosophy.mp4",
+      "assets/strategy.mp4",
+      "hero-section-2.html",
+      "hero-section.html",
+      "mr6fi2pd-icon_large.png",
+      "mr6fibvg-logo_horizontal.png",
+      "mr6fif0i-logo_large.png",
+      "mr6ftttf-logo_horizontal.png",
+      "mr6ftttg-logo_large.png",
+      "mr6fu6rg-icon_large.png",
+      "noyce-ide-cinematic-hero.html",
+      "noyce-ide-hero.html",
+      "noyce-ide-landing-custom-logo.html",
+      "noyce-ide-landing-final.html",
+      "noyce-ide-landing-full-2.html",
+      "noyce-ide-landing-full-features-2.html",
+      "noyce-ide-landing-full-features.html",
+      "noyce-ide-landing-full.html",
+      "noyce-ide-landing-new-brand-2.html",
+      "noyce-ide-landing-new-brand-3.html",
+      "noyce-ide-landing-new-brand.html",
+      "noyce-ide-landing.html"
+    ],
+    "html": [
+      "hero-section-2.html",
+      "hero-section.html",
+      "noyce-ide-cinematic-hero.html",
+      "noyce-ide-hero.html",
+      "noyce-ide-landing-custom-logo.html",
+      "noyce-ide-landing-final.html",
+      "noyce-ide-landing-full-2.html",
+      "noyce-ide-landing-full-features-2.html",
+      "noyce-ide-landing-full-features.html",
+      "noyce-ide-landing-full.html",
+      "noyce-ide-landing-new-brand-2.html",
+      "noyce-ide-landing-new-brand-3.html",
+      "noyce-ide-landing-new-brand.html",
+      "noyce-ide-landing.html"
+    ],
+    "css": [],
+    "scriptsAndComponents": [],
+    "assets": [
+      "assets/01-project-graph.png",
+      "assets/02-compliance-dashboard.png",
+      "assets/03-traceability-graph.png",
+      "assets/04-ai-orchestrator.png",
+      "assets/05-ai-models.png",
+      "assets/06-build-pipeline.png",
+      "assets/07-project-templates.png",
+      "assets/08-review-workflow.png",
+      "assets/10-pin-configurator.png",
+      "assets/11-misra-diagnostics.png",
+      "assets/12-quality-trend.png",
+      "assets/craft.mp4",
+      "assets/featured.mp4",
+      "assets/hero.mp4",
+      "assets/icon.svg",
+      "assets/logo_horizontal.svg",
+      "assets/philosophy.mp4",
+      "assets/strategy.mp4",
+      "mr6fi2pd-icon_large.png",
+      "mr6fibvg-logo_horizontal.png",
+      "mr6fif0i-logo_large.png",
+      "mr6ftttf-logo_horizontal.png",
+      "mr6ftttg-logo_large.png",
+      "mr6fu6rg-icon_large.png"
+    ]
+  },
+  "screens": [
+    {
+      "file": "hero-section-2.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "hero-section.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-cinematic-hero.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-hero.html",
+      "role": "screen",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-custom-logo.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-final.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-full-2.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-full-features-2.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-full-features.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-full.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-new-brand-2.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-new-brand-3.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing-new-brand.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    },
+    {
+      "file": "noyce-ide-landing.html",
+      "role": "landing-page",
+      "implementationNote": "Preserve visual hierarchy, responsive behavior, and interactive states from this screen."
+    }
+  ],
+  "screenFilePolicy": {
+    "mode": "screen-file-first",
+    "entryFileRole": "primary-screen",
+    "rules": [
+      "Each distinct user-facing screen or surface must be delivered and implemented as its own file/route.",
+      "If a landing page is present or requested, keep it in landing.html and do not merge it into the product app screen.",
+      "When multiple HTML screens exist, index.html is a launcher/overview only; it must not be treated as the combined final UI.",
+      "Keep product app screens, landing pages, platform screens, and OS widget surfaces separate in production code."
+    ]
+  },
+  "appModules": [
+    "Identify domain-specific in-app modules from the exported UI; do not reduce them to generic cards.",
+    "For each major module, implement purpose, default/loading/empty/error/success states, and responsive behavior.",
+    "Keep app modules separate from OS home-screen widgets in the production component model."
+  ],
+  "osWidgets": [
+    "If the export includes home-screen, lock-screen, Live Activity, tablet glance, or Android widget surfaces, implement them as platform quick-access surfaces outside the app UI.",
+    "If none are present, do not invent OS widgets unless the product requirements request them."
+  ],
+  "landingPage": {
+    "detection": "Inspect files and screen names for a marketing/landing page surface. If present, keep it separate from product app screens.",
+    "requiredSections": [
+      "hero",
+      "value props",
+      "product proof/screenshots",
+      "feature proof",
+      "CTA"
+    ]
+  },
+  "tokens": {
+    "source": [
+      "hero-section-2.html"
+    ],
+    "required": [
+      "background",
+      "surface",
+      "foreground",
+      "muted text",
+      "border",
+      "accent",
+      "radius",
+      "shadow",
+      "spacing",
+      "type scale",
+      "motion"
+    ],
+    "note": "Extract/freeze tokens before framework implementation so coding tools do not substitute default theme colors or typography."
+  },
+  "interactions": {
+    "source": [
+      "hero-section-2.html"
+    ],
+    "requiredStates": [
+      "default",
+      "hover",
+      "focus",
+      "active",
+      "disabled",
+      "loading",
+      "empty",
+      "error",
+      "success"
+    ],
+    "requiredBehaviors": [
+      "forms/validation where present",
+      "tabs/filters where present",
+      "dialogs/sheets/drawers where present",
+      "copy/generate/share actions where present",
+      "player or quick controls where present"
+    ],
+    "note": "If the prototype is static, derive missing behavior from visible controls and document it before coding."
+  },
+  "responsiveViewports": [
+    {
+      "name": "mobile-compact",
+      "width": 360,
+      "height": 800,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "mobile-standard",
+      "width": 390,
+      "height": 844,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "mobile-large",
+      "width": 430,
+      "height": 932,
+      "category": "mobile",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "foldable-small-tablet",
+      "width": 600,
+      "height": 960,
+      "category": "foldable-tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "tablet-portrait",
+      "width": 820,
+      "height": 1180,
+      "category": "tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "tablet-landscape",
+      "width": 1024,
+      "height": 768,
+      "category": "tablet",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "laptop",
+      "width": 1366,
+      "height": 768,
+      "category": "desktop",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 900,
+      "category": "desktop",
+      "mustAvoidHorizontalScroll": true
+    },
+    {
+      "name": "wide",
+      "width": 1920,
+      "height": 1080,
+      "category": "wide",
+      "mustAvoidHorizontalScroll": true
+    }
+  ],
+  "implementationChecklist": [
+    "Open entryFile first and map screens, modules, tokens, and interactions.",
+    "Extract tokens before writing framework components.",
+    "Implement app-specific modules with real states instead of generic card grids.",
+    "Preserve or rebuild JS interactions for meaningful UX actions.",
+    "Validate screenshots at desktop/tablet/mobile viewports with no horizontal overflow.",
+    "Keep landing pages, in-app modules, and OS widgets as separate implementation surfaces."
+  ]
+}
