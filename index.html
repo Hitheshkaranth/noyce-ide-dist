@@ -443,6 +443,9 @@
         { label: 'MISRA', title: 'Rule-decoded findings with one-click agent auto-fix', src: 'screenshots/11-misra-diagnostics.png' },
         { label: 'Pin Configurator', title: 'Pin-aware hardware setup beside the firmware', src: 'screenshots/10-pin-configurator.png' },
         { label: 'Project Graph', title: 'Call graph, files, and safety metadata in one surface', src: 'screenshots/01-project-graph.png' },
+        { label: 'MC/DC Coverage', title: 'DO-178C A-7 structural coverage with obligation vectors', src: 'screenshots/13-mcdc-coverage.png' },
+        { label: 'Coupling Analysis', title: 'Data & control coupling matrix, traced to A-7 objective 8', src: 'screenshots/14-coupling-analysis.png' },
+        { label: 'Auto Architecture', title: 'Validated C4 diagrams drawn from source by local AI', src: 'screenshots/15-architecture.png' },
       ];
       return (
         <section id="showcase" className="bg-black py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
@@ -450,7 +453,7 @@
             <Reveal y={30} dur={0.7} className="text-center mb-14">
               <span className="text-white/40 text-sm tracking-[0.25em] uppercase">Product Screens</span>
               <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">A unified workbench.</h2>
-              <p className="text-white/50 max-w-2xl mx-auto text-sm">Deep integration across the entire embedded lifecycle — graph, compliance, traceability, AI, build, and pin configuration.</p>
+              <p className="text-white/50 max-w-2xl mx-auto text-sm">Deep integration across the entire embedded lifecycle — graph, compliance, traceability, MC/DC coverage, coupling analysis, AI, build, and pin configuration.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {shots.map((s, i) => (
