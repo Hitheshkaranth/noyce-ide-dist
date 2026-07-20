@@ -177,7 +177,7 @@
           <HeroVideo />
           <Navbar />
           <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center -translate-y-[8%]">
-            <span className="mono text-xs tracking-[0.25em] uppercase text-white/50 mb-6">Noyce IDE · v1.0.9</span>
+            <span className="mono text-xs tracking-[0.25em] uppercase text-white/50 mb-6">Noyce IDE · v2.0.0</span>
             <h1 className="font-instrument text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white mb-8 tracking-tight drop-shadow-lg">
               Build it <em className="italic">right</em>.
             </h1>
@@ -186,7 +186,7 @@
               A Code-OSS workbench where certification evidence, multi-agent review, and pin-aware editing live in one place.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 mb-14">
-              <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/download/v1.0.9/NoyceIDE-1.0.9-darwin-arm64.dmg" className="bg-white text-black pl-6 pr-2 py-2 rounded-full font-medium hover:bg-white/90 transition-colors flex items-center gap-3">
+              <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/download/v2.0.0/NoyceIDE-2.0.0-darwin-arm64.dmg" className="bg-white text-black pl-6 pr-2 py-2 rounded-full font-medium hover:bg-white/90 transition-colors flex items-center gap-3">
                 Download for macOS <span className="bg-black text-white rounded-full p-2.5 flex"><i data-lucide="arrow-right" className="w-4 h-4"></i></span>
               </a>
               <a href="https://github.com/Hitheshkaranth/noyce_ide" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors flex items-center gap-2">
@@ -483,8 +483,8 @@
     };
     const Download = () => {
       const cards = [
-        { os: 'macOS', status: 'Released', sc: 'text-green-400 bg-green-400/10', desc: 'macOS 13 Ventura or later. arm64 native, x86_64 supported.', cmd: 'brew install --cask noyce-ide', pkg: 'arm64 · 386 MB', sig: 'ed25519 · notarized', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/download/v1.0.9/NoyceIDE-1.0.9-darwin-arm64.dmg', cta: 'Download · arm64', primary: true },
-        { os: 'Windows', status: 'Beta', sc: 'text-amber-400 bg-amber-400/10', desc: 'Windows 11 · x64 · code-signed · system installer.', cmd: 'winget install Noyce.IDE', pkg: 'x64 · 180 MB', sig: 'Authenticode · signed', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/download/v1.0.9/NoyceIDE-1.0.9-win32-x64-system-477c42f.exe', cta: 'Download · x64', primary: false },
+        { os: 'macOS', status: 'Released', sc: 'text-green-400 bg-green-400/10', desc: 'macOS 13 Ventura or later. arm64 native, x86_64 supported.', cmd: 'brew install --cask noyce-ide', pkg: 'arm64 · 381 MB', sig: 'ed25519 · notarized', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/download/v2.0.0/NoyceIDE-2.0.0-darwin-arm64.dmg', cta: 'Download · arm64', primary: true },
+        { os: 'Windows', status: 'Beta', sc: 'text-amber-400 bg-amber-400/10', desc: 'Windows 11 · x64 · code-signed · system installer.', cmd: 'winget install Noyce.IDE', pkg: 'x64 · 180 MB', sig: 'Authenticode · signed', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/download/v2.0.0/NoyceIDE-2.0.0-win32-x64-system-8c0bc52.exe', cta: 'Download · x64', primary: false },
         { os: 'Linux', status: 'Roadmap', sc: 'text-sky-400 bg-sky-400/10', desc: 'Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.', cmd: 'flatpak install dev.noyce.IDE', pkg: 'AppImage · deb', sig: 'sha256 · planned', href: 'https://github.com/Hitheshkaranth/noyce_ide', cta: 'Notify me', primary: false },
       ];
       return (
@@ -543,7 +543,7 @@
             <div className="col-span-2 md:col-span-1">
               <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-6 w-auto mb-4 opacity-90" />
               <p className="text-white/50 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for safety-critical embedded firmware.</p>
-              <p className="text-white/30 text-xs mt-3 mono">v1.0.9 · Free during beta</p>
+              <p className="text-white/30 text-xs mt-3 mono">v2.0.0 · Free during beta</p>
             </div>
             {cols.map((col) => (
               <div key={col.h}>
