@@ -10,6 +10,7 @@ function App() {
         <Hero />
         <Bus label="DATA BUS · AHB" />
         <Features />
+        <Release201 />
         <ProductScreenshots />
         <Bus label="IRQ · NVIC" flip={true} />
         <AgentOrbit />

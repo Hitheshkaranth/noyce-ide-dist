@@ -55,6 +55,37 @@ function Features() {
   );
 }
 
+function Release201() {
+  const shots = [
+    { label: 'Compliance entry', title: 'Compliance now opens the native Data & Control Coupling panel', src: 'docs/screenshots/2.0.1/compliance-coupling-entry.png' },
+    { label: 'Coupling analysis', title: 'Embedded C coupling parsing fixed for preprocessor directives and extern globals', src: 'docs/screenshots/2.0.1/data-control-coupling-201.png' },
+    { label: 'Quality Trend', title: 'Quality metrics refresh after fixes, with snapshots and export intact', src: 'docs/screenshots/2.0.1/quality-trend-after-fix.png' },
+    { label: 'STM32 .ioc pins', title: 'STM32CubeMX package and pin data render as a populated MCU grid', src: 'docs/screenshots/2.0.1/ioc-pin-configurator-201.png' },
+  ];
+  return (
+    <section className="section-pad product-shots" id="release-201">
+      <div className="wrap">
+        <div className="section-head reveal">
+          <span className="kicker">New in 2.0.1</span>
+          <h2>Native Code-OSS fixes,<br />verified on real firmware projects.</h2>
+          <p>Noyce 2.0.1 tightens Compliance-to-Coupling navigation, coupling extraction, Quality Trend refresh, and STM32 .ioc pin parsing. These captures come from the running Code-OSS build against isolated /office project copies.</p>
+        </div>
+        <div className="shot-grid release-grid">
+          {shots.map((s, i) => (
+            <div key={s.src} className={'glass board reveal d' + (i + 1)} style={{ padding: 10 }}>
+              <img className="shot-main" src={s.src} alt={s.title} loading="lazy" />
+              <div className="shot-caption">
+                <span className="chip ice"><span className="dot" />{s.label}</span>
+                <strong>{s.title}</strong>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const SCREENSHOTS = [
   {
     src: 'screenshots/01-project-graph.png',
@@ -122,7 +153,7 @@ function ProductScreenshots() {
         <div className="section-head reveal">
           <span className="kicker">Product Screens</span>
           <h2>The same workbench,<br />shown through real project views.</h2>
-          <p>These project screenshots sit inside the updated 3.0 page so the visual story matches the product surfaces: graph, compliance, traceability, AI, build, templates, review, launcher, and pin configuration.</p>
+          <p>These project screenshots sit inside the updated 2.0.1 page so the visual story matches the product surfaces: graph, compliance, traceability, AI, build, templates, review, coupling, quality, and pin configuration.</p>
         </div>
 
         <div className="shot-stage glass reveal d1">
@@ -156,4 +187,4 @@ function ProductScreenshots() {
   );
 }
 
-Object.assign(window, { Features, TiltCard, ProductScreenshots });
+Object.assign(window, { Features, TiltCard, Release201, ProductScreenshots });

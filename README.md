@@ -17,7 +17,7 @@ Code-OSS based desktop workbench that brings **requirements, source, certificati
 [![D3](https://img.shields.io/badge/D3.js-7.x-F9A03C?style=flat-square&logo=d3.js&logoColor=white)](https://d3js.org/)
 [![Playwright](https://img.shields.io/badge/Tested-Playwright-2EAD33?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev/)
 [![CI](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml/badge.svg)](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml)
-[![Version](https://img.shields.io/badge/version-2.0.0-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce_ide/releases/latest)
+[![Version](https://img.shields.io/badge/version-2.0.1-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce_ide/releases/latest)
 [![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](#license)
 
 [**Quick Start**](#quick-start) · [**Features**](#features) · [**Architecture**](#architecture) · [**Build & Release**](#build--release) · [**Distribution**](https://github.com/Hitheshkaranth/noyce-ide-dist)
@@ -48,6 +48,34 @@ Branded as a polished Code-OSS Electron app on a clean shadcn-neutral design sys
 ## Screenshots
 
 > Every screenshot below is captured from the running **Code-OSS Electron build** with a **real firmware project open** — the TI **Tiva TM4C1294NCPDT** *Canister Main Controller* firmware, imported from source. Each surface is rendered live against that project's code, requirements, pin map, and schematic; the analysis surfaces (MC/DC, coupling, schematic BoM, architecture) are re-run against the loaded firmware for every capture. Nothing here is a mockup or a browser preview.
+
+### New in 2.0.1 — verified native Code-OSS fixes
+
+The `2.0.1` release tightens several native workbench paths that were validated inside the running Noyce Code-OSS application, using isolated copies of real projects from `/office`.
+
+#### Compliance Dashboard → Data & Control Coupling
+
+<img src="docs/screenshots/2.0.1/compliance-coupling-entry.png" alt="Compliance Dashboard with the Coupling toolbar entry" />
+
+The Compliance Dashboard toolbar now opens the registered native Code-OSS `Data & Control Coupling` panel through the host command bridge. This fixes the `2.0.0` path where coupling could be opened from the command palette but was not reliably accessible from the Compliance section.
+
+#### Data & Control Coupling — refreshed analyzer output
+
+<img src="docs/screenshots/2.0.1/data-control-coupling-201.png" alt="Data and Control Coupling analysis opened from Compliance in Noyce 2.0.1" />
+
+The coupling analyzer now handles embedded C top-level parsing more accurately: preprocessor directives no longer hide globals declared after `#include`, and declaration-only `extern` globals in headers no longer duplicate data-coupling pairs. The screenshot shows the real `MPDU_4000_CONTROLLER_V1` project copy with **32 components**, **24 control pairs**, and **325 data pairs** rendered after opening the feature from Compliance.
+
+#### Quality Trend — fix-and-refresh feedback
+
+<img src="docs/screenshots/2.0.1/quality-trend-after-fix.png" alt="Quality Trend after a controlled fix changed the displayed metrics" />
+
+Quality Trend now recomputes and refreshes in the native editor after a controlled source fix. The verification pass captured the screen changing from the earlier metric state to **Max CC 21**, with **2 snapshots** available and 516 functions analyzed across 80 files.
+
+#### STM32 `.ioc` pin configuration parsing
+
+<img src="docs/screenshots/2.0.1/ioc-pin-configurator-201.png" alt="Pin Configurator reading STM32CubeMX IOC pins in Noyce 2.0.1" />
+
+The Pin Configurator now reads STM32CubeMX `.ioc` package and pin configuration thoroughly enough to render the actual MCU package instead of a blank/no-pins view. This capture uses a real `/office` project copy with `STM32F746G_DISCO.ioc`, rendering `STM32F746NGHx` as **TFBGA216 · 216 pins** with the peripheral list and colored pin grid populated.
 
 ### Getting Started — the surface launcher
 

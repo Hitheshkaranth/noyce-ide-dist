@@ -23,10 +23,10 @@ function Download() {
   const cards = [
     { kind: 'mac', os: 'macOS', status: 'Released', sc: 'ok', desc: 'macOS 13 Ventura or later. arm64 native, x86_64 supported.',
       cmd: 'brew install --cask noyce-ide', size: 142, max: 220, arch: 'arm64 · 142 MB', sig: 'ed25519 · notarized',
-      href: 'https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_macOS_aarch64.dmg', cta: 'Download · arm64' },
+      href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.1', cta: 'Download · arm64' },
     { kind: 'win', os: 'Windows', status: 'Beta', sc: 'warn', desc: 'Windows 11 · x64 · code-signed · MSI and portable.',
       cmd: 'winget install Noyce.IDE', size: 168, max: 220, arch: 'x64 · 168 MB', sig: 'Authenticode · signed',
-      href: 'https://github.com/Hitheshkaranth/noyce_ide/releases/latest/download/Noyce_x64_en-US.msi', cta: 'Download · x64' },
+      href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.1', cta: 'Download · x64' },
     { kind: 'linux', os: 'Linux', status: 'Roadmap', sc: 'ice', desc: 'Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.',
       cmd: 'flatpak install dev.noyce.IDE', size: 0, max: 220, arch: 'AppImage · deb', sig: 'sha256 · planned',
       href: 'https://github.com/Hitheshkaranth/noyce_ide', cta: 'Notify me' },
