@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Noyce IDE is an AI-native, Code-OSS workbench for safety-critical embedded firmware. DO-178C, ISO 26262, and MISRA evidence is built in." />
+  <meta name="description" content="Noyce IDE is an AI-native Code-OSS workbench for certifiable embedded firmware. It keeps requirements, source code, hardware configuration, verification, and compliance evidence in one engineering loop." />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Noyce IDE — Build it right." />
-  <meta property="og:description" content="The AI-native IDE for safety-critical embedded engineering. Certification evidence, multi-agent review, and pin-aware editing in one workbench." />
+  <meta property="og:title" content="Noyce IDE - AI workbench for certifiable firmware." />
+  <meta property="og:description" content="A Code-OSS IDE for embedded teams building aerospace, automotive, robotics, and medical firmware where evidence must stay tied to the code." />
   <meta property="og:image" content="icons_resources/icon_large.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <title>Noyce IDE — Build it right.</title>
+  <title>Noyce IDE - AI workbench for certifiable firmware</title>
 
   <link rel="icon" type="image/png" sizes="512x512" href="icons_resources/icon_large.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="icons_resources/icon_large.png" />
@@ -171,19 +171,19 @@
 
     /* ---------- SECTION 1 · Hero ---------- */
     const Hero = () => {
-      const stats = [['10+', 'First-party extensions'], ['6', 'AI personas, one orchestrator'], ['6', 'MCU families, pin-aware'], ['A', 'DO-178C Level A ready']];
+      const stats = [['Code-OSS', 'native developer experience'], ['AI', 'grounded in workspace context'], ['MISRA', 'diagnostics visible in-editor'], ['STM32', '.ioc pin maps parsed']];
       return (
         <section id="top" className="relative min-h-screen overflow-hidden flex flex-col">
           <HeroVideo />
           <Navbar />
           <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center -translate-y-[8%]">
-            <span className="mono text-xs tracking-[0.25em] uppercase text-white/50 mb-6">Noyce IDE · v2.0.1</span>
+            <span className="mono text-xs tracking-[0.25em] uppercase text-white/50 mb-6">Noyce IDE · v2.0.1 · YC-ready beta</span>
             <h1 className="font-instrument text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white mb-8 tracking-tight drop-shadow-lg">
-              Build it <em className="italic">right</em>.
+              Noyce IDE
             </h1>
-            <p className="text-lg md:text-xl text-white/80 mb-3 max-w-2xl font-light">The AI-native IDE for safety-critical embedded engineering.</p>
+            <p className="text-lg md:text-xl text-white/80 mb-3 max-w-3xl font-light">The AI-native workbench for certifiable embedded firmware.</p>
             <p className="text-sm text-white/50 mb-10 max-w-xl mx-auto leading-relaxed px-4">
-              A Code-OSS workbench where certification evidence, multi-agent review, and pin-aware editing live in one place.
+              Embedded teams lose weeks keeping requirements, code, pin configuration, reviews, and verification evidence synchronized. Noyce puts that loop inside Code-OSS.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 mb-14">
               <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.1" className="bg-white text-black pl-6 pr-2 py-2 rounded-full font-medium hover:bg-white/90 transition-colors flex items-center gap-3">
@@ -196,7 +196,7 @@
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-10 gap-y-6 max-w-2xl">
               {stats.map(([n, l], i) => (
                 <div key={i} className="text-center">
-                  <div className="font-instrument text-4xl md:text-5xl text-white">{n}</div>
+                  <div className="font-instrument text-3xl md:text-4xl text-white">{n}</div>
                   <div className="text-white/50 text-xs mt-1">{l}</div>
                 </div>
               ))}
@@ -221,8 +221,8 @@
           <Reveal y={20} dur={0.6}><span className="text-white/40 text-sm tracking-[0.25em] uppercase">About Noyce</span></Reveal>
           <Reveal y={40} delay={0.1} dur={0.8}>
             <h2 className="font-instrument text-4xl md:text-6xl lg:text-7xl text-white leading-[1.1] tracking-tight mt-6">
-              Building the IDE for firmware <span className="italic text-white/60">that has to be right</span> —<br className="hidden md:block" />
-              <span className="italic text-white/60"> code, evidence, and silicon, finally on the same desk.</span>
+              Firmware teams should not need a spreadsheet, a compliance portal, a pin tool, and a chatbot<br className="hidden md:block" />
+              <span className="italic text-white/60">to prove what their code already does.</span>
             </h2>
           </Reveal>
         </div>
@@ -243,8 +243,8 @@
               <div className="liquid-glass rounded-2xl p-6 md:p-8 max-w-md">
                 <div className="text-white/50 text-xs tracking-[0.25em] uppercase mb-3">Our Approach</div>
                 <p className="text-white text-sm md:text-base leading-relaxed">
-                  Safety-critical firmware deserves better than five disconnected tools. Noyce brings requirements,
-                  traceability, MISRA, and on-target debug into one Code-OSS workbench — evidence surfaced beside the code it governs.
+                  Noyce is the development environment for teams building firmware that must pass review.
+                  Requirements, traceability, MISRA, hardware configuration, and AI assistance stay beside the source they govern.
                 </p>
               </div>
               <a href="#features" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors self-start md:self-auto">Explore features</a>
@@ -270,9 +270,9 @@
             <Reveal y={30} dur={0.7} className="flex flex-col md:flex-row md:items-end md:justify-between mb-14 gap-4">
               <div>
                 <span className="text-white/40 text-sm tracking-[0.25em] uppercase">Noyce Core</span>
-                <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3">Code, evidence, and silicon<br className="hidden md:block" /> on the same desk.</h2>
+                <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3">One workspace for source,<br className="hidden md:block" /> evidence, and silicon.</h2>
               </div>
-              <p className="text-white/50 text-sm max-w-sm">Noyce extends the Code-OSS shell you trust with first-class surfaces for requirements, traceability, MISRA, pin config, and on-target debug.</p>
+              <p className="text-white/50 text-sm max-w-sm">Noyce extends the Code-OSS shell engineers already know with first-class surfaces for requirements, traceability, MISRA, pin config, and on-target debug.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((f, i) => (
@@ -285,6 +285,39 @@
                 </Reveal>
               ))}
             </div>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- SECTION 3B · YC Snapshot ---------- */
+    const YCSnapshot = () => {
+      const points = [
+        { label: 'Problem', body: 'Certifiable embedded software is still built across IDEs, vendor pin tools, spreadsheets, static analyzers, and document folders. Context breaks every time an engineer switches tools.' },
+        { label: 'Solution', body: 'Noyce turns Code-OSS into a native safety-engineering workbench: AI review, MISRA diagnostics, requirements, traceability, pin maps, quality trend, and evidence generation in one place.' },
+        { label: 'Customer', body: 'Small and mid-size teams building aerospace, automotive, medical-device, industrial, robotics, and defense firmware that need compliance-grade engineering discipline before they can scale.' },
+        { label: 'Why now', body: 'AI can finally read large workspaces, but generic chat tools are not trusted in regulated engineering. The winning product is context-aware, auditable, local-capable, and integrated into the editor.' },
+      ];
+      return (
+        <section id="yc" className="bg-black py-20 md:py-28 px-6 border-t border-white/5 overflow-hidden">
+          <div className="max-w-6xl mx-auto">
+            <Reveal y={30} dur={0.7} className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-start">
+              <div>
+                <span className="text-white/40 text-sm tracking-[0.25em] uppercase">YC Snapshot</span>
+                <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-5">A developer platform for regulated firmware teams.</h2>
+                <p className="text-white/55 text-sm md:text-base leading-relaxed max-w-lg">
+                  The wedge is simple: make embedded engineers faster without breaking certification discipline. The platform grows from editor-native compliance into the operating system for safety-critical software delivery.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/10">
+                {points.map((p) => (
+                  <div key={p.label} className="bg-black p-6 md:p-7">
+                    <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-3">{p.label}</div>
+                    <p className="text-white/70 text-sm leading-relaxed">{p.body}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
           </div>
         </section>
       );
@@ -314,7 +347,7 @@
             <Reveal y={30} dur={0.7} className="text-center mb-14">
               <span className="text-white/40 text-sm tracking-[0.25em] uppercase">Noyce Agents</span>
               <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Six specialist agents,<br className="hidden md:block" /> one auditable thread.</h2>
-              <p className="text-white/50 max-w-2xl mx-auto text-sm">Bring your own provider — Anthropic, OpenAI, Google Gemini, or Mistral — or run fully on-prem. The orchestrator routes by latency, cost, and confidence, and signs every action against the requirements graph.</p>
+              <p className="text-white/50 max-w-2xl mx-auto text-sm">Bring your own provider or run locally through Ollama or LM Studio. The orchestrator keeps requests grounded in the active workspace and records AI actions against the requirements graph.</p>
             </Reveal>
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
               <div className="lg:col-span-2 flex flex-col gap-2">
@@ -376,7 +409,7 @@
           <div className="max-w-5xl mx-auto text-center">
             <Reveal y={30} dur={0.7}>
               <span className="text-white/40 text-sm tracking-[0.25em] uppercase">Traceability</span>
-              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">REQ → Design → Test, kept honest.</h2>
+              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">REQ -> Design -> Test, kept honest.</h2>
               <p className="text-white/50 max-w-2xl mx-auto text-sm mb-12">The Rust sidecar re-indexes on save, the orchestrator audits the thread, and broken links fail the build.</p>
             </Reveal>
             <Reveal y={50} dur={0.9} className="liquid-glass rounded-2xl p-3 mb-12">
@@ -400,8 +433,8 @@
     /* ---------- SECTION 8 · What we do (services cards) ---------- */
     const Services = () => {
       const cards = [
-        { video: 'web-Prototype/assets/strategy.mp4', tag: 'Compliance', title: 'Evidence & Certification', desc: 'DO-178C, ISO 26262, and MISRA C:2012 evidence generated inline — MC/DC coverage and Table A objectives beside the code they govern.' },
-        { video: 'web-Prototype/assets/craft.mp4', tag: 'Intelligence', title: 'Multi-agent Review', desc: 'Six specialist agents orchestrated against the safety case — every comment cites a rule, and every action is signed against the requirements graph.' },
+        { video: 'web-Prototype/assets/strategy.mp4', tag: 'Compliance', title: 'Evidence and Certification', desc: 'DO-178C, ISO 26262, and MISRA C:2012 evidence generated inline, with MC/DC coverage and Table A objectives beside the code they govern.' },
+        { video: 'web-Prototype/assets/craft.mp4', tag: 'Intelligence', title: 'Multi-agent Review', desc: 'Specialist agents work against the safety case. Findings cite rules and file context, and each accepted action is signed against the requirements graph.' },
       ];
       return (
         <section className="relative bg-black py-28 md:py-40 px-6 overflow-hidden">
@@ -446,7 +479,7 @@
           <div className="max-w-6xl mx-auto">
             <Reveal y={30} dur={0.7} className="text-center mb-14">
               <span className="text-white/40 text-sm tracking-[0.25em] uppercase">New in 2.0.1</span>
-              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Native Code-OSS fixes,<br className="hidden md:block" /> verified on real firmware projects.</h2>
+              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Recent fixes from real embedded projects.</h2>
               <p className="text-white/50 max-w-2xl mx-auto text-sm">Noyce 2.0.1 tightens the Compliance, Quality Trend, Data/Control Coupling, and STM32 .ioc workflows. Every screenshot here was captured from the running Code-OSS build against isolated copies of real projects from /office.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -528,8 +561,8 @@
           <div className="max-w-6xl mx-auto">
             <Reveal y={30} dur={0.7} className="text-center mb-14">
               <span className="text-white/40 text-sm tracking-[0.25em] uppercase">Get Noyce</span>
-              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Install. Open a template.<br className="hidden md:block" /> Ship a certified binary.</h2>
-              <p className="text-white/50 max-w-2xl mx-auto text-sm">Free during beta. macOS arm64 ships today, Windows is in beta, and Linux is on the roadmap.</p>
+              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Install the beta or review the build.</h2>
+              <p className="text-white/50 max-w-2xl mx-auto text-sm">macOS arm64 ships today, Windows is in beta, and Linux is on the roadmap. The source and release notes are public for technical diligence.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {cards.map((c, i) => (
@@ -559,9 +592,12 @@
         <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none"></div>
         <Reveal y={40} dur={0.8} className="relative max-w-4xl mx-auto text-center flex flex-col items-center">
           <img src="icons_resources/icon_large.png" alt="Noyce IDE" className="w-24 h-24 object-contain opacity-90 mb-8" style={{ filter: 'drop-shadow(0 0 30px rgba(255,255,255,0.3))' }} />
-          <h2 className="font-instrument text-5xl md:text-7xl text-white mb-6">Ship firmware that <span className="italic">has to be right</span>.</h2>
-          <p className="text-white/60 mb-10 text-lg">Join the future of safety-critical systems engineering.</p>
-          <a href="#download" className="bg-white text-black px-10 py-4 rounded-full font-semibold text-lg hover:bg-white/90 transition-colors flex items-center gap-2">Get Noyce IDE <i data-lucide="arrow-right" className="w-5 h-5"></i></a>
+          <h2 className="font-instrument text-5xl md:text-7xl text-white mb-6">Built for the teams YC should meet early.</h2>
+          <p className="text-white/60 mb-10 text-lg max-w-2xl">Noyce is ready for embedded firmware pilots, technical diligence, and design-partner conversations.</p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a href="#download" className="bg-white text-black px-8 py-4 rounded-full font-semibold text-base hover:bg-white/90 transition-colors flex items-center gap-2">Download beta <i data-lucide="arrow-right" className="w-5 h-5"></i></a>
+            <a href="https://github.com/Hitheshkaranth/noyce_ide" className="liquid-glass rounded-full px-8 py-4 text-white text-base font-semibold hover:bg-white/5 transition-colors flex items-center gap-2"><GitHubIcon className="w-5 h-5" /> Review source</a>
+          </div>
         </Reveal>
       </section>
     );
@@ -578,7 +614,7 @@
           <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2 md:col-span-1">
               <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-6 w-auto mb-4 opacity-90" />
-              <p className="text-white/50 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for safety-critical embedded firmware.</p>
+              <p className="text-white/50 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
               <p className="text-white/30 text-xs mt-3 mono">v2.0.1 · Free during beta</p>
             </div>
             {cols.map((col) => (
@@ -606,6 +642,7 @@
           <Hero />
           <About />
           <Featured />
+          <YCSnapshot />
           <Features />
           <Agents />
           <Philosophy />
