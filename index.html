@@ -67,14 +67,16 @@
     .vendor-window:hover .vendor-track { animation-play-state: paused; }
     .vendor-cell {
       flex: 0 0 auto;
-      width: 280px;
+      width: 320px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      padding: 8px 16px;
+      padding: 8px 20px;
     }
+    .vendor-cell img { width: auto; max-width: 240px; object-fit: contain; opacity: 0.88; }
+    .model-mark { height: 52px; width: auto; max-width: 240px; object-fit: contain; }
     @keyframes vendor-roll {
       from { transform: translate3d(0, 0, 0); }
       to { transform: translate3d(-50%, 0, 0); }
@@ -255,9 +257,9 @@
     );
 
     const VENDORS = [
-      { name: 'Texas Instruments', file: 'ti.svg', line: 'Tiva TM4C1294NCPDT', mark: 'h-12' },
-      { name: 'STMicroelectronics', file: 'st.svg', line: 'STM32Cube .ioc', mark: 'h-12' },
-      { name: 'NXP', file: 'nxp.svg', line: 'i.MX RT', mark: 'h-9' },
+      { name: 'Texas Instruments', file: 'ti.svg', line: 'Tiva TM4C1294NCPDT', mark: 'h-9 md:h-10' },
+      { name: 'STMicroelectronics', file: 'st.svg', line: 'STM32Cube .ioc', mark: 'h-12 md:h-14' },
+      { name: 'NXP', file: 'nxp.svg', line: 'i.MX RT', mark: 'h-8 md:h-9' },
     ];
 
     const VendorRoll = () => {
@@ -287,7 +289,7 @@
       const features = [
         { title: 'Certification package', desc: 'DO-178C Table A, MISRA, MC/DC, reviews, and the hash-chained ledger assemble into signed HTML + JSON. SHA-256 is the audit-trail head.' },
         { title: 'CBMC and CodeQL', desc: 'Real bounded model checking and an offline CodeQL CLI. Empty scans stay empty. Counterexamples and SARIF data-flow are in-pane.' },
-        { title: 'Register Knowledge', desc: 'The vendor manual is indexed to the page. SPMS433: 1,892 pages, 876 registers, 654 bit fields, 592 rules, linked back to MMIO in the firmware.' },
+        { title: 'Knowledge graph RAG', desc: 'A local embedding pipeline inside the IDE graphs code, requirements, and the vendor manual together. Register Knowledge links each register back to the source that touches it, so you can walk from firmware to the datasheet entry without leaving the editor.' },
         { title: 'Schematic to BoM', desc: 'LiteParse + PaddleOCR on the board PDF. 1,674 text items become 222 class-grouped parts and an inferred net graph.' },
       ];
       return (
@@ -314,9 +316,9 @@
     const YCSnapshot = () => {
       const points = [
         { label: 'Problem', body: 'Certifiable firmware is still built across a vendor IDE, a pin tool, two static analyzers, a requirements manager, a traceability spreadsheet, a CI dashboard, and a generic AI chat. Every hop drops context the auditor later asks for.' },
-        { label: 'Solution', body: 'One Code-OSS window: 26 full-pane surfaces, native editing, Register Knowledge, schematic BoM, CBMC, offline CodeQL, MISRA, MC/DC, coupling, and a SHA-256-anchored certification package written under .noyce/ so the project stays git-clean.' },
+        { label: 'Solution', body: 'One Code-OSS window: 26 full-pane surfaces, native editing, an in-IDE knowledge graph RAG pipeline that traces code to registers, schematic BoM, CBMC, offline CodeQL, MISRA, MC/DC, coupling, and a SHA-256-anchored certification package written under .noyce/ so the project stays git-clean.' },
         { label: 'Customer', body: 'Aerospace, automotive, medical, industrial, robotics, and defense firmware teams that must produce DO-178C / ISO 26262 / MISRA evidence before they can ship or raise the next round of hardware.' },
-        { label: 'Why now', body: 'Models can finally read a workspace, but regulated teams cannot put an unaudited chatbot in the loop. The product that wins is editor-native, local-capable, and every AI action is signed onto the same graph as the code.' },
+        { label: 'Why now', body: 'Models can finally read a workspace, but regulated teams cannot put an unaudited cloud chatbot in the loop. Noyce runs the full agent and RAG stack on a local model: Gemma 4 26B today, Qwen 3.6 27B as a supported swap. Every AI action is signed onto the same graph as the code.' },
         { label: 'Wedge', body: 'Start as the IDE they already know (Code-OSS), not a new portal. Expand from editor-native compliance into the operating system for safety-critical software delivery: evidence, hardware, CI, and agents on one thread.' },
         { label: 'Moat', body: 'Real CLIs and parsers, not screenshots of them. CBMC, CodeQL, LiteParse, PaddleOCR, CMSIS-SVD, STM32 .ioc / CCS / MPLAB importers, a 755-tool catalog, and a hash-chained ledger. That stack is hard to fake and harder to leave.' },
       ];
@@ -345,13 +347,13 @@
     const Stack = () => {
       const layers = [
         { k: 'Shell', v: 'Pinned Code-OSS + Electron. product.json overlay, rebrand patch, 11 first-party VS Code extensions (core-ui, stm32, fpga, telemetry, compliance, hardware, lifecycle, project-graph, architecture, agents, chat).' },
-        { k: 'Workbench', v: 'React 18 + TypeScript 5.6 + Vite 5 + Tailwind. Density-responsive surfaces. Native editor for code; Milkdown for Markdown; schematic viewer for PDFs. Open from findings uses vscode.open at the line.' },
+        { k: 'Workbench', v: 'React 18 + TypeScript 5.6 + Vite 5 + Tailwind. Density-responsive surfaces. Native editor for code; Milkdown for Markdown; schematic viewer for PDFs. Knowledge graph RAG (nomic embeddings) over source, requirements, and datasheet registers. Open from findings uses vscode.open at the line.' },
         { k: 'Sidecar', v: 'Rust (tokio, serialport, probe-rs, walkdir) over JSON-RPC stdio. Workspace IO, .ioc / CCS / MPLAB / Tiva importers, MISRA scanners, CBMC dispatch, serial and JTAG enumeration.' },
         { k: 'Isolation', v: 'All generated evidence, docs, CodeQL scratch, and schematic analysis land in <project>/.noyce/ with its own gitignore. The firmware tree is never rewritten. Host-side LiteParse + PaddleOCR and CodeQL run through the extension host and clean up.' },
       ];
       const loop = [
         { t: 'Import', d: 'Open STM32CubeIDE .ioc, TI TivaWare / Code Composer, MPLAB X, or a generic folder. Pin maps, SVD, and the MCU identity come from the project files, not a form.' },
-        { t: 'Index', d: 'Local nomic-embedding RAG over code and requirements. Project graph of functions, files, macros. Semantic search and agents share that index.' },
+        { t: 'Index', d: 'In-IDE knowledge graph RAG over code, requirements, and the vendor manual. Register Knowledge links the register graph to source. Semantic search and agents share that index, so a load or store traces to the datasheet register it touches.' },
         { t: 'Prove', d: 'CBMC on the harness. CodeQL security-extended from vendored packs (offline). MC/DC and data/control coupling from the AST and call graph. MISRA via cppcheck, clang-tidy, and the 755-tool catalog.' },
         { t: 'Package', d: 'Specialist agents fill DO-178C Table A artifacts. The Certification Evidence Package is signed HTML + JSON whose SHA-256 is anchored to the hash-chained audit head.' },
       ];
@@ -376,7 +378,7 @@
                 <div>Code-OSS desktop shell</div>
                 <div className="pl-4 text-white/50">product.json overlay + 11 extensions</div>
                 <div className="mt-3">React workbench (src/)</div>
-                <div className="pl-4 text-white/50">compliance · hardware · AI · graphs</div>
+                <div className="pl-4 text-white/50">compliance · hardware · RAG graph · AI</div>
                 <div className="mt-3">services/noyce-core (Rust)</div>
                 <div className="pl-4 text-white/50">JSON-RPC · import · scan · CBMC · serial</div>
                 <div className="mt-3">.noyce/ working dir</div>
@@ -423,7 +425,7 @@
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">Nine specialist agents, one auditable thread.</h2>
-              <p className="text-white/50 text-sm mt-3">Nine personas, each with its own model. Firmware loop plus workbench UI. Completions are hash-chained.</p>
+              <p className="text-white/50 text-sm mt-3">Nine personas, each with its own local model. Firmware loop plus workbench UI. Completions are hash-chained.</p>
             </Reveal>
             <div className="flex flex-wrap gap-x-5 gap-y-2 mb-8">
               {AGENTS.map((ag, i) => (
@@ -444,6 +446,86 @@
       );
     };
 
+    const LocalModels = () => {
+      const models = [
+        { name: 'Gemma 4 26B', file: 'gemma4.png', note: 'Current', body: 'The workbench runs on this local model today: agents, RAG, and register-to-source linking stay on the machine.' },
+        { name: 'Qwen 3.6 27B', file: 'qwen3-lockup.png', note: 'Supported', body: 'Same pipeline, swapped provider. Bring Qwen 3.6 27B locally when you want that stack instead.' },
+      ];
+      const loop = [
+        { t: 'Select code', d: 'A function, module, or @req-tagged region in the native editor.' },
+        { t: 'Ground', d: 'Knowledge graph RAG pulls registers, requirements, and nearby source. The prompt never leaves the LAN.' },
+        { t: 'Generate', d: 'Specialist agents write the DO-178C / MISRA artifacts for that slice: SRS, SDD, tests, review record.' },
+        { t: 'Fix', d: 'MISRA and safety findings come back as patches in the same window. Re-scan until the slice is clean.' },
+        { t: 'Package', d: 'HTML + JSON evidence lands in .noyce/, SHA-256-anchored. Firmware tree stays git-clean.' },
+      ];
+      return (
+        <section id="models" className="bg-black py-16 md:py-20 px-6 border-t border-white/10">
+          <div className="max-w-6xl mx-auto">
+            <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
+              <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">Local models. Data stays in the organization.</h2>
+              <p className="text-white/50 text-sm mt-3">Noyce IDE and the model host sit on the same LAN. Point the workbench at an OpenAI-compatible endpoint on 10.x or localhost. Firmware, datasheets, and compliance drafts never go to a public cloud.</p>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mb-14">
+              {models.map((m) => (
+                <Reveal key={m.name} y={20} dur={0.55} className="flex items-start gap-5">
+                  <img src={'icons_resources/models/' + m.file} alt={m.name} className="model-mark mt-1 shrink-0" />
+                  <div>
+                    <div className="flex items-baseline gap-3 mb-2">
+                      <h3 className="text-white font-medium">{m.name}</h3>
+                      <span className="mono text-[11px] text-sky-300/80 uppercase tracking-wider">{m.note}</span>
+                    </div>
+                    <p className="text-white/55 text-sm leading-relaxed">{m.body}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-16">
+              <Reveal y={24} dur={0.6}>
+                <p className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-4">How it links on the LAN</p>
+                <p className="text-white/55 text-sm leading-relaxed mb-6">Point Model settings at an OpenAI-compatible endpoint on localhost or 10.x. Same loop if the weights sit on the IDE machine. No required internet egress.</p>
+                <div className="flex flex-col gap-8">
+                  {[
+                    { k: 'Workstation', v: 'Noyce IDE (Electron + Code-OSS). Firmware, Register Knowledge graph, agents, and the editor stay here.' },
+                    { k: 'Wire', v: 'LAN 10.x or localhost. OpenAI-compatible HTTP. Prompts and completions never leave the organization network.' },
+                    { k: 'Model host', v: 'Gemma 4 26B now, or Qwen 3.6 27B. vLLM, llama.cpp, MLX, or Ollama on a desk GPU or an air-gapped rack.' },
+                  ].map((row) => (
+                    <div key={row.k} className="grid grid-cols-[7rem_1fr] gap-4 items-start">
+                      <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider pt-1">{row.k}</div>
+                      <p className="text-white/65 text-sm leading-relaxed">{row.v}</p>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+              <Reveal y={30} dur={0.8} className="border border-white/10 rounded-xl p-6 md:p-8 mono text-[12px] leading-7 text-white/70">
+                <div className="text-white/30 mb-3">org-lan/</div>
+                <div>noyce-ide (workstation)</div>
+                <div className="pl-4 text-white/50">editor · RAG graph · agents</div>
+                <div className="mt-3 text-white/30">│  OpenAI-compat · 10.x / localhost</div>
+                <div className="mt-3">model-host (same LAN)</div>
+                <div className="pl-4 text-white/50">Gemma 4 26B · Qwen 3.6 27B</div>
+                <div className="mt-3">.noyce/ (on the project disk)</div>
+                <div className="pl-4 text-white/50">docs · fixes · SHA-256 package</div>
+              </Reveal>
+            </div>
+
+            <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
+              <h3 className="font-instrument text-2xl md:text-4xl text-white tracking-tight">Compliance, end to end, from a slice of code.</h3>
+              <p className="text-white/50 text-sm mt-3">Select the section that has to certify. The local model writes the artifacts, patches violations, and files the package under <span className="mono text-white/70">.noyce/</span>. Repeat until Table A for that slice is closed.</p>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
+              {loop.map((s) => (
+                <Reveal key={s.t} y={24} dur={0.6}>
+                  <h4 className="text-white font-semibold text-lg mb-2">{s.t}</h4>
+                  <p className="text-white/60 text-sm leading-relaxed">{s.d}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
     /* ---------- SECTION 6 · Hardware × Software (philosophy layout) ---------- */
     const Philosophy = () => (
       <section id="hardware" className="bg-black py-20 md:py-24 px-6 border-t border-white/10">
@@ -456,7 +538,7 @@
               <video src="web-Prototype/assets/philosophy.mp4" className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
             </Reveal>
             <Reveal x={40} y={0} dur={0.9}>
-              <p className="text-white/70 text-base md:text-lg leading-relaxed">Pin maps from STM32CubeMX <span className="mono text-white/80">.ioc</span> files, SVD registers, a Cortex-M CFSR decoder, and GNU ld memory maps. Register Knowledge indexes the vendor manual so a claim about <span className="mono text-white/80">STCTRL</span> cites page 150 of SPMS433, not a handwritten table.</p>
+              <p className="text-white/70 text-base md:text-lg leading-relaxed">Pin maps from STM32CubeMX <span className="mono text-white/80">.ioc</span> files, SVD registers, a Cortex-M CFSR decoder, and GNU ld memory maps. Register Knowledge indexes the vendor manual and links each register to the source that touches it, so the datasheet and the firmware stay one graph.</p>
               <div className="w-full h-px bg-white/10 my-8"></div>
               <p className="text-white/70 text-base md:text-lg leading-relaxed">The schematic viewer pans and zooms the board PDF, then Analyze builds a class-aware BoM and an inferred net graph. Importers cover STM32CubeIDE, TI Tiva / Code Composer, MPLAB X, and a generic folder.</p>
               <div className="flex flex-wrap gap-2 mt-8">
@@ -493,7 +575,7 @@
         {
           h: 'Hardware recovered',
           rows: [
-            ['Register Knowledge', 'SPMS433, 1,892 pages, 876 registers, 654 bit fields, 592 rules'],
+            ['Register Knowledge', 'Vendor manual indexed and linked to the firmware source that touches those registers'],
             ['Schematic Analyze', '1,674 text items, 222 parts, Capacitor x79 and the rest class-grouped'],
             ['Component graph', '222 parts, 758 links, 95 nets inferred from layout'],
             ['Architecture', 'C4: 3 subsystems, 116 relationships, 12 types'],
@@ -540,7 +622,7 @@
     };
 
     const Compliance = () => {
-      const metrics = [['876', 'registers indexed from the TI SPMS433 manual'], ['70/70', 'CBMC properties discharged on the firmware harness'], ['222', 'schematic parts parsed into an auto-BoM'], ['SHA-256', 'certification package anchored to the audit trail']];
+      const metrics = [['876', 'registers indexed from the vendor manual and linked to source'], ['70/70', 'CBMC properties discharged on the firmware harness'], ['222', 'schematic parts parsed into an auto-BoM'], ['SHA-256', 'certification package anchored to the audit trail']];
       return (
         <section id="compliance" className="bg-black py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
           <div className="max-w-5xl mx-auto text-center">
@@ -605,7 +687,7 @@
     const Release203 = () => {
       const hero = { label: 'Traceability graph', title: 'Every launcher tile opens its own surface, fitted so requirement, source, and test labels are readable without zooming.', src: 'docs/screenshots/2.0.3/traceability-full-pane.png' };
       const shots = [
-        { label: 'Register Knowledge', title: 'TI SPMS433: 1,892 pages indexed to 876 registers, 654 with bit fields, 592 rules.', src: 'docs/screenshots/2.0.3/register-knowledge-indexed.png' },
+        { label: 'Register Knowledge', title: 'Vendor manual indexed to page-cited registers and bit fields, linked to source.', src: 'docs/screenshots/2.0.3/register-knowledge-indexed.png' },
         { label: 'Formal verification', title: 'CBMC 6.9.0 over the firmware harness: 70 properties, all proved.', src: 'docs/screenshots/2.0.3/formal-verification-run.png' },
         { label: 'Code scanning', title: 'A completed security-extended CodeQL run, offline, reporting 0 alerts honestly.', src: 'docs/screenshots/2.0.3/codeql-scan-run.png' },
         { label: 'Native editor', title: 'Open from MISRA or CodeQL lands in Code-OSS at the line, with Noyce evidence layered on.', src: 'docs/screenshots/2.0.3/editor-native-codeoss.png' },
@@ -786,6 +868,7 @@
           <Stack />
           <Features />
           <Agents />
+          <LocalModels />
           <Philosophy />
           <Proof />
           <Showcase />
