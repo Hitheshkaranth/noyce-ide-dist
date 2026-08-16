@@ -27,7 +27,7 @@ function Footer() {
           <div>
             <a href="#top" className="nav-logo" style={{ fontSize: 17 }}><span className="mark" />Noyce IDE</a>
             <p className="blurb">An AI-native Code-OSS workbench for safety-critical embedded firmware.</p>
-            <p className="copy">v1.0.7 · Free during beta</p>
+            <p className="copy">v2.0.3 · Free during beta</p>
           </div>
           {cols.map((col) => (
             <div key={col.h}>

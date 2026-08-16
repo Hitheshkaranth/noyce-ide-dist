@@ -17,12 +17,12 @@ function TiltCard({ children, className, style }) {
 
 function Features() {
   const cards = [
-    { tag: 'Compliance', tagc: 'ok', ico: 'doc', h: 'Evidence in the editor',
-      p: 'DO-178C Table A objectives, ISO 26262 work products, MISRA C:2012 advisories, and MC/DC coverage — surfaced inline alongside the code they govern.' },
-    { tag: 'Hardware', tagc: 'violet', ico: 'pin', h: 'Aware of the silicon',
-      p: 'Pin mux, SVD-driven peripheral registers, an RTOS task viewer, debug-probe sessions, a Cortex-M fault decoder, and linker memory maps — wired into the workbench.' },
-    { tag: 'AI', tagc: 'ice', ico: 'designer', h: 'A team, not a chatbot',
-      p: 'Six specialist personas, from System Designer to Traceability Monitor, orchestrated against the safety case rather than your blank line.' },
+    { tag: 'Compliance', tagc: 'ok', ico: 'doc', h: 'Evidence, then a signed package',
+      p: 'DO-178C Table A, MISRA, MC/DC, and a hash-chained audit ledger assemble into a SHA-256-anchored Certification Evidence Package.' },
+    { tag: 'Hardware', tagc: 'violet', ico: 'pin', h: 'Manuals, schematics, and pins',
+      p: 'Register Knowledge indexes the vendor PDF to the page. The schematic viewer builds an auto-BoM and net graph. Pin maps load from .ioc and CCS projects.' },
+    { tag: 'Verification', tagc: 'ice', ico: 'test', h: 'CBMC and CodeQL, in-IDE',
+      p: 'Bounded model checking over the project harness, and offline CodeQL from vendored packs that report empty results instead of sample findings.' },
   ];
   return (
     <section className="section-pad" id="features">
@@ -30,7 +30,7 @@ function Features() {
         <div className="section-head reveal">
           <span className="kicker">Noyce Core</span>
           <h2>Code, evidence, and silicon,<br />finally on the same desk.</h2>
-          <p>Noyce extends the Code-OSS shell you already trust with first-class surfaces for requirements, traceability, MISRA, MC/DC, pin configuration, and on-target debug. No tab-hopping across five tools.</p>
+          <p>Noyce extends Code-OSS with 26 full-pane surfaces: requirements, traceability, MISRA, CBMC, CodeQL, schematic BoM, Register Knowledge, and on-target debug.</p>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }} className="feat-grid">
           {cards.map((c, i) => {
@@ -57,10 +57,11 @@ function Features() {
 
 function Release201() {
   const shots = [
-    { label: 'Register Knowledge', title: 'The part\u2019s reference manual indexed to 876 page-cited registers', src: 'docs/screenshots/2.0.3/register-knowledge-indexed.png' },
-    { label: 'Formal verification', title: 'CBMC 6.9.0 over the firmware harness \u2014 70 properties, all proved', src: 'docs/screenshots/2.0.3/formal-verification-run.png' },
+    { label: 'Register Knowledge', title: 'TI SPMS433 indexed to 876 page-cited registers', src: 'docs/screenshots/2.0.3/register-knowledge-indexed.png' },
+    { label: 'Formal verification', title: 'CBMC 6.9.0 over the firmware harness: 70 properties, all proved', src: 'docs/screenshots/2.0.3/formal-verification-run.png' },
+    { label: 'Code scanning', title: 'Offline CodeQL security-extended run reporting 0 alerts honestly', src: 'docs/screenshots/2.0.3/codeql-scan-run.png' },
     { label: 'Traceability graph', title: 'Every surface opens full pane, fitted so its labels are readable', src: 'docs/screenshots/2.0.3/traceability-full-pane.png' },
-    { label: 'Editor', title: 'Code viewing is the native Code-OSS editor, with the evidence layered on', src: 'docs/screenshots/2.0.3/editor-native-codeoss.png' },
+    { label: 'Editor', title: 'Code viewing is the native Code-OSS editor, with evidence layered on', src: 'docs/screenshots/2.0.3/editor-native-codeoss.png' },
   ];
   return (
     <section className="section-pad product-shots" id="release-201">

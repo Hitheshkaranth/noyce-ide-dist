@@ -26,7 +26,7 @@ function Nav() {
       <div className="wrap nav-inner">
         <a href="#top" className="nav-logo">
           <img className="logo-img" src="icons_resources/logo_horizontal.png" alt="Noyce IDE" />
-          <span className="ver">1.0.7</span>
+          <span className="ver">2.0.3</span>
         </a>
         <div className="nav-links">
           {links.map(([id, label]) => (
