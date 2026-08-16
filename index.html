@@ -127,24 +127,76 @@
     h1, h2, h3 { text-wrap: balance; }
     .model-mark { height: 40px; width: auto; max-width: min(100%, 280px); object-fit: contain; object-position: left center; display: block; }
     .model-mark-gemma { height: 56px; max-width: min(100%, 460px); }
-    .arch-svg { width: 100%; height: auto; display: block; }
-    .arch-svg .lan { fill: none; stroke: rgba(125,211,252,0.28); stroke-width: 1.25; stroke-dasharray: 6 5; }
-    .arch-svg .wire { fill: none; stroke: rgba(125,211,252,0.55); stroke-width: 1.5; }
-    .arch-svg .arrow { fill: rgba(125,211,252,0.7); }
-    .arch-svg .hint { fill: rgba(125,211,252,0.72); font-family: ui-monospace, 'SF Mono', monospace; font-size: 11px; letter-spacing: 0.04em; }
-    .arch-svg .lan-label { fill: rgba(125,211,252,0.55); font-family: ui-monospace, 'SF Mono', monospace; font-size: 11px; letter-spacing: 0.16em; }
-    .arch-box { cursor: pointer; }
-    .arch-box rect { fill: rgba(0,0,0,0.45); stroke: rgba(255,255,255,0.14); stroke-width: 1.25; transition: stroke 0.2s cubic-bezier(.16,1,.3,1), fill 0.2s cubic-bezier(.16,1,.3,1); }
-    .arch-box:hover rect { stroke: rgba(255,255,255,0.32); }
-    .arch-box.is-on rect { fill: rgba(125,211,252,0.08); stroke: rgba(125,211,252,0.7); }
-    .arch-box .k { fill: rgba(125,211,252,0.8); font-family: ui-monospace, 'SF Mono', monospace; font-size: 10px; letter-spacing: 0.14em; }
-    .arch-box .t { fill: #fff; font-size: 15px; font-weight: 500; }
-    .arch-box .h { fill: rgba(255,255,255,0.42); font-size: 11px; }
-    .arch-frame {
-      border: 1px solid var(--line);
+    .arch-diagram {
+      border: 1px dashed rgba(154,212,238,0.32);
       border-radius: 16px;
-      padding: 1.25rem 0.75rem 0.5rem;
-      background: linear-gradient(180deg, rgba(154,212,238,0.04), transparent 42%);
+      padding: 1.35rem 1rem 1.15rem;
+      background: linear-gradient(180deg, rgba(154,212,238,0.05), transparent 40%);
+    }
+    .arch-lan-cap {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: rgba(154,212,238,0.75);
+      margin: 0 0 1rem;
+    }
+    .arch-row {
+      display: grid;
+      grid-template-columns: 1fr auto minmax(0,1.2fr) auto 1fr;
+      gap: 0.55rem 0.7rem;
+      align-items: stretch;
+    }
+    .arch-mid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 28rem;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .arch-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(154,212,238,0.75);
+      font-size: 1.05rem;
+      min-width: 1.25rem;
+      user-select: none;
+    }
+    .arch-arrow.down {
+      flex-direction: column;
+      gap: 0.2rem;
+      min-height: 2.6rem;
+      padding: 0.35rem 0;
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      text-align: center;
+      color: rgba(154,212,238,0.8);
+    }
+    .arch-node {
+      width: 100%;
+      text-align: left;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.16);
+      padding: 0.85rem 1rem;
+      background: rgba(7,8,11,0.85);
+      color: #f3f5f7;
+      cursor: pointer;
+      min-height: 5.35rem;
+      transition: border-color 0.2s cubic-bezier(.16,1,.3,1), background 0.2s cubic-bezier(.16,1,.3,1);
+    }
+    .arch-node:hover { border-color: rgba(255,255,255,0.34); }
+    .arch-node.is-on {
+      border-color: rgba(154,212,238,0.75);
+      background: rgba(154,212,238,0.1);
+    }
+    .arch-node .arch-k { font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 10px; letter-spacing: 0.12em; color: rgba(154,212,238,0.95); margin: 0 0 0.3rem; }
+    .arch-node .ttl { display: block; font-size: 0.98rem; font-weight: 600; color: #fff; margin: 0 0 0.2rem; }
+    .arch-node .hn { display: block; font-size: 0.75rem; color: rgba(243,245,247,0.62); }
+    @media (max-width: 767px) {
+      .arch-row { grid-template-columns: 1fr; }
+      .arch-row .arch-arrow { min-height: 1.5rem; transform: rotate(90deg); }
     }
     @keyframes vendor-roll {
       from { transform: translate3d(0, 0, 0); }
@@ -575,15 +627,15 @@
       ];
       const [active, setActive] = useState('ide');
       const n = nodes.find((x) => x.id === active) || nodes[1];
-      const Box = ({ id, x, y, w, h }) => {
+      const Box = ({ id }) => {
         const k = nodes.find((q) => q.id === id);
         return (
-          <g className={'arch-box' + (active === id ? ' is-on' : '')} onClick={() => setActive(id)} onMouseEnter={() => setActive(id)} role="button" tabIndex="0" onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(id); } }}>
-            <rect x={x} y={y} width={w} height={h} rx="10" />
-            <text className="k" x={x + 16} y={y + 28}>{k.kicker.toUpperCase()}</text>
-            <text className="t" x={x + 16} y={y + 52}>{k.title}</text>
-            <text className="h" x={x + 16} y={y + 72}>{k.hint}</text>
-          </g>
+          <button type="button" onClick={() => setActive(id)} onMouseEnter={() => setActive(id)}
+            className={'arch-node' + (active === id ? ' is-on' : '')}>
+            <div className="arch-k">{k.kicker.toUpperCase()}</div>
+            <span className="ttl">{k.title}</span>
+            <span className="hn">{k.hint}</span>
+          </button>
         );
       };
       return (
@@ -591,29 +643,24 @@
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-12 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">Noyce IDE on the organization LAN.</h2>
-              <p className="text-white/60 text-sm mt-3 leading-relaxed">Hover a block. The IDE, the graph, and the model host stay inside the building. A slice of code becomes compliance documents and patches, then lands in <span className="mono text-white/75">.noyce/</span>.</p>
+              <p className="text-white/70 text-sm mt-3 leading-relaxed">Hover a block. The IDE, the graph, and the model host stay inside the building. A slice of code becomes compliance documents and patches, then lands in <span className="mono text-white/80">.noyce/</span>.</p>
             </Reveal>
 
-            <Reveal y={20} dur={0.55} className="arch-frame mb-8">
-              <svg className="arch-svg" viewBox="0 0 960 540" role="img" aria-label="Block diagram of Noyce IDE on the organization LAN with a local model host">
-                <text className="lan-label" x="48" y="28">ORGANIZATION LAN · NO PUBLIC CLOUD REQUIRED</text>
-                <rect className="lan" x="24" y="40" width="912" height="484" rx="16" />
-                <path className="wire" d="M256 132 H370" />
-                <path className="wire" d="M590 132 H704" />
-                <path className="wire" d="M480 176 V248" />
-                <path className="wire" d="M480 344 V408" />
-                <polygon className="arrow" points="360,127 370,132 360,137" />
-                <polygon className="arrow" points="694,127 704,132 694,137" />
-                <polygon className="arrow" points="475,238 480,248 485,238" />
-                <polygon className="arrow" points="475,398 480,408 485,398" />
-                <text className="hint" x="492" y="220">OpenAI-compat · 10.x / localhost</text>
-                <text className="hint" x="492" y="384">generate docs · patch violations</text>
-                <Box id="src" x="36" y="88" w="220" h="88" />
-                <Box id="ide" x="370" y="88" w="220" h="88" />
-                <Box id="rag" x="704" y="88" w="220" h="88" />
-                <Box id="model" x="280" y="258" w="400" h="86" />
-                <Box id="out" x="280" y="418" w="400" h="86" />
-              </svg>
+            <Reveal y={20} dur={0.55} className="mb-8">
+              <div className="arch-diagram">
+                <p className="arch-lan-cap">ORGANIZATION LAN · NO PUBLIC CLOUD REQUIRED</p>
+                <div className="arch-row">
+                  <Box id="src" />
+                  <div className="arch-arrow" aria-hidden="true">→</div>
+                  <Box id="ide" />
+                  <div className="arch-arrow" aria-hidden="true">→</div>
+                  <Box id="rag" />
+                </div>
+                <div className="arch-arrow down">↓<span>OpenAI-compat · 10.x / localhost</span></div>
+                <div className="arch-mid"><Box id="model" /></div>
+                <div className="arch-arrow down">↓<span>generate docs · patch violations</span></div>
+                <div className="arch-mid"><Box id="out" /></div>
+              </div>
             </Reveal>
 
             <div className="max-w-2xl border-t border-white/10 pt-6 mb-14">
