@@ -76,7 +76,33 @@
       padding: 8px 20px;
     }
     .vendor-cell img { width: auto; max-width: 280px; object-fit: contain; opacity: 1; }
-    .model-mark { height: 52px; width: auto; max-width: 240px; object-fit: contain; }
+    h1, h2, h3 { text-wrap: balance; }
+    .model-mark { height: 40px; width: auto; max-width: min(100%, 280px); object-fit: contain; object-position: left center; display: block; }
+    .arch-node {
+      width: 100%;
+      text-align: left;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 1rem 1.1rem;
+      background: transparent;
+      cursor: pointer;
+      transition: border-color 0.2s cubic-bezier(.16,1,.3,1), background 0.2s cubic-bezier(.16,1,.3,1);
+    }
+    .arch-node:hover { border-color: rgba(255,255,255,0.28); }
+    .arch-node.is-on {
+      border-color: rgba(125,211,252,0.5);
+      background: rgba(125,211,252,0.06);
+    }
+    .arch-wire {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(125,211,252,0.7);
+      font-family: ui-monospace, 'SF Mono', monospace;
+      font-size: 14px;
+      min-height: 1.5rem;
+      user-select: none;
+    }
     @keyframes vendor-roll {
       from { transform: translate3d(0, 0, 0); }
       to { transform: translate3d(-50%, 0, 0); }
@@ -191,6 +217,7 @@
           <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
             <a href="#yc" className="hover:text-white transition-colors">Pitch</a>
             <a href="#features" className="hover:text-white transition-colors">Product</a>
+            <a href="#models" className="hover:text-white transition-colors">Architecture</a>
             <a href="#proof" className="hover:text-white transition-colors">Proof</a>
           </div>
           <div className="flex items-center gap-4">
@@ -447,78 +474,77 @@
     };
 
     const LocalModels = () => {
-      const models = [
-        { name: 'Gemma 4 26B', file: 'gemma4.png', note: 'Current', body: 'The workbench runs on this local model today: agents, RAG, and register-to-source linking stay on the machine.' },
-        { name: 'Qwen 3.6 27B', file: 'qwen3-lockup.png', note: 'Supported', body: 'Same pipeline, swapped provider. Bring Qwen 3.6 27B locally when you want that stack instead.' },
+      const nodes = [
+        { id: 'src', kicker: 'Source', title: 'Firmware slice', hint: '.c · @req · module', body: 'Select a function, module, or requirement-tagged region in the native Code-OSS editor. That slice is what has to certify.' },
+        { id: 'ide', kicker: 'Workstation', title: 'Noyce IDE', hint: 'Electron · 9 agents · RAG', body: 'The workbench stays on the engineer machine. Agents, Register Knowledge, and the editor share one graph. Completions are hash-chained. Nothing is sent to a public cloud unless you point it there.' },
+        { id: 'rag', kicker: 'Graph', title: 'Register Knowledge', hint: 'code linked to registers', body: 'The in-IDE knowledge graph RAG indexes the vendor manual with the firmware. A load or store traces to the register and bit field it touches.' },
+        { id: 'model', kicker: 'Same LAN', title: 'Local model host', hint: 'Gemma 4 26B · Qwen 3.6 27B', body: 'Point Model settings at an OpenAI-compatible endpoint on localhost or 10.x. Gemma 4 26B is current. Qwen 3.6 27B is a supported swap. vLLM, llama.cpp, MLX, or Ollama.' },
+        { id: 'out', kicker: 'On disk', title: '.noyce/ package', hint: 'docs · fixes · SHA-256', body: 'Specialist agents write DO-178C / MISRA artifacts for that slice, patch violations in the same window, and file signed HTML + JSON under .noyce/. The firmware tree stays git-clean.' },
       ];
-      const loop = [
-        { t: 'Select code', d: 'A function, module, or @req-tagged region in the native editor.' },
-        { t: 'Ground', d: 'Knowledge graph RAG pulls registers, requirements, and nearby source. The prompt never leaves the LAN.' },
-        { t: 'Generate', d: 'Specialist agents write the DO-178C / MISRA artifacts for that slice: SRS, SDD, tests, review record.' },
-        { t: 'Fix', d: 'MISRA and safety findings come back as patches in the same window. Re-scan until the slice is clean.' },
-        { t: 'Package', d: 'HTML + JSON evidence lands in .noyce/, SHA-256-anchored. Firmware tree stays git-clean.' },
-      ];
+      const [active, setActive] = useState('ide');
+      const n = nodes.find((x) => x.id === active) || nodes[1];
+      const Node = ({ id }) => {
+        const x = nodes.find((k) => k.id === id);
+        return (
+          <button type="button" onClick={() => setActive(id)} onMouseEnter={() => setActive(id)}
+            className={'arch-node' + (active === id ? ' is-on' : '')}>
+            <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-1">{x.kicker}</div>
+            <div className="text-white text-base md:text-lg font-medium">{x.title}</div>
+            <div className="text-white/45 text-xs mt-1">{x.hint}</div>
+          </button>
+        );
+      };
+      const Wire = ({ label, down }) => (
+        <div className="arch-wire" aria-hidden="true">
+          <span className="hidden md:inline">{down ? '↓' : '→'}</span>
+          <span className="md:hidden">↓</span>
+          {label && <span className="ml-2 text-[10px] text-sky-300/70 tracking-wide hidden lg:inline">{label}</span>}
+        </div>
+      );
       return (
-        <section id="models" className="bg-black py-16 md:py-20 px-6 border-t border-white/10">
+        <section id="models" className="bg-black py-20 md:py-24 px-6 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
-            <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
-              <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">Local models. Data stays in the organization.</h2>
-              <p className="text-white/50 text-sm mt-3">Noyce IDE and the model host sit on the same LAN. Point the workbench at an OpenAI-compatible endpoint on 10.x or localhost. Firmware, datasheets, and compliance drafts never go to a public cloud.</p>
+            <Reveal y={24} dur={0.6} className="mb-12 max-w-2xl">
+              <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">Noyce IDE on the organization LAN.</h2>
+              <p className="text-white/60 text-sm mt-3 leading-relaxed">Hover a block. The IDE, the graph, and the model host stay inside the building. A slice of code becomes compliance documents and patches, then lands in <span className="mono text-white/75">.noyce/</span>.</p>
             </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 mb-14">
-              {models.map((m) => (
-                <Reveal key={m.name} y={20} dur={0.55} className="flex items-start gap-5">
-                  <img src={'icons_resources/models/' + m.file} alt={m.name} className="model-mark mt-1 shrink-0" />
-                  <div>
-                    <div className="flex items-baseline gap-3 mb-2">
-                      <h3 className="text-white font-medium">{m.name}</h3>
-                      <span className="mono text-[11px] text-sky-300/80 uppercase tracking-wider">{m.note}</span>
-                    </div>
-                    <p className="text-white/55 text-sm leading-relaxed">{m.body}</p>
+
+            <Reveal y={20} dur={0.55} className="mb-8">
+              <div className="flex flex-col md:grid md:grid-cols-[1fr_auto_minmax(0,1.35fr)_auto_1fr] md:items-center gap-2 md:gap-3">
+                <Node id="src" />
+                <Wire />
+                <Node id="ide" />
+                <Wire />
+                <Node id="rag" />
+              </div>
+              <Wire down label="OpenAI-compat · 10.x / localhost" />
+              <div className="max-w-xl mx-auto w-full">
+                <Node id="model" />
+              </div>
+              <Wire down label="generate docs · patch violations" />
+              <div className="max-w-xl mx-auto w-full">
+                <Node id="out" />
+              </div>
+            </Reveal>
+
+            <div className="max-w-2xl border-t border-white/10 pt-6 mb-14">
+              <div className="text-xs text-white/40 mb-2">{n.kicker}</div>
+              <h3 className="text-xl text-white font-medium mb-3">{n.title}</h3>
+              <p className="text-white/60 text-sm leading-relaxed">{n.body}</p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-end gap-8 sm:gap-16">
+              {[
+                { name: 'Gemma 4 26B', file: 'gemma4.png', note: 'Current' },
+                { name: 'Qwen 3.6 27B', file: 'qwen3-lockup.png', note: 'Supported' },
+              ].map((m) => (
+                <div key={m.name} className="flex flex-col gap-3 min-w-0">
+                  <img src={'icons_resources/models/' + m.file + '?v=5'} alt={m.name} className="model-mark" />
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-white/80 text-sm">{m.name}</span>
+                    <span className="mono text-[11px] text-sky-300/80 uppercase tracking-wider">{m.note}</span>
                   </div>
-                </Reveal>
-              ))}
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-16">
-              <Reveal y={24} dur={0.6}>
-                <p className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-4">How it links on the LAN</p>
-                <p className="text-white/55 text-sm leading-relaxed mb-6">Point Model settings at an OpenAI-compatible endpoint on localhost or 10.x. Same loop if the weights sit on the IDE machine. No required internet egress.</p>
-                <div className="flex flex-col gap-8">
-                  {[
-                    { k: 'Workstation', v: 'Noyce IDE (Electron + Code-OSS). Firmware, Register Knowledge graph, agents, and the editor stay here.' },
-                    { k: 'Wire', v: 'LAN 10.x or localhost. OpenAI-compatible HTTP. Prompts and completions never leave the organization network.' },
-                    { k: 'Model host', v: 'Gemma 4 26B now, or Qwen 3.6 27B. vLLM, llama.cpp, MLX, or Ollama on a desk GPU or an air-gapped rack.' },
-                  ].map((row) => (
-                    <div key={row.k} className="grid grid-cols-[7rem_1fr] gap-4 items-start">
-                      <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider pt-1">{row.k}</div>
-                      <p className="text-white/65 text-sm leading-relaxed">{row.v}</p>
-                    </div>
-                  ))}
                 </div>
-              </Reveal>
-              <Reveal y={30} dur={0.8} className="border border-white/10 rounded-xl p-6 md:p-8 mono text-[12px] leading-7 text-white/70">
-                <div className="text-white/30 mb-3">org-lan/</div>
-                <div>noyce-ide (workstation)</div>
-                <div className="pl-4 text-white/50">editor · RAG graph · agents</div>
-                <div className="mt-3 text-white/30">│  OpenAI-compat · 10.x / localhost</div>
-                <div className="mt-3">model-host (same LAN)</div>
-                <div className="pl-4 text-white/50">Gemma 4 26B · Qwen 3.6 27B</div>
-                <div className="mt-3">.noyce/ (on the project disk)</div>
-                <div className="pl-4 text-white/50">docs · fixes · SHA-256 package</div>
-              </Reveal>
-            </div>
-
-            <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
-              <h3 className="font-instrument text-2xl md:text-4xl text-white tracking-tight">Compliance, end to end, from a slice of code.</h3>
-              <p className="text-white/50 text-sm mt-3">Select the section that has to certify. The local model writes the artifacts, patches violations, and files the package under <span className="mono text-white/70">.noyce/</span>. Repeat until Table A for that slice is closed.</p>
-            </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-              {loop.map((s) => (
-                <Reveal key={s.t} y={24} dur={0.6}>
-                  <h4 className="text-white font-semibold text-lg mb-2">{s.t}</h4>
-                  <p className="text-white/60 text-sm leading-relaxed">{s.d}</p>
-                </Reveal>
               ))}
             </div>
           </div>
