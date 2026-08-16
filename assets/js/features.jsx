@@ -57,18 +57,18 @@ function Features() {
 
 function Release201() {
   const shots = [
-    { label: 'Compliance entry', title: 'Compliance now opens the native Data & Control Coupling panel', src: 'docs/screenshots/2.0.1/compliance-coupling-entry.png' },
-    { label: 'Coupling analysis', title: 'Embedded C coupling parsing fixed for preprocessor directives and extern globals', src: 'docs/screenshots/2.0.1/data-control-coupling-201.png' },
-    { label: 'Quality Trend', title: 'Quality metrics refresh after fixes, with snapshots and export intact', src: 'docs/screenshots/2.0.1/quality-trend-after-fix.png' },
-    { label: 'STM32 .ioc pins', title: 'STM32CubeMX package and pin data render as a populated MCU grid', src: 'docs/screenshots/2.0.1/ioc-pin-configurator-201.png' },
+    { label: 'Register Knowledge', title: 'The part\u2019s reference manual indexed to 876 page-cited registers', src: 'docs/screenshots/2.0.3/register-knowledge-indexed.png' },
+    { label: 'Formal verification', title: 'CBMC 6.9.0 over the firmware harness \u2014 70 properties, all proved', src: 'docs/screenshots/2.0.3/formal-verification-run.png' },
+    { label: 'Traceability graph', title: 'Every surface opens full pane, fitted so its labels are readable', src: 'docs/screenshots/2.0.3/traceability-full-pane.png' },
+    { label: 'Editor', title: 'Code viewing is the native Code-OSS editor, with the evidence layered on', src: 'docs/screenshots/2.0.3/editor-native-codeoss.png' },
   ];
   return (
     <section className="section-pad product-shots" id="release-201">
       <div className="wrap">
         <div className="section-head reveal">
-          <span className="kicker">New in 2.0.1</span>
+          <span className="kicker">New in 2.0.3</span>
           <h2>Native Code-OSS fixes,<br />verified on real firmware projects.</h2>
-          <p>Noyce 2.0.1 tightens Compliance-to-Coupling navigation, coupling extraction, Quality Trend refresh, and STM32 .ioc pin parsing. These captures come from the running Code-OSS build against isolated /office project copies.</p>
+          <p>2.0.3 opens every tool as its own surface, leaves code viewing to the Code-OSS editor, and fixes the two paths that stopped Register Knowledge and Code Scanning producing real results. Each capture is the running Code-OSS build with a real /office firmware project loaded, taken after the analysis had run.</p>
         </div>
         <div className="shot-grid release-grid">
           {shots.map((s, i) => (
@@ -153,7 +153,7 @@ function ProductScreenshots() {
         <div className="section-head reveal">
           <span className="kicker">Product Screens</span>
           <h2>The same workbench,<br />shown through real project views.</h2>
-          <p>These project screenshots sit inside the updated 2.0.1 page so the visual story matches the product surfaces: graph, compliance, traceability, AI, build, templates, review, coupling, quality, and pin configuration.</p>
+          <p>These project screenshots sit inside the updated 2.0.3 page so the visual story matches the product surfaces: graph, compliance, traceability, AI, build, templates, review, coupling, quality, and pin configuration.</p>
         </div>
 
         <div className="shot-stage glass reveal d1">

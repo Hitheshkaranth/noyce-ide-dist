@@ -177,7 +177,7 @@
           <HeroVideo />
           <Navbar />
           <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center -translate-y-[8%]">
-            <span className="mono text-xs tracking-[0.25em] uppercase text-white/50 mb-6">Noyce IDE · v2.0.1</span>
+            <span className="mono text-xs tracking-[0.25em] uppercase text-white/50 mb-6">Noyce IDE · v2.0.3</span>
             <h1 className="font-instrument text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white mb-8 tracking-tight drop-shadow-lg">
               Noyce IDE
             </h1>
@@ -186,7 +186,7 @@
               Embedded teams lose weeks keeping requirements, code, pin configuration, reviews, and verification evidence synchronized. Noyce puts that loop inside Code-OSS.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 mb-14">
-              <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.1" className="bg-white text-black pl-6 pr-2 py-2 rounded-full font-medium hover:bg-white/90 transition-colors flex items-center gap-3">
+              <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3" className="bg-white text-black pl-6 pr-2 py-2 rounded-full font-medium hover:bg-white/90 transition-colors flex items-center gap-3">
                 Download for macOS <span className="bg-black text-white rounded-full p-2.5 flex"><i data-lucide="arrow-right" className="w-4 h-4"></i></span>
               </a>
               <a href="https://github.com/Hitheshkaranth/noyce_ide" className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors flex items-center gap-2">
@@ -467,20 +467,20 @@
       );
     };
 
-    const Release201 = () => {
+    const Release203 = () => {
       const shots = [
-        { label: 'Compliance entry', title: 'Compliance now opens the native Data & Control Coupling panel', src: 'docs/screenshots/2.0.1/compliance-coupling-entry.png' },
-        { label: 'Coupling analysis', title: 'Embedded C coupling parsing fixed for preprocessor directives and extern globals', src: 'docs/screenshots/2.0.1/data-control-coupling-201.png' },
-        { label: 'Quality Trend', title: 'Quality metrics refresh after fixes, with snapshots and export intact', src: 'docs/screenshots/2.0.1/quality-trend-after-fix.png' },
-        { label: 'STM32 .ioc pins', title: 'STM32CubeMX package and pin data render as a populated MCU grid', src: 'docs/screenshots/2.0.1/ioc-pin-configurator-201.png' },
+        { label: 'Register Knowledge', title: 'The part\u2019s reference manual indexed to 876 page-cited registers', src: 'docs/screenshots/2.0.3/register-knowledge-indexed.png' },
+        { label: 'Formal verification', title: 'CBMC 6.9.0 over the firmware harness \u2014 70 properties, all proved', src: 'docs/screenshots/2.0.3/formal-verification-run.png' },
+        { label: 'Traceability graph', title: 'Every surface opens full pane, fitted so its labels are readable', src: 'docs/screenshots/2.0.3/traceability-full-pane.png' },
+        { label: 'Editor', title: 'Code viewing is the native Code-OSS editor, with the evidence layered on', src: 'docs/screenshots/2.0.3/editor-native-codeoss.png' },
       ];
       return (
-        <section id="release-201" className="bg-black py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
+        <section id="release-203" className="bg-black py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
           <div className="max-w-6xl mx-auto">
             <Reveal y={30} dur={0.7} className="text-center mb-14">
-              <span className="text-white/40 text-sm tracking-[0.25em] uppercase">New in 2.0.1</span>
-              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Recent fixes from real embedded projects.</h2>
-              <p className="text-white/50 max-w-2xl mx-auto text-sm">Noyce 2.0.1 tightens the Compliance, Quality Trend, Data/Control Coupling, and STM32 .ioc workflows. Every screenshot here was captured from the running Code-OSS build against isolated copies of real projects from /office.</p>
+              <span className="text-white/40 text-sm tracking-[0.25em] uppercase">New in 2.0.3</span>
+              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Every surface, showing what it actually measured.</h2>
+              <p className="text-white/50 max-w-2xl mx-auto text-sm">2.0.3 opens every tool as its own surface, leaves code viewing to the Code-OSS editor, and fixes the two paths that stopped Register Knowledge and Code Scanning producing real results. Each screenshot is the running Code-OSS build with a real /office firmware project loaded, captured after the analysis had run.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {shots.map((s, i) => (
@@ -518,7 +518,7 @@
           <div className="max-w-6xl mx-auto">
             <Reveal y={30} dur={0.7} className="text-center mb-14">
               <span className="text-white/40 text-sm tracking-[0.25em] uppercase">Product Screens</span>
-              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">A unified workbench, updated for 2.0.1.</h2>
+              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">A unified workbench, updated for 2.0.3.</h2>
               <p className="text-white/50 max-w-2xl mx-auto text-sm">Deep integration across the entire embedded lifecycle — graph, compliance, traceability, MC/DC coverage, coupling analysis, AI, build, and pin configuration.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -552,8 +552,8 @@
     };
     const Download = () => {
       const cards = [
-        { os: 'macOS', status: 'Released', sc: 'text-green-400 bg-green-400/10', desc: 'macOS 13 Ventura or later. arm64 native, x86_64 supported.', cmd: 'brew install --cask noyce-ide', pkg: 'arm64 · 381 MB', sig: 'ed25519 · notarized', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.1', cta: 'Download · arm64', primary: true },
-        { os: 'Windows', status: 'Beta', sc: 'text-amber-400 bg-amber-400/10', desc: 'Windows 11 · x64 · code-signed · system installer.', cmd: 'winget install Noyce.IDE', pkg: 'x64 · 180 MB', sig: 'Authenticode · signed', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.1', cta: 'Download · x64', primary: false },
+        { os: 'macOS', status: 'Released', sc: 'text-green-400 bg-green-400/10', desc: 'macOS 13 Ventura or later. arm64 native, x86_64 supported.', cmd: 'brew install --cask noyce-ide', pkg: 'arm64 · 381 MB', sig: 'ed25519 · notarized', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3', cta: 'Download · arm64', primary: true },
+        { os: 'Windows', status: 'Beta', sc: 'text-amber-400 bg-amber-400/10', desc: 'Windows 11 · x64 · code-signed · system installer.', cmd: 'winget install Noyce.IDE', pkg: 'x64 · 180 MB', sig: 'Authenticode · signed', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3', cta: 'Download · x64', primary: false },
         { os: 'Linux', status: 'Roadmap', sc: 'text-sky-400 bg-sky-400/10', desc: 'Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.', cmd: 'flatpak install dev.noyce.IDE', pkg: 'AppImage · deb', sig: 'sha256 · planned', href: 'https://github.com/Hitheshkaranth/noyce_ide', cta: 'Notify me', primary: false },
       ];
       return (
@@ -615,7 +615,7 @@
             <div className="col-span-2 md:col-span-1">
               <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-6 w-auto mb-4 opacity-90" />
               <p className="text-white/50 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
-              <p className="text-white/30 text-xs mt-3 mono">v2.0.1 · Free during beta</p>
+              <p className="text-white/30 text-xs mt-3 mono">v2.0.3 · Free during beta</p>
             </div>
             {cols.map((col) => (
               <div key={col.h}>
@@ -648,7 +648,7 @@
           <Philosophy />
           <Compliance />
           <Services />
-          <Release201 />
+          <Release203 />
           <Showcase />
           <Download />
           <CTA />

@@ -17,7 +17,7 @@ Code-OSS based desktop workbench that brings **requirements, source, certificati
 [![D3](https://img.shields.io/badge/D3.js-7.x-F9A03C?style=flat-square&logo=d3.js&logoColor=white)](https://d3js.org/)
 [![Playwright](https://img.shields.io/badge/Tested-Playwright-2EAD33?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev/)
 [![CI](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml/badge.svg)](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml)
-[![Version](https://img.shields.io/badge/version-2.0.1-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce_ide/releases/latest)
+[![Version](https://img.shields.io/badge/version-2.0.3-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce_ide/releases/latest)
 [![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](#license)
 
 [**Quick Start**](#quick-start) · [**Features**](#features) · [**Architecture**](#architecture) · [**Build & Release**](#build--release) · [**Distribution**](https://github.com/Hitheshkaranth/noyce-ide-dist)
@@ -48,6 +48,60 @@ Branded as a polished Code-OSS Electron app on a clean shadcn-neutral design sys
 ## Screenshots
 
 > Every screenshot below is captured from the running **Code-OSS Electron build** with a **real firmware project open** — the TI **Tiva TM4C1294NCPDT** *Canister Main Controller* firmware, imported from source. Each surface is rendered live against that project's code, requirements, pin map, and schematic; the analysis surfaces (MC/DC, coupling, schematic BoM, architecture) are re-run against the loaded firmware for every capture. Nothing here is a mockup or a browser preview.
+
+### New in 2.0.3 — every surface opens as itself, and code viewing is Code-OSS's
+
+<img src="docs/screenshots/2.0.3/traceability-full-pane.png" alt="Traceability Graph opened as a full-pane surface against the Canister Main Controller firmware" />
+
+Clicking **Traceability Graph** used to open the *editor shell* with the graph docked into a side rail — a tile named after a graph gave you an empty editor and a strip. Every tile now opens its own surface, full pane, which is also what makes the graph readable: fitted to the pane, it sits at 65% instead of 21%, so the requirement, source and test labels are legible without touching the zoom.
+
+The webview's own Monaco pane is gone from the launcher along with it. Code-OSS is already the editor in that window — with the explorer, the tabs, the git decorations and the language services — and the panel was mirroring the host's open file into a second, weaker copy of it. Three separate paths did that mirroring, and each also forced the panel onto the editor surface: opening a project hydrated an "initial file", the shared-workspace sync opened whatever the host had focused, and `Open` on a MISRA or CodeQL finding revealed the shell. **Open** now opens the real editor at the requested line (through `vscode.open`, so the Markdown WYSIWYG and PDF viewers still win), and the Noyce panel stays on the surface you picked.
+
+#### Register Knowledge could never read a manual inside the IDE
+
+Indexing downloaded the vendor PDF and then reported *No reference manual indexed* with `No "GlobalWorkerOptions.workerSrc" specified.` — pdf.js refusing to open the file. pdf.js decides it is running under Node by checking that it is **not** inside Electron, and the extension host is exactly that, so it took its browser path and demanded a worker. Under plain `node` the identical call parses the 1,892-page manual in 2.2s, which is why this only failed in the running product and why the host module's tests never saw it. With the worker path set, indexing completes: **876 registers, 654 with bit fields, 592 rules** — see [Register Knowledge](#register-knowledge--the-parts-reference-manual-indexed-and-page-cited) above.
+
+Code Scanning had a matching fault: it passed `--download` to `codeql database analyze` unconditionally, so even a working install went to GitHub's package registry for `codeql/cpp-queries` — and a CodeQL CLI older than the one that published the pack cannot parse the manifest it gets back (`Unrecognized field "digest"`). Every project fell through to the sample findings, behind an honest banner. The flag is now used only when CodeQL came from `PATH`; the vendored bundle carries its own query packs, so the suite resolves locally and the scan completes offline.
+
+Firmware Memory, in the same pass, stopped telling TI Code Composer projects to add `-Wl,-Map=` through STM32CubeIDE's menus. That project links with `armcl` and a `.cmd` command file and has neither, and the analyser reads GNU ld maps only — so the advice would not have worked even if it had been followed. It now names the linker it found and says what is not supported.
+
+### New in 2.0.2 — the UI says only what is true
+
+`2.0.2` is a correctness release for the workbench surface itself. Every fault below was found by reading the *rendered* views — none is a type error, a lint error, or something a test would have caught — and every fix was verified by measuring the live DOM in the running Code-OSS build with the `/office` **Canister Main Controller** firmware loaded.
+
+#### The workbench had no height, and the editor bar described files that were not open
+
+The React mount node was `height: auto`, so `#root` collapsed to its content — measured at **203px inside a 793px window** — and every `h-full` beneath it resolved against a collapsed box. Panes that size themselves from their container, the traceability graph most visibly, drew into a fraction of the space they appeared to own. The graph now fills its pane, frames the **whole** graph including node labels (fitting on the circles alone clipped the outermost names), and re-centres when the pane is resized rather than orbiting the size it was built with.
+
+The editor status bar used to show a `plaintext` language chip, a `MISRA` chip and a three-segment bar hardcoded to 45/30/25 — none of it computed, all of it shown even with no file open. It now reports the file, its language when the language is actually known, and the trace-tag count, which is the one thing on that bar that was ever measured.
+
+#### Every button in the workbench was losing its surface
+
+<img src="docs/screenshots/2.0.2/static-analysis-toolbar.png" alt="Static Analysis toolbar with its actions rendering as real buttons" />
+
+A cascade layer takes its position from where it is first mentioned, and in the emitted bundle `components` (HeroUI) was registered before `base` (Tailwind preflight). The later layer wins, so preflight's `button { background-color:#0000; border-radius:0 }` was overriding HeroUI's own `.button { background-color: var(--button-bg) }` on **every** button in the product — a `.button--secondary` computed `rgba(0,0,0,0)` while its `--button-bg` resolved correctly. Primary actions read as plain words. Fixed in the base layer itself, so component defaults return while call-site utilities still win.
+
+#### Truncation that removed the distinguishing part
+
+<img src="docs/screenshots/2.0.2/coupling-matrix-labels.png" alt="Coupling matrix with middle-elided labels that keep file extensions" />
+
+The coupling matrix truncated `AUTO_SEQUENCE.c` and `AUTO_SEQUENCE.h` to the same `AUTO_SEQU…`, leaving adjacent rows and columns indistinguishable. Labels now elide from the **middle**, so the extension survives — with a tighter budget for the narrower header cells, because CSS otherwise takes the tail back off.
+
+#### A constant presented as project data
+
+<img src="docs/screenshots/2.0.2/build-pipeline-header.png" alt="CI/CD Pipeline header without the fabricated build identifier" />
+
+The CI/CD Pipeline header carried a `DCO-5000-103 Qualification Build` chip — the same build identifier for every project, every pipeline and every run, in the place a reader looks to learn what they are looking at. Nothing in the build status carries an identifier, so the header now names the view and stops. The `YAML Source` tab beside it no longer wraps and clips inside its own pill, the Test Explorer's `AI Generate` / `Run All` actions render as buttons, and the DO-178C panel no longer offers two identical `Blank SRS` buttons.
+
+<details>
+<summary>Everything else in 2.0.2</summary>
+
+- Editor status bar no longer prints a project-root file's name twice (its relative path *is* its name), and its empty state stops telling you to open a project folder when one is already open.
+- Traceability **Reset** re-frames the graph instead of jumping to a fixed 100% zoom that was only ever the right view by accident.
+- Section headers in the secondary sidebar and bottom panel can grow with their content instead of clipping at a fixed 36px.
+- A repeatable view-capture harness (`npm run qc:capture`) drives the running Code-OSS build through all 26 Noyce surfaces and screenshots each one, so the next regression of this kind is visible rather than inferred.
+
+</details>
 
 ### New in 2.0.1 — verified native Code-OSS fixes
 
@@ -87,11 +141,11 @@ The home surface of the embedded workbench: a grid of every tool the IDE offers 
 
 ### Code & architecture
 
-#### Editor — compliance-aware Monaco
+#### Editor — the native Code-OSS editor, made compliance-aware
 
-<img src="docs/screenshots/new/01-editor.png" alt="Monaco editor with compliance highlights" />
+<img src="docs/screenshots/2.0.3/editor-native-codeoss.png" alt="The native Code-OSS editor with firmware source and Noyce traceability annotations" />
 
-The full Monaco editor with the firmware source, requirement-annotation gutters, and inline compliance highlights. `.md`/`.markdown` files open in a Milkdown WYSIWYG editor instead of the raw text view. The status bar surfaces the live CodeGraph symbol count, port state, and AI status.
+Code viewing is the workbench's own editor — explorer, tabs, git decorations, language services — with Noyce's evidence layered onto it: `@req` / `@verification` annotations resolved against the requirement register, MISRA findings as real diagnostics in the Problems panel, and code-lens agent actions. `Open` from any Noyce surface (MISRA, CodeQL, coupling, the project graph) lands here at the exact line. `.md`/`.markdown` files open in a Milkdown WYSIWYG editor instead of raw text, and `.pdf` in the schematic viewer. The status bar carries the live CodeGraph symbol count, port state, and AI status.
 
 #### Project Graph — symbol / file / macro topology
 
@@ -147,15 +201,15 @@ Deterministic coupling coverage computed from the project-graph call edges and s
 
 #### CBMC Formal Verification — bounded model checking
 
-<img src="docs/screenshots/new/06-cbmc-verification.png" alt="CBMC formal verification" />
+<img src="docs/screenshots/2.0.3/formal-verification-run.png" alt="CBMC 6.9.0 run over the firmware harness — 70 properties, all proved" />
 
-Runs real **CBMC** bounded model checking over the project's harness to discharge array-bounds, overflow, and assertion properties, with a properties table and a step-by-step counterexample trace (plus an AI failure explanation) for anything that fails.
+Runs real **CBMC** bounded model checking over the project's harness to discharge array-bounds, overflow, and assertion properties. Captured after an actual run: **CBMC 6.9.0 · 70 properties · 70 proved · 0 failed · 0 unknown · 100% discharged**, each row citing the proof line it came from (`rs485_resp_phraser_proof.c:47` in `HB_segregate_drive_status()`). Anything that fails carries a step-by-step counterexample trace and an AI failure explanation.
 
 #### CodeQL Code Scanning — SARIF security alerts
 
-<img src="docs/screenshots/new/07-codeql-scanning.png" alt="CodeQL code scanning" />
+<img src="docs/screenshots/2.0.3/codeql-scan-run.png" alt="A completed CodeQL security-extended scan reporting no alerts on the firmware" />
 
-Drives the real **CodeQL** CLI to surface security vulnerabilities as SARIF alerts, walk each finding's data-flow path, and apply a structured, AI-explained remediation patch.
+Drives the real **CodeQL** CLI to surface security vulnerabilities as SARIF alerts, walk each finding's data-flow path, and apply a structured, AI-explained remediation patch. Captured after an actual `security-extended` run over the firmware, extracted with `--build-mode=none` so a project with no Makefile still scans: **0 alerts** — this codebase raises nothing at that suite, and the view says so rather than dressing the screen with samples. The query packs come from the vendored CodeQL bundle (`npm run codeql:bootstrap`), so scanning needs no package-registry access.
 
 #### MISRA Diagnostics — rule-decoded findings with agent auto-fix
 
@@ -200,6 +254,12 @@ After **Analyze** (here **1,674 text items → 222 parts**), every reference des
 
 An inferred component relationship graph reconstructs the board topology from shared net labels + proximity — here **222 parts · 758 links · 95 nets** — surfaced next to the schematic. (Inferred from layout, not a parsed netlist.)
 
+#### Register Knowledge — the part's reference manual, indexed and page-cited
+
+<img src="docs/screenshots/2.0.3/register-knowledge-indexed.png" alt="Register Knowledge showing the indexed TI datasheet with page-cited registers and bit fields" />
+
+The MCU is detected from the project's own files, its reference manual is fetched from the vendor, and every register section in it is extracted — here the real TI **SPMS433** datasheet for the **TM4C1294NCPDT**: **1,892 pages → 876 registers, 654 of them with decoded bit fields, and 592 documented rules**. Each entry carries the page it came from (`STCTRL · p150`), so a claim about a register can be checked against the manual rather than taken on trust, and the bit-field table is read out of the document, not written by hand. **Link code** ties the registers to the places the firmware touches them; a manual the vendor does not publish can be supplied with **Choose PDF…**.
+
 #### Register Inspector, Peripheral Map, Fault Analyzer, Signal Viewer & Serial Monitor
 
 <table>
@@ -229,7 +289,7 @@ The **Fault Analyzer** decodes a pasted CFSR / HFSR / BFAR + stacked frame into 
 | **Verification & Security** | Formal Verification (real CBMC bounded model checking · properties table · counterexample trace) · Code Scanning (real CodeQL · SARIF alerts · data-flow paths · AI remediation) · Cyber Assurance (real-source SBOM + OSV CVEs) |
 | **Architecture** | Architecture Analyzer (swark-style source → Gemma → Mermaid) · High-Level Design view · C4 / Structurizr export |
 | **Static analysis** | 755-tool catalog (vendored analysis-tools-dev) with language-filtered Browse Catalog · runnable subset (cppcheck · clang-tidy · ESLint · Ruff · ShellCheck) · catalog-driven multi-tool scans |
-| **Hardware-aware editing** | Pin Configurator · Peripheral Registers · Memory View · RTOS Thread Viewer · **Schematic Viewer** (LiteParse + PaddleOCR text/search · auto-BoM · inferred component graph · pan/zoom) · Debug Probe Panel · Fault Analyzer (Cortex-M CFSR decoded) · Linker Memory Map |
+| **Hardware-aware editing** | Pin Configurator · Peripheral Registers · **Register Knowledge** (vendor reference manual indexed to page-cited registers + bit fields, interlinked with the code) · Register Inspector (CMSIS-SVD) · Memory View · RTOS Thread Viewer · **Schematic Viewer** (LiteParse + PaddleOCR text/search · auto-BoM · inferred component graph · pan/zoom) · Debug Probe Panel · Fault Analyzer (Cortex-M CFSR decoded) · Linker Memory Map (GNU ld) |
 | **Signal & protocol** | Logic-analyzer Signal Viewer · Serial Monitor · Modbus Monitor · Energy Profiler (LoRa / BLE / sense-burst presets) · Live Data Dashboard (Power / Motor / Comms) |
 | **CI / Build** | Build Pipeline (Static Analysis / Build / Unit / HIL / Docs) · Build Size Treemap · Project Templates · Project Graph |
 | **AI** | Multi-agent Orchestrator · Agents Chat with persona + per-call model selection · Provider settings (Gemini / Anthropic / OpenAI / Ollama / LM Studio / Codex CLI / Claude CLI) · Inline completions · Code-lens agent actions |
@@ -315,7 +375,18 @@ npm run build         # tsc + vite production build
 npm run smoke:ui      # Playwright smoke (CI gate)
 npm run check         # build + cargo check on the Rust sidecar
 npm run rpc:schema:check
+npm run test:qc       # UI/host invariants — each rule encodes a fault that shipped once
+npm run qc:capture    # screenshot all 26 surfaces from the running Code-OSS build
 ```
+
+`qc:capture` needs the workbench already running with a real project and the debug port open — launch it through the node script, since the npm layers swallow the passthrough flag:
+
+```bash
+node apps/noyce-workbench/scripts/launch-checkout-workbench.mjs \
+  --sync-product --remote-debugging-port=9222 /path/to/firmware
+```
+
+Screenshots land in `<repo>/.noyce/qc-views/` (gitignored). The harness captures; it does not judge — review the images.
 
 The single CI gate is `.github/workflows/ci-runtime-smoke.yml` — runs `npm run verify:ui` on every push and PR to `main`.
 
