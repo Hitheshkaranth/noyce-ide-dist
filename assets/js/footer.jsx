@@ -3,8 +3,8 @@
 function Footer() {
   const cols = [
     { h: 'Product', links: [['Features', '#features'], ['AI orchestrator', '#ai'], ['Hardware support', '#hardware'], ['Compliance', '#compliance'], ['Download', '#download']] },
-    { h: 'Resources', links: [['Docs', 'https://github.com/Hitheshkaranth/noyce_ide'], ['Changelog', 'https://github.com/Hitheshkaranth/noyce_ide'], ['DO-178C guide', 'https://github.com/Hitheshkaranth/noyce_ide'], ['ISO 26262 guide', 'https://github.com/Hitheshkaranth/noyce_ide']] },
-    { h: 'Community', links: [['GitHub', 'https://github.com/Hitheshkaranth/noyce_ide'], ['Discussions', 'https://github.com/Hitheshkaranth/noyce_ide/discussions'], ['Issues', 'https://github.com/Hitheshkaranth/noyce_ide/issues']] },
+    { h: 'Resources', links: [['Docs', 'https://github.com/Hitheshkaranth/noyce-ide-dist#readme'], ['Changelog', 'https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md'], ['Releases', 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases']] },
+    { h: 'Community', links: [['GitHub', 'https://github.com/Hitheshkaranth/noyce-ide-dist'], ['Discussions', 'https://github.com/Hitheshkaranth/noyce-ide-dist/discussions'], ['Issues', 'https://github.com/Hitheshkaranth/noyce-ide-dist/issues']] },
   ];
   return (
     <React.Fragment>
@@ -16,7 +16,7 @@ function Footer() {
             <h2 style={{ marginTop: 22 }}>Ship firmware<br />that <span className="grad">has to be right.</span></h2>
             <div className="cta-actions">
               <a href="#download" className="btn btn-primary btn-sweep"><Ico.download style={{ width: 17, height: 17 }} /> Download Noyce</a>
-              <a href="https://github.com/Hitheshkaranth/noyce_ide" target="_blank" rel="noreferrer" className="btn btn-ghost">Configure your model <Ico.arrow style={{ width: 16, height: 16 }} /></a>
+              <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" target="_blank" rel="noreferrer" className="btn btn-ghost">Configure your model <Ico.arrow style={{ width: 16, height: 16 }} /></a>
             </div>
           </div>
         </div>

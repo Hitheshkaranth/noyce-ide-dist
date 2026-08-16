@@ -29,7 +29,7 @@ function Download() {
       href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3', cta: 'Download · x64' },
     { kind: 'linux', os: 'Linux', status: 'Roadmap', sc: 'ice', desc: 'Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.',
       cmd: 'flatpak install dev.noyce.IDE', size: 0, max: 220, arch: 'AppImage · deb', sig: 'sha256 · planned',
-      href: 'https://github.com/Hitheshkaranth/noyce_ide', cta: 'Notify me' },
+      href: 'https://github.com/Hitheshkaranth/noyce-ide-dist', cta: 'Notify me' },
   ];
   return (
     <section className="section-pad" id="download">

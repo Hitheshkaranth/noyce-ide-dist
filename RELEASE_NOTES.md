@@ -78,7 +78,7 @@ We are proud to announce the first stable release of **Noyce IDE**, the world's 
 
 ## Installation
 
-1. Download the installer for your platform from the [Download Page](https://github.com/Hitheshkaranth/noyce_ide/blob/main/public/download.html).
+1. Download the installer for your platform from the [releases page](https://github.com/Hitheshkaranth/noyce-ide-dist/releases).
 2. Run the installer and follow the on-screen instructions.
 3. Add your Gemini API key in the Model settings to enable the AI pipeline.
 

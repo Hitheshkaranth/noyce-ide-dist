@@ -110,10 +110,10 @@ function CommandCenter() {
 
 function Hero() {
   const stats = [
-    ['26', 'full-pane workbench surfaces'],
-    ['6', 'AI personas, one orchestrator'],
-    ['CBMC', 'formal proofs beside the code'],
-    ['A', 'DO-178C Level A ready'],
+    ['One', 'window instead of seven tools'],
+    ['70/70', 'CBMC proofs on live firmware'],
+    ['SHA-256', 'evidence locked to the audit chain'],
+    ['9', 'agents, every handoff signed'],
   ];
   return (
     <header className="hero" id="top">
@@ -124,7 +124,7 @@ function Hero() {
           <p className="lede">An AI-native, Code-OSS workbench for embedded and safety-critical teams. Native editing, Register Knowledge, CBMC, CodeQL, and a signed certification package live in one place.</p>
           <div className="hero-actions">
             <a href="#download" className="btn btn-primary btn-sweep"><Ico.download style={{ width: 17, height: 17 }} /> Download for macOS</a>
-            <a href="https://github.com/Hitheshkaranth/noyce_ide" className="btn btn-ghost" target="_blank" rel="noreferrer"><Ico.github style={{ width: 16, height: 16 }} /> View on GitHub</a>
+            <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" className="btn btn-ghost" target="_blank" rel="noreferrer"><Ico.github style={{ width: 16, height: 16 }} /> View on GitHub</a>
             <span className="meta">arm64 · 142 MB</span>
           </div>
           <div className="hero-stats">

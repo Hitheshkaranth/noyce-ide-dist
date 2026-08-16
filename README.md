@@ -16,8 +16,7 @@ Code-OSS based desktop workbench that brings **requirements, source, certificati
 [![Monaco](https://img.shields.io/badge/Monaco-Editor-1E1E1E?style=flat-square&logo=microsoft&logoColor=white)](https://microsoft.github.io/monaco-editor/)
 [![D3](https://img.shields.io/badge/D3.js-7.x-F9A03C?style=flat-square&logo=d3.js&logoColor=white)](https://d3js.org/)
 [![Playwright](https://img.shields.io/badge/Tested-Playwright-2EAD33?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev/)
-[![CI](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml/badge.svg)](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml)
-[![Version](https://img.shields.io/badge/version-2.0.3-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce_ide/releases/latest)
+[![Version](https://img.shields.io/badge/version-2.0.3-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest)
 [![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](#license)
 
 [**Quick Start**](#quick-start) · [**Features**](#features) · [**Architecture**](#architecture) · [**Build & Release**](#build--release) · [**Distribution**](https://github.com/Hitheshkaranth/noyce-ide-dist)

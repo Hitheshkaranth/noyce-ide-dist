@@ -1,24 +1,33 @@
-/* AI Agent Orbit — orchestrator core + 6 orbiting agents, hover to pause & expand */
+/* AI Agent Orbit — orchestrator core + 9 personas, hover to pause & expand */
 
 const AGENTS = [
-  { key: 'designer', name: 'System Designer', role: 'decompose', ico: 'designer',
-    body: 'Takes a high-level requirement — "the brake actuator shall respond within 50 ms under ASIL-D conditions" — and emits low-level design items, interfaces, and traceability stubs.',
-    cmd: 'noyce decompose REQ-014 --target stm32h7' },
-  { key: 'engineer', name: 'Software Engineer', role: 'implement', ico: 'engineer',
-    body: 'Drafts the implementation with the SVD and HAL in context, fixed-point aware, ISR-safe, and wired to the deviation register from the first line.',
-    cmd: 'noyce impl LLR-072 --hal stm32h7 --misra' },
-  { key: 'test', name: 'Test Engineer', role: 'prove', ico: 'test',
-    body: 'Generates MC/DC harnesses, fault-injection scenarios, and hardware-in-the-loop scripts, then ties each verification artifact back to the originating requirement.',
+  { key: 'designer', name: 'System Designer', role: 'SRS / SDD', ico: 'designer',
+    body: 'Drafts Software Design Descriptions and hardware dependencies. Handoff to Coder and Traceability Monitor.',
+    cmd: 'noyce decompose REQ-014 --target tm4c1294' },
+  { key: 'coder', name: 'Coder', role: 'implement', ico: 'engineer',
+    body: 'Implements from the SDD in MISRA C:2025, annotates @req / @verification, and refactors for MISRA. Handoff to Tester and Reviewer.',
+    cmd: 'noyce impl LLR-072 --hal tiva --misra' },
+  { key: 'test', name: 'Tester', role: 'Unity · HIL', ico: 'test',
+    body: 'Generates Unity tests and module test plans. Compliance A-6 test-case objectives land here.',
     cmd: 'noyce verify TST-204 --mcdc --hil' },
-  { key: 'review', name: 'Code Reviewer', role: 'scrutinise', ico: 'review',
-    body: 'Pushes back against MISRA C, fixed-point arithmetic, ISR safety, and the project deviation register — every comment cites a rule, not an opinion.',
-    cmd: 'noyce review --rule R.11.5 --explain' },
-  { key: 'doc', name: 'Doc Generator', role: 'capture', ico: 'doc',
-    body: 'Writes the SDP, SDD, SVP, and review minutes from the live workspace — section numbers, deviations, and signatures stay linked, not reconstructed from memory.',
+  { key: 'review', name: 'Reviewer', role: 'MISRA · A-7', ico: 'review',
+    body: 'MISRA C:2025 audit and DO-178C safety review. Routed as Compliance Reviewer for A-7 records.',
+    cmd: 'noyce review --rule 15.5 --explain' },
+  { key: 'doc', name: 'Doc Generator', role: 'plans · records', ico: 'doc',
+    body: 'Extracts SRS entries and writes plans, standards, and QA/CM records as Documentation Engineer.',
     cmd: 'noyce doc SDP --section 4.2 --sign' },
-  { key: 'trace', name: 'Traceability Monitor', role: 'stitch', ico: 'trace',
-    body: 'Maintains the REQ → Design → Code → Test thread continuously, breaks the build when a requirement loses a downstream artifact, and records every link in the audit log.',
+  { key: 'trace', name: 'Traceability Monitor', role: 'graph · orphans', ico: 'trace',
+    body: 'Keeps the REQ / design / code / test graph current and lists orphans. Completions are hash-chained.',
     cmd: 'noyce trace --audit --fail-on-orphan' },
+  { key: 'ux', name: 'UI/UX Designer', role: 'spec · critique', ico: 'pin',
+    body: 'Turns a user story into hierarchy, flow, and component spec. Handoff to Frontend Developer.',
+    cmd: 'noyce design --story onboard-pin-mux' },
+  { key: 'fe', name: 'Frontend Developer', role: 'React · TS', ico: 'reg',
+    body: 'Implements React + TypeScript from the design spec. Handoff to API Integrator and Tester.',
+    cmd: 'noyce ui impl --spec pin-card' },
+  { key: 'api', name: 'API Integrator', role: 'REST · types', ico: 'rtos',
+    body: 'Defines REST endpoints and wires fetch with types and error handling for the attached frontend.',
+    cmd: 'noyce api wire --surface serial-monitor' },
 ];
 
 function AgentOrbit() {
@@ -42,8 +51,8 @@ function AgentOrbit() {
       <div className="wrap">
         <div className="section-head reveal">
           <span className="kicker">Noyce Agents</span>
-          <h2>Six specialist agents,<br />one auditable thread.</h2>
-          <p>Bring your own provider — Anthropic, OpenAI, Google Gemini, or Mistral — or run fully on-prem through Ollama or LM Studio. The orchestrator routes by latency, cost, and confidence, and signs every action against the requirements graph.</p>
+          <h2>Nine specialist agents,<br />one auditable thread.</h2>
+          <p>The extension registry ships nine personas with coded handoffs: six for the firmware loop, three for workbench UI. Bring your own provider. Completions are signed against the graph.</p>
         </div>
 
         <div className={'orbit-wrap reveal d1' + (paused ? ' paused' : '')}>

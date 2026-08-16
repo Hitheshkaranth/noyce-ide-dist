@@ -34,7 +34,7 @@ function Nav() {
           ))}
         </div>
         <div className="nav-cta">
-          <a href="https://github.com/Hitheshkaranth/noyce_ide" className="btn btn-ghost" target="_blank" rel="noreferrer">
+          <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" className="btn btn-ghost" target="_blank" rel="noreferrer">
             <Ico.github style={{ width: 16, height: 16 }} /> GitHub
           </a>
           <a href="#download" className="btn btn-primary btn-sweep">Download</a>
