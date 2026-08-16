@@ -408,20 +408,6 @@
               <LoopVideo src="web-Prototype/assets/featured.mp4?v=7" className="w-full h-full object-cover" />
             </div>
           </Reveal>
-          <p className="text-white/55 text-sm mt-10 mb-4">Workbench and silicon</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              { src: 'web-Prototype/assets/workbench.mp4?v=1', label: 'Native Code-OSS editor' },
-              { src: 'web-Prototype/assets/silicon.mp4?v=1', label: 'On the board' },
-            ].map((v) => (
-              <div key={v.src} className="rounded-2xl overflow-hidden border border-white/12 bg-black">
-                <div className="relative aspect-video">
-                  <LoopVideo src={v.src} className="w-full h-full object-cover" />
-                </div>
-                <div className="px-3 py-2.5 text-sm text-white/70">{v.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
     );
@@ -688,18 +674,27 @@
       );
     };
 
+    const SplitScene = ({ src, title, flip, children }) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 md:items-center">
+        <Reveal x={flip ? 40 : -40} y={0} dur={0.9} className={'rounded-2xl overflow-hidden aspect-[4/3] border border-white/12 ' + (flip ? 'md:order-2' : '')}>
+          <LoopVideo src={src} className="w-full h-full object-cover" />
+        </Reveal>
+        <Reveal x={flip ? -40 : 40} y={0} dur={0.9} className={flip ? 'md:order-1' : ''}>
+          <h3 className="font-instrument text-3xl md:text-4xl text-white tracking-tight mb-5">{title}</h3>
+          {children}
+        </Reveal>
+      </div>
+    );
+
     /* ---------- SECTION 6 · Hardware × Software (philosophy layout) ---------- */
     const Philosophy = () => (
       <section id="hardware" className="py-20 md:py-24 px-6 border-t border-white/10">
         <div className="max-w-6xl mx-auto">
           <Reveal y={40} dur={0.8}>
-            <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mb-10">Silicon <span className="italic text-white/40">×</span> Software.</h2>
+            <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mb-12">Silicon <span className="italic text-white/40">×</span> Software.</h2>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            <Reveal x={-40} y={0} dur={0.9} className="rounded-2xl overflow-hidden aspect-[4/3] border border-white/12">
-              <video src="web-Prototype/assets/philosophy.mp4?v=7" className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
-            </Reveal>
-            <Reveal x={40} y={0} dur={0.9}>
+          <div className="flex flex-col gap-20 md:gap-28">
+            <SplitScene src="web-Prototype/assets/philosophy.mp4?v=7" title="Pins, registers, and the schematic.">
               <p className="text-white/70 text-base md:text-lg leading-relaxed">Pin maps from STM32CubeMX <span className="mono text-white/80">.ioc</span> files, SVD registers, a Cortex-M CFSR decoder, and GNU ld memory maps. Register Knowledge indexes the vendor manual and links each register to the source that touches it, so the datasheet and the firmware stay one graph.</p>
               <div className="w-full h-px bg-white/10 my-8"></div>
               <p className="text-white/70 text-base md:text-lg leading-relaxed">The schematic viewer pans and zooms the board PDF, then Analyze builds a class-aware BoM and an inferred net graph. Importers cover STM32CubeIDE, TI Tiva / Code Composer, MPLAB X, and a generic folder.</p>
@@ -708,7 +703,17 @@
                   <span key={t} className="mono text-xs text-sky-300/90 border border-sky-300/20 bg-sky-300/[0.04] rounded-full px-3 py-1">{t}</span>
                 ))}
               </div>
-            </Reveal>
+            </SplitScene>
+            <SplitScene src="web-Prototype/assets/workbench.mp4?v=1" title="Native Code-OSS editor." flip>
+              <p className="text-white/70 text-base md:text-lg leading-relaxed">The editor is Code-OSS, not a webview copy. Open from MISRA or CodeQL lands on the line, with Noyce evidence layered on. <span className="mono text-white/80">@req</span> and <span className="mono text-white/80">@verification</span> stay in the source the compiler sees.</p>
+              <div className="w-full h-px bg-white/10 my-8"></div>
+              <p className="text-white/70 text-base md:text-lg leading-relaxed">Agents, Register Knowledge, and the native buffer share one graph. Completions are hash-chained. The firmware tree stays git-clean while drafts go under <span className="mono text-white/80">.noyce/</span>.</p>
+            </SplitScene>
+            <SplitScene src="web-Prototype/assets/silicon.mp4?v=1" title="On the board.">
+              <p className="text-white/70 text-base md:text-lg leading-relaxed">The live project is a Texas Instruments Tiva controller. The same pin, SVD, and schematic path takes ST and NXP boards. Firmware is argued against the part on the desk, not a generic MCU in a slideshow.</p>
+              <div className="w-full h-px bg-white/10 my-8"></div>
+              <p className="text-white/70 text-base md:text-lg leading-relaxed">Macro of the board is the hardware half of the workbench: traces, packages, and the registers those traces drive. Software in the editor has to name the same devices.</p>
+            </SplitScene>
           </div>
         </div>
       </section>
