@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 148 48" fill="none" role="img" aria-labelledby="nxpTitle">
+  <title id="nxpTitle">NXP</title>
+  <path fill="#F4F4F4" d="M4 8h10.2L31.8 30.2V8H42v32H31.8L14.2 17.8V40H4V8Z"/>
+  <path fill="#F4F4F4" d="M52 8l13.6 13.6L79.2 8H91L72.6 24 91 40H79.2L65.6 26.4 52 40H40.2L58.6 24 40.2 8H52Z"/>
+  <path fill="#F4F4F4" d="M100 8h21.2c10 0 16.6 6 16.6 16s-6.6 16-16.6 16H100V8Zm9.8 8.4v15.2h10.6c4.4 0 7.2-2.6 7.2-7.6s-2.8-7.6-7.2-7.6H109.8Z"/>
+</svg>

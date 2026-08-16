@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" fill="none" role="img" aria-labelledby="tiTitle">
+  <title id="tiTitle">Texas Instruments</title>
+  <rect width="56" height="56" rx="10" fill="#C8102E"/>
+  <path fill="#fff" d="M9 14h26v6.4H29.2V42h-8.4V20.4H9V14Z"/>
+  <path fill="#fff" d="M37.4 14H47v28h-9.6V14Z"/>
+</svg>

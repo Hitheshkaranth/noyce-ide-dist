@@ -63,7 +63,7 @@ We are proud to announce the first stable release of **Noyce IDE**, the world's 
 
 ## Key Highlights
 
-- **AI Agent Pipeline:** A six-step automated engineering workflow (Designer -> Coder -> Tester -> Reviewer -> Doc Gen -> Traceability).
+- **AI Agent Pipeline:** Nine specialist personas on one auditable thread (Designer, Coder, Tester, Reviewer, Doc Gen, Traceability, plus UI/UX, Frontend, and API Integrator).
 - **Safety-First Traceability:** Automated requirement mapping and @req/@verification annotation scanning.
 - **Embedded Mastery:** Deep integration with STM32CubeIDE and CCS project imports.
 - **Hardware Control:** Live register views, memory monitors, and serial/Modbus diagnostics.
