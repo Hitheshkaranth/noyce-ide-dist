@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#07080b" />
   <meta name="description" content="Noyce IDE is an AI-native Code-OSS workbench for certifiable embedded firmware. Requirements, native editing, schematic intelligence, CBMC proofs, CodeQL scans, and a hash-chained certification package live in one window." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Noyce IDE - AI workbench for certifiable firmware." />
@@ -24,10 +24,40 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
-
-    body { background-color: #000; color: #fff; margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; }
-    .font-instrument { font-family: 'Instrument Serif', serif; }
-    .mono { font-family: ui-monospace, 'JetBrains Mono', 'SF Mono', monospace; }
+    :root {
+      --bg: #07080b;
+      --ink: #f3f5f7;
+      --muted: rgba(243,245,247,0.7);
+      --line: rgba(255,255,255,0.12);
+      --accent: #9ad4ee;
+    }
+    html { scroll-behavior: smooth; color-scheme: dark; }
+    .skip {
+      position: absolute;
+      left: -999px;
+      top: 0;
+    }
+    .skip:focus {
+      left: 12px;
+      top: 12px;
+      z-index: 60;
+      background: #fff;
+      color: #000;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+    }
+    .fill-bg { background: var(--bg); }
+    body { background-color: var(--bg); color: var(--ink); margin: 0; font-family: ui-sans-serif, system-ui, sans-serif; }
+    ::selection { background: rgba(154,212,238,0.28); color: #fff; }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .btn { transition: background-color 0.2s cubic-bezier(.16,1,.3,1), color 0.2s cubic-bezier(.16,1,.3,1), transform 0.15s cubic-bezier(.16,1,.3,1); }
+    .btn:active { transform: scale(0.97); }
+    .font-instrument { font-family: 'Instrument Serif', serif; letter-spacing: -0.03em; }
+    .mono { font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
 
     .liquid-glass {
       background: rgba(255, 255, 255, 0.01);
@@ -51,8 +81,26 @@
       mask-composite: exclude;
       pointer-events: none;
     }
-    .caret { display:inline-block; width:8px; height:1em; background:#7dd3fc; margin-left:2px; vertical-align:-2px; animation: blink 1s steps(1) infinite; }
+    .caret { display:inline-block; width:8px; height:1em; background:var(--accent); margin-left:2px; vertical-align:-2px; animation: blink 1s steps(1) infinite; }
     @keyframes blink { 50% { opacity: 0; } }
+
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 0.85rem 1.5rem;
+      transition: background 0.25s cubic-bezier(.16,1,.3,1), border-color 0.25s cubic-bezier(.16,1,.3,1), backdrop-filter 0.25s cubic-bezier(.16,1,.3,1);
+    }
+    .site-nav.is-solid {
+      background: rgba(7,8,11,0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-link { color: rgba(243,245,247,0.62); }
+    .nav-link:hover, .nav-link.is-on { color: #fff; }
 
     .vendor-window {
       overflow: hidden;
@@ -78,36 +126,33 @@
     .vendor-cell img { width: auto; max-width: 280px; object-fit: contain; opacity: 1; }
     h1, h2, h3 { text-wrap: balance; }
     .model-mark { height: 40px; width: auto; max-width: min(100%, 280px); object-fit: contain; object-position: left center; display: block; }
-    .arch-node {
-      width: 100%;
-      text-align: left;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 1rem 1.1rem;
-      background: transparent;
-      cursor: pointer;
-      transition: border-color 0.2s cubic-bezier(.16,1,.3,1), background 0.2s cubic-bezier(.16,1,.3,1);
-    }
-    .arch-node:hover { border-color: rgba(255,255,255,0.28); }
-    .arch-node.is-on {
-      border-color: rgba(125,211,252,0.5);
-      background: rgba(125,211,252,0.06);
-    }
-    .arch-wire {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(125,211,252,0.7);
-      font-family: ui-monospace, 'SF Mono', monospace;
-      font-size: 14px;
-      min-height: 1.5rem;
-      user-select: none;
+    .model-mark-gemma { height: 56px; max-width: min(100%, 460px); }
+    .arch-svg { width: 100%; height: auto; display: block; }
+    .arch-svg .lan { fill: none; stroke: rgba(125,211,252,0.28); stroke-width: 1.25; stroke-dasharray: 6 5; }
+    .arch-svg .wire { fill: none; stroke: rgba(125,211,252,0.55); stroke-width: 1.5; }
+    .arch-svg .arrow { fill: rgba(125,211,252,0.7); }
+    .arch-svg .hint { fill: rgba(125,211,252,0.72); font-family: ui-monospace, 'SF Mono', monospace; font-size: 11px; letter-spacing: 0.04em; }
+    .arch-svg .lan-label { fill: rgba(125,211,252,0.55); font-family: ui-monospace, 'SF Mono', monospace; font-size: 11px; letter-spacing: 0.16em; }
+    .arch-box { cursor: pointer; }
+    .arch-box rect { fill: rgba(0,0,0,0.45); stroke: rgba(255,255,255,0.14); stroke-width: 1.25; transition: stroke 0.2s cubic-bezier(.16,1,.3,1), fill 0.2s cubic-bezier(.16,1,.3,1); }
+    .arch-box:hover rect { stroke: rgba(255,255,255,0.32); }
+    .arch-box.is-on rect { fill: rgba(125,211,252,0.08); stroke: rgba(125,211,252,0.7); }
+    .arch-box .k { fill: rgba(125,211,252,0.8); font-family: ui-monospace, 'SF Mono', monospace; font-size: 10px; letter-spacing: 0.14em; }
+    .arch-box .t { fill: #fff; font-size: 15px; font-weight: 500; }
+    .arch-box .h { fill: rgba(255,255,255,0.42); font-size: 11px; }
+    .arch-frame {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1.25rem 0.75rem 0.5rem;
+      background: linear-gradient(180deg, rgba(154,212,238,0.04), transparent 42%);
     }
     @keyframes vendor-roll {
       from { transform: translate3d(0, 0, 0); }
       to { transform: translate3d(-50%, 0, 0); }
     }
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .caret { animation: none; }
       .vendor-track { animation: none; }
       .vendor-window {
         mask-image: none;
@@ -201,70 +246,90 @@
       }, []);
       return (
         <div className="absolute inset-0 z-0 overflow-hidden bg-black pointer-events-none">
-          <video ref={videoRef} src="web-Prototype/assets/hero.mp4" className="absolute inset-0 w-full h-full object-cover object-bottom" muted autoPlay playsInline preload="auto" style={{ opacity: 0 }} />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/95 pointer-events-none"></div>
+          <video ref={videoRef} src="web-Prototype/assets/hero.mp4?v=7" className="absolute inset-0 w-full h-full object-cover object-bottom" muted autoPlay playsInline preload="auto" style={{ opacity: 0 }} />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-[#07080b] pointer-events-none"></div>
         </div>
       );
     };
 
     /* ---------- Navbar ---------- */
-    const Navbar = () => (
-      <nav className="relative z-20 px-6 py-4 w-full">
-        <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <a href="#top" className="flex items-center">
-            <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-5 w-auto" />
-          </a>
-          <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
-            <a href="#yc" className="hover:text-white transition-colors">Pitch</a>
-            <a href="#features" className="hover:text-white transition-colors">Product</a>
-            <a href="#models" className="hover:text-white transition-colors">Architecture</a>
-            <a href="#proof" className="hover:text-white transition-colors">Proof</a>
-          </div>
-          <div className="flex items-center gap-4">
-            <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" target="_blank" rel="noreferrer" className="hidden sm:block text-sm text-white/60 hover:text-white transition-colors">GitHub</a>
-            <a href="#download" className="bg-white text-black rounded-full px-4 py-1.5 text-sm font-medium hover:bg-white/90 transition-colors">Download</a>
-          </div>
-        </div>
-      </nav>
-    );
-
-    /* ---------- SECTION 1 · Hero ---------- */
-    const Hero = () => {
-      const stats = [['One window', 'seven tools, one workbench'], ['70 / 70', 'CBMC proofs on live firmware'], ['SHA-256', 'evidence locked to the audit chain'], ['9 agents', 'every handoff signed']];
+    const Navbar = () => {
+      const [solid, setSolid] = useState(false);
+      const [here, setHere] = useState('');
+      useEffect(() => {
+        const onScroll = () => setSolid(window.scrollY > 24);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        const ids = ['yc', 'features', 'models', 'proof', 'download'];
+        const els = ids.map((id) => document.getElementById(id)).filter(Boolean);
+        const io = new IntersectionObserver((entries) => {
+          const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (vis && vis.target.id) setHere(vis.target.id);
+        }, { rootMargin: '-40% 0px -50% 0px', threshold: [0, 0.2, 0.5] });
+        els.forEach((el) => io.observe(el));
+        return () => { window.removeEventListener('scroll', onScroll); io.disconnect(); };
+      }, []);
+      const link = (href, label, id) => (
+        <a href={href} className={'nav-link text-sm transition-colors ' + (here === id ? 'is-on' : '')}>{label}</a>
+      );
       return (
-        <section id="top" className="relative min-h-[100dvh] overflow-hidden flex flex-col">
-          <HeroVideo />
-          <Navbar />
-          <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center pb-16">
-            <h1 className="font-instrument text-6xl md:text-8xl text-white tracking-tight drop-shadow-lg">Noyce IDE</h1>
-            <p className="mt-5 text-base md:text-lg text-white/70 max-w-lg mx-auto font-light">
-              The AI-native Code-OSS workbench for firmware that has to certify.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
-              <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3" className="bg-white text-black px-5 py-2.5 rounded-full font-medium text-sm hover:bg-white/90 transition-colors">Download for macOS</a>
-              <a href="#yc" className="text-white/80 hover:text-white text-sm font-medium px-2">Read the pitch</a>
+        <nav className={'site-nav' + (solid ? ' is-solid' : '')}>
+          <div className="flex items-center justify-between max-w-6xl mx-auto">
+            <a href="#top" className="flex items-center">
+              <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-5 w-auto" />
+            </a>
+            <div className="hidden md:flex items-center gap-8">
+              {link('#yc', 'Pitch', 'yc')}
+              {link('#features', 'Product', 'features')}
+              {link('#models', 'Architecture', 'models')}
+              {link('#proof', 'Proof', 'proof')}
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-16 max-w-3xl w-full">
-              {stats.map(([n, l]) => (
-                <div key={n} className="text-left md:text-center">
-                  <div className="font-instrument text-2xl md:text-3xl text-white">{n}</div>
-                  <div className="text-white/45 text-xs mt-1 leading-snug">{l}</div>
-                </div>
-              ))}
+            <div className="flex items-center gap-3">
+              <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" target="_blank" rel="noreferrer" aria-label="GitHub" className="hidden sm:flex text-white/60 hover:text-white transition-colors p-1">
+                <GitHubIcon className="w-5 h-5" />
+              </a>
+              <a href="#download" className="btn bg-white text-black rounded-full px-4 py-1.5 text-sm font-medium hover:bg-white/90">Download</a>
             </div>
           </div>
-        </section>
+        </nav>
       );
     };
 
+    /* ---------- SECTION 1 · Hero ---------- */
+    const Hero = () => (
+      <section id="top" className="relative min-h-[100dvh] overflow-hidden flex flex-col">
+        <HeroVideo />
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 text-center pt-24 pb-20">
+          <h1 className="font-instrument text-[clamp(3.25rem,8vw,5.75rem)] text-white leading-[0.95]">Noyce IDE</h1>
+          <p className="mt-6 text-base md:text-lg text-white/80 max-w-md mx-auto font-light leading-relaxed">
+            The AI-native Code-OSS workbench for firmware that has to certify.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-9">
+            <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3" className="btn bg-white text-black px-6 py-2.5 rounded-full font-medium text-sm hover:bg-white/90">Download for macOS</a>
+            <a href="#yc" className="text-white/80 hover:text-white text-sm font-medium px-3 py-2">Read the pitch</a>
+          </div>
+        </div>
+        <div className="relative z-10 border-t border-white/10 bg-black/40 backdrop-blur-sm">
+          <div className="max-w-6xl mx-auto px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[['One window', 'seven tools, one workbench'], ['70 / 70', 'CBMC proofs on live firmware'], ['SHA-256', 'evidence locked to the audit chain'], ['9 agents', 'every handoff signed']].map(([n, l]) => (
+              <div key={n}>
+                <div className="font-instrument text-xl md:text-2xl text-white">{n}</div>
+                <div className="text-white/60 text-xs mt-1 leading-snug">{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+
     /* ---------- SECTION 2 · About ---------- */
     const About = () => (
-      <section className="bg-black pt-20 md:pt-28 pb-6 px-6">
+      <section className="pt-24 md:pt-32 pb-8 px-6">
         <div className="max-w-6xl mx-auto">
           <Reveal y={30} dur={0.7}>
-            <h2 className="font-instrument text-3xl md:text-5xl lg:text-6xl text-white leading-[1.12] tracking-tight max-w-4xl">
+            <h2 className="font-instrument text-3xl md:text-5xl lg:text-[3.35rem] text-white leading-[1.14] max-w-4xl">
               Firmware teams should not need a spreadsheet, a pin tool, and a chatbot
-              <span className="italic text-white/55"> to prove what their code already does.</span>
+              <span className="italic text-white/70"> to prove what their code already does.</span>
             </h2>
           </Reveal>
         </div>
@@ -272,13 +337,26 @@
     );
 
     const Featured = () => (
-      <section className="bg-black pt-10 pb-20 md:pb-24 px-6">
+      <section className="pt-6 pb-20 md:pb-28 px-6">
         <div className="max-w-6xl mx-auto">
-          <Reveal y={40} dur={0.8} className="rounded-2xl overflow-hidden border border-white/10">
-            <div className="relative aspect-video">
-              <video src="web-Prototype/assets/featured.mp4" className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
+          <Reveal y={40} dur={0.8} className="rounded-2xl overflow-hidden border border-white/12 shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
+            <div className="relative aspect-video bg-black">
+              <video src="web-Prototype/assets/featured.mp4?v=7" className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
             </div>
           </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            {[
+              { src: 'web-Prototype/assets/workbench.mp4', label: 'Native Code-OSS editor' },
+              { src: 'web-Prototype/assets/silicon.mp4', label: 'On the board' },
+            ].map((v) => (
+              <Reveal key={v.src} y={24} dur={0.6} className="rounded-2xl overflow-hidden border border-white/12">
+                <div className="relative aspect-video bg-black">
+                  <video src={v.src} className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
+                </div>
+                <div className="px-3 py-2 text-xs text-white/55">{v.label}</div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
     );
@@ -292,11 +370,11 @@
     const VendorRoll = () => {
       const row = REDUCE ? VENDORS : VENDORS.concat(VENDORS, VENDORS, VENDORS);
       return (
-        <section className="bg-black pb-16 md:pb-20 px-6" aria-label="Silicon vendors exercised in Noyce IDE">
+        <section className="pb-16 md:pb-20 px-6" aria-label="Silicon vendors exercised in Noyce IDE">
           <div className="max-w-6xl mx-auto">
-            <p className="mono text-[11px] text-sky-300/80 uppercase tracking-wider text-center mb-2">Tested on silicon</p>
-            <p className="text-white/50 text-sm text-center mb-8 max-w-xl mx-auto">The live project is a Texas Instruments Tiva controller. ST and NXP boards import through the same pin, SVD, and schematic path.</p>
-            <div className="vendor-window rounded-2xl border border-white/10 py-8">
+            <p className="text-white/55 text-sm text-center mb-2">Tested on silicon</p>
+            <p className="text-white/65 text-sm text-center mb-8 max-w-xl mx-auto">The live project is a Texas Instruments Tiva controller. ST and NXP boards import through the same pin, SVD, and schematic path.</p>
+            <div className="vendor-window rounded-2xl border border-white/12 py-8">
               <div className="vendor-track" style={REDUCE ? { animation: 'none', width: '100%', justifyContent: 'center' } : undefined}>
                 {row.map((v, i) => (
                   <div className="vendor-cell" key={v.name + '-' + i}>
@@ -320,11 +398,11 @@
         { title: 'Schematic to BoM', desc: 'LiteParse + PaddleOCR on the board PDF. 1,674 text items become 222 class-grouped parts and an inferred net graph.' },
       ];
       return (
-        <section id="features" className="bg-black py-20 md:py-24 px-6">
+        <section id="features" className="py-20 md:py-24 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-12 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">Source, evidence, and silicon in one workspace.</h2>
-              <p className="text-white/50 text-sm mt-4">26 surfaces. Artifacts stay in <span className="mono text-white/70">.noyce/</span>. The firmware tree stays git-clean.</p>
+              <p className="text-white/65 text-sm mt-4">26 surfaces. Artifacts stay in <span className="mono text-white/70">.noyce/</span>. The firmware tree stays git-clean.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
               {features.map((f) => (
@@ -350,7 +428,7 @@
         { label: 'Moat', body: 'Real CLIs and parsers, not screenshots of them. CBMC, CodeQL, LiteParse, PaddleOCR, CMSIS-SVD, STM32 .ioc / CCS / MPLAB importers, a 755-tool catalog, and a hash-chained ledger. That stack is hard to fake and harder to leave.' },
       ];
       return (
-        <section id="yc" className="bg-black py-20 md:py-24 px-6 border-t border-white/10">
+        <section id="yc" className="py-20 md:py-24 px-6 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
             <Reveal y={30} dur={0.7} className="mb-10 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight mb-4">A platform for regulated firmware teams.</h2>
@@ -360,7 +438,7 @@
             </Reveal>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
               {points.map((p) => (
-                <div key={p.label} className="bg-black p-6 md:p-7">
+                <div key={p.label} className="fill-bg p-6 md:p-7">
                   <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-3">{p.label}</div>
                   <p className="text-white/70 text-sm leading-relaxed">{p.body}</p>
                 </div>
@@ -385,11 +463,11 @@
         { t: 'Package', d: 'Specialist agents fill DO-178C Table A artifacts. The Certification Evidence Package is signed HTML + JSON whose SHA-256 is anchored to the hash-chained audit head.' },
       ];
       return (
-        <section id="stack" className="bg-black py-20 md:py-24 px-6">
+        <section id="stack" className="py-20 md:py-24 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal y={30} dur={0.7} className="mb-10 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight mb-3">What it is, mechanically.</h2>
-              <p className="text-white/50 text-sm max-w-2xl leading-relaxed">A single Electron process tree. Noyce-owned config stays out of the vendored Code-OSS checkout (scripts/lib/codeoss-pin.json pins upstream commit and Node). That is how the product stays reproducible without forking VS Code into sludge.</p>
+              <p className="text-white/65 text-sm max-w-2xl leading-relaxed">A single Electron process tree. Noyce-owned config stays out of the vendored Code-OSS checkout (scripts/lib/codeoss-pin.json pins upstream commit and Node). That is how the product stays reproducible without forking VS Code into sludge.</p>
             </Reveal>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-14">
               <div className="flex flex-col gap-8">
@@ -403,13 +481,13 @@
               <Reveal y={30} dur={0.8} className="border border-white/10 rounded-xl p-6 md:p-8 mono text-[12px] leading-7 text-white/70">
                 <div className="text-white/30 mb-3">noyce-ide/</div>
                 <div>Code-OSS desktop shell</div>
-                <div className="pl-4 text-white/50">product.json overlay + 11 extensions</div>
+                <div className="pl-4 text-white/65">product.json overlay + 11 extensions</div>
                 <div className="mt-3">React workbench (src/)</div>
-                <div className="pl-4 text-white/50">compliance · hardware · RAG graph · AI</div>
+                <div className="pl-4 text-white/65">compliance · hardware · RAG graph · AI</div>
                 <div className="mt-3">services/noyce-core (Rust)</div>
-                <div className="pl-4 text-white/50">JSON-RPC · import · scan · CBMC · serial</div>
+                <div className="pl-4 text-white/65">JSON-RPC · import · scan · CBMC · serial</div>
                 <div className="mt-3">.noyce/ working dir</div>
-                <div className="pl-4 text-white/50">evidence · audit · CodeQL scratch</div>
+                <div className="pl-4 text-white/65">evidence · audit · CodeQL scratch</div>
               </Reveal>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
@@ -448,16 +526,17 @@
       }, [active]);
       useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [active]);
       return (
-        <section id="ai" className="bg-black py-20 md:py-24 px-6 border-t border-white/10">
+        <section id="ai" className="py-20 md:py-24 px-6 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">Nine specialist agents, one auditable thread.</h2>
-              <p className="text-white/50 text-sm mt-3">Nine personas, each with its own local model. Firmware loop plus workbench UI. Completions are hash-chained.</p>
+              <p className="text-white/65 text-sm mt-3">Nine personas, each with its own local model. Firmware loop plus workbench UI. Completions are hash-chained.</p>
             </Reveal>
             <div className="flex flex-wrap gap-x-5 gap-y-2 mb-8">
               {AGENTS.map((ag, i) => (
-                <button key={ag.name} onClick={() => setActive(i)} onMouseEnter={() => setActive(i)}
-                  className={'text-sm py-1 transition-colors ' + (active === i ? 'text-white' : 'text-white/40 hover:text-white/70')}>
+                <button type="button" key={ag.name} onClick={() => setActive(i)} onMouseEnter={() => setActive(i)}
+                  aria-pressed={active === i}
+                  className={'text-sm py-1 border-b transition-colors ' + (active === i ? 'text-white border-white' : 'text-white/45 border-transparent hover:text-white/75')}>
                   {ag.name}
                 </button>
               ))}
@@ -466,7 +545,7 @@
               <div className="text-xs text-white/40 mb-2">{a.role}</div>
               <h3 className="text-xl text-white font-medium mb-3">{a.name}</h3>
               <p className="text-white/60 text-sm leading-relaxed mb-5">{a.body}</p>
-              <div className="mono text-xs text-white/50"><span className="text-white/30">$ </span>{typed}<span className="caret"></span></div>
+              <div className="mono text-xs text-white/65"><span className="text-white/30">$ </span>{typed}<span className="caret"></span></div>
             </div>
           </div>
         </section>
@@ -483,48 +562,45 @@
       ];
       const [active, setActive] = useState('ide');
       const n = nodes.find((x) => x.id === active) || nodes[1];
-      const Node = ({ id }) => {
-        const x = nodes.find((k) => k.id === id);
+      const Box = ({ id, x, y, w, h }) => {
+        const k = nodes.find((q) => q.id === id);
         return (
-          <button type="button" onClick={() => setActive(id)} onMouseEnter={() => setActive(id)}
-            className={'arch-node' + (active === id ? ' is-on' : '')}>
-            <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-1">{x.kicker}</div>
-            <div className="text-white text-base md:text-lg font-medium">{x.title}</div>
-            <div className="text-white/45 text-xs mt-1">{x.hint}</div>
-          </button>
+          <g className={'arch-box' + (active === id ? ' is-on' : '')} onClick={() => setActive(id)} onMouseEnter={() => setActive(id)} role="button" tabIndex="0" onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActive(id); } }}>
+            <rect x={x} y={y} width={w} height={h} rx="10" />
+            <text className="k" x={x + 16} y={y + 28}>{k.kicker.toUpperCase()}</text>
+            <text className="t" x={x + 16} y={y + 52}>{k.title}</text>
+            <text className="h" x={x + 16} y={y + 72}>{k.hint}</text>
+          </g>
         );
       };
-      const Wire = ({ label, down }) => (
-        <div className="arch-wire" aria-hidden="true">
-          <span className="hidden md:inline">{down ? '↓' : '→'}</span>
-          <span className="md:hidden">↓</span>
-          {label && <span className="ml-2 text-[10px] text-sky-300/70 tracking-wide hidden lg:inline">{label}</span>}
-        </div>
-      );
       return (
-        <section id="models" className="bg-black py-20 md:py-24 px-6 border-t border-white/10">
+        <section id="models" className="py-20 md:py-24 px-6 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-12 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">Noyce IDE on the organization LAN.</h2>
               <p className="text-white/60 text-sm mt-3 leading-relaxed">Hover a block. The IDE, the graph, and the model host stay inside the building. A slice of code becomes compliance documents and patches, then lands in <span className="mono text-white/75">.noyce/</span>.</p>
             </Reveal>
 
-            <Reveal y={20} dur={0.55} className="mb-8">
-              <div className="flex flex-col md:grid md:grid-cols-[1fr_auto_minmax(0,1.35fr)_auto_1fr] md:items-center gap-2 md:gap-3">
-                <Node id="src" />
-                <Wire />
-                <Node id="ide" />
-                <Wire />
-                <Node id="rag" />
-              </div>
-              <Wire down label="OpenAI-compat · 10.x / localhost" />
-              <div className="max-w-xl mx-auto w-full">
-                <Node id="model" />
-              </div>
-              <Wire down label="generate docs · patch violations" />
-              <div className="max-w-xl mx-auto w-full">
-                <Node id="out" />
-              </div>
+            <Reveal y={20} dur={0.55} className="arch-frame mb-8">
+              <svg className="arch-svg" viewBox="0 0 960 540" role="img" aria-label="Block diagram of Noyce IDE on the organization LAN with a local model host">
+                <text className="lan-label" x="48" y="28">ORGANIZATION LAN · NO PUBLIC CLOUD REQUIRED</text>
+                <rect className="lan" x="24" y="40" width="912" height="484" rx="16" />
+                <path className="wire" d="M256 132 H370" />
+                <path className="wire" d="M590 132 H704" />
+                <path className="wire" d="M480 176 V248" />
+                <path className="wire" d="M480 344 V408" />
+                <polygon className="arrow" points="360,127 370,132 360,137" />
+                <polygon className="arrow" points="694,127 704,132 694,137" />
+                <polygon className="arrow" points="475,238 480,248 485,238" />
+                <polygon className="arrow" points="475,398 480,408 485,398" />
+                <text className="hint" x="492" y="220">OpenAI-compat · 10.x / localhost</text>
+                <text className="hint" x="492" y="384">generate docs · patch violations</text>
+                <Box id="src" x="36" y="88" w="220" h="88" />
+                <Box id="ide" x="370" y="88" w="220" h="88" />
+                <Box id="rag" x="704" y="88" w="220" h="88" />
+                <Box id="model" x="280" y="258" w="400" h="86" />
+                <Box id="out" x="280" y="418" w="400" h="86" />
+              </svg>
             </Reveal>
 
             <div className="max-w-2xl border-t border-white/10 pt-6 mb-14">
@@ -535,11 +611,11 @@
 
             <div className="flex flex-col sm:flex-row sm:items-end gap-8 sm:gap-16">
               {[
-                { name: 'Gemma 4 26B', file: 'gemma4.png', note: 'Current' },
-                { name: 'Qwen 3.6 27B', file: 'qwen3-lockup.png', note: 'Supported' },
+                { name: 'Gemma 4 26B', file: 'gemma4.png', note: 'Current', mark: 'model-mark model-mark-gemma' },
+                { name: 'Qwen 3.6 27B', file: 'qwen3-lockup.png', note: 'Supported', mark: 'model-mark' },
               ].map((m) => (
                 <div key={m.name} className="flex flex-col gap-3 min-w-0">
-                  <img src={'icons_resources/models/' + m.file + '?v=5'} alt={m.name} className="model-mark" />
+                  <img src={'icons_resources/models/' + m.file + '?v=5'} alt={m.name} className={m.mark} />
                   <div className="flex items-baseline gap-3">
                     <span className="text-white/80 text-sm">{m.name}</span>
                     <span className="mono text-[11px] text-sky-300/80 uppercase tracking-wider">{m.note}</span>
@@ -554,14 +630,14 @@
 
     /* ---------- SECTION 6 · Hardware × Software (philosophy layout) ---------- */
     const Philosophy = () => (
-      <section id="hardware" className="bg-black py-20 md:py-24 px-6 border-t border-white/10">
+      <section id="hardware" className="py-20 md:py-24 px-6 border-t border-white/10">
         <div className="max-w-6xl mx-auto">
           <Reveal y={40} dur={0.8}>
             <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mb-10">Silicon <span className="italic text-white/40">×</span> Software.</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-            <Reveal x={-40} y={0} dur={0.9} className="rounded-3xl overflow-hidden aspect-[4/3] liquid-glass">
-              <video src="web-Prototype/assets/philosophy.mp4" className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
+            <Reveal x={-40} y={0} dur={0.9} className="rounded-2xl overflow-hidden aspect-[4/3] border border-white/12">
+              <video src="web-Prototype/assets/philosophy.mp4?v=7" className="w-full h-full object-cover" muted autoPlay loop playsInline preload="auto" />
             </Reveal>
             <Reveal x={40} y={0} dur={0.9}>
               <p className="text-white/70 text-base md:text-lg leading-relaxed">Pin maps from STM32CubeMX <span className="mono text-white/80">.ioc</span> files, SVD registers, a Cortex-M CFSR decoder, and GNU ld memory maps. Register Knowledge indexes the vendor manual and links each register to the source that touches it, so the datasheet and the firmware stay one graph.</p>
@@ -618,11 +694,11 @@
         },
       ];
       return (
-        <section id="proof" className="bg-black py-20 md:py-24 px-6 border-t border-white/10">
+        <section id="proof" className="py-20 md:py-24 px-6 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight mb-3">Measured on the Canister firmware.</h2>
-              <p className="text-white/50 text-sm">Running 2.0.3 Code-OSS build, after analysis finished. Install, open the same project, read the same numbers.</p>
+              <p className="text-white/65 text-sm">Running 2.0.3 Code-OSS build, after analysis finished. Install, open the same project, read the same numbers.</p>
             </Reveal>
             <Reveal y={30} dur={0.7} className="rounded-xl overflow-hidden border border-white/10 mb-12">
               <img src="docs/screenshots/2.0.3/traceability-full-pane.png" alt="Traceability Graph full pane on the Canister Main Controller firmware" className="w-full h-auto" />
@@ -650,11 +726,11 @@
     const Compliance = () => {
       const metrics = [['876', 'registers indexed from the vendor manual and linked to source'], ['70/70', 'CBMC properties discharged on the firmware harness'], ['222', 'schematic parts parsed into an auto-BoM'], ['SHA-256', 'certification package anchored to the audit trail']];
       return (
-        <section id="compliance" className="bg-black py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
+        <section id="compliance" className="py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
           <div className="max-w-5xl mx-auto text-center">
             <Reveal y={30} dur={0.7}>
               <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mb-4">REQ to Design to Test, kept honest.</h2>
-              <p className="text-white/50 max-w-2xl mx-auto text-sm mb-12">Numbers below are from the Canister Main Controller firmware in the running Code-OSS build, after analysis had finished. Empty or unsupported views say so.</p>
+              <p className="text-white/65 max-w-2xl mx-auto text-sm mb-12">Numbers below are from the Canister Main Controller firmware in the running Code-OSS build, after analysis had finished. Empty or unsupported views say so.</p>
             </Reveal>
             <Reveal y={50} dur={0.9} className="liquid-glass rounded-2xl p-3 mb-12">
               <div className="rounded-xl overflow-hidden border border-white/10 bg-black/50">
@@ -665,7 +741,7 @@
               {metrics.map(([n, l], i) => (
                 <Reveal key={i} y={40} delay={i * 0.08} dur={0.7} className="liquid-glass rounded-xl p-5">
                   <div className="font-instrument text-3xl md:text-4xl text-white">{n}</div>
-                  <div className="text-white/50 text-xs mt-1 leading-snug">{l}</div>
+                  <div className="text-white/65 text-xs mt-1 leading-snug">{l}</div>
                 </Reveal>
               ))}
             </div>
@@ -677,8 +753,8 @@
     /* ---------- SECTION 8 · What we do (services cards) ---------- */
     const Services = () => {
       const cards = [
-        { video: 'web-Prototype/assets/strategy.mp4', tag: 'Compliance', title: 'Evidence and Certification', desc: 'Live DO-178C Table A from the project. Each objective routes to a specialist agent. One click builds a signed HTML + JSON package whose SHA-256 is the audit-trail head. Jama / generic ALM for the requirement register. Print-ready .docx plans and records.' },
-        { video: 'web-Prototype/assets/craft.mp4', tag: 'Verification', title: 'CBMC, CodeQL, catalog', desc: 'Real CBMC bounded model checking. Real CodeQL CLI, offline packs. Vendored analysis-tools-dev (755 tools), executable subset cppcheck, clang-tidy, ESLint, Ruff, ShellCheck. Cyber Assurance is a real-source SBOM with OSV CVE lookup.' },
+        { video: 'web-Prototype/assets/strategy.mp4?v=6', tag: 'Compliance', title: 'Evidence and Certification', desc: 'Live DO-178C Table A from the project. Each objective routes to a specialist agent. One click builds a signed HTML + JSON package whose SHA-256 is the audit-trail head. Jama / generic ALM for the requirement register. Print-ready .docx plans and records.' },
+        { video: 'web-Prototype/assets/craft.mp4?v=6', tag: 'Verification', title: 'CBMC, CodeQL, catalog', desc: 'Real CBMC bounded model checking. Real CodeQL CLI, offline packs. Vendored analysis-tools-dev (755 tools), executable subset cppcheck, clang-tidy, ESLint, Ruff, ShellCheck. Cyber Assurance is a real-source SBOM with OSV CVE lookup.' },
       ];
       return (
         <section className="relative bg-black py-28 md:py-40 px-6 overflow-hidden">
@@ -700,7 +776,7 @@
                       <span className="liquid-glass rounded-full p-2 text-white/80"><i data-lucide="arrow-up-right" className="w-4 h-4"></i></span>
                     </div>
                     <h3 className="text-white text-xl md:text-2xl mb-3 tracking-tight font-semibold">{c.title}</h3>
-                    <p className="text-white/50 text-sm leading-relaxed">{c.desc}</p>
+                    <p className="text-white/65 text-sm leading-relaxed">{c.desc}</p>
                   </div>
                 </Reveal>
               ))}
@@ -719,12 +795,12 @@
         { label: 'Native editor', title: 'Open from MISRA or CodeQL lands in Code-OSS at the line, with Noyce evidence layered on.', src: 'docs/screenshots/2.0.3/editor-native-codeoss.png' },
       ];
       return (
-        <section id="release-203" className="bg-black py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
+        <section id="release-203" className="py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
           <div className="max-w-6xl mx-auto">
             <Reveal y={30} dur={0.7} className="mb-14 max-w-3xl">
               <span className="text-white/40 text-sm tracking-[0.25em] uppercase">New in 2.0.3</span>
               <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Surfaces open as themselves. Analysis reports what it measured.</h2>
-              <p className="text-white/50 text-sm leading-relaxed">The tile named after a graph no longer opens an empty editor with a side strip. The webview Monaco copy is retired. Register Knowledge can index a vendor manual inside Electron. Code Scanning uses vendored query packs instead of a registry download that failed older CLIs. Firmware Memory names the linker it found instead of handing TI Code Composer STM32CubeIDE advice.</p>
+              <p className="text-white/65 text-sm leading-relaxed">The tile named after a graph no longer opens an empty editor with a side strip. The webview Monaco copy is retired. Register Knowledge can index a vendor manual inside Electron. Code Scanning uses vendored query packs instead of a registry download that failed older CLIs. Firmware Memory names the linker it found instead of handing TI Code Composer STM32CubeIDE advice.</p>
             </Reveal>
             <Reveal y={40} dur={0.8} className="liquid-glass p-2 rounded-2xl mb-6">
               <div className="rounded-xl overflow-hidden border border-white/10 bg-black/50">
@@ -764,14 +840,14 @@
         { label: 'Audit Trail', src: 'docs/screenshots/new/14-audit-trail.png' },
       ];
       return (
-        <section id="showcase" className="bg-black py-20 md:py-24 px-6">
+        <section id="showcase" className="py-20 md:py-24 px-6">
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-10">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight">The workbench on firmware.</h2>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {shots.map((s) => (
-                <Reveal key={s.src} y={24} dur={0.55} className="rounded-xl overflow-hidden border border-white/10">
+                <Reveal key={s.src} y={24} dur={0.55} className={'rounded-xl overflow-hidden border border-white/12 ' + (s.label === 'Register Knowledge' ? 'md:col-span-2' : '')}>
                   <img src={s.src} alt={s.label} loading="lazy" className="w-full h-auto" />
                   <div className="px-3 py-2 text-xs text-white/45">{s.label}</div>
                 </Reveal>
@@ -800,15 +876,15 @@
         { os: 'Linux', status: 'Roadmap', sc: 'text-sky-400 bg-sky-400/10', desc: 'Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.', cmd: 'flatpak install dev.noyce.IDE', pkg: 'AppImage · deb', sig: 'sha256 · planned', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist', cta: 'Notify me', primary: false },
       ];
       return (
-        <section id="download" className="bg-black py-20 md:py-24 px-6 border-t border-white/10">
+        <section id="download" className="py-20 md:py-24 px-6 border-t border-white/10">
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight mb-3">Install or review the build.</h2>
-              <p className="text-white/50 text-sm">macOS ships today. Windows is in beta. Source is public for diligence.</p>
+              <p className="text-white/65 text-sm">macOS ships today. Windows is in beta. Source is public for diligence.</p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10">
               {cards.map((c, i) => (
-                <Reveal key={c.os} y={24} delay={i * 0.08} dur={0.55} className="bg-black p-6 flex flex-col">
+                <Reveal key={c.os} y={24} delay={i * 0.08} dur={0.55} className="fill-bg p-6 flex flex-col">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-2xl font-instrument text-white">{c.os}</h3>
                     <span className={'mono text-[11px] rounded-full px-3 py-1 ' + c.sc}>{c.status}</span>
@@ -817,7 +893,7 @@
                   <div className="mb-3"><CopyCmd cmd={c.cmd} /></div>
                   <div className="flex items-center justify-between text-[11px] text-white/40 mono mb-1"><span>package</span><span>{c.pkg}</span></div>
                   <div className="flex items-center gap-2 text-[11px] text-white/40 mono mb-5"><i data-lucide="shield-check" className="w-3.5 h-3.5 text-green-400"></i>{c.sig}</div>
-                  <a href={c.href} className={'rounded-full px-6 py-3 text-sm font-medium flex items-center justify-center gap-2 transition-colors ' + (c.primary ? 'bg-white text-black hover:bg-white/90' : 'liquid-glass text-white hover:bg-white/5')}>
+                  <a href={c.href} className={'btn rounded-full px-6 py-3 text-sm font-medium flex items-center justify-center gap-2 ' + (c.primary ? 'bg-white text-black hover:bg-white/90' : 'border border-white/15 text-white hover:bg-white/5')}>
                     <i data-lucide="download" className="w-4 h-4"></i>{c.cta}
                   </a>
                 </Reveal>
@@ -847,23 +923,23 @@
     /* ---------- Footer ---------- */
     const Footer = () => {
       const cols = [
-        { h: 'Product', links: [['Pitch', '#yc'], ['Product', '#features'], ['Proof', '#proof'], ['Download', '#download']] },
+        { h: 'Product', links: [['Pitch', '#yc'], ['Product', '#features'], ['Architecture', '#models'], ['Proof', '#proof'], ['Download', '#download']] },
         { h: 'Resources', links: [['Docs', 'https://github.com/Hitheshkaranth/noyce-ide-dist#readme'], ['Release notes', 'https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md'], ['Releases', 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases']] },
         { h: 'Community', links: [['GitHub', 'https://github.com/Hitheshkaranth/noyce-ide-dist'], ['Discussions', 'https://github.com/Hitheshkaranth/noyce-ide-dist/discussions'], ['Issues', 'https://github.com/Hitheshkaranth/noyce-ide-dist/issues']] },
       ];
       return (
-        <footer className="bg-black border-t border-white/10 py-14 px-6">
+        <footer className="border-t border-white/10 py-14 px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2 md:col-span-1">
               <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-6 w-auto mb-4 opacity-90" />
-              <p className="text-white/50 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
+              <p className="text-white/65 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
               <p className="text-white/30 text-xs mt-3 mono">v2.0.3 · Free during beta</p>
             </div>
             {cols.map((col) => (
               <div key={col.h}>
                 <h5 className="text-white/80 text-sm font-semibold mb-3">{col.h}</h5>
                 <div className="flex flex-col gap-2">
-                  {col.links.map(([t, href]) => <a key={t} href={href} className="text-white/50 hover:text-white text-sm transition-colors">{t}</a>)}
+                  {col.links.map(([t, href]) => <a key={t} href={href} className="text-white/65 hover:text-white text-sm transition-colors">{t}</a>)}
                 </div>
               </div>
             ))}
@@ -885,7 +961,9 @@
         return () => cancelAnimationFrame(id);
       });
       return (
-        <div className="min-h-screen bg-black text-white selection:bg-white/30">
+        <div className="min-h-screen text-white" style={{ background: 'var(--bg)' }}>
+          <a href="#yc" className="skip">Skip to content</a>
+          <Navbar />
           <Hero />
           <About />
           <Featured />
