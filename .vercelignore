@@ -1,0 +1,7 @@
+.git
+node_modules
+pitch
+.cursor
+vite-app
+presentation
+*.mov
