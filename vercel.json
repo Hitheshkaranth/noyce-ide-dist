@@ -4,8 +4,24 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.noyce-ide.tech"
+        }
+      ],
+      "destination": "https://noyce-ide.tech/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.noyce-ide.tech" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.noyce-ide.tech"
+        }
+      ],
       "destination": "https://noyce-ide.tech/:path*",
       "permanent": true
     }
