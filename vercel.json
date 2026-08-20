@@ -1,5 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.noyce-ide.tech" }],
+      "destination": "https://noyce-ide.tech/:path*",
+      "permanent": true
+    }
+  ]
 }
