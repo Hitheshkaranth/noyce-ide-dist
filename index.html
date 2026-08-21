@@ -9,11 +9,12 @@
   <meta property="og:title" content="Noyce IDE - AI workbench for certifiable firmware." />
   <meta property="og:description" content="A Code-OSS IDE for DO-178C, ISO 26262, and MISRA teams. Twenty-six full-pane surfaces, native editing, Register Knowledge, CBMC, and offline CodeQL." />
   <meta property="og:url" content="https://noyce-ide.tech/" />
-  <meta property="og:image" content="https://noyce-ide.tech/icons_resources/icon_large.png" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
+  <meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Noyce IDE - the AI-native Code-OSS workbench for firmware that has to certify." />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://noyce-ide.tech/icons_resources/icon_large.png" />
+  <meta name="twitter:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1" />
   <link rel="canonical" href="https://noyce-ide.tech/" />
   <title>Noyce IDE - AI workbench for certifiable firmware</title>
 
@@ -442,16 +443,22 @@
       </section>
     );
 
-    const LoopVideo = ({ src, className }) => {
+    const LoopVideo = ({ src, className, poster }) => {
       const ref = useRef(null);
       useEffect(() => {
         const v = ref.current; if (!v) return;
-        const play = () => { v.muted = true; v.play().catch(() => {}); };
-        v.addEventListener('canplay', play);
-        play();
-        return () => v.removeEventListener('canplay', play);
+        const load = () => {
+          if (!v.getAttribute('src')) { v.preload = 'auto'; v.setAttribute('src', src); }
+          v.muted = true; v.play().catch(() => {});
+        };
+        if (typeof IntersectionObserver === 'undefined') { load(); return; }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => { if (e.isIntersecting) { load(); } else { v.pause(); } });
+        }, { rootMargin: '250px 0px' });
+        io.observe(v);
+        return () => io.disconnect();
       }, [src]);
-      return <video ref={ref} src={src} className={className} muted autoPlay loop playsInline preload="auto" />;
+      return <video ref={ref} poster={poster} className={className} muted loop playsInline preload="none" />;
     };
 
     const Featured = () => (
@@ -475,10 +482,10 @@
     const VendorRoll = () => {
       const row = REDUCE ? VENDORS : VENDORS.concat(VENDORS, VENDORS, VENDORS);
       return (
-        <section className="pb-16 md:pb-20 px-6" aria-label="Silicon vendors exercised in Noyce IDE">
+        <section className="pb-16 md:pb-20 px-6" aria-label="Silicon families and vendor toolchains supported by Noyce IDE">
           <div className="max-w-6xl mx-auto">
-            <p className="text-white/55 text-sm text-center mb-2">Tested on silicon</p>
-            <p className="text-white/65 text-sm text-center mb-8 max-w-xl mx-auto">The live project is a Texas Instruments Tiva controller. ST and NXP boards import through the same pin, SVD, and schematic path.</p>
+            <p className="mono text-[11px] text-white/40 text-center uppercase tracking-[0.18em] mb-3">Silicon and toolchains supported</p>
+            <p className="text-white/65 text-sm text-center mb-8 max-w-xl mx-auto">Vendor families Noyce imports and has been exercised against. These are supported targets, not customers or endorsements. The live project is a Texas Instruments Tiva controller; ST and NXP boards import through the same pin, SVD, and schematic path.</p>
             <div className="vendor-window rounded-2xl border border-white/12 py-8">
               <div className="vendor-track" style={REDUCE ? { animation: 'none', width: '100%', justifyContent: 'center' } : undefined}>
                 {row.map((v, i) => (
@@ -985,7 +992,7 @@
               {cards.map((c, i) => (
                 <Reveal key={i} y={50} delay={i * 0.15} dur={0.8} className="liquid-glass rounded-3xl overflow-hidden group">
                   <div className="relative aspect-video overflow-hidden">
-                    <video src={c.video} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" muted autoPlay loop playsInline preload="auto" />
+                    <LoopVideo src={c.video} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
                   </div>
                   <div className="p-6 md:p-8">
@@ -1145,7 +1152,7 @@
       const cols = [
         { h: 'Product', links: [['How it works', '#how'], ['Pitch', '#yc'], ['Product', '#features'], ['Architecture', '#models'], ['Proof', '#proof'], ['Compare', '#compare'], ['Download', '#download']] },
         { h: 'Resources', links: [['Docs', 'https://github.com/Hitheshkaranth/noyce-ide-dist#readme'], ['Release notes', 'https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md'], ['Releases', 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases']] },
-        { h: 'Company', links: [['Team', '#team'], ['Traction', '#traction'], ['The name', '#name'], ['Contact', '#contact'], ['Email', 'mailto:' + CONTACT_EMAIL]] },
+        { h: 'Company', links: [['Team', '#team'], ['Market', '#market'], ['Traction', '#traction'], ['The name', '#name'], ['Contact', '#contact'], ['Email', 'mailto:' + CONTACT_EMAIL]] },
       ];
       return (
         <footer className="border-t border-white/10 py-14 px-6">
@@ -1359,6 +1366,80 @@
                 </tbody>
               </table>
             </Reveal>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- SECTION 9B2 · Market ---------- */
+    const Market = () => {
+      const cost = [
+        ['~$100', 'per line of code to produce certification evidence on some programs'],
+        ['$25M+', 'and five or more years to certify a complex DO-178C system'],
+      ];
+      const spend = [
+        ['$5.2B', 'static analysis tooling, 2025'],
+        ['$12.4B', 'the same market by 2034, at 10.2% CAGR'],
+        ['$27.6B', 'embedded software overall, 2025'],
+      ];
+      return (
+        <section id="market" className="py-20 md:py-24 px-6 border-t border-white/10">
+          <div className="max-w-6xl mx-auto">
+            <Reveal y={24} dur={0.6} className="mb-12 max-w-2xl">
+              <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight mb-4">Evidence is the expensive half.</h2>
+              <p className="text-white/65 text-sm leading-relaxed">
+                Certification is not paperwork bolted on at the end. It is a large, funded line item that today is spent on engineers assembling documents by hand. Noyce is aimed at that line, not at the editor subscription next to it.
+              </p>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10">
+              <div className="fill-bg p-7 md:p-9">
+                <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-6">What the status quo costs</div>
+                <div className="flex flex-col gap-7">
+                  {cost.map(([n, l]) => (
+                    <div key={n}>
+                      <div className="font-instrument text-3xl md:text-4xl text-white">{n}</div>
+                      <div className="text-white/60 text-xs mt-2 leading-snug max-w-xs">{l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="fill-bg p-7 md:p-9">
+                <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-6">What teams already pay for tooling</div>
+                <div className="flex flex-col gap-7">
+                  {spend.map(([n, l]) => (
+                    <div key={n}>
+                      <div className="font-instrument text-3xl md:text-4xl text-white">{n}</div>
+                      <div className="text-white/60 text-xs mt-2 leading-snug max-w-xs">{l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <Reveal y={20} dur={0.55} className="fill-bg border border-white/10 border-t-0 p-7 md:p-9">
+              <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-6">Bottom-up · our estimate</div>
+              <div className="flex flex-wrap items-end gap-x-6 gap-y-5">
+                {[['100,000', 'target engineers'], ['$3,000', 'per seat / year']].map(([n, l], i) => (
+                  <React.Fragment key={n}>
+                    {i > 0 && <span className="font-instrument text-2xl text-white/25 pb-2">×</span>}
+                    <div>
+                      <div className="font-instrument text-3xl md:text-4xl text-white">{n}</div>
+                      <div className="text-white/50 text-xs mt-1.5">{l}</div>
+                    </div>
+                  </React.Fragment>
+                ))}
+                <span className="font-instrument text-2xl text-white/25 pb-2">=</span>
+                <div>
+                  <div className="font-instrument text-3xl md:text-4xl text-sky-300">$300M</div>
+                  <div className="text-white/50 text-xs mt-1.5">serviceable market</div>
+                </div>
+              </div>
+              <p className="text-white/45 text-xs leading-relaxed mt-7 max-w-2xl">
+Roughly five thousand teams of twenty engineers, in the segments that must produce certification evidence before they ship. That is a slice of the tooling spend above, not a claim on all of it, and it counts only seats Noyce can serve today: a team already buys the editor, the analyzers, the requirements manager, and the traceability layer separately.
+              </p>
+            </Reveal>
+            <p className="text-white/30 text-[11px] leading-relaxed mt-6 max-w-3xl">
+              Certification cost figures reported by <a href="https://interactive.aviationtoday.com/avionicsmagazine/february-2017-march-2017/do-178c-software-for-nextgen-avionics-uavs-and-more/" target="_blank" rel="noreferrer" className="underline hover:text-white/50">Avionics Magazine</a>. Tooling market figures from <a href="https://www.verifiedmarketreports.com/product/static-analysis-tools-market/" target="_blank" rel="noreferrer" className="underline hover:text-white/50">Verified Market Reports</a> and <a href="https://www.grandviewresearch.com/industry-analysis/embedded-software-market-report" target="_blank" rel="noreferrer" className="underline hover:text-white/50">Grand View Research</a>. Third-party estimates, quoted as published. The bottom-up figure is our own estimate, shown as its inputs so it can be checked.
+            </p>
           </div>
         </section>
       );
@@ -1578,6 +1659,7 @@
           <Release203 />
           <Showcase />
           <Competition />
+          <Market />
           <Traction />
           <Team />
           <Download />
