@@ -413,7 +413,7 @@
             The AI-native Code-OSS workbench for firmware that has to certify.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 mt-9">
-            <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3" className="btn bg-white text-black px-6 py-2.5 rounded-full font-medium text-sm hover:bg-white/90">Download for macOS</a>
+            <a href="#contact" className="btn bg-white text-black px-6 py-2.5 rounded-full font-medium text-sm hover:bg-white/90">Contact for early access</a>
             <a href="#how" className="text-white/80 hover:text-white text-sm font-medium px-3 py-2">See how it works</a>
           </div>
           <div className="mt-16 w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-8">
@@ -1145,12 +1145,11 @@
       const cols = [
         { h: 'Product', links: [['How it works', '#how'], ['Pitch', '#yc'], ['Product', '#features'], ['Architecture', '#models'], ['Proof', '#proof'], ['Compare', '#compare'], ['Download', '#download']] },
         { h: 'Resources', links: [['Docs', 'https://github.com/Hitheshkaranth/noyce-ide-dist#readme'], ['Release notes', 'https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md'], ['Releases', 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases']] },
-        { h: 'Community', links: [['GitHub', 'https://github.com/Hitheshkaranth/noyce-ide-dist'], ['Discussions', 'https://github.com/Hitheshkaranth/noyce-ide-dist/discussions'], ['Issues', 'https://github.com/Hitheshkaranth/noyce-ide-dist/issues']] },
         { h: 'Company', links: [['Team', '#team'], ['Traction', '#traction'], ['The name', '#name'], ['Contact', '#contact'], ['Email', 'mailto:' + CONTACT_EMAIL]] },
       ];
       return (
         <footer className="border-t border-white/10 py-14 px-6">
-          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-8">
+          <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2 md:col-span-1">
               <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-6 w-auto mb-4 opacity-90" />
               <p className="text-white/65 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
@@ -1467,9 +1466,6 @@
               <div className="flex flex-col gap-3">
                 <a href={'mailto:' + CONTACT_EMAIL} className="flex items-center gap-3 text-white/70 hover:text-white text-sm transition-colors">
                   <i data-lucide="mail" className="w-4 h-4 text-sky-300/70"></i> {CONTACT_EMAIL}
-                </a>
-                <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/discussions" target="_blank" rel="noreferrer" className="flex items-center gap-3 text-white/70 hover:text-white text-sm transition-colors">
-                  <i data-lucide="messages-square" className="w-4 h-4 text-sky-300/70"></i> Public discussions on GitHub
                 </a>
               </div>
             </Reveal>
