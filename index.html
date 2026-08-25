@@ -923,7 +923,7 @@
           <div className="max-w-6xl mx-auto">
             <Reveal y={24} dur={0.6} className="mb-10 max-w-2xl">
               <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight mb-3">Tested on multiple safety-critical firmware.</h2>
-              <p className="text-white/65 text-sm">The workbench is exercised across certifiable firmware trees. Figures below are from a running 2.0.3 Code-OSS build after analysis finished. Empty or unsupported views say so.</p>
+              <p className="text-white/65 text-sm">The workbench is exercised across certifiable firmware trees. Figures below are from a running 2.0.4 Code-OSS build after analysis finished. Empty or unsupported views say so.</p>
             </Reveal>
             <Reveal y={30} dur={0.7} className="rounded-xl overflow-hidden border border-white/10 mb-12">
               <img src="screenshots/10-pin-configurator.png" alt="Pin Configurator showing the TM4C1294NCPDT TQFP128 package with mux state imported from the vendor project" className="w-full h-auto" />
@@ -1005,6 +1005,64 @@
                   </div>
                 </Reveal>
               ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    const Release204 = () => {
+      const points = [
+        {
+          k: 'The run',
+          t: 'One reproducible act against one frozen configuration.',
+          d: 'A command freezes the commit, the working-tree state and the assurance level, executes every evidence producer in order, and writes an append-only record anchored to the audit-ledger head. Two runs over an unchanged tree share an assessment digest, so a regression is detectable rather than plausible.',
+        },
+        {
+          k: 'Real denominators',
+          t: 'All 71 Level A objectives, reported as ratios.',
+          d: 'A table with one measured objective out of thirteen reports one of thirteen, and can never render as a pass. Objective wording is licensed by RTCA and is not shipped: objectives stay identified by number until you load your own copy. Nothing here invents a fallback.',
+        },
+        {
+          k: 'Did not run',
+          t: 'A producer that did not execute claims nothing.',
+          d: 'Not a zero, not a failing claim. Coverage analysed but never measured produces no claim. CBMC with zero properties proves nothing. And the CBMC and CodeQL sample fallbacks, which are right for a panel, are treated as did-not-run: a sample in a signed package is fabricated evidence.',
+        },
+        {
+          k: 'Verification',
+          t: 'Cases and results, not prose a model wrote.',
+          d: 'A case with no result is not-run, never a pass. A host result does not discharge target compatibility. Coverage shortfall is classified as a missing case, dead code, deactivated code with its means of prevention, or justified with an approver, and a missing case is never a resolution.',
+        },
+        {
+          k: 'Process',
+          t: 'The half of Annex A no analyser reaches.',
+          d: 'Problem reports whose closure needs a disposition and a confirmation by someone else. Review records whose independence is derived from author not equal to reviewer, never asserted. And the conformity checklist an SOI 4 opens with, where a question the evidence cannot answer is not a pass.',
+        },
+      ];
+      return (
+        <section id="release-204" className="py-24 md:py-32 px-6 border-t border-white/5 overflow-hidden">
+          <div className="max-w-6xl mx-auto">
+            <Reveal y={30} dur={0.7} className="mb-14 max-w-3xl">
+              <span className="text-white/40 text-sm tracking-[0.25em] uppercase">New in 2.0.4</span>
+              <h2 className="font-instrument text-4xl md:text-6xl text-white tracking-tight mt-3 mb-4">Compliance becomes a record, not a reading.</h2>
+              <p className="text-white/65 text-sm leading-relaxed">
+                Every compliance surface answered what is true right now. That is useful while working and useless as evidence: two people on two days saw two different answers, and neither could name the configuration the answer was about. A certification authority asks the opposite question, and now there is something that answers it.
+              </p>
+            </Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {points.map((pt, i) => (
+                <Reveal key={pt.k} y={40} delay={(i % 2) * 0.08} dur={0.7} className="liquid-glass p-6 rounded-2xl flex flex-col">
+                  <span className="mono text-[11px] text-sky-300/80 uppercase tracking-wider">{pt.k}</span>
+                  <h3 className="text-white text-lg font-medium mt-2 mb-2 tracking-tight">{pt.t}</h3>
+                  <p className="text-white/60 text-sm leading-relaxed">{pt.d}</p>
+                </Reveal>
+              ))}
+              <Reveal y={40} delay={0.08} dur={0.7} className="rounded-2xl border border-white/10 p-6 flex flex-col justify-center">
+                <span className="mono text-[11px] text-white/40 uppercase tracking-wider">Known gap</span>
+                <p className="text-white/55 text-sm leading-relaxed mt-2">
+                  The Software Configuration Index is not yet built from the real toolchain output, so the conformity review reports that none has been produced and that question fails. Stated here rather than left for you to find.
+                </p>
+              </Reveal>
             </div>
           </div>
         </section>
@@ -1098,8 +1156,8 @@
     };
     const Download = () => {
       const cards = [
-        { os: 'macOS', status: 'Released', sc: 'text-green-400 bg-green-400/10', desc: 'macOS 13 Ventura or later. arm64 native, x86_64 supported.', cmd: 'brew install --cask noyce-ide', pkg: 'arm64 · 381 MB', sig: 'ed25519 · notarized', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3', cta: 'Download · arm64', primary: true },
-        { os: 'Windows', status: 'Beta', sc: 'text-amber-400 bg-amber-400/10', desc: 'Windows 11 · x64 · code-signed · system installer.', cmd: 'winget install Noyce.IDE', pkg: 'x64 · 180 MB', sig: 'Authenticode · signed', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.3', cta: 'Download · x64', primary: false },
+        { os: 'macOS', status: 'Released', sc: 'text-green-400 bg-green-400/10', desc: 'macOS 13 Ventura or later. arm64 native, x86_64 supported.', cmd: 'brew install --cask noyce-ide', pkg: 'arm64 · 381 MB', sig: 'ed25519 · notarized', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.4', cta: 'Download · arm64', primary: true },
+        { os: 'Windows', status: 'Beta', sc: 'text-amber-400 bg-amber-400/10', desc: 'Windows 11 · x64 · code-signed · system installer.', cmd: 'winget install Noyce.IDE', pkg: 'x64 · 180 MB', sig: 'Authenticode · signed', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist/releases/tag/v2.0.4', cta: 'Download · x64', primary: false },
         { os: 'Linux', status: 'Roadmap', sc: 'text-sky-400 bg-sky-400/10', desc: 'Ubuntu 22.04+, Fedora 39+, AppImage and deb. Q3 2026.', cmd: 'flatpak install dev.noyce.IDE', pkg: 'AppImage · deb', sig: 'sha256 · planned', href: 'https://github.com/Hitheshkaranth/noyce-ide-dist', cta: 'Notify me', primary: false },
       ];
       return (
@@ -1160,7 +1218,7 @@
             <div className="col-span-2 md:col-span-1">
               <img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" className="h-6 w-auto mb-4 opacity-90" />
               <p className="text-white/65 text-sm leading-relaxed max-w-xs">An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
-              <p className="text-white/30 text-xs mt-3 mono">v2.0.3 · Free during beta</p>
+              <p className="text-white/30 text-xs mt-3 mono">v2.0.4 · Free during beta</p>
             </div>
             {cols.map((col) => (
               <div key={col.h}>
@@ -1232,7 +1290,7 @@
           ['out', 'A-3  SRS and design       System Designer   done'],
           ['out', 'A-5  source conformance   Coder             done'],
           ['out', 'A-7  review records       Reviewer          done'],
-          ['dim', 'wrote .noyce/evidence/package-2.0.3.html'],
+          ['dim', 'wrote .noyce/evidence/package-2.0.4.html'],
           ['ok', 'sha256 4f9c...a1e3  ->  audit head advanced'],
         ],
       },
@@ -1450,7 +1508,7 @@ Roughly five thousand teams of twenty engineers, in the segments that must produ
       const stats = [
         ['5', 'beta users on the notarized macOS build'],
         ['4', 'firmware projects taken through a full pass'],
-        ['2.0.3', 'public dist, source open for technical review'],
+        ['2.0.4', 'public dist, source open for technical review'],
       ];
       return (
         <section id="traction" className="py-20 md:py-24 px-6 border-t border-white/10">
@@ -1656,6 +1714,7 @@ Roughly five thousand teams of twenty engineers, in the segments that must produ
           <VModel />
           <Proof />
           <Compliance />
+          <Release204 />
           <Release203 />
           <Showcase />
           <Competition />
