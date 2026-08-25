@@ -1688,6 +1688,41 @@ Roughly five thousand teams of twenty engineers, in the segments that must produ
       </section>
     );
 
+    /* ---------- SECTION 14 · Demo video ---------- */
+    const DemoVideo = () => (
+      <section id="demo" className="py-20 md:py-24 px-6 border-t border-white/10">
+        <div className="max-w-6xl mx-auto">
+          <Reveal y={24} dur={0.6}>
+            <div className="mono text-[11px] text-sky-300/80 uppercase tracking-wider mb-4">Demo</div>
+            <h2 className="font-instrument text-3xl md:text-5xl text-white tracking-tight leading-[1.05] max-w-3xl">
+              Watch the workbench <span className="italic text-white/70">run end to end.</span>
+            </h2>
+            <p className="text-white/55 text-sm md:text-base leading-relaxed mt-4 max-w-2xl">
+              A full walkthrough of the pin graph, the register knowledge path, and the signed certification package coming out the other side.
+            </p>
+          </Reveal>
+          <Reveal y={40} dur={0.8} delay={0.08} className="mt-10 rounded-2xl overflow-hidden border border-white/12 shadow-[0_0_0_1px_rgba(255,255,255,0.04)]">
+            <div className="relative aspect-video bg-black">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/x4v59PTN_8k?rel=0&modestbranding=1"
+                title="Noyce IDE demo"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full border-0"
+              ></iframe>
+            </div>
+          </Reveal>
+          <a href="https://youtu.be/x4v59PTN_8k" target="_blank" rel="noreferrer"
+            className="inline-flex items-center gap-2 text-sky-300/90 hover:text-sky-200 text-sm font-medium transition-colors mt-6">
+            Watch on YouTube
+            <i data-lucide="arrow-up-right" className="w-4 h-4"></i>
+          </a>
+        </div>
+      </section>
+    );
+
     /* ---------- App ---------- */
     const App = () => {
       useEffect(() => {
@@ -1725,6 +1760,7 @@ Roughly five thousand teams of twenty engineers, in the segments that must produ
           <Contact />
           <CTA />
           <NamedFor />
+          <DemoVideo />
           <Footer />
         </div>
       );
