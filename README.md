@@ -16,7 +16,8 @@ Code-OSS based desktop workbench that brings **requirements, source, certificati
 [![Monaco](https://img.shields.io/badge/Monaco-Editor-1E1E1E?style=flat-square&logo=microsoft&logoColor=white)](https://microsoft.github.io/monaco-editor/)
 [![D3](https://img.shields.io/badge/D3.js-7.x-F9A03C?style=flat-square&logo=d3.js&logoColor=white)](https://d3js.org/)
 [![Playwright](https://img.shields.io/badge/Tested-Playwright-2EAD33?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev/)
-[![Version](https://img.shields.io/badge/version-2.0.4-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest)
+[![CI](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml/badge.svg)](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml)
+[![Version](https://img.shields.io/badge/version-2.0.5-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest)
 [![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](#license)
 
 [**Quick Start**](#quick-start) · [**Features**](#features) · [**Architecture**](#architecture) · [**Build & Release**](#build--release) · [**Distribution**](https://github.com/Hitheshkaranth/noyce-ide-dist)
@@ -48,6 +49,14 @@ Branded as a polished Code-OSS Electron app on a clean shadcn-neutral design sys
 ## Screenshots
 
 > Every screenshot below is captured from the running **Code-OSS Electron build** with a **real firmware project open** — the TI **Tiva TM4C1294NCPDT** *Canister Main Controller* firmware, imported from source. Each surface is rendered live against that project's code, requirements, pin map, and schematic; the analysis surfaces (MC/DC, coupling, schematic BoM, architecture) are re-run against the loaded firmware for every capture. Nothing here is a mockup or a browser preview.
+
+### New in 2.0.5 — evidence that can drive the work
+
+The compliance record introduced in `2.0.4` is now connected to the work that produces it. A new **Certification Readiness** command center identifies configuration, parameter-data, tool-qualification, verification, coverage, and review gaps; the AI Orchestrator turns those gaps into dependency-safe specialist tasks and reports what actually ran. Evidence records are writable, build identity is gated, and generated artifacts are excluded from the semantic index so the IDE does not mistake its own output for project truth.
+
+Structural coverage now comes from measured host execution, attributed to the module under test instead of its harness, with statement, decision, and MC/DC obligations flowing through one source. Verification results can be imported from Unity output, unmatched tests remain visible as orphans, and concurrency, persistence, model controls, and usage totals have been hardened across agent runs.
+
+The workbench also loads one registered surface per webview instead of eagerly mounting every surface. Project Graph and Traceability are distinct tabs again, Project Graph retains all of `lodash-es` in the production bundle, and runtime, accessibility, document-generation, and release-script faults found by CI and live Code-OSS testing are fixed. The release adds broad unit, integration, quality-invariant, and seven-batch compliance E2E coverage.
 
 ### New in 2.0.4 — compliance becomes a record, not a reading
 
@@ -184,6 +193,12 @@ A local nomic-embedding RAG index over the code + requirements powers natural-la
 ---
 
 ### Requirements, coverage & certification (DO-178C)
+
+#### Compliance Run — one reproducible act against one frozen configuration
+
+Every other surface on this page reads whatever is on disk at the moment it renders. This one records: it freezes the commit, the working-tree state and the assurance level, executes each evidence producer in order — documents, traceability, static analysis, code scanning, formal verification, verification cases, structural coverage, coupling, problem reports, reviews, audit trail — and writes the claims, the Annex A assessment and the conformity review into an append-only directory under `.noyce/compliance-runs/`, anchored to the audit-ledger head.
+
+The Annex A table shows each of the ten tables against its real denominator, with the substantiation class beside it: **tool evidence**, **tool assisted**, **process record** (a named person on a date), or **process only — no tool**. Producers that did not execute are listed as *did not run* with the reason, and contribute nothing. The run diff reports what moved since the last one, and the export blockers say plainly why a package cannot be produced yet — a dirty tree, a failing measurement, a conformity question the recorded evidence cannot answer.
 
 #### Requirements & Evidence — ALM bridge with a per-requirement evidence ledger
 
@@ -436,7 +451,7 @@ npm run release:signing:check     # verify code-signing env
 
 ## Distribution
 
-End-user downloads live at [`Hitheshkaranth/noyce-ide-dist`](https://github.com/Hitheshkaranth/noyce-ide-dist). This repository hosts the source; the dist repository ships installers.
+This repository hosts the public product page, release notes, and end-user installers. The technical source lives at [`Hitheshkaranth/noyce_ide`](https://github.com/Hitheshkaranth/noyce_ide).
 
 ## License
 

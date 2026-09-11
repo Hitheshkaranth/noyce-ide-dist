@@ -1,3 +1,30 @@
+# Noyce IDE v2.0.5 Release
+
+This release connects compliance evidence to the engineering work that produces it, measures coverage from execution, and makes the workbench and agent runtime materially more reliable.
+
+## Certification readiness and evidence flow
+
+- A new **Certification Readiness** command center evaluates configuration identification, parameter data, tool qualification, verification, coverage, reviews, and conformity gaps from recorded evidence.
+- The AI Orchestrator converts compliance objectives into dependency-safe specialist chains, persists concurrent work correctly, exposes model controls and usage, and reports what actually ran instead of inferring completion.
+- Evidence records can be authored and stored. Configuration indexes identify the built baseline, parameter-data and tool registers are first-class records, and the compliance gate refuses empty or unverifiable claims.
+- Semantic retrieval filters generated Noyce output at the shared ingestion boundary, warns when an index predates the exclusion rules, and includes a retrieval benchmark so the IDE does not cite its own generated documents as project truth.
+
+## Measured verification
+
+- Host instrumentation records statement, decision, and MC/DC coverage against the module under test rather than its test harness.
+- Coverage obligations and measured results feed a single attribution path across the coverage panel, compliance assessment, and evidence package.
+- Unity test output becomes structured verification execution records. Unmatched tests remain visible as orphans and cannot silently discharge a verification case.
+- Certification readiness, conformity review, and compliance orchestration now distinguish missing, stale, sample, and genuinely measured evidence.
+
+## Workbench and runtime reliability
+
+- The Code-OSS host loads one registered surface per webview instead of eagerly mounting every workbench surface.
+- Project Graph and Traceability are separate secondary tabs, and the Project Graph production bundle preserves `lodash-es` so clustering no longer crashes at runtime.
+- Telemetry startup, document handoff and authoring, generated-document scripts, accessibility, long-running release-script output, and CI fixture/bootstrap paths are hardened.
+- New unit, integration, quality-invariant, and seven-batch Code-OSS compliance E2E suites cover the release paths.
+
+---
+
 # Noyce IDE v2.0.4 Release
 
 Compliance stops being a reading of the current disk and becomes a record. Every surface here used to answer *what is true right now* — useful while working, useless as evidence, because two people on two days saw two different answers and neither could name the configuration the answer was about. This release adds the thing a certification authority actually asks for: as of this commit, what was measured, by what, and what is still outstanding.
