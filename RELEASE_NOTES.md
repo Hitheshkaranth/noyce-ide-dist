@@ -1,3 +1,53 @@
+# Noyce IDE v2.0.6 Release
+
+## A new interface
+- The whole IDE moved from HeroUI to **shadcn/ui** (Radix primitives, Tailwind 4, React 19) on one dark theme, page by page; HeroUI is removed.
+- One visual vocabulary for work in flight across every surface; live-AI motion appears only where a model is actually working.
+
+## DO-178C DAL A, end to end
+Taking a real motor-controller code base from prototype to DAL A inside the IDE drove these changes.
+- **Document completion.** Every open item is classified as a proposal, an engineer decision or missing evidence, and each has a way to close. A document issues only when nothing is open; *Done* means issued.
+- **Agent-proposed decisions.** Engineering-judgment sections are drafted by an agent with decision, rationale, workspace evidence and confidence, and wait in a review queue. Acceptance is recorded as an independent review and an audit event; unsupported safety claims are flagged.
+- **17 documents.** SRSTD, SDSTD, SCSTD, SECI and TRACE join the set; documents can be regenerated as a new revision that keeps human-written sections, and stale documents are detected from their recorded inputs.
+- **Requirements.** HLR editor over SRS-001 with per-requirement lint; system-requirement import (CSV, ReqIF-lite, Markdown); LLR authoring accepted only by human review.
+- **Independence.** A project roster of people; reviews carry author and reviewer, and AI reviews are labelled AI-assisted with no independence credit.
+- **Problem reports and CCB.** AC/AMC 20-189 classes, safety effect, root cause, CCB decisions and independent closure.
+- **Set consistency.** Facts are cross-checked across documents and the package; contradictions block a baseline unless a named person records a waiver.
+- **Evidence grading.** Each Annex A objective is graded only from its own mapped evidence; generated evidence is a draft capped at *partial*; *satisfied* needs an independent human review.
+- **Gated code changes.** Agent, MISRA, CodeQL and CBMC fixes become change sets citing a PR/CR, gated on integrity, build, unit tests and no new MISRA findings.
+- **Verification tooling.** Requirements-based tests per HLR/LLR (normal, boundary, robustness); CBMC harnesses per function with a vacuity check; on-target runs over probe-rs and RTT.
+- **Portable builds.** Makefile/toolchain generation from STM32CubeIDE, TI CCS, Keil MDK and CubeMX projects.
+
+## Annex A objective workbench
+- Map each objective to the evidence that discharges it; record checklists and qualified reviews against it. All 71 Level A objectives are reported as ratios.
+
+## AI Orchestrator
+- Cards show live phase, tokens and rate; the header shows the live model, context and concurrency; usage is measured per stream.
+- Compliance objectives become cards with one canonical id, run by a worker pool; cards no longer stall mid-sprint or strand in progress.
+- Local-model repetition loops are stopped mid-stream.
+
+## Separate embedding server
+- Semantic Search and agent grounding embedded through the chat server; a chat-only vLLM server failed with "model … is not being served right now". AI Models → Embeddings now sets a separate server (Ollama, LM Studio/vLLM or OpenAI), with a save-and-test check that reports the vector size.
+- With an Ollama chat server, retrieval embeds with `nomic-embed-text` instead of the chat model.
+
+## Agents panel
+- Shows the model the server actually serves (an endpoint ending in `/v1` was doubled to `/v1/v1`).
+- Sends the AI Models API key to key-protected vLLM servers, only to the origin it was set for.
+- Says "not reachable" instead of presenting a hard-coded fallback as the selection.
+- No longer overlaps itself in a narrow sidebar; rebuilt bundles are no longer served from the webview cache.
+
+## Release builds
+- The Windows release failed when `@vscode/ripgrep` was rate-limited fetching its binary from the GitHub API (HTTP 403); both release workflows now authenticate that download.
+
+## Accuracy, security and performance
+- Zero findings counts as a clean scan only if a scan happened; CodeQL is not counted as measured by default; a cyber posture score needs a vulnerability source.
+- Exported HTML reports escape the text they interpolate; agent-authored paths are confined to the project; a failed audit-ledger write is recorded rather than lost.
+- Patched `adm-zip` (GHSA-vwc7-r8mq-g2x9, GHSA-7q85-xj36-vmfc).
+- Source scans skip the IDE's own `.noyce/` output (annotation scan 25,356 → 113 files; workspace tree 15,003 → 149 nodes); the project graph is not rebuilt when nothing changed; CodeGraph builds with the IDE.
+- UI fixes: white primary buttons in hardware views, duplicate "Verified" badge, serif graph labels on macOS, readiness ring visibility.
+
+---
+
 # Noyce IDE v2.0.5 Release
 
 This release connects compliance evidence to the engineering work that produces it, measures coverage from execution, and makes the workbench and agent runtime materially more reliable.

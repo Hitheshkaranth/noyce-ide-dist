@@ -1,0 +1,277 @@
+{
+  "version": "2.0.6",
+  "project": "CANISTER_H_BRIDGE_CONTROLLER_V1 (STM32G431)",
+  "capturedFrom": "Code-OSS Electron build",
+  "pages": [
+    {
+      "file": "00-getting-started.png",
+      "title": "Getting Started",
+      "command": "noyce.showDashboard"
+    },
+    {
+      "file": "01-ai-orchestrator.png",
+      "title": "AI Orchestrator",
+      "command": "noyce.lifecycle.showAiOrchestrator"
+    },
+    {
+      "file": "02-ai-models.png",
+      "title": "AI Models",
+      "command": "noyce.lifecycle.showModels"
+    },
+    {
+      "file": "03-agents-chat.png",
+      "title": "Agents Chat",
+      "command": "noyce.lifecycle.openAgentsChat"
+    },
+    {
+      "file": "04-semantic-search.png",
+      "title": "Semantic Search",
+      "command": "noyce.showSemanticSearch"
+    },
+    {
+      "file": "05-requirements.png",
+      "title": "Requirements & Evidence",
+      "command": "noyce.compliance.showRequirements"
+    },
+    {
+      "file": "06-requirements-authoring.png",
+      "title": "Requirements Authoring",
+      "command": "noyce.compliance.showRequirementsAuthoring"
+    },
+    {
+      "file": "07-low-level-requirements.png",
+      "title": "Low-Level Requirements",
+      "command": "noyce.compliance.showLowLevelRequirements"
+    },
+    {
+      "file": "08-traceability-graph.png",
+      "title": "Traceability Graph",
+      "command": "noyce.compliance.showTraceability"
+    },
+    {
+      "file": "09-annotations.png",
+      "title": "Annotation Navigator",
+      "command": "noyce.compliance.showAnnotations"
+    },
+    {
+      "file": "10-compliance-dashboard.png",
+      "title": "Compliance Dashboard",
+      "command": "noyce.compliance.showDashboard"
+    },
+    {
+      "file": "11-compliance-run.png",
+      "title": "Compliance Run",
+      "command": "noyce.compliance.showRun"
+    },
+    {
+      "file": "12-certification-readiness.png",
+      "title": "Certification Readiness",
+      "command": "noyce.compliance.showReadiness"
+    },
+    {
+      "file": "13-evidence-records.png",
+      "title": "Evidence Records",
+      "command": "noyce.compliance.showRecords"
+    },
+    {
+      "file": "14-misra-diagnostics.png",
+      "title": "Static Analysis (MISRA)",
+      "command": "noyce.compliance.showMisra"
+    },
+    {
+      "file": "15-analysis-tools.png",
+      "title": "Analysis Tools",
+      "command": "noyce.compliance.showAnalysisTools"
+    },
+    {
+      "file": "16-formal-verification.png",
+      "title": "CBMC Formal Verification",
+      "command": "noyce.compliance.showFormalVerification"
+    },
+    {
+      "file": "17-codeql-scanning.png",
+      "title": "CodeQL Code Scanning",
+      "command": "noyce.compliance.showCodeScanning"
+    },
+    {
+      "file": "18-test-explorer.png",
+      "title": "Test Explorer",
+      "command": "noyce.telemetry.showTestExplorer"
+    },
+    {
+      "file": "19-mcdc-coverage.png",
+      "title": "MC/DC Coverage",
+      "command": "noyce.compliance.showMcdcCoverage"
+    },
+    {
+      "file": "20-coupling.png",
+      "title": "Data & Control Coupling",
+      "command": "noyce.compliance.showCouplingAnalysis"
+    },
+    {
+      "file": "21-object-code-trace.png",
+      "title": "Object Code Traceability",
+      "command": "noyce.compliance.showObjectCodeTrace"
+    },
+    {
+      "file": "22-quality-trend.png",
+      "title": "Quality Trend",
+      "command": "noyce.compliance.showQualityTrend"
+    },
+    {
+      "file": "23-do178c-documents.png",
+      "title": "DO-178C Documents",
+      "command": "noyce.compliance.showDo178cDocuments"
+    },
+    {
+      "file": "24-document-reader.png",
+      "title": "Document Reader",
+      "command": "noyce.showDocumentReader"
+    },
+    {
+      "file": "25-cyber-assurance.png",
+      "title": "Cyber Assurance",
+      "command": "noyce.compliance.showCyberAssurance"
+    },
+    {
+      "file": "26-audit-trail.png",
+      "title": "Immutable Audit Trail",
+      "command": "noyce.lifecycle.showAudit"
+    },
+    {
+      "file": "27-review-workflow.png",
+      "title": "Review Workflow",
+      "command": "noyce.lifecycle.showReview"
+    },
+    {
+      "file": "28-team-activity.png",
+      "title": "Team Activity",
+      "command": "noyce.lifecycle.showActivity"
+    },
+    {
+      "file": "29-build-pipeline.png",
+      "title": "CI/CD Pipeline",
+      "command": "noyce.lifecycle.showBuild"
+    },
+    {
+      "file": "30-project-templates.png",
+      "title": "Project Templates",
+      "command": "noyce.lifecycle.showTemplates"
+    },
+    {
+      "file": "31-architecture.png",
+      "title": "System Architecture",
+      "command": "noyce.architecture.show"
+    },
+    {
+      "file": "32-archify.png",
+      "title": "Archify Diagrams",
+      "command": "noyce.architecture.showArchify"
+    },
+    {
+      "file": "33-project-graph.png",
+      "title": "Project Graph",
+      "command": "noyce.projectGraph.show"
+    },
+    {
+      "file": "34-project-truth-graph.png",
+      "title": "Project Truth Graph",
+      "command": "noyce.projectGraph.openTruthGraph"
+    },
+    {
+      "file": "35-schematic.png",
+      "title": "Schematic Viewer",
+      "command": "noyce.hardware.showSchematic"
+    },
+    {
+      "file": "36-bom-studio.png",
+      "title": "BoM Studio",
+      "command": "noyce.hardware.showBomStudio"
+    },
+    {
+      "file": "37-pin-configurator.png",
+      "title": "Pin Configurator",
+      "command": "noyce.hardware.showPinConfig"
+    },
+    {
+      "file": "38-peripherals.png",
+      "title": "Peripherals & Pin Map",
+      "command": "noyce.hardware.showPeripherals"
+    },
+    {
+      "file": "39-register-inspector.png",
+      "title": "Register Inspector (SVD)",
+      "command": "noyce.hardware.showRegisterInspector"
+    },
+    {
+      "file": "40-register-knowledge.png",
+      "title": "Register Knowledge",
+      "command": "noyce.hardware.showRegisterKnowledge"
+    },
+    {
+      "file": "41-firmware-memory.png",
+      "title": "Firmware Memory & Stack",
+      "command": "noyce.hardware.showFirmwareMemory"
+    },
+    {
+      "file": "42-memory-view.png",
+      "title": "Memory View",
+      "command": "noyce.hardware.showMemory"
+    },
+    {
+      "file": "43-debug-probe.png",
+      "title": "Debug Probe",
+      "command": "noyce.hardware.showDebugProbe"
+    },
+    {
+      "file": "44-fault-analyzer.png",
+      "title": "HardFault Analyzer",
+      "command": "noyce.hardware.showFault"
+    },
+    {
+      "file": "45-signal-viewer.png",
+      "title": "Logic Analyzer",
+      "command": "noyce.hardware.showSignalViewer"
+    },
+    {
+      "file": "46-serial-monitor.png",
+      "title": "Serial Bridge",
+      "command": "noyce.hardware.showSerialMonitor"
+    },
+    {
+      "file": "47-modbus.png",
+      "title": "Modbus Monitor",
+      "command": "noyce.hardware.showModbus"
+    },
+    {
+      "file": "48-live-data.png",
+      "title": "Live Data Dashboard",
+      "command": "noyce.hardware.showLiveData"
+    },
+    {
+      "file": "49-energy-profiler.png",
+      "title": "Energy Profiler",
+      "command": "noyce.hardware.showEnergy"
+    },
+    {
+      "file": "50-data-recorder.png",
+      "title": "Data Recorder",
+      "command": "noyce.hardware.showRecorder"
+    },
+    {
+      "file": "51-hil-runner.png",
+      "title": "HIL Test Runner",
+      "command": "noyce.hardware.showHil"
+    },
+    {
+      "file": "52-fpga-workspace.png",
+      "title": "FPGA Workspace",
+      "command": "noyce.fpga.showWorkspace"
+    },
+    {
+      "file": "53-fpga-synthesis.png",
+      "title": "FPGA Synthesis",
+      "command": "noyce.fpga.showSynthesis"
+    }
+  ]
+}
