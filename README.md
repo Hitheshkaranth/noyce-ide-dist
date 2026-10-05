@@ -284,7 +284,8 @@ They are also published to GitHub Packages as [`ghcr.io/hitheshkaranth/noyce-ide
 
 ```bash
 oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.6      # or :latest
-brew install --cask noyce-ide                         # macOS, via the Homebrew tap
+brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide
+brew install --cask noyce-ide                         # macOS
 ```
 
 ### Build from source
