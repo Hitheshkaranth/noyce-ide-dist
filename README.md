@@ -280,6 +280,13 @@ Surfaces that need a connected target (probe, serial, logic analyser) say so and
 
 Installers for macOS (Apple silicon) and Windows (x64) are published on the [distribution releases page](https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest).
 
+They are also published to GitHub Packages as [`ghcr.io/hitheshkaranth/noyce-ide`](https://github.com/Hitheshkaranth/noyce-ide-dist/pkgs/container/noyce-ide):
+
+```bash
+oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.6      # or :latest
+brew install --cask noyce-ide                         # macOS, via the Homebrew tap
+```
+
 ### Build from source
 
 Prerequisites: Node 22, Python 3, Git, and on Windows the Visual Studio Build Tools with the VC v142 Spectre libraries.
