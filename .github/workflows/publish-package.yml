@@ -1,0 +1,58 @@
+# Publishes each release's installers to GitHub Packages, so Noyce IDE appears
+# under this repository's "Packages" as ghcr.io/hitheshkaranth/noyce-ide.
+#
+# GitHub Packages has no plain-file registry, so the installers are pushed as an
+# OCI artifact. Download with ORAS:
+#   oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.6
+# The release page keeps the same files for one-click download.
+name: Publish package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing release tag to publish, e.g. v2.0.6'
+        required: true
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve tag
+        id: tag
+        run: |
+          tag="${{ github.event.release.tag_name || inputs.tag }}"
+          [ -n "$tag" ] || { echo "No release tag"; exit 1; }
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "version=${tag#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Download release installers
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir installers && cd installers
+          gh release download "${{ steps.tag.outputs.tag }}" --repo "${{ github.repository }}"
+          ls -l
+          [ "$(ls | wc -l)" -gt 0 ] || { echo "Release has no assets"; exit 1; }
+
+      - uses: oras-project/setup-oras@v1
+
+      - name: Push to ghcr.io
+        working-directory: installers
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | oras login ghcr.io -u "${{ github.actor }}" --password-stdin
+          ref="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/noyce-ide"
+          oras push "$ref:${{ steps.tag.outputs.version }},latest" \
+            --artifact-type application/vnd.noyce.ide.installers.v1 \
+            --annotation "org.opencontainers.image.source=https://github.com/${{ github.repository }}" \
+            --annotation "org.opencontainers.image.title=Noyce IDE" \
+            --annotation "org.opencontainers.image.description=Noyce IDE ${{ steps.tag.outputs.version }} installers (macOS arm64 .dmg, Windows x64 .exe) with manifests" \
+            --annotation "org.opencontainers.image.version=${{ steps.tag.outputs.version }}" \
+            --annotation "org.opencontainers.image.licenses=LicenseRef-Proprietary" \
+            *
