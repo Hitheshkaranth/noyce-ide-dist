@@ -7,7 +7,7 @@
 <p>Requirements, source, DO-178C evidence, hardware tooling and fifteen specialist agents —<br/>in one Code-OSS window, against the code that is actually open.</p>
 
 <p>
-<a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest"><img src="https://img.shields.io/badge/Download-2.0.6-111111?style=for-the-badge&logo=github&logoColor=white" alt="Download 2.0.6" /></a>&nbsp;
+<a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest"><img src="https://img.shields.io/badge/Download-2.0.7-111111?style=for-the-badge&logo=github&logoColor=white" alt="Download 2.0.7" /></a>&nbsp;
 <a href="https://noyce-ide.tech"><img src="https://img.shields.io/badge/Website-noyce--ide.tech-111111?style=for-the-badge&logo=safari&logoColor=white" alt="Website" /></a>&nbsp;
 <a href="RELEASE_NOTES.md"><img src="https://img.shields.io/badge/Release_notes-111111?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Release notes" /></a>
 </p>
@@ -174,6 +174,31 @@ pie showData
 > **AI earns no independence credit.** Reviews record author and reviewer from the project roster; AI-assisted reviews are labelled and never satisfy independence.
 
 ---
+
+## What's new in 2.0.7
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**🛩️ A second DAL A field run.** A TI Tiva power-distribution controller was taken through DAL A with a local Qwen model over Tailscale. The run logged 75 issues, and all of them are fixed.
+
+**✍️ Signed issue.** Issuing a document is a signed act by the people on the roster, and each signature references the audit ledger. The SVR and SAS cannot be issued until verification has run.
+
+**🔗 Linked LLRs.** LLRs are pre-linked to HLRs, with model parent suggestions. The traceability graph shows the LLR level.
+
+</td>
+<td width="50%" valign="top">
+
+**🗂️ Document library and figures.** A Finder-style library with live writing state. Mermaid and Archify figures appear in the Docs panel and in `.docx` exports. A project template can be imported from a corporate `.docx`.
+
+**🧠 Local models.** vLLM context handling is fixed. The docs swarm reports what happened to each section, and one failed document no longer ends a batch.
+
+**📏 Measured numbers.** MC/DC is read from LLVM 19+ exports. CodeQL traces the managed build. TI CCS projects build.
+
+</td>
+</tr>
+</table>
 
 ## What's new in 2.0.6
 
@@ -448,7 +473,7 @@ brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide
 brew install --cask noyce-ide
 
 # GitHub Packages
-oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.6      # or :latest
+oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.7      # or :latest
 ```
 
 Then open the vendor project you already have — STM32CubeIDE, TI Code Composer / TivaWare, MPLAB X, or any folder — and point **AI Models** at a local server (LM Studio, vLLM, Ollama) or a cloud provider.

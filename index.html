@@ -570,7 +570,7 @@
             </WidgetTile>
 
             <div className="hero-card tile-in" style={{ '--c': '3 / 6', '--r': '2', animationDelay: '0s' }}>
-              <a href="#dal-a" className="chip mb-6 hover:text-white" style={{ height: 30, padding: '0 12px' }}><span className="ink font-semibold">New in 2.0.6</span><span>A real motor controller, prototype to DAL A</span><Icon name="arrowRight" size={13} /></a>
+              <a href="#release-207" className="chip mb-6 hover:text-white" style={{ height: 30, padding: '0 12px' }}><span className="ink font-semibold">New in 2.0.7</span><span>A second DAL A run, on a local model</span><Icon name="arrowRight" size={13} /></a>
               <div className="flex items-center gap-4 md:gap-5">
                 <img src="icons_resources/icon_large.png" alt="" className="hero-mark" />
                 <h1 className="h1">Noyce IDE</h1>
@@ -579,7 +579,7 @@
                 The AI-native Code-OSS workbench for firmware that has to certify.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2.5 mt-8">
-                <a href="#download" className="btn btn-primary"><Icon name="download" size={15} /> Download 2.0.6</a>
+                <a href="#download" className="btn btn-primary"><Icon name="download" size={15} /> Download 2.0.7</a>
                 <a href="#how" className="btn btn-secondary">Take the tour <Icon name="arrowRight" size={15} /></a>
               </div>
             </div>
@@ -1482,6 +1482,18 @@
     /* ---------- Releases: one section, switched by version ---------- */
     const RELEASES = [
       {
+        v: '2.0.7', id: 'release-207', title: 'A second DAL A run, on a local model.',
+        lede: 'A TI Tiva power-distribution controller was taken through DAL A with a local Qwen model over Tailscale. The run logged 75 issues across the flow and the interface, and every one is fixed in this release.',
+        points: [
+          { k: 'Sign-off', t: 'Issuing a document is a signed act.', d: 'Signatories come from the project roster and each signature references the audit ledger. Independence is noted on the document, and the IDE never signs the authority row. The SVR and SAS cannot be issued until verification has actually run.' },
+          { k: 'DAL path', t: 'A guided path that agrees with Annex A.', d: 'The DAL path steps agree with the Annex A objective counts. Control page, SVCP test-case records and a SAS conformity table follow public CEMILAC templates.' },
+          { k: 'Requirements', t: 'LLRs linked, and the graph follows them.', d: 'LLR drafts are pre-linked to HLRs by trace symbol, with model parent suggestions and bulk accept, link and derive. The traceability graph shows the LLR level and rebuilds when requirements change.' },
+          { k: 'Local models', t: 'A vLLM server is taken at its word.', d: 'The probed context is a floor, not the window, and each model can carry its own context. The docs swarm reports what happened to each section, and one failed document no longer ends a batch.' },
+          { k: 'Documents', t: 'A Finder-style library, with figures.', d: 'Documents are grouped by lifecycle in a grid or list, with live writing state and Export all .docx. Mermaid and Archify figures render in the Docs panel and in .docx exports. A project template can be imported from a corporate .docx.' },
+          { k: 'Verification', t: 'Measured numbers, on every platform.', d: 'MC/DC is read from LLVM 19+ exports. CodeQL traces the managed build, and verdicts come from the sealed host-test run. TI CCS projects build from .cproject, and build tools are found off PATH on Windows.' },
+        ],
+      },
+      {
         v: '2.0.6', id: 'release-206', title: 'Evidence engineers can sign.',
         lede: 'A new interface across the whole IDE, and the DO-178C flow taken to DAL A on a real code base: complete documents, reviewed decisions, real independence and per-requirement verification.',
         points: [
@@ -1801,7 +1813,7 @@
 
     /* ---------- Traction ---------- */
     const Traction = () => {
-      const stats = [['5', 'beta users on the notarized macOS build'], ['4', 'firmware projects taken through a full pass'], ['2.0.6', 'public dist, source open for technical review']];
+      const stats = [['5', 'beta users on the notarized macOS build'], ['4', 'firmware projects taken through a full pass'], ['2.0.7', 'public dist, source open for technical review']];
       return (
         <section id="traction" className="section">
           <div className="wrap">
@@ -1870,8 +1882,8 @@
     };
     const Download = () => {
       const cards = [
-        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'macOS 13 Ventura or later. Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 373 MB · 2.0.6', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.6', cta: 'Download · arm64', primary: true },
-        { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 172 MB · 2.0.6', sig: 'Authenticode · signed', href: REPO + '/releases/tag/v2.0.6', cta: 'Download · x64', primary: false },
+        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'macOS 13 Ventura or later. Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 373 MB · 2.0.7', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.7', cta: 'Download · arm64', primary: true },
+        { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 172 MB · 2.0.7', sig: 'Authenticode · signed', href: REPO + '/releases/tag/v2.0.7', cta: 'Download · x64', primary: false },
         { os: 'Linux', status: 'Roadmap', sc: '', desc: 'Packaged AppImage and deb builds are on the roadmap. Today, build and launch from source.', cmds: ['npm ci && npm run build', 'npm run workbench:launch -- /path/to/firmware'], pkg: 'from source', sig: 'build it yourself', href: 'https://github.com/Hitheshkaranth/noyce_ide#build-from-source', cta: 'Build from source', primary: false },
       ];
       return (
@@ -1904,7 +1916,7 @@
                 <h3 className="h3 mb-1.5">Also on GitHub Packages</h3>
                 <p className="small m-0" style={{ fontSize: '.875rem' }}>Every release is published as <span className="code">ghcr.io/hitheshkaranth/noyce-ide</span>, tagged by version and <span className="code">latest</span>.</p>
               </div>
-              <CopyCmd cmd="oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.6" />
+              <CopyCmd cmd="oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.7" />
             </Reveal>
           </div>
         </section>
@@ -2062,7 +2074,7 @@
                     <span className="font-medium" style={{ fontFamily: 'var(--font-display)', letterSpacing: '-.02em' }}>Noyce IDE</span>
                   </div>
                   <p className="small m-0" style={{ maxWidth: '16rem' }}>An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
-                  <div className="mt-5"><span className="chip chip-ok chip-dot">v2.0.6 · macOS + Windows · Free during beta</span></div>
+                  <div className="mt-5"><span className="chip chip-ok chip-dot">v2.0.7 · macOS + Windows · Free during beta</span></div>
                 </div>
                 {cols.map((col) => (
                   <div key={col.h}>

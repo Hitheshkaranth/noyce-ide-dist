@@ -1,3 +1,32 @@
+# Noyce IDE v2.0.7 Release
+
+## Second DAL A field run: a TI Tiva controller with a local model
+A DAL A run of a TI Tiva power-distribution controller, using a local vLLM model (Qwen3.8 Flash Next over Tailscale), logged 75 issues. They are all fixed here.
+- **Issuing is a signed act.** Roster signatories sign, and each signature references the audit ledger. Independence is noted on the document. The IDE never signs the authority row.
+- **Guided DAL path.** The path's steps agree with the Annex A objective counts. The SVR and SAS cannot be issued until verification has actually been executed.
+- **Requirements.** LLR drafts are pre-linked to HLRs by trace symbol. The model can suggest parents and draft intent in bulk. LLR review explains its blockers inline and offers bulk accept, link and derive. The traceability graph shows the LLR level and rebuilds when requirements change.
+- **Documents.** The swarm reports what happened to each section (authored, kept or left open). The reviewer is grounded in the source for each section. One document's failure no longer ends a batch. A malformed `reviseRequirement` op from the model is normalised instead of crashing the SRS run.
+- **Local models.** A vLLM server that reports no context window is not treated as having the probe floor as its window. The context can be set per model under AI Models, which now shows the resolved model name.
+- **TI CCS projects** build from `.cproject`, and CodeQL gets the SDK include paths.
+- **Analysis.** The analysis cap keeps defect classes first, so a real CRC precedence defect is no longer dropped. Heuristic findings are reported separately from Cppcheck. The Compliance Run uses the same counts as Analysis Tools.
+- **Workspace hygiene.** IDE ignore entries go to `.git/info/exclude`, never to the tracked `.gitignore`. Views open in their own tabs. A hidden Compliance Dashboard no longer hangs its scan.
+- **CEMILAC-style records.** Control page, SVCP test-case records and SAS conformity table.
+
+## Document library and figures
+- A Finder-style library: lifecycle groups, grid or list view, search, sort and "Export all .docx". The document being written shows live progress with Watch and Stop.
+- DO-178C documents carry Mermaid and Archify figures. They render in the Docs panel and are embedded in `.docx` exports with a List of Figures. Every Mermaid figure is checked before it is written.
+- Project document template (`.noyce/templates/document-template.json`): cover page, approvals, header and footer, and page setup. It can be imported from a corporate `.docx`.
+- A document edited outside the IDE records a revision when it is saved. "Record revision" is available for saved changes.
+
+## Verification and Windows
+- MC/DC records are read from LLVM 19+ exports. Before this fix the run reported MC/DC 0% on a project whose tool summary was 12/23.
+- CodeQL traces the managed build so includes resolve, and builds its database outside the workspace on Windows. Compliance verdicts come from the sealed host-test execution.
+- make, clang, arm-none-eabi-gcc and cppcheck are found off PATH. Documents see the workspace files on Windows. CBMC loads the Visual Studio environment when needed.
+- Requirement ids named only by tests or harnesses are no longer taken as SRS requirements.
+
+## Security
+- Overrides for katex (≥0.18.11) and dompurify (≥3.4.16). The production dependency audit reports 0 vulnerabilities.
+
 # Noyce IDE v2.0.6 Release
 
 ## A new interface
