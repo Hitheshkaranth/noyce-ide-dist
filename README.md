@@ -1,94 +1,230 @@
 <div align="center">
 
-<img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" width="620" />
+<img src="icons_resources/logo_horizontal.png" alt="Noyce IDE" width="560" />
 
-### The AI-native IDE for safety-critical embedded engineering
+<h3>The AI-native workbench for firmware that has to certify.</h3>
 
-A Code-OSS desktop workbench that puts **requirements, source, DO-178C certification evidence, hardware tooling and a multi-agent AI pipeline** in one window, for firmware teams working to DO-178C, ISO 26262 and MISRA C.
+<p>Requirements, source, DO-178C evidence, hardware tooling and fifteen specialist agents —<br/>in one Code-OSS window, against the code that is actually open.</p>
 
-[![Version](https://img.shields.io/badge/version-2.0.6-00e676?style=flat-square)](https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest)
-[![CI](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml/badge.svg)](https://github.com/Hitheshkaranth/noyce_ide/actions/workflows/ci-runtime-smoke.yml)
-[![Code OSS](https://img.shields.io/badge/Built%20on-Code--OSS-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white)](https://github.com/microsoft/vscode)
-[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![shadcn/ui](https://img.shields.io/badge/UI-shadcn%2Fui-000000?style=flat-square)](https://ui.shadcn.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Rust](https://img.shields.io/badge/Rust-Sidecar-CE412B?style=flat-square&logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](#license)
+<p>
+<a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest"><img src="https://img.shields.io/badge/Download-2.0.6-111111?style=for-the-badge&logo=github&logoColor=white" alt="Download 2.0.6" /></a>&nbsp;
+<a href="https://noyce-ide.tech"><img src="https://img.shields.io/badge/Website-noyce--ide.tech-111111?style=for-the-badge&logo=safari&logoColor=white" alt="Website" /></a>&nbsp;
+<a href="RELEASE_NOTES.md"><img src="https://img.shields.io/badge/Release_notes-111111?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Release notes" /></a>
+</p>
 
-[**What's new**](#whats-new-in-206) · [**Tour**](#a-tour-of-the-ide) · [**Features**](#features) · [**Quick start**](#quick-start) · [**Architecture**](#architecture) · [**Release notes**](RELEASE_NOTES.md) · [**Download**](https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest)
+<sub>macOS (Apple silicon) · Windows x64 &nbsp;|&nbsp; DO-178C · ISO 26262 · MISRA C:2025 &nbsp;|&nbsp; Local or cloud models</sub>
+
+<br/><br/>
+
+<img src="docs/readme/tour.gif" alt="Noyce IDE 2.0.6 running on the H-Bridge motor controller: requirements, AI orchestrator, traceability, compliance and documents" width="100%" />
+
+<sub>Recorded in the running IDE on a real STM32G431 motor controller. Real clicks, real data.</sub>
 
 </div>
 
+<br/>
+
+<table>
+<tr>
+<td align="center" width="20%"><h2>17</h2><sub>DO-178C documents<br/>issued from the workspace</sub></td>
+<td align="center" width="20%"><h2>1,002</h2><sub>CBMC properties<br/>proved, 0 failed</sub></td>
+<td align="center" width="20%"><h2>15</h2><sub>specialist agents<br/>on one board</sub></td>
+<td align="center" width="20%"><h2>71</h2><sub>Annex A objectives<br/>graded, none rounded up</sub></td>
+<td align="center" width="20%"><h2>53</h2><sub>full-pane surfaces<br/>in one window</sub></td>
+</tr>
+</table>
+
+<p align="center">
+<a href="#see-it-work"><b>See it work</b></a> &nbsp;·&nbsp;
+<a href="#a-real-dal-a-run"><b>DAL A run</b></a> &nbsp;·&nbsp;
+<a href="#whats-new-in-206"><b>What's new</b></a> &nbsp;·&nbsp;
+<a href="#every-surface"><b>Every surface</b></a> &nbsp;·&nbsp;
+<a href="#install"><b>Install</b></a> &nbsp;·&nbsp;
+<a href="#architecture"><b>Architecture</b></a>
+</p>
+
 ---
 
-## Why Noyce IDE
+## Why Noyce
 
-Safety-critical firmware work is usually spread across a requirements manager, two static analysers, a traceability spreadsheet, a coverage tool, a CI dashboard, an AI assistant and a vendor IDE. None of them knows what the others measured, so the certification evidence is assembled by hand at the end.
+Safety-critical firmware is usually spread across a requirements manager, two static analysers, a traceability spreadsheet, a coverage tool, a CI dashboard, a chatbot and a vendor IDE. None of them knows what the others measured, so the certification evidence gets stitched together by hand at the end.
 
-Noyce IDE keeps all of it in one Code-OSS workbench, against the code that is actually open:
+Noyce keeps it in one place.
 
-- **Evidence is measured, not asserted.** Each DO-178C Annex A objective is graded only from its own mapped evidence. A producer that did not run claims nothing, sample data is never counted, and an objective is *satisfied* only after an independent human review recorded on the project roster.
-- **Agents do the drafting; engineers decide.** Specialist agents (system designer, coder, tester, reviewer, document generator…) draft requirements, tests, documents and judgment decisions. Every agent edit becomes a change set gated on build, unit tests and MISRA, and every proposal waits for a person to accept it.
-- **The whole DO-178C document set.** 17 life-cycle documents (PSAC, SDP, SVP, SCMP, SQAP, SRS, SDD, SVCP, SVR, SAS, SCI and the rest) authored from the workspace, completed through a review queue and baselined with a hash.
-- **Real tools underneath.** CBMC, CodeQL, cppcheck/clang-tidy, LLVM MC/DC coverage, probe-rs, GNU ld maps and CMSIS-SVD — run by the IDE, with their results kept as reproducible records under the project's `.noyce/` folder.
-- **Hardware-aware.** Pin maps from STM32CubeMX and TivaWare, register views from SVD and the vendor reference manual, HardFault decoding, serial and logic-analyser views.
-- **Local-first AI.** Works with LM Studio, Ollama and vLLM on your own hardware, or with Gemini, Anthropic and OpenAI, and shows the live model, token rate and usage for every call.
+<table>
+<tr>
+<td width="50%" valign="top">
+
+#### 🧾 &nbsp;Evidence is measured, not asserted
+Each Annex A objective is graded only from its own mapped evidence. A tool that did not run claims nothing, sample data never counts, and *satisfied* needs an independent human review.
+
+</td>
+<td width="50%" valign="top">
+
+#### 🤝 &nbsp;Agents draft, engineers decide
+System Designer, Coder, Tester, Reviewer, Doc Author and ten more draft requirements, tests, documents and decisions. Every edit is a change set gated on build, tests and MISRA.
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+#### 🔬 &nbsp;Real tools underneath
+CBMC, CodeQL, cppcheck, clang-tidy, LLVM MC/DC, probe-rs, GNU ld maps and CMSIS-SVD — run by the IDE, kept as reproducible records under `.noyce/`.
+
+</td>
+<td width="50%" valign="top">
+
+#### 🔌 &nbsp;Hardware-aware, local-first
+Pin maps from CubeMX and TivaWare, page-cited registers from the reference manual, HardFault decoding. Models run on LM Studio, vLLM or Ollama — or the cloud, if you choose.
+
+</td>
+</tr>
+</table>
+
+---
+
+## See it work
+
+Short clips recorded in Noyce IDE 2.0.6 on the H-Bridge project. Click any frame to play it.
+
+<table>
+<tr>
+<td width="50%"><a href="media/demo/requirements.mp4"><img src="media/demo/requirements.jpg" alt="Requirements & Evidence" /></a><br/><b>Requirements & Evidence</b><br/><sub>Select a requirement; its evidence ledger follows.</sub></td>
+<td width="50%"><a href="media/demo/traceability.mp4"><img src="media/demo/traceability.jpg" alt="Traceability Graph" /></a><br/><b>Traceability Graph</b><br/><sub>Requirement to code to test. Gaps show as gaps.</sub></td>
+</tr>
+<tr>
+<td width="50%"><a href="media/demo/orchestrator.mp4"><img src="media/demo/orchestrator.jpg" alt="AI Orchestrator" /></a><br/><b>AI Orchestrator</b><br/><sub>Fifteen agents on one board, grouped by agent or status.</sub></td>
+<td width="50%"><a href="media/demo/documents.mp4"><img src="media/demo/documents.jpg" alt="DO-178C Documents" /></a><br/><b>DO-178C Documents</b><br/><sub>The 17-document library, filtered and opened.</sub></td>
+</tr>
+<tr>
+<td width="50%"><a href="media/demo/mcdc.mp4"><img src="media/demo/mcdc.jpg" alt="MC/DC Coverage" /></a><br/><b>MC/DC Coverage</b><br/><sub>Measured with LLVM, attributed per module.</sub></td>
+<td width="50%"><a href="media/demo/compliance.mp4"><img src="media/demo/compliance.jpg" alt="Compliance Dashboard" /></a><br/><b>Compliance Dashboard</b><br/><sub>All 71 Level A objectives, graded from evidence.</sub></td>
+</tr>
+<tr>
+<td width="50%"><a href="media/demo/architecture.mp4"><img src="media/demo/architecture.jpg" alt="System Architecture" /></a><br/><b>System Architecture</b><br/><sub>A C4 model recovered from the source tree.</sub></td>
+<td width="50%"><a href="media/demo/audit.mp4"><img src="media/demo/audit.jpg" alt="Audit Trail" /></a><br/><b>Immutable Audit Trail</b><br/><sub>Every action hash-chained to the one before.</sub></td>
+</tr>
+</table>
+
+<p align="center"><a href="media/demo/noyce-2.0.6-demo.mp4"><b>▶ Watch the full 95-second demo</b></a></p>
+
+<details>
+<summary><b>More clips</b>: coupling, document reader, firmware memory, HardFault</summary>
+<br/>
+
+<table>
+<tr>
+<td width="50%"><a href="media/demo/coupling.mp4"><img src="media/demo/coupling.jpg" alt="Data & Control Coupling" /></a><br/><b>Data & Control Coupling</b></td>
+<td width="50%"><a href="media/demo/reader.mp4"><img src="media/demo/reader.jpg" alt="Document Reader" /></a><br/><b>Document Reader</b></td>
+</tr>
+<tr>
+<td width="50%"><a href="media/demo/memory.mp4"><img src="media/demo/memory.jpg" alt="Firmware Memory & Stack" /></a><br/><b>Firmware Memory & Stack</b></td>
+<td width="50%"><a href="media/demo/hardfault.mp4"><img src="media/demo/hardfault.jpg" alt="HardFault Analyzer" /></a><br/><b>HardFault Analyzer</b> <sub>(built-in example dump)</sub></td>
+</tr>
+</table>
+
+</details>
+
+---
+
+## A real DAL A run
+
+The STM32G431 H-Bridge motor controller was taken from prototype to a DO-178C DAL A document set inside the IDE. Every fix that run demanded shipped in 2.0.6. The result is reported the way an auditor would read it — including what is still open.
+
+<table>
+<tr>
+<td width="55%" valign="top">
+
+```mermaid
+%%{init: {'theme':'dark','themeVariables':{'pie1':'#4ade80','pie2':'#facc15','pie3':'#6b7280','pie4':'#374151','pieStrokeColor':'#111','pieOuterStrokeWidth':'0px','pieSectionTextColor':'#111'}}}%%
+pie showData
+    title Annex A · 71 Level A objectives
+    "Satisfied" : 5
+    "Partial" : 36
+    "Open" : 27
+    "N/A" : 3
+```
+
+</td>
+<td width="45%" valign="top">
+
+| Result | |
+| --- | --- |
+| DO-178C documents issued | **17** |
+| High-level requirements | **15** |
+| Host tests | **57** |
+| CBMC properties proved | **1,002** |
+| MISRA findings | **549 → 210**, rest deviated |
+
+**5 of 71 objectives satisfied.** The Software Accomplishment Summary states non-compliance, and the IDE shows the same gap list — not a green dashboard.
+
+</td>
+</tr>
+</table>
+
+<sub>Still open on this project: low-level requirements · system requirements · target and timing tests · independent human review and SQA · coupling analysis · object-code analysis · qualified build · authority engagement.</sub>
+
+### The rules the IDE holds itself to
+
+> **A tool that did not run claims nothing.** Coverage that was analysed but never measured, CBMC with zero properties and sample fallbacks all count as did-not-run.
+>
+> **Zero findings counts only after a scan.** A clean result needs a scan that actually ran.
+>
+> **AI earns no independence credit.** Reviews record author and reviewer from the project roster; AI-assisted reviews are labelled and never satisfy independence.
 
 ---
 
 ## What's new in 2.0.6
 
-**A new interface.** The whole IDE moved from HeroUI to **shadcn/ui** (Radix primitives, Tailwind 4, React 19) on a single dark theme, with one visual language for work in progress across every surface.
+<table>
+<tr>
+<td width="50%" valign="top">
 
-**DO-178C DAL A, end to end.** Taking a real motor-controller code base from prototype to DAL A inside the IDE drove this release:
-- **Document completion.** Every open item in a document is classified as a proposal, an engineer decision or missing evidence, and each has a way to close. A document can be issued only when nothing is open.
-- **Agent-proposed decisions.** Engineering-judgment sections (software level, partitioning, certification basis…) are drafted by an agent with rationale, evidence and confidence, and wait in a review queue. Acceptance is recorded as an independent review.
-- **Requirements and design.** An HLR editor with per-requirement lint, system-requirement import (CSV, ReqIF-lite, Markdown), and LLR authoring accepted only by a human review.
-- **Real independence.** Reviews carry who authored and who reviewed; AI reviews are labelled AI-assisted and earn no independence credit.
-- **Problem reports and CCB.** AC/AMC 20-189 classification, safety effect, CCB decisions and independent closure.
-- **Set consistency.** Contradictions between documents block a baseline unless a named person records a waiver.
-- **Verification tooling.** Requirements-based tests per HLR/LLR, CBMC harnesses per function with a vacuity check, and on-target test runs over probe-rs and RTT.
+**🎨 A new interface.** The whole IDE moved from HeroUI to **shadcn/ui** (Radix, Tailwind 4, React 19) on one dark theme.
 
-**Annex A objective workbench.** Map each objective to the evidence that discharges it, and record checklists and qualified reviews against it. All 71 Level A objectives are reported as ratios.
+**📄 DO-178C DAL A, end to end.** Document completion, agent-proposed decisions with a review queue, an HLR editor with lint, real author/reviewer independence, problem reports and CCB, and set-consistency checks that block a baseline.
 
-**AI Orchestrator, live.** The kanban board shows each card's phase, tokens and rate as it runs. Compliance objectives become cards with one canonical id, and a worker pool runs them concurrently.
+**🎯 Annex A objective workbench.** Map each objective to the evidence that discharges it; all 71 Level A objectives reported as ratios.
 
-**Accuracy fixes.**
-- Zero findings counts as a clean scan only if a scan actually ran.
-- CodeQL is not counted as measured by default.
-- A cyber posture score needs a vulnerability source.
-- Exported HTML reports escape the text they include.
-- Agent file writes are confined to the project.
-- A failed audit-ledger write is recorded rather than lost.
+</td>
+<td width="50%" valign="top">
 
-**Faster scans.** Source scans skip the IDE's own `.noyce/` output: the annotation scan went from 25,356 files to 113, and the workspace tree from 15,003 nodes to 149.
+**⚡ AI Orchestrator, live.** Each card shows its phase, tokens and rate as it runs; a worker pool runs objectives concurrently.
 
-**Separate embedding server.** Semantic Search and agent grounding can embed through their own server (for example a local Ollama `nomic-embed-text`) when the chat server cannot embed, set under AI Models → Embeddings with a save-and-test check.
+**✅ Accuracy fixes.** Zero findings needs a real scan; CodeQL not counted as measured by default; exported HTML escaped; agent writes confined to the project.
 
-**Agents panel.**
-- Shows the model the server actually serves.
-- Sends the API key to key-protected vLLM servers.
-- No longer overlaps itself in a narrow sidebar.
+**🚀 Faster scans.** The annotation scan went from 25,356 files to 113 by skipping the IDE's own `.noyce/` output.
 
-The full history is in [docs/RELEASE_NOTES.md](RELEASE_NOTES.md).
+**🧠 Separate embedding server**, and an Agents panel that shows the model the server actually serves.
+
+</td>
+</tr>
+</table>
+
+<p align="right"><a href="RELEASE_NOTES.md">Full release notes →</a></p>
 
 ---
 
-## A tour of the IDE
+## Every surface
 
-> Every screenshot is captured from the running **Code-OSS Electron build** with a **real firmware project open**: the STM32G431 **H-Bridge motor controller** taken to DAL A inside the IDE. Analyses (MISRA, CBMC, CodeQL, MC/DC, coupling, architecture) were run against that project for the capture. Nothing here is a mockup.
+> Every screenshot is captured from the running **Code-OSS Electron build** with the H-Bridge project open. Nothing here is a mockup. Expand a section to browse it.
 
-### Getting started
+<details open>
+<summary><b>🏁 &nbsp;Getting started</b> &nbsp;<sub>1 surface</sub></summary>
+<br/>
 
 <img src="docs/screenshots/2.0.6/00-getting-started.png" alt="Getting Started: recent projects and the grid of workbench surfaces" />
 
 Recent projects, project creation and import (STM32CubeIDE, TI Tiva/CCS, MPLAB X, generic folder), and one-click access to every surface.
 
-### AI
+</details>
 
-#### AI Orchestrator: a kanban board of specialist agents
+<details>
+<summary><b>🤖 &nbsp;AI</b> &nbsp;<sub>3 surfaces</sub></summary>
+<br/>
+
+##### AI Orchestrator: a kanban board of specialist agents
 
 <img src="docs/screenshots/2.0.6/01-ai-orchestrator.png" alt="AI Orchestrator kanban with live model, concurrency and sprint progress" />
 
@@ -101,9 +237,13 @@ Objectives become cards routed to specialist agents along a handoff chain. The h
 </tr>
 </table>
 
-### Requirements and traceability
+</details>
 
-#### Requirements & Evidence
+<details>
+<summary><b>🔗 &nbsp;Requirements and traceability</b> &nbsp;<sub>6 surfaces</sub></summary>
+<br/>
+
+##### Requirements & Evidence
 
 <img src="docs/screenshots/2.0.6/05-requirements.png" alt="Requirements register with per-requirement evidence ledger" />
 
@@ -124,15 +264,19 @@ The requirement register read from the life-cycle documents and `@req` annotatio
 </tr>
 </table>
 
-### DO-178C compliance
+</details>
 
-#### Compliance Dashboard
+<details>
+<summary><b>🛡️ &nbsp;DO-178C compliance</b> &nbsp;<sub>8 surfaces</sub></summary>
+<br/>
+
+##### Compliance Dashboard
 
 <img src="docs/screenshots/2.0.6/10-compliance-dashboard.png" alt="Compliance Dashboard with Annex A objectives and structural coverage" />
 
 DO-178C objectives for the selected level, graded from mapped evidence: requirements linked, design allocation, verification, analysis findings and structural coverage, with the Annex A objective table below. Objectives route to their specialist agent, and one action assembles the signed **Certification Evidence Package**.
 
-#### Compliance Run: one reproducible record
+##### Compliance Run: one reproducible record
 
 <img src="docs/screenshots/2.0.6/11-compliance-run.png" alt="Compliance Run record with measured objectives" />
 
@@ -153,9 +297,13 @@ A run freezes the configuration (commit, tree state, level), executes every evid
 </tr>
 </table>
 
-### Verification and analysis
+</details>
 
-#### MC/DC structural coverage, measured
+<details>
+<summary><b>🔬 &nbsp;Verification and analysis</b> &nbsp;<sub>11 surfaces</sub></summary>
+<br/>
+
+##### MC/DC structural coverage, measured
 
 <img src="docs/screenshots/2.0.6/19-mcdc-coverage.png" alt="MC/DC Structural Coverage with measured per-module coverage" />
 
@@ -184,9 +332,13 @@ Statement, decision and MC/DC obligations come from the project's own source. Co
 </tr>
 </table>
 
-### Code and architecture
+</details>
 
-#### Project Graph
+<details>
+<summary><b>🧭 &nbsp;Code and architecture</b> &nbsp;<sub>6 surfaces</sub></summary>
+<br/>
+
+##### Project Graph
 
 <img src="docs/screenshots/2.0.6/33-project-graph.png" alt="Project Graph of functions, files and macros" />
 
@@ -207,7 +359,11 @@ Functions, files and macros as an entry-flow graph, with code ownership (project
 </tr>
 </table>
 
-### Hardware
+</details>
+
+<details>
+<summary><b>🔌 &nbsp;Hardware</b> &nbsp;<sub>10 surfaces</sub></summary>
+<br/>
 
 <table>
 <tr>
@@ -232,7 +388,11 @@ Functions, files and macros as an entry-flow graph, with code ownership (project
 </tr>
 </table>
 
-### Signals and lab
+</details>
+
+<details>
+<summary><b>📈 &nbsp;Signals and lab</b> &nbsp;<sub>8 surfaces</sub></summary>
+<br/>
 
 <table>
 <tr>
@@ -253,11 +413,13 @@ Functions, files and macros as an entry-flow graph, with code ownership (project
 </tr>
 </table>
 
-Surfaces that need a connected target (probe, serial, logic analyser) say so and show labelled simulated data until one is attached.
+</details>
 
----
+<sub>Surfaces that need a connected target (probe, serial, logic analyser) say so and show labelled simulated data until one is attached.</sub>
 
-## Features
+<details>
+<summary><b>The full feature list</b></summary>
+<br/>
 
 | Area | Surfaces |
 | --- | --- |
@@ -272,25 +434,30 @@ Surfaces that need a connected target (probe, serial, logic analyser) say so and
 | **Signals & lab** | Logic Analyzer · Serial Bridge · Modbus Monitor · Live Data Dashboard · Energy Profiler · Data Recorder · HIL Test Runner · FPGA Workspace & Synthesis |
 | **Importers & builds** | STM32CubeIDE / CubeMX `.ioc` · TI Tiva (TivaWare) / Code Composer Studio · MPLAB X · generic folder · portable Makefile builds from CubeIDE, CCS, Keil MDK and CubeMX projects |
 
+</details>
+
 ---
 
-## Quick start
+## Install
 
-### Download
-
-Installers for macOS (Apple silicon) and Windows (x64) are published on the [distribution releases page](https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest).
-
-They are also published to GitHub Packages as [`ghcr.io/hitheshkaranth/noyce-ide`](https://github.com/Hitheshkaranth/noyce-ide-dist/pkgs/container/noyce-ide):
+Download the installer for **macOS (Apple silicon)** or **Windows (x64)** from the [latest release](https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest), or:
 
 ```bash
-oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.6      # or :latest
+# Homebrew (macOS)
 brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide
-brew install --cask noyce-ide                         # macOS
+brew install --cask noyce-ide
+
+# GitHub Packages
+oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.6      # or :latest
 ```
 
-### Build from source
+Then open the vendor project you already have — STM32CubeIDE, TI Code Composer / TivaWare, MPLAB X, or any folder — and point **AI Models** at a local server (LM Studio, vLLM, Ollama) or a cloud provider.
 
-Prerequisites: Node 22, Python 3, Git, and on Windows the Visual Studio Build Tools with the VC v142 Spectre libraries.
+<details>
+<summary><b>Build from source</b></summary>
+<br/>
+
+The source lives in [`Hitheshkaranth/noyce_ide`](https://github.com/Hitheshkaranth/noyce_ide). Prerequisites: Node 22, Python 3, Git, and on Windows the Visual Studio Build Tools with the VC v142 Spectre libraries.
 
 ```bash
 npm ci
@@ -304,111 +471,64 @@ npm run codeoss:bootstrap:windows   # prepare third_party/code-oss
 npm run workbench:launch
 ```
 
-`npm run workbench:doctor` (or `workbench:doctor:windows`) diagnoses missing prerequisites. See [`docs/windows-code-oss-remediation.md`](https://github.com/Hitheshkaranth/noyce_ide/blob/main/docs/windows-code-oss-remediation.md) and [`docs/packaging-macos.md`](https://github.com/Hitheshkaranth/noyce_ide/blob/main/docs/packaging-macos.md).
-
-For fast UI iteration without the desktop shell, `npm run dev` serves the React surfaces with sample data at `http://localhost:5173`.
-
-### Verify
+`npm run workbench:doctor` (or `workbench:doctor:windows`) diagnoses missing prerequisites.
 
 ```bash
 npm run check          # build + cargo check on the Rust sidecar
 npm run test:all       # unit, integration and quality-invariant suites
 npm run smoke:ui       # Playwright smoke (CI gate)
-npm run qc:capture     # screenshot every surface from the running Code-OSS build
 ```
 
-`qc:capture` needs the workbench running with a project open and the debug port enabled:
-
-```bash
-node apps/noyce-workbench/scripts/launch-checkout-workbench.mjs \
-  --sync-product --remote-debugging-port=9222 /path/to/firmware
-```
+</details>
 
 ---
 
 ## Architecture
 
-```text
-Noyce IDE
-├── Code-OSS desktop shell (Electron)
-│   ├── Noyce product.json overlay + rebrand patch
-│   └── First-party extensions
-│       core-ui · compliance · lifecycle · agents · chat · hardware ·
-│       telemetry · stm32 · fpga · project-graph · architecture
-│
-├── React 19 + TypeScript surfaces (src/, built by Vite)
-│   ├── shadcn/ui on Radix + Tailwind 4, dark theme
-│   └── compliance, documents, verification, AI, hardware, graphs …
-│
-├── Rust sidecar (services/noyce-core) — JSON-RPC over stdio
-│   ├── workspace IO and project import (.ioc / CCS / MPLAB / Tiva)
-│   ├── static analysis, MISRA, CBMC dispatch
-│   └── serial, probe-rs debug bridge, hardware enumeration
-│
-└── Services
-    ├── CodeGraph (packages/codegraph) — symbol index
-    ├── noyce-adk-runner — Google ADK agent runner
-    └── noyce-semantica — reference-manual indexing
+```mermaid
+flowchart LR
+    FW["Firmware project<br/>CubeIDE · CCS · MPLAB"] --> IDE
+    subgraph IDE["Noyce IDE · Code-OSS + Electron"]
+        direction TB
+        UI["React 19 surfaces<br/>shadcn/ui · Tailwind 4"]
+        AG["15 specialist agents<br/>Orchestrator · RAG"]
+        RS["Rust sidecar<br/>import · analysis · probe-rs · serial"]
+        UI <--> AG
+        UI <--> RS
+    end
+    IDE <--> M["Your models<br/>LM Studio · vLLM · Ollama · cloud"]
+    IDE --> T["Real tools<br/>CBMC · CodeQL · LLVM · cppcheck"]
+    IDE --> N[".noyce/<br/>documents · evidence · audit ledger"]
 ```
 
-**The project stays clean.** Everything the IDE generates for a project (evidence, documents, the audit ledger, analysis scratch) goes under `<project>/.noyce/`, which carries its own `.gitignore`. The IDE never writes to the project root or edits existing files unless you approve an agent change set.
+**The project stays clean.** Everything the IDE generates — evidence, documents, the audit ledger, analysis scratch — goes under `<project>/.noyce/`, which carries its own `.gitignore`. The IDE never edits your files unless you approve an agent change set.
 
-Noyce-owned configuration is kept separate from the vendored Code-OSS checkout: `scripts/lib/codeoss-pin.json` pins the upstream commit and Node version, and the bootstrap renders `product.json`, applies the rebrand patch and copies the overlay assets.
-
-### Repository layout
-
-| Path | Role |
-| --- | --- |
-| `src/` | React surfaces and services (compliance, documents, verification, AI, hardware, graphs) |
-| `extensions/` | First-party Code-OSS extensions |
-| `packages/` | `codegraph` symbol index and `noyce-hardware` plugin |
-| `services/` | Rust sidecar, ADK runner, Semantica |
-| `crates/` | STM32 and Tiva importers, project model |
-| `apps/noyce-workbench/` | Product template, checkout sync, overlay assets, rebrand patch |
-| `third_party/code-oss/` | Pinned upstream Code-OSS |
-| `tests/` | Unit, integration, invariant and Playwright suites |
-| `scripts/` | Bootstrap, QC capture and release scripts |
-
----
-
-## Build & release
-
-| Workflow | Trigger | Output |
-| --- | --- | --- |
-| `ci-runtime-smoke.yml` | push / PR to `main` | build + Playwright smoke |
-| `build-verify.yml`, `lint.yml`, `rust.yml` | push / PR | type check, lint, Rust |
-| `release-macos.yml` | tag `v*` or manual | Apple-silicon `.dmg` attached to the release |
-| `release-windows.yml` | tag `v*` or manual | Windows x64 installer attached to the release |
-
-```bash
-npm version <x.y.z> --no-git-tag-version
-gh release create v<x.y.z> --target main --latest   # both installer workflows start from the tag
-```
-
----
-
-## Tech stack
-
-**UI**: React 19 · TypeScript 5.6 · shadcn/ui · Radix · Tailwind 4 · Vite 8 · Monaco · D3 · xterm.js
-**Desktop**: Code-OSS · Electron · first-party extensions
-**Native**: Rust · tokio · serialport · probe-rs
-**Analysis**: CBMC · CodeQL · cppcheck · clang-tidy · LLVM coverage
-**AI**: LM Studio · vLLM · Ollama · Gemini · Anthropic · OpenAI · Google ADK
+<p>
+<img src="https://img.shields.io/badge/Code--OSS-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Code-OSS" />
+<img src="https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React 19" />
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
+<img src="https://img.shields.io/badge/shadcn%2Fui-000000?style=flat-square&logo=shadcnui&logoColor=white" alt="shadcn/ui" />
+<img src="https://img.shields.io/badge/Tailwind_4-0F172A?style=flat-square&logo=tailwindcss&logoColor=38BDF8" alt="Tailwind 4" />
+<img src="https://img.shields.io/badge/Rust-CE412B?style=flat-square&logo=rust&logoColor=white" alt="Rust" />
+<img src="https://img.shields.io/badge/CBMC-333333?style=flat-square" alt="CBMC" />
+<img src="https://img.shields.io/badge/CodeQL-2F363D?style=flat-square&logo=github&logoColor=white" alt="CodeQL" />
+<img src="https://img.shields.io/badge/probe--rs-333333?style=flat-square" alt="probe-rs" />
+</p>
 
 ---
 
 ## Distribution
 
-End-user downloads are at [`Hitheshkaranth/noyce-ide-dist`](https://github.com/Hitheshkaranth/noyce-ide-dist). This repository holds the source; the dist repository ships the installers.
+This repository ships the installers and the [noyce-ide.tech](https://noyce-ide.tech) website. The source is in [`Hitheshkaranth/noyce_ide`](https://github.com/Hitheshkaranth/noyce_ide).
 
 ## License
 
 Proprietary. © 2026 Noyce IDE. All rights reserved.
 
----
+<br/>
 
 <div align="center">
-
+<img src="icons_resources/icon_large.png" alt="" width="48" />
+<br/>
 <sub>Built for engineers who ship firmware that has to be right.</sub>
-
 </div>
