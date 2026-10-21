@@ -302,6 +302,122 @@
       .marquee { -webkit-mask-image: none; mask-image: none; }
       .seg-thumb, .acc, .lift { transition: none !important; }
     }
+
+    /* 3D diagrams: SVG text sizes are in diagram units, not CSS pixels */
+    .sys-tile { background: radial-gradient(120% 90% at 70% 0%, oklch(24% .03 200 / .55), transparent 60%), var(--surface); }
+    .sys-canvas, .kg-canvas { position: relative; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .sys-canvas svg, .kg-canvas svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .sys-canvas { padding: clamp(8px, 2vw, 24px) clamp(8px, 2vw, 28px) 0; }
+    .sys-hit { cursor: pointer; }
+    .sys-t { fill: var(--fg); font: 600 27px var(--font-display); letter-spacing: -.01em; pointer-events: none; paint-order: stroke; stroke: oklch(16% 0 0 / .85); stroke-width: 5px; }
+    .sys-s { fill: var(--text-3); font: 500 19px var(--font-mono); pointer-events: none; paint-order: stroke; stroke: oklch(16% 0 0 / .85); stroke-width: 4px; }
+    .sys-label { transition: opacity .3s var(--ease-std); }
+    .sys-plat { fill: var(--text-2); font: 500 32px var(--font-display); letter-spacing: -.02em; }
+    .sys-floor { fill: var(--text-3); font: 500 18px var(--font-mono); letter-spacing: .14em; }
+    .sys-pulse { stroke-dasharray: 2 26; animation: sys-flow 1.1s linear infinite; }
+    @keyframes sys-flow { to { stroke-dashoffset: -28; } }
+    .sys-card { position: absolute; left: clamp(16px, 3vw, 36px); top: clamp(16px, 3vw, 32px); width: min(23rem, 40%); padding: 18px 20px; border: 1px solid oklch(100% 0 0 / .1); border-radius: var(--r-control); background: oklch(18.5% .005 220 / .94); box-shadow: inset 0 1px 0 oklch(100% 0 0 / .06), var(--shadow-raised); animation: sys-card .32s var(--ease-enter); }
+    @keyframes sys-card { from { opacity: 0; transform: translateY(6px); filter: blur(3px); } }
+    .sys-legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--border-subtle); }
+    .sys-col { padding: 20px clamp(16px, 2vw, 24px) 22px; transition: background-color var(--d-std) var(--ease-std); }
+    .sys-col + .sys-col { border-left: 1px solid var(--border-subtle); }
+    .sys-col[data-on] { background: oklch(100% 0 0 / .025); }
+    .sys-chip, .kg-q { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 11px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface-muted); color: var(--text-2); font: inherit; font-size: .75rem; font-weight: 500; cursor: pointer; transition: color var(--d-fast) var(--ease-std), border-color var(--d-fast) var(--ease-std), background-color var(--d-fast) var(--ease-std), transform var(--d-fast) var(--ease-std); }
+    .sys-chip:active, .kg-q:active { transform: scale(.97); }
+    .sys-chip[aria-pressed="true"], .kg-q[aria-pressed="true"] { color: oklch(18% 0 0); border-color: transparent; background: var(--grad-ink); }
+    @media (hover: hover) and (pointer: fine) { .sys-chip:hover, .kg-q:hover { color: var(--fg); border-color: var(--border-strong); } }
+    @media (max-width: 1023px) {
+      .sys-card { position: static; width: auto; margin: 4px 16px 18px; animation: none; }
+      .sys-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .sys-col:nth-child(3) { border-left: 0; }
+      .sys-col:nth-child(n+3) { border-top: 1px solid var(--border-subtle); }
+    }
+    @media (max-width: 640px) {
+      .sys-legend { grid-template-columns: 1fr; }
+      .sys-col + .sys-col { border-left: 0; border-top: 1px solid var(--border-subtle); }
+      .sys-t { font-size: 26px; } .sys-s { display: none; }
+    }
+
+    .kg-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 18px clamp(16px, 2vw, 24px); border-bottom: 1px solid var(--border-subtle); }
+    .kg-canvas { padding: 8px clamp(8px, 2vw, 24px) 0; background: radial-gradient(90% 70% at 50% 40%, oklch(24% .04 190 / .5), transparent 70%); }
+    .kg-node { transition: opacity .4s var(--ease-std); animation: kg-in .55s var(--ease-enter) both; }
+    @keyframes kg-in { from { opacity: 0; transform: translateY(-18px); } }
+    .kg-edge { transition: opacity .35s var(--ease-std); animation: kg-fade .6s var(--ease-enter) both; }
+    @keyframes kg-fade { from { opacity: 0; } }
+    .kg-tier { fill: var(--text-3); font: 500 17px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+    .kg-label { fill: var(--text-2); font: 500 17px var(--font-mono); paint-order: stroke; stroke: oklch(15% 0 0 / .9); stroke-width: 5px; pointer-events: none; }
+    .kg-hot { fill: var(--fg); font-weight: 600; }
+    .kg-src { fill: oklch(88% .12 175); font: 500 15px var(--font-mono); paint-order: stroke; stroke: oklch(15% 0 0 / .9); stroke-width: 5px; }
+    .kg-badge { fill: var(--warning); font: 600 15px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; paint-order: stroke; stroke: oklch(15% 0 0 / .9); stroke-width: 5px; }
+    .kg-foot { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px 32px; align-items: center; padding: 18px clamp(16px, 2vw, 24px) 22px; border-top: 1px solid var(--border-subtle); }
+    .kg-ledger { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+    .kg-snap { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border: 1px solid var(--border); border-radius: 8px; color: var(--text-3); font-size: .75rem; transition: color var(--d-std) var(--ease-std), border-color var(--d-std) var(--ease-std), background-color var(--d-std) var(--ease-std); }
+    .kg-snap .mono { font-size: .6875rem; }
+    .kg-snap[data-on] { color: var(--fg); border-color: oklch(80% .12 170 / .45); background: oklch(80% .12 170 / .08); }
+    .kg-link { width: 14px; height: 1px; background: var(--border); transition: background-color var(--d-std); }
+    .kg-link[data-on] { background: oklch(80% .12 170 / .6); }
+    .kg-explain { animation: sys-card .32s var(--ease-enter); min-height: 4.5rem; }
+    .kg-keys { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+    .kg-key { width: 10px; height: 10px; border-radius: 3px; }
+    @media (max-width: 1023px) { .kg-foot { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) {
+      .sys-pulse { animation: none; stroke-dasharray: none; opacity: .5; }
+      .kg-node, .kg-edge, .sys-card, .kg-explain { animation: none; }
+    }
+
+    /* Anatomy: real screens as plates in an exploded CSS 3D stack */
+    .an-pin-wrap { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; overflow: hidden; }
+    .an-grid { position: relative; width: 100%; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: center; }
+    .an-lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+    .an-lines path { fill: none; stroke: oklch(86% .12 185 / .8); stroke-width: 1.5; stroke-dasharray: 3 5; transition: opacity .25s var(--ease-std); }
+    .an-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+    .an-list button { display: flex; gap: 14px; width: 100%; padding: 14px 16px; border: 1px solid transparent; border-radius: var(--r-control); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; transition: background-color var(--d-std) var(--ease-std), border-color var(--d-std) var(--ease-std), transform var(--d-fast) var(--ease-std); }
+    .an-list button:active { transform: scale(.985); }
+    .an-list li[data-on] button { background: var(--surface); border-color: var(--border); box-shadow: inset 0 1px 0 oklch(100% 0 0 / .035); }
+    .an-list li:not([data-on]) .h3 { color: var(--text-3); }
+    .an-num { flex: none; display: grid; place-items: center; width: 28px; height: 28px; margin-top: 2px; border: 1px solid var(--border-strong); border-radius: 999px; font-size: .75rem; color: var(--text-2); transition: background-color var(--d-std), color var(--d-std), border-color var(--d-std); }
+    .an-list li[data-on] .an-num { border-color: transparent; background: var(--grad-ink); color: oklch(18% 0 0); }
+    .an-desc { display: block; max-height: 0; opacity: 0; overflow: hidden; transition: max-height .45s var(--ease-std), opacity .3s var(--ease-std), margin .3s var(--ease-std); }
+    .an-list li[data-on] .an-desc { max-height: 9rem; opacity: 1; margin-top: 6px; }
+
+    .an-scene { --gap: 92px; perspective: 2600px; height: min(80vh, 740px); display: grid; place-items: center; }
+    .an-stage { position: relative; width: min(100%, 560px); aspect-ratio: 2000 / 1226; transform-style: preserve-3d;
+      transform: translateY(calc(var(--ex, 0) * 175px)) rotateX(calc(57deg + var(--tip, 0deg))) rotateZ(calc(-36deg + var(--lean, 0deg)));
+      transition: transform .7s var(--ease-std); }
+    .an-plate { --lift: 0px; position: absolute; inset: 0; padding: 0; border: 0; background: none; cursor: pointer; transform-style: preserve-3d;
+      transform: translateZ(calc(var(--i) * var(--ex, 0) * var(--gap) + var(--lift)));
+      transition: transform .55s var(--ease-std), filter .35s var(--ease-std); }
+    .an-plate img { display: block; width: 100%; height: 100%; border-radius: 10px; border: 1px solid oklch(100% 0 0 / .14); box-shadow: 0 40px 70px -24px oklch(0% 0 0 / .85); user-select: none; -webkit-user-drag: none; transition: box-shadow .35s var(--ease-std); }
+    .an-plate::before { content: ''; position: absolute; left: 4px; right: 4px; top: calc(100% - 1px); height: 9px; transform-origin: top; transform: rotateX(-90deg); border-radius: 0 0 6px 6px; background: oklch(26% .05 var(--h)); }
+    .an-plate::after { content: ''; position: absolute; top: 4px; bottom: 4px; left: calc(100% - 1px); width: 9px; transform-origin: left; transform: rotateY(90deg); border-radius: 0 6px 6px 0; background: oklch(20% .05 var(--h)); }
+    .an-plate[data-on] { --lift: 44px; }
+    .an-plate[data-on] img { box-shadow: 0 0 0 2px oklch(86% .13 185), 0 0 60px oklch(80% .13 185 / .35), 0 40px 70px -24px oklch(0% 0 0 / .85); }
+    .an-plate[data-dim] { filter: brightness(.5) saturate(.55); }
+    .an-tab { position: absolute; left: 14px; bottom: calc(100% + 6px); display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; border: 1px solid oklch(100% 0 0 / .14); border-radius: 9px; background: oklch(22% .05 var(--h) / .92); color: var(--fg); font: 500 15px var(--font-display); white-space: nowrap; }
+    .an-tab b { font-size: 12px; font-weight: 500; color: var(--text-3); }
+    .an-post { position: absolute; width: 2px; margin-left: -1px; height: calc(var(--ex, 0) * var(--gap)); transform-origin: top; transform: rotateX(-90deg); background: repeating-linear-gradient(to bottom, oklch(86% .12 185 / .55) 0 4px, transparent 4px 10px); pointer-events: none; }
+    .an-pin { position: absolute; left: 100%; top: 50%; width: 12px; height: 12px; margin: -6px; border-radius: 50%; background: oklch(90% .12 185); box-shadow: 0 0 0 5px oklch(90% .12 185 / .2); opacity: 0; transition: opacity .3s; }
+    .an-plate[data-on] .an-pin { opacity: 1; }
+    .an-stacked { display: grid; gap: 8px; padding-top: 8px; padding-bottom: 24px; }
+    .an-stacked .an-scene { --gap: 46px; height: auto; padding: 120px 0 40px; perspective: 1600px; }
+    .an-stacked .an-stage { width: min(78%, 420px); transform: rotateX(57deg) rotateZ(-36deg); }
+    .an-stacked .an-tab { font-size: 11px; height: 22px; padding: 0 8px; }
+    .an-stacked .an-plate[data-on] { --lift: 26px; }
+    @media (max-width: 640px) { .an-stacked .an-tab { display: none; } }
+
+    /* V model in 3D */
+    .v3-tile { background: radial-gradient(80% 70% at 50% 35%, oklch(24% .04 190 / .45), transparent 70%), var(--surface); }
+    .v3-canvas { position: relative; padding: 18px clamp(8px, 2vw, 24px) 8px; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .v3-canvas svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .v3-t { fill: var(--fg); font: 600 26px var(--font-display); letter-spacing: -.01em; paint-order: stroke; stroke: oklch(16% 0 0 / .9); stroke-width: 6px; pointer-events: none; }
+    .v3-k { fill: var(--text-3); font: 500 18px var(--font-mono); paint-order: stroke; stroke: oklch(16% 0 0 / .9); stroke-width: 5px; pointer-events: none; }
+    .v3-label { transition: opacity .3s var(--ease-std); }
+    .v3-lvl { fill: var(--text-3); font: 500 17px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+    .v3-arm { fill: var(--text-2); font: 500 20px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+    .v3-rel { fill: var(--text-3); font: 600 16px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; paint-order: stroke; stroke: oklch(16% 0 0 / .9); stroke-width: 5px; }
+    .v3-rel.is-on { fill: oklch(90% .12 185); }
+    .v3-bridge { cursor: pointer; }
+    .v3-up { animation-direction: reverse; }
   </style>
 </head>
 <body>
@@ -431,7 +547,7 @@
     );
 
     /* ---------- Header ---------- */
-    const NAV = [['#how', 'Tour', 'how'], ['#dal-a', 'DAL A run', 'dal-a'], ['#features', 'Product', 'features'], ['#ai', 'Agents', 'ai'], ['#trust', 'Trust', 'trust'], ['#models', 'Models', 'models']];
+    const NAV = [['#system', 'How it works', 'system'], ['#how', 'Tour', 'how'], ['#dal-a', 'DO-178C run', 'dal-a'], ['#features', 'Product', 'features'], ['#ai', 'Agents', 'ai'], ['#graph', 'Knowledge graph', 'graph']];
     const Header = () => {
       const [scrolled, setScrolled] = useState(false);
       const [here, setHere] = useState('');
@@ -504,7 +620,7 @@
       </div>
     );
 
-    /* Independent review of the 71 Level A objectives after the H-Bridge DAL A run (2.0.6). */
+    /* Independent review of the 71 Annex A objectives after the H-Bridge DO-178C run (2.0.6). */
     const ANNEX = [['Satisfied', 5, 'var(--success)'], ['Partial', 36, 'var(--warning)'], ['Open', 27, 'oklch(48% 0 0)'], ['N/A', 3, 'oklch(32% 0 0)']];
     const AnnexBar = ({ size }) => (
       <div>
@@ -536,13 +652,13 @@
           <div className="mosaic">
             {/* Row 1 */}
             <WidgetTile c="1" r="1" i={6} hide>
-              <div className="mt-head"><span>Annex A · DAL A run</span><span>71 objectives</span></div>
+              <div className="mt-head"><span>DO-178C · Annex A</span><span>71 objectives</span></div>
               <div className="px-1 flex flex-col flex-1">
                 <div className="small mb-3">Graded by independent review</div>
                 <div className="mt-auto"><AnnexBar /></div>
               </div>
             </WidgetTile>
-            <ShotTile c="2 / 4" r="1" i={4} src={SHOT + '10-compliance-dashboard.png'} label="Compliance" meta="DO-178C · DAL A" hide />
+            <ShotTile c="2 / 4" r="1" i={4} src={SHOT + '10-compliance-dashboard.png'} label="Compliance" meta="DO-178C" hide />
             <WidgetTile c="4" r="1" i={2} hide>
               <div className="mt-head"><span>Handoff chain</span><span>15 agents</span></div>
               <div className="flex flex-col gap-1.5 px-1">
@@ -560,7 +676,7 @@
             {/* Row 2 */}
             <ShotTile c="1" r="2" i={7} src={SHOT + '40-register-knowledge.png'} label="Register Knowledge" meta="page-cited" hide />
             <WidgetTile c="2" r="2" i={1}>
-              <div className="mt-head"><span>CBMC · DAL A run</span><span>H-Bridge</span></div>
+              <div className="mt-head"><span>CBMC · DO-178C run</span><span>H-Bridge</span></div>
               <div className="px-1 flex flex-col gap-3 flex-1 md:items-end md:text-right">
                 <div className="num text-[40px]"><Count value="1,002" /></div>
                 <div className="small" style={{ marginTop: -6 }}>properties proved</div>
@@ -570,7 +686,7 @@
             </WidgetTile>
 
             <div className="hero-card tile-in" style={{ '--c': '3 / 6', '--r': '2', animationDelay: '0s' }}>
-              <a href="#release-207" className="chip mb-6 hover:text-white" style={{ height: 30, padding: '0 12px' }}><span className="ink font-semibold">New in 2.0.7</span><span>A second DAL A run, on a local model</span><Icon name="arrowRight" size={13} /></a>
+              <a href="#release-207" className="chip mb-6 hover:text-white" style={{ height: 30, padding: '0 12px' }}><span className="ink font-semibold">New in 2.0.7</span><span>A second DO-178C run, on a local model</span><Icon name="arrowRight" size={13} /></a>
               <div className="flex items-center gap-4 md:gap-5">
                 <img src="icons_resources/icon_large.png" alt="" className="hero-mark" />
                 <h1 className="h1">Noyce IDE</h1>
@@ -663,7 +779,7 @@
           <div className="reel-pin">
             <div className="reel-head wrap">
               <h2 className="display">See it work.<br /><span className="ink">On real firmware.</span></h2>
-              <p className="lede mx-auto" style={{ maxWidth: '34rem' }}>Ninety-five seconds inside the running IDE, on an STM32G431 motor controller taken to a DAL A document set.</p>
+              <p className="lede mx-auto" style={{ maxWidth: '34rem' }}>Ninety-five seconds inside the running IDE, on an STM32G431 motor controller taken to a DO-178C document set.</p>
             </div>
             <div className="wrap">
               <div className="reel-win glow">
@@ -748,7 +864,7 @@
       return <video ref={ref} poster={DEMO + clip + '.jpg'} muted loop playsInline preload="none" aria-label={label} />;
     };
 
-    /* ---------- Story: the product explained by scrolling through a real DAL A project ---------- */
+    /* ---------- Story: the product explained by scrolling through a real DO-178C project ---------- */
     const STORY = [
       { clip: 'requirements', k: 'Requirements', win: 'Requirements & Evidence', t: 'Every requirement carries its evidence.', d: 'Select a high-level requirement and its evidence ledger follows: the source that implements it, the tests that verify it, the reviews, and whatever is still missing.' },
       { clip: 'traceability', k: 'Traceability', win: 'Traceability Graph', t: 'Requirement to code to test, as one graph.', d: 'Filter the graph down to source, tests or requirements. A requirement with nothing on one side shows up as a gap, never as coverage.' },
@@ -756,7 +872,7 @@
       { clip: 'documents', k: 'Documents', win: 'DO-178C Documents', t: 'Seventeen life-cycle documents, under control.', d: 'PSAC through SAS, authored from the workspace and filed under .noyce/. Each document shows what is complete, what is proposed, and what still needs an engineer.' },
       { clip: 'mcdc', k: 'Coverage', win: 'MC/DC Coverage', t: 'MC/DC that is measured, not estimated.', d: 'Decisions and conditions come from the real source. Measured coverage comes from an LLVM-instrumented build, so the numerator is something that actually executed.' },
       { clip: 'architecture', k: 'Architecture', win: 'System Architecture', t: 'A C4 model built from the tree.', d: 'Components, dependencies and data flow are derived from the code itself, so the design description stays tied to what ships.' },
-      { clip: 'compliance', k: 'Compliance', win: 'Compliance Dashboard', t: 'Graded against all 71 objectives.', d: 'Each of the 71 Level A objectives is graded satisfied, partial or open, and nothing is rounded up to a pass. In this recording the dashboard grades 0 satisfied, 39 partial and 32 open: stricter than the independent review.' },
+      { clip: 'compliance', k: 'Compliance', win: 'Compliance Dashboard', t: 'Graded against all 71 objectives.', d: 'Each of the 71 Annex A objectives is graded satisfied, partial or open, and nothing is rounded up to a pass. In this recording the dashboard grades 0 satisfied, 39 partial and 32 open: stricter than the independent review.' },
       { clip: 'audit', k: 'Audit', win: 'Audit Trail', t: 'Every action, hash-chained.', d: 'Runs, reviews and approvals land in an append-only ledger. Each entry carries the hash of the one before it, so an edited record breaks the chain where anyone can see it.' },
     ];
     const STORY_VH = 72;
@@ -1036,7 +1152,7 @@
         { name: 'Traceability Monitor', ab: 'TM', role: 'graph · orphans', body: 'Emits new_nodes / new_edges JSON to keep the graph current. Lists orphans: requirements without code, code without tests, design without requirements. Completions append to the hash-chained audit ledger.', cmd: 'noyce trace --audit --fail-on-orphan' },
       ] },
       { k: 'docs', l: 'Documents & compliance', agents: [
-        { name: 'Compliance Author', ab: 'CA', role: 'objectives · evidence', body: 'Authors the objective set for the framework and level: DO-178C Tables A-1 to A-10, ISO 26262, IEC 62304 or IEC 61508. Cites only real requirement IDs and paths from the grounding, and marks an objective satisfied only when the evidence proves it.', cmd: 'noyce objectives --framework do-178c --level A' },
+        { name: 'Compliance Author', ab: 'CA', role: 'objectives · evidence', body: 'Authors the objective set for the framework and level: DO-178C Tables A-1 to A-10, ISO 26262, IEC 62304 or IEC 61508. Cites only real requirement IDs and paths from the grounding, and marks an objective satisfied only when the evidence proves it.', cmd: 'noyce objectives --framework do-178c' },
         { name: 'Doc Author', ab: 'DA', role: 'section edits', body: 'Writes section-targeted edits to DO-178C documents against stable section ids, traces requirements to real code symbols, and says where evidence is missing instead of inventing a file, version or checksum.', cmd: 'noyce doc author SDD --section 3.2' },
         { name: 'Doc Reviewer', ab: 'DR', role: 'verification review', body: 'Reviews the author\'s edits for untestable requirements, missing trace, unmet objectives, and any file, symbol or figure the project does not support, then returns corrective edits.', cmd: 'noyce doc review SDD --since author' },
         { name: 'Doc Generator', ab: 'DG', role: 'plans · records', body: 'Extracts SRS entries and bidirectional trace links. Compliance routes A-1 plans, A-2 standards, and A-8/A-9/A-10 QA/CM records here as Documentation Engineer, as print-ready markdown and .docx.', cmd: 'noyce doc SDP --section 4.2' },
@@ -1287,6 +1403,58 @@
     };
 
     /* ---------- V model ---------- */
+    /* ---------- 3D primitives: an isometric projector the two diagrams share ---------- */
+    /* `yaw` turns the world about a vertical axis through (cx, cy) before projecting, so the
+       scene can orbit a few degrees under the pointer and read as real depth, not a drawing. */
+    const COS30 = Math.cos(Math.PI / 6);
+    function projector(yawDeg, cx, cy, elev) {
+      const a = (yawDeg * Math.PI) / 180, ca = Math.cos(a), sa = Math.sin(a);
+      const turn = (x, y) => [cx + (x - cx) * ca - (y - cy) * sa, cy + (x - cx) * sa + (y - cy) * ca];
+      const iso = ([x, y, z]) => { const [rx, ry] = turn(x, y); return [(rx - ry) * COS30, (rx + ry) * elev - z]; };
+      const pts = (vs) => vs.map((v) => iso(v).map((n) => n.toFixed(1)).join(',')).join(' ');
+      const depth = (x, y) => { const [rx, ry] = turn(x, y); return rx + ry; };
+      return { iso, pts, depth };
+    }
+    /* signed area of a projected polygon: faces turned away from the camera are negative */
+    const area2 = (p) => { let s = 0; for (let i = 0; i < p.length; i++) { const [ax, ay] = p[i], [bx, by] = p[(i + 1) % p.length]; s += ax * by - bx * ay; } return s; };
+
+    /* Pointer orbit with a soft follow. Mouse: the scene leans toward the cursor. Touch: drag.
+       Idle: a slow drift. Runs only while the canvas is on screen; static under reduced motion. */
+    function useOrbit(range) {
+      const ref = useRef(null);
+      const [yaw, setYaw] = useState(0);
+      const s = useRef({ cur: 0, tgt: 0, active: false, drag: null, shown: 0 });
+      useEffect(() => {
+        const el = ref.current; if (!el || REDUCE) return;
+        let raf = 0, on = false;
+        const loop = (t) => {
+          const o = s.current;
+          if (!o.active) o.tgt = Math.sin(t / 5200) * range * 0.45;
+          o.cur += (o.tgt - o.cur) * 0.07;
+          if (Math.abs(o.cur - o.shown) > 0.03) { o.shown = o.cur; setYaw(o.cur); }
+          raf = on ? requestAnimationFrame(loop) : 0;
+        };
+        const io = new IntersectionObserver(([e]) => {
+          on = e.isIntersecting;
+          if (on && !raf) raf = requestAnimationFrame(loop);
+        }, { rootMargin: '100px 0px' });
+        io.observe(el);
+        return () => { on = false; io.disconnect(); cancelAnimationFrame(raf); };
+      }, []);
+      const clampY = (v) => Math.max(-range, Math.min(range, v));
+      const bind = {
+        onPointerMove: (e) => {
+          const o = s.current, r = e.currentTarget.getBoundingClientRect();
+          if (o.drag) { o.tgt = clampY(o.drag.yaw + ((e.clientX - o.drag.x) / r.width) * range * 3); return; }
+          if (e.pointerType === 'mouse') { o.active = true; o.tgt = ((e.clientX - r.left) / r.width - 0.5) * 2 * range; }
+        },
+        onPointerDown: (e) => { if (e.pointerType !== 'mouse') { s.current.active = true; s.current.drag = { x: e.clientX, yaw: s.current.tgt }; } },
+        onPointerUp: () => { s.current.drag = null; },
+        onPointerLeave: () => { s.current.active = false; s.current.drag = null; },
+      };
+      return [ref, yaw, bind];
+    }
+
     const VPAIRS = [
       {
         rel: 'validated by',
@@ -1311,7 +1479,103 @@
     ];
     const VERTEX = { id: 'code', k: 'Vertex', t: 'The code itself', s: 'Native Code-OSS editor', d: 'Both arms meet in the editor. Nothing in this diagram lives in a separate portal: the requirement tag, the design link, the MISRA finding, and the test link all attach to the same line of firmware, and the Traceability Monitor lists whichever of them is missing.' };
 
+
+    /* The V drawn in 3D: stages laid along one screen-horizontal diagonal, height = abstraction level.
+       Define runs down the left arm into the code, Verify climbs the right arm, and each level is tied
+       across the V by the bridge that says which stage answers which. */
+    const V_STEP = 132, V_B = 112, V_H = 26, V_RISE = 128, V_ELEV = 0.44, V_RANGE = 10;
+    const V_SLOTS = (() => {
+      const out = [];
+      VPAIRS.forEach((p, r) => {
+        out.push({ n: p.left, t: r, lvl: 4 - r, side: 'L', row: r });
+        out.push({ n: p.right, t: 8 - r, lvl: 4 - r, side: 'R', row: r });
+      });
+      out.push({ n: VERTEX, t: 4, lvl: 0, side: 'V', row: -1 });
+      return out.map((s) => ({ ...s, x: s.t * V_STEP, y: -s.t * V_STEP, z: s.lvl * V_RISE }));
+    })();
+    const V_CX = 4 * V_STEP + V_B / 2, V_CY = -4 * V_STEP + V_B / 2;
+    const V_VIEW = (() => {
+      let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      [-V_RANGE, V_RANGE].forEach((yw) => {
+        const P = projector(yw, V_CX, V_CY, V_ELEV);
+        V_SLOTS.forEach((s) => [[0, 0], [V_B, 0], [0, V_B], [V_B, V_B]].forEach(([dx, dy]) => [-30, s.z + V_H + 90].forEach((z) => {
+          const [x, y] = P.iso([s.x + dx, s.y + dy, z]); x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+        })));
+      });
+      return [x0 - 190, y0 - 60, x1 - x0 + 250, y1 - y0 + 120];
+    })();
+    const vLines = (t) => { const w = t.split(' '); if (t.length < 15 || w.length < 2) return [t]; const h = Math.ceil(w.length / 2); return [w.slice(0, h).join(' '), w.slice(h).join(' ')]; };
+
+    const VModel3D = ({ active, partner, onPick }) => {
+      const [ref, yaw, bind] = useOrbit(V_RANGE);
+      const P = projector(yaw, V_CX, V_CY, V_ELEV);
+      const lift = (id) => (id === active ? 16 : partner && partner.id === id ? 8 : 0);
+      const topC = (s, dz = 0) => P.iso([s.x + V_B / 2, s.y + V_B / 2, s.z + V_H + lift(s.n.id) + dz]);
+      const hue = (s) => (s.side === 'L' ? 215 : s.side === 'R' ? 155 : 190);
+      const arm = (side) => V_SLOTS.filter((s) => s.side === side || s.side === 'V').sort((a, b) => a.t - b.t);
+      const armPath = (list) => 'M' + list.map((s) => topC(s, 6).map((n) => n.toFixed(1)).join(' ')).join(' L');
+      const order = [...V_SLOTS].sort((a, b) => P.depth(a.x, a.y) - P.depth(b.x, b.y) || a.z - b.z);
+      const fp = (t, w) => [t * V_STEP + w, -t * V_STEP + w];
+      const floor = [fp(-0.7, -50), fp(8.7, -50), fp(8.7, V_B + 50), fp(-0.7, V_B + 50)];
+      return (
+        <div ref={ref} {...bind} className="v3-canvas">
+          <svg viewBox={V_VIEW.join(' ')} role="img" aria-label="The V model in 3D: system requirements, architecture, detailed design and unit design descend the left arm to the code; unit, integration and system verification and certification evidence climb the right arm; each level is bridged to the stage that verifies it.">
+            <defs>
+              <filter id="v3-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+            </defs>
+            <polygon points={P.pts(floor.map(([x, y]) => [x, y, -26]))} fill="oklch(100% 0 0 / .02)" stroke="oklch(100% 0 0 / .1)" strokeDasharray="6 8" />
+            {Array.from({ length: 5 }, (_, l) => {
+              const a = P.iso([...fp(-0.7, V_B / 2), l * V_RISE]), b = P.iso([...fp(8.7, V_B / 2), l * V_RISE]);
+              return <g key={l}><path d={`M${a[0]} ${a[1]}L${b[0]} ${b[1]}`} stroke="oklch(100% 0 0 / .045)" strokeDasharray="2 10" /><text x={a[0] - 14} y={a[1] + 5} textAnchor="end" className="v3-lvl">{['Code', 'Unit', 'Design', 'Architecture', 'System'][l]}</text></g>;
+            })}
+            {order.map((s) => {
+              const on = s.n.id === active, pair = partner && partner.id === s.n.id, z = s.z + lift(s.n.id), h = hue(s);
+              const ring = [[s.x, s.y], [s.x + V_B, s.y], [s.x + V_B, s.y + V_B], [s.x, s.y + V_B]];
+              const faces = ring.map((c, i) => { const d = ring[(i + 1) % 4]; return [[c[0], c[1], z], [d[0], d[1], z], [d[0], d[1], z + V_H], [c[0], c[1], z + V_H]]; }).filter((f) => area2(f.map(P.iso)) > 0);
+              const g0 = P.iso([s.x + V_B / 2, s.y + V_B / 2, -26]), g1 = P.iso([s.x + V_B / 2, s.y + V_B / 2, z]);
+              return (
+                <g key={s.n.id} className="sys-hit" onClick={() => onPick(s.n.id)}>
+                  <path d={`M${g0[0]} ${g0[1]}L${g1[0]} ${g1[1]}`} stroke="oklch(100% 0 0 / .12)" strokeDasharray="3 6" />
+                  <ellipse cx={g0[0]} cy={g0[1]} rx="46" ry="14" fill="oklch(0% 0 0 / .35)" />
+                  {faces.map((f, i) => <polygon key={i} points={P.pts(f)} fill={`oklch(${i % 2 ? 30 : 38}% .08 ${h})`} stroke={`oklch(70% .1 ${h} / .3)`} />)}
+                  <polygon points={P.pts(ring.map(([x, y]) => [x, y, z + V_H]))} fill={`oklch(${on ? 58 : pair ? 50 : 44}% .1 ${h})`} stroke={on || pair ? 'oklch(92% .1 185)' : `oklch(75% .1 ${h} / .55)`} strokeWidth={on ? 3 : pair ? 2 : 1.2} filter={on ? 'url(#v3-glow)' : undefined} />
+                </g>
+              );
+            })}
+            <path d={armPath(arm('L'))} fill="none" stroke="oklch(80% .1 215 / .35)" strokeWidth="2" />
+            <path d={armPath(arm('L'))} fill="none" stroke="oklch(92% .08 215)" strokeWidth="3" strokeLinecap="round" className="sys-pulse" />
+            <path d={armPath(arm('R'))} fill="none" stroke="oklch(80% .12 155 / .35)" strokeWidth="2" />
+            <path d={armPath(arm('R'))} fill="none" stroke="oklch(92% .1 155)" strokeWidth="3" strokeLinecap="round" className="sys-pulse v3-up" />
+            {VPAIRS.map((p, r) => {
+              const L = V_SLOTS.find((s) => s.n.id === p.left.id), R = V_SLOTS.find((s) => s.n.id === p.right.id);
+              const hot = [p.left.id, p.right.id].includes(active);
+              const a = P.iso([L.x + V_B, L.y + V_B / 2, L.z + V_H / 2 + lift(L.n.id)]), b = P.iso([R.x, R.y + V_B / 2, R.z + V_H / 2 + lift(R.n.id)]);
+              const d = `M${a[0].toFixed(1)} ${a[1].toFixed(1)} Q${((a[0] + b[0]) / 2).toFixed(1)} ${(Math.min(a[1], b[1]) - 26).toFixed(1)} ${b[0].toFixed(1)} ${b[1].toFixed(1)}`;
+              return (
+                <g key={p.left.id} className="v3-bridge" onClick={() => onPick(p.left.id)}>
+                  <path d={d} fill="none" stroke={hot ? 'oklch(90% .12 185)' : 'oklch(100% 0 0 / .16)'} strokeWidth={hot ? 3 : 1.5} strokeDasharray={hot ? undefined : '5 7'} />
+                  {hot && <path d={d} fill="none" stroke="oklch(98% .05 185)" strokeWidth="4" strokeLinecap="round" className="sys-pulse" />}
+                  <text x={(a[0] + b[0]) / 2} y={Math.min(a[1], b[1]) - 22} textAnchor="middle" className={'v3-rel' + (hot ? ' is-on' : '')}>{p.rel}</text>
+                </g>
+              );
+            })}
+            {V_SLOTS.map((s) => {
+              const [x, y] = topC(s), on = s.n.id === active, lines = vLines(s.n.t);
+              return (
+                <g key={'t' + s.n.id} className="v3-label" style={{ opacity: on || (partner && partner.id === s.n.id) ? 1 : 0.78 }}>
+                  <text x={x} y={y - 16 - (lines.length - 1) * 28} textAnchor="middle" className="v3-t">{lines.map((l, i) => <tspan key={i} x={x} dy={i ? 28 : 0}>{l}</tspan>)}</text>
+                  <text x={x} y={y + 52} textAnchor="middle" className="v3-k">{s.n.k}</text>
+                </g>
+              );
+            })}
+            {(() => { const a = topC(V_SLOTS.find((s) => s.n.id === 'req')), b = topC(V_SLOTS.find((s) => s.n.id === 'cert')); return <><text x={a[0]} y={a[1] - 92} textAnchor="middle" className="v3-arm">↓ Define</text><text x={b[0]} y={b[1] - 92} textAnchor="middle" className="v3-arm">Verify ↑</text></>; })()}
+          </svg>
+        </div>
+      );
+    };
+
     const VModel = () => {
+      const wide = useMedia('(min-width: 768px)');
       const [active, setActive] = useState('req');
       const flat = VPAIRS.flatMap((p) => [p.left, p.right]).concat([VERTEX]);
       const node = flat.find((n) => n.id === active) || flat[0];
@@ -1336,8 +1600,11 @@
         <section id="vmodel" className="section">
           <div className="wrap">
             <SectionHead eyebrow="Traceability" title="The V model, with both arms in one window.">
-              Safety programs already run the V. What breaks is the horizontal: the line that says this test verifies that requirement. It normally lives in a spreadsheet nobody trusts. Select a stage to see the surface that produces it and the stage it answers to.
+              Safety programs already run the V. What breaks is the horizontal: the line that says this test verifies that requirement. It normally lives in a spreadsheet nobody trusts. Select a stage, or a bridge across the V, to see the surface that produces it and the stage it answers to.
             </SectionHead>
+            {wide ? (
+              <Reveal className="tile v3-tile overflow-hidden mb-4"><VModel3D active={active} partner={partner} onPick={setActive} /></Reveal>
+            ) : (
             <Reveal className="tile diagram dots mb-4">
               <div className="flex items-center justify-between mb-4">
                 <span className="dg-cap" style={{ margin: 0 }}>Define</span>
@@ -1357,6 +1624,7 @@
                 <VNode n={VERTEX} />
               </div>
             </Reveal>
+            )}
             <Reveal className="tile tile-pad grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] gap-4 items-start">
               <div style={{ maxWidth: '44rem' }}>
                 <div className="label mb-2">{node.s}</div>
@@ -1482,11 +1750,11 @@
     /* ---------- Releases: one section, switched by version ---------- */
     const RELEASES = [
       {
-        v: '2.0.7', id: 'release-207', title: 'A second DAL A run, on a local model.',
-        lede: 'A TI Tiva power-distribution controller was taken through DAL A with a local Qwen model over Tailscale. The run logged 75 issues across the flow and the interface, and every one is fixed in this release.',
+        v: '2.0.7', id: 'release-207', title: 'A second DO-178C run, on a local model.',
+        lede: 'A TI Tiva power-distribution controller was taken through DO-178C with a local Qwen model over Tailscale. The run logged 75 issues across the flow and the interface, and every one is fixed in this release.',
         points: [
           { k: 'Sign-off', t: 'Issuing a document is a signed act.', d: 'Signatories come from the project roster and each signature references the audit ledger. Independence is noted on the document, and the IDE never signs the authority row. The SVR and SAS cannot be issued until verification has actually run.' },
-          { k: 'DAL path', t: 'A guided path that agrees with Annex A.', d: 'The DAL path steps agree with the Annex A objective counts. Control page, SVCP test-case records and a SAS conformity table follow public CEMILAC templates.' },
+          { k: 'Guided path', t: 'A guided path that agrees with Annex A.', d: 'The guided path steps agree with the Annex A objective counts. Control page, SVCP test-case records and a SAS conformity table follow public CEMILAC templates.' },
           { k: 'Requirements', t: 'LLRs linked, and the graph follows them.', d: 'LLR drafts are pre-linked to HLRs by trace symbol, with model parent suggestions and bulk accept, link and derive. The traceability graph shows the LLR level and rebuilds when requirements change.' },
           { k: 'Local models', t: 'A vLLM server is taken at its word.', d: 'The probed context is a floor, not the window, and each model can carry its own context. The docs swarm reports what happened to each section, and one failed document no longer ends a batch.' },
           { k: 'Documents', t: 'A Finder-style library, with figures.', d: 'Documents are grouped by lifecycle in a grid or list, with live writing state and Export all .docx. Mermaid and Archify figures render in the Docs panel and in .docx exports. A project template can be imported from a corporate .docx.' },
@@ -1495,10 +1763,10 @@
       },
       {
         v: '2.0.6', id: 'release-206', title: 'Evidence engineers can sign.',
-        lede: 'A new interface across the whole IDE, and the DO-178C flow taken to DAL A on a real code base: complete documents, reviewed decisions, real independence and per-requirement verification.',
+        lede: 'A new interface across the whole IDE, and the DO-178C flow taken end to end on a real code base: complete documents, reviewed decisions, real independence and per-requirement verification.',
         points: [
           { k: 'Interface', t: 'The whole IDE, rebuilt on shadcn/ui.', d: 'Every surface moved from HeroUI to shadcn/ui on Radix and Tailwind 4, on one dark theme, with one visual language for work in flight. Live-AI motion appears only where a model is actually working.' },
-          { k: 'DAL A, end to end', t: 'A real code base taken from prototype to DAL A in the IDE.', d: '17 DO-178C documents with a completion workflow: proposals, engineer decisions and evidence gaps each have a way to close, and a document issues only when nothing is open. Agents draft engineering-judgment decisions; engineers accept them in a review queue.' },
+          { k: 'DO-178C, end to end', t: 'A real code base taken from prototype to a DO-178C document set in the IDE.', d: '17 DO-178C documents with a completion workflow: proposals, engineer decisions and evidence gaps each have a way to close, and a document issues only when nothing is open. Agents draft engineering-judgment decisions; engineers accept them in a review queue.' },
           { k: 'Independence', t: 'Reviews say who wrote it and who checked it.', d: 'A project roster of people; AI reviews are labelled AI-assisted and earn no independence credit. Problem reports follow AC/AMC 20-189 with CCB decisions, and contradictions across the document set block a baseline unless a named person waives them.' },
           { k: 'Verification', t: 'Tests, proofs and target runs per requirement.', d: 'Requirements-based tests per HLR and LLR, CBMC harnesses per function with a vacuity check, and on-target test runs over probe-rs and RTT. Agent and analyser fixes become change sets gated on build, tests and MISRA.' },
           { k: 'Orchestrator', t: 'Live model, tokens and rate on every card.', d: 'Compliance objectives become cards with one canonical id, run by a worker pool. The Agents panel now shows the model the server actually serves, and works with key-protected vLLM servers.' },
@@ -1520,7 +1788,7 @@
         lede: 'Every compliance surface answered what is true right now. That is useful while working and useless as evidence: two people on two days saw two different answers, and neither could name the configuration the answer was about. A certification authority asks the opposite question, and now there is something that answers it.',
         points: [
           { k: 'The run', t: 'One reproducible act against one frozen configuration.', d: 'A command freezes the commit, the working-tree state and the assurance level, executes every evidence producer in order, and writes an append-only record anchored to the audit-ledger head. Two runs over an unchanged tree share an assessment digest, so a regression is detectable rather than plausible.' },
-          { k: 'Real denominators', t: 'All 71 Level A objectives, reported as ratios.', d: 'A table with one measured objective out of thirteen reports one of thirteen, and can never render as a pass. Objective wording is licensed by RTCA and is not shipped: objectives stay identified by number until you load your own copy. Nothing here invents a fallback.' },
+          { k: 'Real denominators', t: 'All 71 Annex A objectives, reported as ratios.', d: 'A table with one measured objective out of thirteen reports one of thirteen, and can never render as a pass. Objective wording is licensed by RTCA and is not shipped: objectives stay identified by number until you load your own copy. Nothing here invents a fallback.' },
           { k: 'Did not run', t: 'A producer that did not execute claims nothing.', d: 'Not a zero, not a failing claim. Coverage analysed but never measured produces no claim. CBMC with zero properties proves nothing. And the CBMC and CodeQL sample fallbacks, which are right for a panel, are treated as did-not-run: a sample in a signed package is fabricated evidence.' },
           { k: 'Verification', t: 'Cases and results, not prose a model wrote.', d: 'A case with no result is not-run, never a pass. A host result does not discharge target compatibility. Coverage shortfall is classified as a missing case, dead code, deactivated code with its means of prevention, or justified with an approver, and a missing case is never a resolution.' },
           { k: 'Process', t: 'The half of Annex A no analyser reaches.', d: 'Problem reports whose closure needs a disposition and a confirmation by someone else. Review records whose independence is derived from author not equal to reviewer, never asserted. And the conformity checklist an SOI 4 opens with, where a question the evidence cannot answer is not a pass.' },
@@ -1617,7 +1885,7 @@
       );
     };
 
-    /* ---------- DAL A run (2.0.6) ---------- */
+    /* ---------- DO-178C run (2.0.6) ---------- */
     const DAL_STEPS = [
       { k: 'Requirements', clip: 'requirements', clipCap: 'Requirements & Evidence · select a requirement and its evidence ledger follows', t: 'Write the high-level requirements', d: '15 high-level requirements authored into the SRS with per-requirement lint and system trace. System requirements import from CSV, ReqIF-lite or Markdown, and low-level requirements enter the set only through human review.', shot: '06-requirements-authoring.png', cap: 'Requirements Authoring · HLRs written into SRS-001 with lint and system trace' },
       { k: 'Verification', t: 'Measure, prove, and analyse', d: '57 host tests. 100% MC/DC on five modules, measured with LLVM on the host with stubs, and stated as such. Five CBMC harnesses with 1,002 properties proved. MISRA findings from 549 down to 210, the rest carried as recorded deviations.', shot: '16-formal-verification.png', cap: 'CBMC Formal Verification · bounded model checking with per-function harnesses' },
@@ -1632,8 +1900,8 @@
       return (
         <section id="dal-a" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="New in 2.0.6 · end to end" title={<span>A real motor controller, <span className="muted">from prototype to a DAL A document set.</span></span>}>
-              The STM32G431 H-Bridge controller was taken through DO-178C at DAL A inside the IDE, and every fix that run demanded shipped in 2.0.6. The result is reported the way an auditor would read it, including what is still open.
+            <SectionHead eyebrow="New in 2.0.6 · end to end" title={<span>A real motor controller, <span className="muted">from prototype to a DO-178C document set.</span></span>}>
+              The STM32G431 H-Bridge controller was taken through DO-178C inside the IDE, and every fix that run demanded shipped in 2.0.6. The result is reported the way an auditor would read it, including what is still open.
             </SectionHead>
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.55fr)] gap-4 items-stretch mb-4">
               <Reveal className="tile p-2.5 flex flex-col gap-1">
@@ -1669,7 +1937,7 @@
               <div>
                 <div className="label mb-2">Annex A, graded by independent review</div>
                 <h3 className="h3 h3-lg mb-3">5 of 71 objectives satisfied. That is the honest starting point.</h3>
-                <p className="body m-0">An independent review of all 71 Level A objectives found 5 satisfied, 36 partial, 27 open and 3 not applicable. The Software Accomplishment Summary states non-compliance. The IDE shows the same gap list, not a green dashboard.</p>
+                <p className="body m-0">An independent review of all 71 Annex A objectives found 5 satisfied, 36 partial, 27 open and 3 not applicable. The Software Accomplishment Summary states non-compliance. The IDE shows the same gap list, not a green dashboard.</p>
               </div>
               <div className="flex flex-col gap-6">
                 <AnnexBar size="lg" />
@@ -1692,7 +1960,7 @@
         { t: 'A tool that did not run claims nothing.', d: 'Not a zero and not a failing claim. Coverage that was analysed but never measured, CBMC with zero properties, and the sample fallbacks shown in panels all count as did-not-run, and never enter a signed package.' },
         { t: 'Zero findings counts only after a scan.', d: 'A clean result needs a scan that actually ran. CodeQL is not counted as measured by default, and a cyber posture score needs a real vulnerability source.' },
         { t: 'AI earns no independence credit.', d: 'Reviews record who authored and who reviewed, from the project roster. AI-assisted reviews are labelled as such and never satisfy an independence requirement.' },
-        { t: 'Every objective has a real denominator.', d: 'All 71 Level A objectives are reported as ratios. One measured objective out of thirteen reads one of thirteen, and can never render as a pass.' },
+        { t: 'Every objective has a real denominator.', d: 'All 71 Annex A objectives are reported as ratios. One measured objective out of thirteen reads one of thirteen, and can never render as a pass.' },
         { t: 'Licensed text stays licensed.', d: 'RTCA objective wording is not shipped. Objectives are identified by number until you load your own copy of the standard.' },
         { t: 'Your firmware tree stays yours.', d: 'Everything generated goes under .noyce/ with its own .gitignore. Agent writes are confined to the project and arrive as change sets you approve, gated on build, tests and MISRA.' },
       ];
@@ -1713,7 +1981,7 @@
             </div>
             <Reveal className="tile tile-pad mt-4 flex flex-col md:flex-row md:items-center gap-4 md:gap-8" style={{ background: 'transparent', borderStyle: 'dashed', borderColor: 'var(--border-strong)', boxShadow: 'none' }}>
               <span className="chip chip-warn chip-dot shrink-0">Known gaps, stated</span>
-              <p className="body m-0" style={{ fontSize: '.875rem' }}>Each release lists what does not work yet. The DAL A run above publishes its open objectives, and the 2.0.4 notes say plainly that the Software Configuration Index is not yet built from real toolchain output.</p>
+              <p className="body m-0" style={{ fontSize: '.875rem' }}>Each release lists what does not work yet. The DO-178C run above publishes its open objectives, and the 2.0.4 notes say plainly that the Software Configuration Index is not yet built from real toolchain output.</p>
             </Reveal>
           </div>
         </section>
@@ -1813,12 +2081,12 @@
 
     /* ---------- Traction ---------- */
     const Traction = () => {
-      const stats = [['5', 'beta users on the notarized macOS build'], ['4', 'firmware projects taken through a full pass'], ['2.0.7', 'public dist, source open for technical review']];
+      const stats = [['2', 'companies running it on their own firmware'], ['6', 'firmware projects it has been used on'], ['2.0.7', 'public dist, source open for technical review']];
       return (
         <section id="traction" className="section">
           <div className="wrap">
             <SectionHead eyebrow="Company · Traction" title="Where this actually is.">
-              Early, and stated plainly. The build ships and installs. Four firmware projects have gone from vendor import to a signed package. What it has not done yet is sit on someone else's certification program end to end, and that is the next thing.
+              Early, and stated plainly. Noyce is deployed at two companies and has been used on six firmware projects. What it has not done yet is carry a program all the way through certification, and that is the next thing.
             </SectionHead>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {stats.map(([n, l], i) => (
@@ -2059,7 +2327,7 @@
     /* ---------- Footer ---------- */
     const Footer = () => {
       const cols = [
-        { h: 'Product', links: [['DAL A run', '#dal-a'], ['Tour', '#how'], ['Surfaces', '#features'], ['Agents', '#ai'], ['Trust', '#trust'], ['Models', '#models'], ['Compare', '#compare'], ['Download', '#download']] },
+        { h: 'Product', links: [['DO-178C run', '#dal-a'], ['Tour', '#how'], ['Surfaces', '#features'], ['Agents', '#ai'], ['Trust', '#trust'], ['Models', '#models'], ['Compare', '#compare'], ['Download', '#download']] },
         { h: 'Resources', links: [['Docs', REPO + '#readme'], ['Release notes', REPO + '/blob/main/RELEASE_NOTES.md'], ['Releases', REPO + '/releases'], ['What changed', '#releases']] },
         { h: 'Company', links: [['Pitch', '#yc'], ['Team', '#team'], ['Market', '#market'], ['Traction', '#traction'], ['The name', '#name'], ['Contact', '#contact'], ['Email', 'mailto:' + CONTACT_EMAIL]] },
       ];
@@ -2095,6 +2363,536 @@
       );
     };
 
+
+    /* ---------- How it works: the system as a four-step staircase ---------- */
+    const SYS_LAYERS = [
+      { name: 'Your firmware', tone: [250, 0.025], cols: 2, line: 'Noyce reads the tree you already have. Nothing is uploaded and nothing is written back into it.',
+        blocks: [
+          { id: 'src', t: 'C / C++ source', s: 'STM32 · Tiva', h: 30, d: 'Parsed in place, read-only. Functions, decisions and the call graph come straight from your source tree.' },
+          { id: 'req', t: 'Requirements', s: '@req tags', h: 26, d: 'Requirement documents and @req tags become one register: the same one the dashboard, traceability graph and documents read.' },
+          { id: 'map', t: 'Build outputs', s: '.map · .su', h: 22, d: 'GNU ld map files and GCC stack-usage files give the real flash and RAM budget and the worst-case stack.' },
+          { id: 'sch', t: 'Schematic', s: 'PDF to BoM', h: 22, d: 'Schematic PDFs are text-indexed and turned into a bill of materials, linked to the pins your code drives.' },
+          { id: 'man', t: 'Ref. manual', s: 'page-cited', h: 22, d: 'The reference manual for your MCU is acquired on import. Registers are cited to the page and linked to the code that touches them.' },
+        ] },
+      { name: 'Six local engines', tone: [215, 0.09], cols: 2, line: 'Deterministic tools produce the findings, not a language model. They all run on your machine.',
+        blocks: [
+          { id: 'misra', t: 'MISRA C', s: 'rule checks', h: 40, d: 'cppcheck with the MISRA addon. Fix with Noyce proposes a change set for one finding; nothing is applied until an engineer approves it.' },
+          { id: 'cbmc', t: 'CBMC', s: 'model checking', h: 40, d: 'Bounded model checking on harnesses. On the H-Bridge DO-178C run: 1,002 properties proved, 0 failed.' },
+          { id: 'codeql', t: 'CodeQL', s: 'code scanning', h: 40, d: 'CodeQL queries run offline against your build, with results kept as SARIF.' },
+          { id: 'mcdc', t: 'MC/DC', s: 'llvm-cov', h: 40, d: 'Decisions and conditions come from the source. Coverage is measured from an LLVM-instrumented build, so the numerator actually executed.' },
+          { id: 'mem', t: 'Memory', s: 'stack · flash', h: 40, d: 'Flash and RAM budget and worst-case stack for every build, with a diff against the last one.' },
+          { id: 'trace', t: 'Traceability', s: 'req to code', h: 40, d: 'Requirement to code to test as one graph. A requirement missing one side shows up as a gap, never as coverage.' },
+        ] },
+      { name: 'Evidence', tone: [165, 0.1], cols: 1, line: 'Every result is recorded once, hashed, and can be replayed later.',
+        blocks: [
+          { id: 'ledger', t: 'Audit ledger', s: 'hash-chained', h: 58, d: 'Append-only. Each entry carries the hash of the one before it, so an edited record breaks the chain where anyone can see it.' },
+          { id: 'runs', t: 'Compliance runs', s: 'reproducible', h: 40, d: 'Each DO-178C run is a hashed record under .noyce/, with the inputs it graded, so it can be reproduced.' },
+          { id: 'agents', t: 'Local AI agents', s: 'your model drafts', h: 40, d: 'Fifteen agents on the model you choose draft documents and fixes. AI review is not independent verification: an engineer approves.' },
+        ] },
+      { name: 'Deliverables', tone: [145, 0.13], cols: 1, line: 'What your reviewer or certification authority actually reads.',
+        blocks: [
+          { id: 'annex', t: 'DO-178C Annex A', s: '71 objectives', h: 56, d: 'All 71 Annex A objectives, each graded satisfied, partial or open on its own evidence. Nothing is rounded up to a pass.' },
+          { id: 'docs', t: 'Plans & documents', s: 'PSAC · SRS · SDD', h: 44, d: 'Seventeen life-cycle documents, PSAC through SAS, authored from the workspace with revisions and a baseline hash.' },
+          { id: 'cert', t: 'Certification pkg', s: 'signed export', h: 44, d: 'A signed, hash-chained export of requirements, analyses, coverage and the audit trail, ready for review.' },
+        ] },
+    ];
+    const SYS_FLOW = [
+      ['src', 'misra'], ['src', 'cbmc'], ['src', 'codeql'], ['src', 'mcdc'], ['req', 'trace'], ['src', 'trace'], ['map', 'mem'], ['man', 'trace'], ['sch', 'trace'],
+      ['misra', 'ledger'], ['cbmc', 'ledger'], ['codeql', 'ledger'], ['mcdc', 'ledger'], ['mem', 'ledger'], ['trace', 'ledger'], ['trace', 'agents'],
+      ['ledger', 'runs'], ['runs', 'annex'], ['agents', 'docs'], ['ledger', 'cert'], ['annex', 'cert'], ['docs', 'cert'],
+    ];
+    const SYS_TOUR = ['src', 'misra', 'mcdc', 'ledger', 'agents', 'annex', 'cert'];
+    const S_PX = 300, S_PY = 330, S_STEP_X = 345, S_STEP_Z = 210, S_SLAB = 16, S_PAD = 22, S_GAP = 18, S_ROWS = 3;
+    const SYS_BLOCKS = SYS_LAYERS.flatMap((L, li) => {
+      const bx = (S_PX - 2 * S_PAD - S_GAP * (L.cols - 1)) / L.cols, by = (S_PY - 2 * S_PAD - S_GAP * (S_ROWS - 1)) / S_ROWS;
+      return L.blocks.map((b, i) => ({ ...b, li, bx, by, x: li * S_STEP_X + S_PAD + (i % L.cols) * (bx + S_GAP), y: -li * S_STEP_X + S_PAD + Math.floor(i / L.cols) * (by + S_GAP), z: li * S_STEP_Z + S_SLAB }));
+    });
+    const sysBlock = (id) => SYS_BLOCKS.find((b) => b.id === id);
+    const tone = ([h, c], l, a) => `oklch(${l}% ${c} ${h}${a == null ? '' : ' / ' + a})`;
+    const S_CX = 1.5 * S_STEP_X + S_PX / 2, S_CY = -1.5 * S_STEP_X + S_PY / 2, S_ELEV = 0.5, S_RANGE = 14;
+    /* a fixed frame that holds the scene at both orbit extremes, so orbiting never rescales it */
+    const SYS_VIEW = (() => {
+      let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      [-S_RANGE, 0, S_RANGE].forEach((yw) => {
+        const P = projector(yw, S_CX, S_CY, S_ELEV);
+        SYS_LAYERS.forEach((L, li) => [[0, 0], [S_PX, 0], [0, S_PY], [S_PX, S_PY]].forEach(([dx, dy]) => [0, li * S_STEP_Z + S_SLAB + 110].forEach((z) => {
+          const [x, y] = P.iso([li * S_STEP_X + dx, -li * S_STEP_X + dy, z]); x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y);
+        })));
+      });
+      return [x0 - 120, y0 - 130, x1 - x0 + 200, y1 - y0 + 230];
+    })();
+
+    const SysBox = ({ P, b, lift, on, dim }) => {
+      const { x, y, bx, by } = b, z = b.z + lift, h = b.h, t = SYS_LAYERS[b.li].tone;
+      const ring = [[x, y], [x + bx, y], [x + bx, y + by], [x, y + by]];
+      const faces = ring.map((c, i) => { const d = ring[(i + 1) % 4]; return [[c[0], c[1], z], [d[0], d[1], z], [d[0], d[1], z + h], [c[0], c[1], z + h]]; }).filter((f) => area2(f.map(P.iso)) > 0);
+      const top = [[x, y, z + h], [x + bx, y, z + h], [x + bx, y + by, z + h], [x, y + by, z + h]];
+      return (
+        <g style={{ opacity: dim ? 0.42 : 1, transition: 'opacity .3s var(--ease-std)' }}>
+          {faces.map((f, i) => <polygon key={i} points={P.pts(f)} fill={tone(t, i % 2 ? 30 : 38)} stroke={tone(t, 70, 0.25)} strokeWidth="1" />)}
+          <polygon points={P.pts(top)} fill={on ? tone(t, 54) : tone(t, 44)} stroke={on ? 'oklch(92% .1 190)' : tone(t, 72, 0.55)} strokeWidth={on ? 2.6 : 1.3} filter={on ? 'url(#sys-glow)' : undefined} />
+        </g>
+      );
+    };
+
+    const System3D = () => {
+      const [ref, yaw, bind] = useOrbit(S_RANGE);
+      const [hover, setHover] = useState(null);
+      const [pinned, setPinned] = useState(null);
+      const [tour, setTour] = useState(0);
+      const [inRef, shown] = useInView('-120px');
+      useEffect(() => {
+        if (!shown || REDUCE || hover || pinned) return;
+        const t = setInterval(() => setTour((k) => (k + 1) % SYS_TOUR.length), 3400);
+        return () => clearInterval(t);
+      }, [shown, hover, pinned]);
+      const sel = hover || pinned || SYS_TOUR[tour];
+      const selB = sysBlock(sel);
+      const P = projector(yaw, S_CX, S_CY, S_ELEV);
+      const linked = new Set([sel]);
+      SYS_FLOW.forEach(([a, b]) => { if (a === sel) linked.add(b); if (b === sel) linked.add(a); });
+      const top = (b, lift) => P.iso([b.x + b.bx / 2, b.y + b.by / 2, b.z + b.h + lift + 4]);
+      const lift = (id) => (id === sel ? 22 : 0);
+      const order = SYS_LAYERS.map((L, li) => SYS_BLOCKS.filter((b) => b.li === li).sort((p, q) => P.depth(p.x + p.bx / 2, p.y + p.by / 2) - P.depth(q.x + q.bx / 2, q.y + q.by / 2)));
+      const choose = (id) => setPinned((p) => (p === id ? null : id));
+      return (
+        <section id="system" className="section">
+          <div className="wrap">
+            <SectionHead eyebrow="How it works" title={<span>From your source tree to a reviewable package. <span className="muted">Four layers, all on your network.</span></span>}>
+              Firmware goes in at the bottom. Deterministic engines analyse it, every result lands in a hash-chained ledger, and the top layer is what a certification reviewer reads.
+            </SectionHead>
+            <Reveal>
+              <div ref={inRef} className="tile sys-tile overflow-hidden">
+                <div ref={ref} {...bind} className="sys-canvas" onPointerLeave={(e) => { bind.onPointerLeave(e); setHover(null); }}>
+                  <svg viewBox={SYS_VIEW.join(' ')} role="img" aria-label="Firmware sources feed six local analysis engines; their findings become hashed evidence in an audit ledger and compliance runs, which produce Annex A grading, life-cycle documents and a certification package.">
+                    <defs>
+                      <filter id="sys-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+                      <linearGradient id="sys-flow" x1="0" x2="1"><stop offset="0" stopColor="oklch(82% .13 210)" /><stop offset="1" stopColor="oklch(86% .17 145)" /></linearGradient>
+                    </defs>
+                    <polygon points={P.pts([[-60, -50, 0], [985, -1095, 0], [1395, -1095, 0], [1395, -655, 0], [350, 390, 0], [-60, 390, 0]])} fill="oklch(80% .1 190 / .025)" stroke="oklch(80% .1 190 / .3)" strokeWidth="1.5" strokeDasharray="10 10" />
+                    {/* ground shadow and pillars, so the staircase stands on something */}
+                    {SYS_LAYERS.map((L, li) => {
+                      const x0 = li * S_STEP_X, y0 = -li * S_STEP_X, z0 = li * S_STEP_Z;
+                      return (
+                        <g key={'g' + li}>
+                          <polygon points={P.pts([[x0, y0, 0], [x0 + S_PX, y0, 0], [x0 + S_PX, y0 + S_PY, 0], [x0, y0 + S_PY, 0]])} fill="oklch(0% 0 0 / .3)" />
+                          {li > 0 && [[x0, y0 + S_PY], [x0 + S_PX, y0 + S_PY], [x0 + S_PX, y0]].map(([px, py], k) => (
+                            <path key={k} d={'M' + P.iso([px, py, 0]).join(' ') + 'L' + P.iso([px, py, z0]).join(' ')} stroke="oklch(100% 0 0 / .1)" strokeDasharray="3 7" />
+                          ))}
+                        </g>
+                      );
+                    })}
+                    {SYS_LAYERS.map((L, li) => {
+                      const x0 = li * S_STEP_X, y0 = -li * S_STEP_X, z0 = li * S_STEP_Z, t = L.tone, act = selB && selB.li === li;
+                      const y1 = y0 + S_PY;
+                      const slab = (z) => [[x0, y0, z], [x0 + S_PX, y0, z], [x0 + S_PX, y1, z], [x0, y1, z]];
+                      return (
+                        <g key={'p' + li}>
+                          <polygon points={P.pts([[x0, y1, z0], [x0 + S_PX, y1, z0], [x0 + S_PX, y1, z0 + S_SLAB], [x0, y1, z0 + S_SLAB]])} fill={tone(t, 24)} />
+                          <polygon points={P.pts([[x0 + S_PX, y0, z0], [x0 + S_PX, y1, z0], [x0 + S_PX, y1, z0 + S_SLAB], [x0 + S_PX, y0, z0 + S_SLAB]])} fill={tone(t, 19)} />
+                          <polygon points={P.pts(slab(z0 + S_SLAB))} fill={tone(t, act ? 27 : 23)} stroke={tone(t, 66, act ? 0.6 : 0.3)} strokeWidth="1.5" style={{ transition: 'fill .3s, stroke .3s' }} />
+                          {order[li].map((b) => (
+                            <g key={b.id} className="sys-hit" onPointerEnter={() => setHover(b.id)} onClick={() => choose(b.id)}>
+                              {b.id === 'ledger'
+                                ? [0, 1, 2, 3].map((k) => <SysBox key={k} P={P} b={{ ...b, z: b.z + k * 15, h: 10 }} lift={lift(b.id)} on={b.id === sel && k === 3} dim={!linked.has(b.id)} />)
+                                : <SysBox P={P} b={b} lift={lift(b.id)} on={b.id === sel} dim={!linked.has(b.id)} />}
+                            </g>
+                          ))}
+                          <text x={P.iso([x0, y1, z0])[0] + 6} y={P.iso([x0, y1, z0])[1] + 46} className="sys-plat">{L.name}</text>
+                        </g>
+                      );
+                    })}
+                    {SYS_FLOW.map(([a, b], i) => {
+                      const A = sysBlock(a), B = sysBlock(b), hot = a === sel || b === sel;
+                      const [ax, ay] = top(A, lift(a)), [bx, by] = top(B, lift(b));
+                      const d = `M${ax.toFixed(1)} ${ay.toFixed(1)} Q${((ax + bx) / 2).toFixed(1)} ${(Math.min(ay, by) - 110).toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`;
+                      return hot
+                        ? <g key={i}><path d={d} fill="none" stroke="url(#sys-flow)" strokeWidth="2.6" opacity=".55" /><path d={d} fill="none" stroke="oklch(95% .08 180)" strokeWidth="3" strokeLinecap="round" className="sys-pulse" /></g>
+                        : <path key={i} d={d} fill="none" stroke="oklch(100% 0 0 / .07)" strokeWidth="1.4" />;
+                    })}
+                    {SYS_BLOCKS.map((b) => {
+                      const [x, y] = top(b, lift(b.id));
+                      return (
+                        <g key={'l' + b.id} className="sys-label" style={{ opacity: linked.has(b.id) ? 1 : 0.45 }}>
+                          <text x={x} y={y - 4} textAnchor="middle" className="sys-t">{b.t}</text>
+                          {b.id === sel && <text x={x} y={y + 24} textAnchor="middle" className="sys-s">{b.s}</text>}
+                        </g>
+                      );
+                    })}
+                    <text x={P.iso([1395, -655, 0])[0] - 10} y={P.iso([1395, -655, 0])[1] + 34} textAnchor="end" className="sys-floor">YOUR NETWORK · NOTHING LEAVES IT</text>
+                  </svg>
+                  {selB && (
+                    <div className="sys-card" key={sel} aria-live="polite">
+                      <div className="small mb-2">{SYS_LAYERS[selB.li].name}</div>
+                      <div className="h3 h3-lg">{selB.t}</div>
+                      <p className="body mt-2 mb-0">{selB.d}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="sys-legend">
+                  {SYS_LAYERS.map((L, li) => (
+                    <div key={li} className="sys-col" data-on={selB && selB.li === li ? '' : undefined}>
+                      <div className="flex items-baseline gap-2"><span className="mono small">{li + 1}</span><span className="h3">{L.name}</span></div>
+                      <p className="small mt-1.5 mb-3">{L.line}</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {L.blocks.map((b) => (
+                          <button key={b.id} type="button" className="sys-chip" aria-pressed={b.id === sel} onMouseEnter={() => setHover(b.id)} onMouseLeave={() => setHover(null)} onFocus={() => setHover(b.id)} onBlur={() => setHover(null)} onClick={() => choose(b.id)}>{b.t}</button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+            <p className="small mt-4">Hover or tap a block to see what it does and what it feeds. Move across the diagram to turn it.</p>
+          </div>
+        </section>
+      );
+    };
+
+    /* ---------- Knowledge graph (concept): the project's memory, built by each stage ---------- */
+    const KG_KIND = {
+      objective: { tier: 2, hue: 150, c: 0.15, l: 74, shape: 6, label: 'Annex A objective' },
+      requirement: { tier: 2, hue: 175, c: 0.12, l: 72, shape: 6, label: 'Requirement' },
+      function: { tier: 1, hue: 215, c: 0.12, l: 70, shape: 4, label: 'Function' },
+      register: { tier: 1, hue: 262, c: 0.12, l: 66, shape: 'chip', label: 'Register' },
+      test: { tier: 0, hue: 190, c: 0.11, l: 72, shape: 14, label: 'Test' },
+      coverage: { tier: 0, hue: 205, c: 0.11, l: 72, shape: 14, label: 'MC/DC decision' },
+      finding: { tier: 0, hue: 75, c: 0.15, l: 76, shape: 'gem', label: 'Finding' },
+      change: { tier: 0, hue: 300, c: 0.12, l: 66, shape: 'plates', label: 'Change set' },
+      decision: { tier: 0, hue: 245, c: 0.02, l: 88, shape: 'orb', label: 'Engineer decision' },
+      report: { tier: 0, hue: 25, c: 0.15, l: 64, shape: 3, label: 'Problem report' },
+      fault: { tier: 0, hue: 25, c: 0.19, l: 62, shape: 'gem', label: 'HardFault' },
+    };
+    const KG_TIERS = ['Evidence & history', 'Code & hardware', 'Requirements & objectives'];
+    const KG_NODES = [
+      ['obj', 'objective', 1180, 250, 0, 'A-7 #5 MC/DC'], ['r14', 'requirement', 330, 170, 0, 'SYS-REQ-014'], ['r15', 'requirement', 640, 110, 0, 'SYS-REQ-015'], ['r16', 'requirement', 880, 350, 0, 'SYS-REQ-016'],
+      ['run', 'function', 420, 250, 1, 'auto_sequence_runner()'], ['step', 'function', 720, 290, 1, 'auto_seq_step_complete()'], ['hb', 'function', 1000, 150, 1, 'hbridge_state_update()'], ['reg', 'register', 1210, 360, 1, 'GPIOAFSEL'],
+      ['tf', 'test', 250, 110, 2, 'test_auto_seq_forward'], ['tr', 'test', 930, 440, 2, 'test_auto_seq_reverse'], ['mc', 'coverage', 660, 410, 2, 'decision :321'], ['fd', 'finding', 470, 430, 2, 'variableScope :291'], ['pr', 'report', 1180, 470, 2, 'Problem report'],
+      ['cs', 'change', 250, 340, 3, 'CS-001'], ['dec', 'decision', 80, 220, 3, 'Engineer approval'], ['hf', 'fault', 560, 60, 4, 'HardFault'],
+    ].map(([id, kind, x, y, stage, label]) => ({ id, kind, x, y, stage, label }));
+    const KG_EDGES = [
+      ['r14', 'run', 1], ['r16', 'run', 1], ['r15', 'step', 1], ['run', 'step', 1], ['run', 'hb', 1], ['hb', 'reg', 1],
+      ['tf', 'r14', 2], ['tr', 'r16', 2], ['mc', 'step', 2], ['fd', 'run', 2, 'static analysis'], ['pr', 'hb', 2],
+      ['cs', 'fd', 3, 'change set'], ['cs', 'run', 3], ['dec', 'cs', 3, 'review record'], ['obj', 'mc', 3], ['obj', 'tf', 3],
+      ['hf', 'run', 4, 'fault decoder'],
+    ].map(([a, b, stage, source]) => ({ a, b, stage, source }));
+    const KG_STAGES = ['Plan', 'Develop', 'Verify', 'Certify'];
+    const KG_STAGE_TEXT = [
+      'Requirements and the Annex A objectives they serve are the first nodes.',
+      'Code is linked to the requirements it implements and the registers it writes.',
+      'Tests, measured coverage and analysis findings attach to the code they exercise.',
+      'Change sets and engineer approvals close the loop, each hashed into the ledger.',
+    ];
+    const KG_PATH = ['hf', 'run', 'cs', 'fd', 'dec'];
+    const KG_IMPACT = ['mc', 'r15', 'obj'];
+    const KG_QUERIES = {
+      debug: { q: 'Why does auto_sequence_runner() look like this?', a: 'A HardFault decodes to the function. The graph walks back to the change set that last touched it, the MISRA finding that change fixed, and the engineer who approved it. Each hop names the record it came from.' },
+      impact: { q: 'I am about to edit auto_seq_step_complete().', a: 'One function edited. The graph returns the MC/DC decision that covers it, the requirement it implements and the Annex A objective that coverage evidences: three items to re-verify before the next run.' },
+    };
+    const K_SC = 1.18, K_TZ = [0, 190, 380], K_W = 1400 * K_SC, K_D = 520 * K_SC, K_CX = K_W / 2, K_CY = K_D / 2, K_ELEV = 0.26, K_RANGE = 12;
+    const kgNode = (id) => KG_NODES.find((n) => n.id === id);
+    const kgPos = (n) => [n.x * K_SC, n.y * K_SC, K_TZ[KG_KIND[n.kind].tier]];
+    const KG_VIEW = (() => {
+      let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      [-K_RANGE, 0, K_RANGE].forEach((yw) => {
+        const P = projector(yw, K_CX, K_CY, K_ELEV);
+        K_TZ.forEach((z) => [[0, 0], [K_W, 0], [0, K_D], [K_W, K_D]].forEach(([x, y]) => {
+          const [px, py] = P.iso([x, y, z]); x0 = Math.min(x0, px); x1 = Math.max(x1, px); y0 = Math.min(y0, py); y1 = Math.max(y1, py);
+        }));
+      });
+      return [x0 - 30, y0 - 120, x1 - x0 + 60, y1 - y0 + 170];
+    })();
+
+    /* One solid per kind, lit from the upper left; faces turned away are not drawn. */
+    const KgSolid = ({ P, n, hot, dim }) => {
+      const K = KG_KIND[n.kind], [x, y, z] = kgPos(n);
+      const col = (l, a) => `oklch(${l}% ${K.c} ${K.hue}${a == null ? '' : ' / ' + a})`;
+      const stroke = hot ? 'oklch(95% .1 180)' : col(K.l + 14, 0.6);
+      const R = 30, H = K.shape === 'chip' ? 12 : K.shape === 'plates' ? 30 : 34;
+      const out = [];
+      const prism = (sides, r, z0, h, rot, key) => {
+        const ring = (zz) => Array.from({ length: sides }, (_, i) => { const a = rot + (i / sides) * Math.PI * 2; return [x + Math.cos(a) * r, y + Math.sin(a) * r, zz]; });
+        const b = ring(z0), t = ring(z0 + h);
+        for (let i = 0; i < sides; i++) {
+          const f = [b[i], b[(i + 1) % sides], t[(i + 1) % sides], t[i]];
+          if (area2(f.map(P.iso)) <= 0) continue;
+          const mid = rot + ((i + 0.5) / sides) * Math.PI * 2;
+          const lit = 0.5 + 0.5 * Math.cos(mid - 2.3);
+          out.push(<polygon key={key + 's' + i} points={P.pts(f)} fill={col(K.l * (0.42 + 0.3 * lit))} stroke={sides > 8 ? 'none' : col(K.l + 10, 0.25)} strokeWidth="1" />);
+        }
+        out.push(<polygon key={key + 't'} points={P.pts(t)} fill={col(K.l)} stroke={stroke} strokeWidth={hot ? 2.4 : 1.2} />);
+      };
+      if (typeof K.shape === 'number') prism(K.shape, K.shape === 4 ? R * 0.92 : R, z, H, K.shape === 4 ? Math.PI / 4 : K.shape === 3 ? -Math.PI / 2 : 0, 'p');
+      else if (K.shape === 'chip') {
+        prism(4, R * 1.05, z, H, Math.PI / 4, 'c');
+        for (let i = 0; i < 4; i++) { const [px, py] = P.iso([x - R * 0.6 + i * R * 0.4, y + R * 0.78, z + 2]); out.push(<rect key={'pin' + i} x={px - 2} y={py} width="4" height="9" rx="1" fill={col(K.l + 16)} />); }
+      } else if (K.shape === 'plates') { [0, 12, 24].forEach((dz, i) => prism(4, R * (1 - i * 0.08), z + dz, 7, Math.PI / 4 + i * 0.12, 'pl' + i)); }
+      else if (K.shape === 'gem') {
+        const top = [x, y, z + 52], bot = [x, y, z + 2], eq = Array.from({ length: 4 }, (_, i) => { const a = n.x * 0.01 + (i / 4) * Math.PI * 2; return [x + Math.cos(a) * 24, y + Math.sin(a) * 24, z + 22]; });
+        [bot, top].forEach((tip, k) => eq.forEach((e, i) => {
+          const f = k ? [e, eq[(i + 1) % 4], tip] : [eq[(i + 1) % 4], e, tip];
+          if (area2(f.map(P.iso)) <= 0) return;
+          out.push(<polygon key={'g' + k + i} points={P.pts(f)} fill={col(K.l * (k ? 0.75 + 0.25 * (i % 2) : 0.5))} stroke={stroke} strokeWidth={hot ? 2 : 1} />);
+        }));
+      } else {
+        const [ox, oy] = P.iso([x, y, z + 24]);
+        out.push(<circle key="o" cx={ox} cy={oy} r={24} fill="url(#kg-orb)" stroke={stroke} strokeWidth={hot ? 2.4 : 1} />);
+      }
+      const [sx, sy] = P.iso([x, y, z]);
+      return (
+        <g style={{ opacity: dim ? 0.3 : 1, transition: 'opacity .35s var(--ease-std)' }} filter={hot ? 'url(#kg-glow)' : undefined}>
+          <ellipse cx={sx} cy={sy + 4} rx="36" ry="10" fill="oklch(0% 0 0 / .35)" />
+          {out}
+        </g>
+      );
+    };
+
+    const KnowledgeGraph = () => {
+      const [ref, yaw, bind] = useOrbit(K_RANGE);
+      const [stage, setStage] = useState(REDUCE ? 3 : 0);
+      const [query, setQuery] = useState(null);
+      const [touched, setTouched] = useState(false);
+      const [inRef, shown] = useInView('-160px');
+      /* the first time it is on screen, the graph builds itself one stage at a time */
+      useEffect(() => {
+        if (!shown || touched || REDUCE || stage >= 3) return;
+        const t = setTimeout(() => setStage((s) => s + 1), 1500);
+        return () => clearTimeout(t);
+      }, [shown, stage, touched]);
+      const P = projector(yaw, K_CX, K_CY, K_ELEV);
+      const visN = (n) => (n.stage === 4 ? query === 'debug' : n.stage <= stage);
+      const visE = (e) => (e.stage === 4 ? query === 'debug' : e.stage <= stage);
+      const onPath = (e) => {
+        if (query === 'debug') { const i = KG_PATH.indexOf(e.a), j = KG_PATH.indexOf(e.b); return i >= 0 && j >= 0 && Math.abs(i - j) === 1; }
+        if (query === 'impact') return (e.a === 'step' || e.b === 'step' || (e.a === 'obj' && e.b === 'mc')) && [e.a, e.b].every((id) => id === 'step' || KG_IMPACT.includes(id));
+        return false;
+      };
+      const hotN = (id) => (query === 'debug' ? KG_PATH.includes(id) : query === 'impact' ? id === 'step' || KG_IMPACT.includes(id) : false);
+      const top = (n) => { const [x, y, z] = kgPos(n); return P.iso([x, y, z + 40]); };
+      const ask = (q) => { setTouched(true); setQuery((c) => (c === q ? null : q)); setStage(3); };
+      const nodes = KG_NODES.filter(visN).sort((p, q) => { const a = kgPos(p), b = kgPos(q); return a[2] - b[2] || P.depth(a[0], a[1]) - P.depth(b[0], b[1]); });
+      return (
+        <section id="graph" className="section">
+          <div className="wrap">
+            <SectionHead title={<span>A project that remembers why. <span className="muted">Every certification stage adds to it.</span></span>}>
+              We are building a knowledge graph that links requirements, code, registers, tests, findings and approvals as the project moves through certification. Months later it answers debugging questions; during a compliance run it shows exactly what a change touches.
+            </SectionHead>
+            <Reveal>
+              <div ref={inRef} className="tile overflow-hidden">
+                <div className="kg-bar">
+                  <span className="chip chip-warn">Concept · in development</span>
+                  <Seg size="sm" label="Certification stage" value={String(stage)} onChange={(v) => { setTouched(true); setQuery(null); setStage(+v); }} items={KG_STAGES.map((s, i) => [String(i), s])} />
+                  <div className="flex gap-1.5 flex-wrap">
+                    <button type="button" className="kg-q" aria-pressed={query === 'debug'} onClick={() => ask('debug')}><Icon name="search" size={14} /> Debug a fault</button>
+                    <button type="button" className="kg-q" aria-pressed={query === 'impact'} onClick={() => ask('impact')}><Icon name="graph" size={14} /> Change impact</button>
+                  </div>
+                </div>
+                <div ref={ref} {...bind} className="kg-canvas">
+                  <svg viewBox={KG_VIEW.join(' ')} role="img" aria-label="Three stacked planes: requirements and objectives on top, code and hardware in the middle, evidence and history at the bottom, with links between them that accumulate across the Plan, Develop, Verify and Certify stages.">
+                    <defs>
+                      <radialGradient id="kg-orb" cx="35%" cy="30%" r="75%"><stop offset="0" stopColor="oklch(99% 0 0)" /><stop offset=".55" stopColor="oklch(78% .02 245)" /><stop offset="1" stopColor="oklch(42% .02 245)" /></radialGradient>
+                      <filter id="kg-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+                      <linearGradient id="kg-plane" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="oklch(80% .1 200 / .09)" /><stop offset="1" stopColor="oklch(80% .1 150 / .03)" /></linearGradient>
+                    </defs>
+                    {K_TZ.map((z, ti) => {
+                      const c = [[0, 0, z], [K_W, 0, z], [K_W, K_D, z], [0, K_D, z]];
+                      const [lx, ly] = P.iso([0, K_D, z]);
+                      return (
+                        <g key={ti}>
+                          <polygon points={P.pts(c)} fill="url(#kg-plane)" stroke="oklch(85% .08 190 / .28)" strokeWidth="1.4" />
+                          {Array.from({ length: 13 }, (_, i) => <path key={'v' + i} d={'M' + P.iso([(i + 1) * K_W / 14, 0, z]).join(' ') + 'L' + P.iso([(i + 1) * K_W / 14, K_D, z]).join(' ')} stroke="oklch(100% 0 0 / .035)" />)}
+                          {Array.from({ length: 4 }, (_, i) => <path key={'h' + i} d={'M' + P.iso([0, (i + 1) * K_D / 5, z]).join(' ') + 'L' + P.iso([K_W, (i + 1) * K_D / 5, z]).join(' ')} stroke="oklch(100% 0 0 / .035)" />)}
+                          <text x={lx + 10} y={ly + 30} className="kg-tier">{KG_TIERS[ti]}</text>
+                        </g>
+                      );
+                    })}
+                    {KG_EDGES.filter(visE).map((e, i) => {
+                      const A = kgNode(e.a), B = kgNode(e.b), [ax, ay] = top(A), [bx, by] = top(B), hot = onPath(e);
+                      const d = `M${ax.toFixed(1)} ${ay.toFixed(1)} Q${((ax + bx) / 2).toFixed(1)} ${(Math.min(ay, by) - 60).toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`;
+                      return (
+                        <g key={e.a + e.b} className="kg-edge" style={{ opacity: query && !hot ? 0.18 : 1 }}>
+                          <path d={d} fill="none" stroke={hot ? 'oklch(90% .12 175)' : 'oklch(85% .06 200 / .4)'} strokeWidth={hot ? 3 : 1.6} />
+                          <path d={d} fill="none" stroke="oklch(98% .05 180)" strokeWidth={hot ? 4 : 2.4} strokeLinecap="round" className="sys-pulse" style={{ animationDelay: (i * -0.37) + 's' }} />
+                          {hot && e.source && query === 'debug' && <text x={(ax + bx) / 2} y={Math.min(ay, by) - 36} textAnchor="middle" className="kg-src">source: {e.source}</text>}
+                        </g>
+                      );
+                    })}
+                    {nodes.map((n) => (
+                      <g key={n.id} className="kg-node">
+                        <KgSolid P={P} n={n} hot={hotN(n.id)} dim={!!query && !hotN(n.id)} />
+                      </g>
+                    ))}
+                    {nodes.map((n) => {
+                      const [x, y] = top(n), hot = hotN(n.id);
+                      return (
+                        <g key={'t' + n.id} className="kg-node" style={{ opacity: query && !hot ? 0.3 : 1 }}>
+                          <text x={x} y={y - 18} textAnchor="middle" className={'kg-label' + (hot ? ' kg-hot' : '')}>{n.label}</text>
+                          {query === 'impact' && KG_IMPACT.includes(n.id) && <text x={x} y={y - 46} textAnchor="middle" className="kg-badge">re-verify</text>}
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+                <div className="kg-foot">
+                  <div className="kg-ledger" aria-label="Ledger snapshots">
+                    {KG_STAGES.map((s, i) => (
+                      <React.Fragment key={s}>
+                        {i > 0 && <span className="kg-link" data-on={i <= stage ? '' : undefined} />}
+                        <span className="kg-snap" data-on={i <= stage ? '' : undefined}><span className="mono">#{i + 1}</span>{s}</span>
+                      </React.Fragment>
+                    ))}
+                    <span className="small ml-1 hidden md:inline">each snapshot hashed to the last</span>
+                  </div>
+                  <div className="kg-explain" key={query || 's' + stage} aria-live="polite">
+                    {query
+                      ? <><div className="h3">{KG_QUERIES[query].q}</div><p className="body mt-1.5 mb-0">{KG_QUERIES[query].a}</p></>
+                      : <><div className="h3">{KG_STAGES[stage]}</div><p className="body mt-1.5 mb-0">{KG_STAGE_TEXT[stage]}</p></>}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+            <div className="kg-keys mt-5">
+              {['requirement', 'function', 'register', 'test', 'finding', 'change', 'decision'].map((k) => (
+                <span key={k} className="flex items-center gap-2 small"><span className="kg-key" style={{ background: `oklch(${KG_KIND[k].l}% ${KG_KIND[k].c} ${KG_KIND[k].hue})` }} />{KG_KIND[k].label}</span>
+              ))}
+              <span className="small md:ml-auto">Example: Canister firmware. Links are illustrative.</span>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+
+    /* ---------- Anatomy: the IDE taken apart into the layers a certification pass moves through ---------- */
+    /* Real 2.0.6 screenshots stacked as plates in CSS 3D. Scrolling pulls the stack apart, then walks
+       up it one plate at a time; a leader line ties the active plate to its callout. */
+    const ANAT = [
+      { img: '40-register-knowledge', tone: 250, k: 'Your firmware', t: 'Read where it lives.', d: 'Source, requirements, build outputs and the MCU reference manual, indexed in place. Registers are cited to the page and linked to the code that touches them.' },
+      { img: '14-misra-diagnostics', tone: 215, k: 'Local engines', t: 'Findings from real tools.', d: 'MISRA C, CBMC, CodeQL, MC/DC, memory and traceability run on your machine. A finding is a tool result, never a model opinion.' },
+      { img: '01-ai-orchestrator', tone: 195, k: 'Your model', t: 'Agents draft, engineers decide.', d: 'Fifteen agents on the model you choose write documents, tests and fixes as proposals. Nothing reaches the tree until an engineer approves it.' },
+      { img: '26-audit-trail', tone: 165, k: 'Evidence', t: 'Every action, hash-chained.', d: 'Runs, reviews and approvals land in an append-only ledger. Each entry carries the hash of the one before it.' },
+      { img: '10-compliance-dashboard', tone: 145, k: 'DO-178C', t: 'Graded on its own evidence.', d: 'All 71 Annex A objectives, each satisfied, partial or open, with the gaps listed. The document set and the signed package come from here.' },
+    ];
+    const AN_GAP = 118;
+
+    const AnatPlates = ({ act, stageRef, onPick }) => (
+      <div className="an-scene">
+        <div ref={stageRef} className="an-stage">
+          {ANAT.map((a, i) => (
+            <button type="button" key={a.img} className="an-plate" data-on={act === i ? '' : undefined} data-dim={act >= 0 && act !== i ? '' : undefined}
+              style={{ '--i': i, '--h': a.tone }} onClick={() => onPick && onPick(i)} aria-label={a.k + ': ' + a.t}>
+              <img src={SHOT + a.img + '.png'} alt="" loading="lazy" draggable="false" />
+              <span className="an-tab"><b className="mono">{i + 1}</b>{a.k}</span>
+              {i > 0 && <><i className="an-post" style={{ left: 0, top: '100%' }} /><i className="an-post" style={{ left: '100%', top: '100%' }} /><i className="an-post" style={{ left: '100%', top: 0 }} /></>}
+              <i className="an-pin" />
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+
+    const AnatCallouts = ({ act, onPick, listRef }) => (
+      <ol ref={listRef} className="an-list">
+        {ANAT.map((a, i) => (
+          <li key={a.img} data-on={act === i ? '' : undefined}>
+            <button type="button" onClick={() => onPick(i)} aria-pressed={act === i}>
+              <span className="an-num mono">{i + 1}</span>
+              <span className="min-w-0">
+                <span className="small block">{a.k}</span>
+                <span className="h3 block">{a.t}</span>
+                <span className="an-desc body">{a.d}</span>
+              </span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    );
+
+    const Anatomy = () => {
+      const pinned = useMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
+      return (
+        <section id="anatomy" className="pt-16 md:pt-24">
+          <div className="wrap">
+            <SectionHead title={<span>Inside the window. <span className="muted">One IDE, five layers of a certification pass.</span></span>} className="mb-4 md:mb-6">
+              The same workspace, pulled apart. Each plate is a real screen from the running IDE, stacked in the order your firmware moves through it.
+            </SectionHead>
+          </div>
+          {pinned ? <AnatomyPinned /> : <AnatomyStacked />}
+        </section>
+      );
+    };
+
+    const AnatomyPinned = () => {
+      const track = useRef(null), stage = useRef(null), list = useRef(null), line = useRef(null), box = useRef(null);
+      const [act, setAct] = useState(-1);
+      const actRef = useRef(-1);
+      const N = ANAT.length, OPEN = 0.2;
+      useScrollProgress(track, (r, vh) => -r.top / (r.height - vh), (p, el) => {
+        const ex = Math.min(1, p / OPEN);
+        el.style.setProperty('--ex', (1 - Math.pow(1 - ex, 3)).toFixed(4));
+        const a = p < OPEN * 0.9 ? -1 : Math.min(N - 1, Math.floor(((p - OPEN * 0.9) / (1 - OPEN * 0.9)) * N));
+        if (a !== actRef.current) { actRef.current = a; setAct(a); }
+      });
+      /* the leader line follows the plate while it settles, so it is measured every frame on screen */
+      useEffect(() => {
+        let raf = 0, on = false;
+        const draw = () => {
+          const L = line.current, B = box.current;
+          if (L && B) {
+            const i = actRef.current;
+            const pin = i >= 0 && stage.current.querySelectorAll('.an-pin')[i];
+            const dot = i >= 0 && list.current.querySelectorAll('.an-num')[i];
+            if (pin && dot) {
+              const o = B.getBoundingClientRect(), a = dot.getBoundingClientRect(), b = pin.getBoundingClientRect();
+              const x1 = dot.closest('button').getBoundingClientRect().right - o.left, y1 = a.top + a.height / 2 - o.top, x2 = b.left + b.width / 2 - o.left, y2 = b.top + b.height / 2 - o.top;
+              const mx = x1 + Math.max(40, (x2 - x1) * 0.45);
+              L.setAttribute('d', `M${x1} ${y1} L${mx} ${y1} L${x2} ${y2}`);
+              L.style.opacity = 1;
+            } else L.style.opacity = 0;
+          }
+          raf = on ? requestAnimationFrame(draw) : 0;
+        };
+        const io = new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on && !raf) raf = requestAnimationFrame(draw); });
+        io.observe(track.current);
+        return () => { on = false; io.disconnect(); cancelAnimationFrame(raf); };
+      }, []);
+      /* the pointer leans the stack a few degrees */
+      const lean = (e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        stage.current.style.setProperty('--lean', (((e.clientX - r.left) / r.width - 0.5) * 10).toFixed(2) + 'deg');
+        stage.current.style.setProperty('--tip', (((e.clientY - r.top) / r.height - 0.5) * -6).toFixed(2) + 'deg');
+      };
+      const pick = (i) => {
+        const el = track.current, span = el.offsetHeight - window.innerHeight;
+        const p = OPEN * 0.9 + ((i + 0.5) / N) * (1 - OPEN * 0.9);
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + p * span, behavior: 'smooth' });
+      };
+      return (
+        <div ref={track} className="an-track" style={{ height: (N * 62 + 120) + 'vh' }}>
+          <div className="an-pin-wrap">
+            <div ref={box} className="wrap an-grid" onPointerMove={lean}>
+              <AnatCallouts act={act} onPick={pick} listRef={list} />
+              <AnatPlates act={act} stageRef={stage} onPick={pick} />
+              <svg className="an-lines" aria-hidden="true"><path ref={line} d="" /></svg>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    const AnatomyStacked = () => {
+      const [act, setAct] = useState(N_ANAT_DEFAULT);
+      return (
+        <div className="wrap an-stacked" style={{ '--ex': 1 }}>
+          <AnatPlates act={act} stageRef={null} onPick={setAct} />
+          <AnatCallouts act={act} onPick={setAct} />
+        </div>
+      );
+    };
+    const N_ANAT_DEFAULT = 4;
+
+
     /* ---------- App ---------- */
     const App = () => (
       <div className="min-h-screen">
@@ -2103,10 +2901,13 @@
         <Hero />
         <main id="main">
           <About />
+          <Anatomy />
+          <System3D />
           <Featured />
           <Story />
           <DalA />
           <Trust />
+          <KnowledgeGraph />
           <VendorRoll />
           <Product />
           <Agents />
