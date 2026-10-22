@@ -95,13 +95,13 @@
 <li><strong>Fault Analyzer opens on a built-in example dump</strong>, marked as an example, until you paste your own. It does not read faults from a live target.</li>
 <li><strong>Register Inspector opens on a sample device</strong> until you load your own <code>.svd</code> file, even when it has detected your part. <em>Fixed on main for the next release.</em></li>
 <li><strong>Modbus Monitor shows an example device&#39;s name and register map</strong> (&quot;Dynamo Modbus Explorer&quot;, DCO-5000 holding registers), not your project&#39;s. The serial connection is real. <em>Fixed on main for the next release.</em></li>
-<li><strong>Firmware Memory reads GNU ld map files only.</strong> TI <code>armcl</code> map files are not parsed yet.</li>
+<li><strong>Firmware Memory reads GNU ld map files only.</strong> TI <code>armcl</code> map files are not parsed yet. <em>Fixed on main for the next release.</em> TI Arm linker maps are read, from CCS build folders and from Build Pipeline output.</li>
 <li><strong>Peripheral Registers is derived from the pin configuration</strong>, not read from the target.</li>
 <li><strong>BoM Studio&#39;s export</strong> may not download inside the IDE window.</li>
 </ul>
 <h2 id="ai">AI<a class="anchor" href="#ai" aria-label="Link to this section">#</a></h2>
 <ul>
-<li><strong>Classified mode has no effect yet.</strong> The status bar toggle is stored, but no feature reads it. Use a local model to keep code on your machine. <em>Fixed on main for the next release:</em> with Classified on, calls to cloud providers from the Noyce IDE window are refused. The agents chat panel is not covered yet.</li>
+<li><strong>Classified mode has no effect yet.</strong> The status bar toggle is stored, but no feature reads it. Use a local model to keep code on your machine. <em>Fixed on main for the next release:</em> with Classified on, calls to cloud providers are refused, from the Noyce IDE window and from the agents chat panel, including the hosted Claude, Codex and Gemini CLIs.</li>
 <li><strong>Cloud API keys are stored in the IDE&#39;s local web storage</strong>, not the operating system keychain. Local-server and per-agent keys use the keychain. <em>Fixed on main for the next release.</em></li>
 <li><strong>The Trace agent&#39;s output tab shows fixed coverage figures</strong> (100% traced, 96% covered) that are not measured. <em>Fixed on main for the next release.</em></li>
 <li><strong>Three Orchestrator agents are general web roles</strong> (UI/UX Designer, Frontend Developer, API Integrator) and are not specific to firmware.</li>
