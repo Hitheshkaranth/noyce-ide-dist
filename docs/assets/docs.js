@@ -1,4 +1,6 @@
 // Noyce IDE docs: search, copy buttons, on-this-page scrollspy, screenshot zoom, mobile drawer.
+// Runs in the browser on the published site, not in Node.
+/* global document, addEventListener, removeEventListener, scrollY, innerHeight, location */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];

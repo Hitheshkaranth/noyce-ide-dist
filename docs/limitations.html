@@ -53,25 +53,24 @@
       <p class="lede">What Noyce IDE v2.0.7 does not do yet, where a control looks active but is not, and which surfaces show simulated data. Read this before you rely on a number.</p>
       
       <div class="rule"></div>
-      <p>Noyce IDE is built on one rule: a surface either shows what it measured on your project, or it says it has nothing. This page lists every place in v2.0.7 where that is not yet fully true, so you are never surprised by it.</p>
+      <p>Noyce IDE is built on one rule: a surface either shows what it measured on your project, or it says it has nothing. This page lists every place in v2.0.7 where that is not yet fully true, so you are never surprised by it. Items marked <em>fixed on main</em> are corrected in the source and ship with the next release; the installers for v2.0.7 still behave as described.</p>
 <h2 id="compliance">Compliance<a class="anchor" href="#compliance" aria-label="Link to this section">#</a></h2>
 <ul>
-<li><strong>Assurance level in Settings has no effect.</strong> Set the DAL in the Compliance Dashboard header. The <strong>Assurance Level</strong> in <strong>Settings → Compliance Standards</strong> is not saved.</li>
-<li><strong>Some views always assess Level A.</strong> Compliance Run, Certification Readiness, Data &amp; Control Coupling and MC/DC Coverage use DAL A whatever level the project is set to.</li>
-<li><strong>The Annotation Navigator&#39;s &quot;Verified&quot; label means &quot;tag found&quot;.</strong> Every <code>@req</code> tag is labelled <strong>Verified</strong> and every <code>@verification</code> tag <strong>Needs review</strong>, whether or not a test exists. Use the Compliance Dashboard&#39;s <strong>Verification</strong> count instead.</li>
-<li><strong>Certification Readiness shows &quot;0 CodeQL alert(s)&quot; when CodeQL has never run.</strong> Check Code Scanning for an actual scan.</li>
+<li><strong>Assurance level in Settings has no effect.</strong> Set the DAL in the Compliance Dashboard header. The <strong>Assurance Level</strong> in <strong>Settings → Compliance Standards</strong> is not saved. <em>Fixed on main for the next release.</em></li>
+<li><strong>Some views always assess Level A.</strong> Compliance Run, Certification Readiness, Data &amp; Control Coupling and MC/DC Coverage use DAL A whatever level the project is set to. <em>Fixed on main for the next release.</em></li>
+<li><strong>The Annotation Navigator&#39;s &quot;Verified&quot; label means &quot;tag found&quot;.</strong> Every <code>@req</code> tag is labelled <strong>Verified</strong> and every <code>@verification</code> tag <strong>Needs review</strong>, whether or not a test exists. Use the Compliance Dashboard&#39;s <strong>Verification</strong> count instead. <em>Fixed on main for the next release.</em></li>
 <li><strong>The certification package is sealed, not signed.</strong> Sections are SHA-256 hashed and the digest is anchored to the audit trail; there is no private-key signature.</li>
 <li><strong>Annex A objective text is not included.</strong> It is licensed by RTCA. Import your own copy; until then plans and summaries stay marked DRAFT.</li>
 <li><strong>Object Code Traceability needs an analysis produced outside the app.</strong> The view suggests <code>npm run socta</code>, a script in the Noyce IDE source repository that the installed app does not include.</li>
 <li><strong>Semantic Search needs a server that serves embeddings.</strong> A chat-only server, such as a vLLM instance serving one generative model, answers <code>/v1/embeddings</code> with 404.</li>
-<li><strong>External requirement tools are not connected.</strong> The Jama Connect, IBM DOORS Next and ReqIF options in the Requirements view do not sync anything. Import ReqIF or CSV files through <strong>Requirements Authoring</strong> instead.</li>
+<li><strong>External requirement tools are not connected.</strong> The Jama Connect, IBM DOORS Next and ReqIF options in the Requirements view do not sync anything. Import ReqIF or CSV files through <strong>Requirements Authoring</strong> instead. <em>Fixed on main for the next release.</em></li>
 </ul>
 <h2 id="projects-and-navigation">Projects and navigation<a class="anchor" href="#projects-and-navigation" aria-label="Link to this section">#</a></h2>
 <ul>
-<li><strong>Noyce: Import Project</strong> in the Command Palette only picks a folder. Use <strong>Import Project</strong> on the start tab for the import wizard.</li>
+<li><strong>Noyce: Import Project</strong> in the Command Palette only picks a folder. Use <strong>Import Project</strong> on the start tab for the import wizard. <em>Fixed on main for the next release.</em></li>
 <li><strong>The search box on the start tab does nothing.</strong> Use the Command Palette.</li>
-<li><strong>Project Templates create an in-memory demo</strong>, not files on disk. <strong>Try the demo</strong> opens a sample file in a demo editor.</li>
-<li><strong>Two shortcuts are shared.</strong> <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>M</kbd> is bound to both MISRA Diagnostics and Firmware Memory, and <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>P</kbd> to both Pin Configurator and Project Graph. Use the Command Palette for the one you need.</li>
+<li><strong>Project Templates create an in-memory demo</strong>, not files on disk. <strong>Try the demo</strong> opens a sample file in a demo editor. <em>Fixed on main for the next release.</em></li>
+<li><strong>Two shortcuts are shared.</strong> <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>M</kbd> is bound to both MISRA Diagnostics and Firmware Memory, and <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>P</kbd> to both Pin Configurator and Project Graph. Use the Command Palette for the one you need. <em>Fixed on main for the next release.</em></li>
 </ul>
 <h2 id="team-and-build">Team and build<a class="anchor" href="#team-and-build" aria-label="Link to this section">#</a></h2>
 <ul>
@@ -80,18 +79,18 @@
 </ul>
 <h2 id="hardware">Hardware<a class="anchor" href="#hardware" aria-label="Link to this section">#</a></h2>
 <ul>
-<li><strong>Simulated data.</strong> Signal Viewer, Live Data Dashboard, HIL Test Runner and Energy Profiler show generated data under a &quot;simulated&quot; banner. <strong>Data Recorder</strong> also plots generated data, and in v2.0.7 it does not show the banner.</li>
+<li><strong>Simulated data.</strong> Signal Viewer, Live Data Dashboard, HIL Test Runner and Energy Profiler show generated data under a &quot;simulated&quot; banner. <strong>Data Recorder</strong> also plots generated data, and in v2.0.7 it does not show the banner. <em>Fixed on main for the next release.</em></li>
 <li><strong>Fault Analyzer opens on a built-in example dump</strong>, marked as an example, until you paste your own. It does not read faults from a live target.</li>
-<li><strong>Register Inspector opens on a sample device</strong> until you load your own <code>.svd</code> file, even when it has detected your part.</li>
-<li><strong>Modbus Monitor shows an example device&#39;s name and register map</strong> (&quot;Dynamo Modbus Explorer&quot;, DCO-5000 holding registers), not your project&#39;s. The serial connection is real.</li>
+<li><strong>Register Inspector opens on a sample device</strong> until you load your own <code>.svd</code> file, even when it has detected your part. <em>Fixed on main for the next release.</em></li>
+<li><strong>Modbus Monitor shows an example device&#39;s name and register map</strong> (&quot;Dynamo Modbus Explorer&quot;, DCO-5000 holding registers), not your project&#39;s. The serial connection is real. <em>Fixed on main for the next release.</em></li>
 <li><strong>Firmware Memory reads GNU ld map files only.</strong> TI <code>armcl</code> map files are not parsed yet.</li>
 <li><strong>Peripheral Registers is derived from the pin configuration</strong>, not read from the target.</li>
 <li><strong>BoM Studio&#39;s export</strong> may not download inside the IDE window.</li>
 </ul>
 <h2 id="ai">AI<a class="anchor" href="#ai" aria-label="Link to this section">#</a></h2>
 <ul>
-<li><strong>Classified mode has no effect yet.</strong> The status bar toggle is stored, but no feature reads it. Use a local model to keep code on your machine.</li>
-<li><strong>Cloud API keys are stored in the IDE&#39;s local web storage</strong>, not the operating system keychain. Local-server and per-agent keys use the keychain.</li>
+<li><strong>Classified mode has no effect yet.</strong> The status bar toggle is stored, but no feature reads it. Use a local model to keep code on your machine. <em>Fixed on main for the next release:</em> with Classified on, calls to cloud providers from the Noyce IDE window are refused. The agents chat panel is not covered yet.</li>
+<li><strong>Cloud API keys are stored in the IDE&#39;s local web storage</strong>, not the operating system keychain. Local-server and per-agent keys use the keychain. <em>Fixed on main for the next release.</em></li>
 <li><strong>Three Orchestrator agents are general web roles</strong> (UI/UX Designer, Frontend Developer, API Integrator) and are not specific to firmware.</li>
 <li><strong>There is no in-app updater.</strong> See <a href="/docs/install#update">Update</a>.</li>
 </ul>
