@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>The .noyce folder · Noyce IDE Docs</title>
+<meta name="description" content="Where Noyce IDE keeps everything it generates for a project, what each file is, and how it stays out of version control.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/noyce-folder">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The .noyce folder · Noyce IDE Docs">
+<meta property="og:description" content="Where Noyce IDE keeps everything it generates for a project, what each file is, and how it stays out of version control.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/noyce-folder">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder" aria-current="page">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Reference</li></ol>
+    <article class="doc">
+      <h1>The .noyce folder</h1>
+      <p class="lede">Where Noyce IDE keeps everything it generates for a project, what each file is, and how it stays out of version control.</p>
+      
+      <div class="rule"></div>
+      <p>Noyce IDE never writes generated files into your source tree. Everything it produces for a project (analysis results, documents, evidence, the audit trail, agent state) goes into a <code>.noyce/</code> folder at the project root.</p>
+<h2 id="it-stays-out-of-git">It stays out of git<a class="anchor" href="#it-stays-out-of-git" aria-label="Link to this section">#</a></h2>
+<p>Two things keep the folder out of version control, without changing any file you track:</p>
+<ul>
+<li><code>.noyce/.gitignore</code> contains <code>*</code>, so git ignores everything inside.</li>
+<li>If the project is a git repository, <code>.noyce/</code> and <code>.codegraph/</code> are added to <code>.git/info/exclude</code>, which is local to your clone and is never committed.</li>
+</ul>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>Because <code>.noyce/</code> is never committed, your requirements register, review records, issued documents and audit ledger are not in your repository. Back the folder up, or archive it with each release, if those records must be kept. A compliance run records the git commit it measured, so the evidence still points at the exact source.</p>
+</div></div></aside>
+<h2 id="layout">Layout<a class="anchor" href="#layout" aria-label="Link to this section">#</a></h2>
+<p>This is the folder from the Canister Main Controller copy used for these docs, plus the locations each surface writes to once it has been used. Folders appear only when the feature that owns them has run.</p>
+<div class="code"><div class="code-bar"><span>text</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">.noyce/</span>
+<span class="line">├── .gitignore                    &quot;*&quot;, keeps the whole folder out of git</span>
+<span class="line">├── audit-ledger.json             hash-chained audit trail</span>
+<span class="line">├── orchestrator-tasks.json       the Orchestrator board for this project</span>
+<span class="line">├── architecture/                 System Architecture model cache and exports</span>
+<span class="line">├── diagrams/                     Archify diagrams, High-Level Design</span>
+<span class="line">├── compliance/</span>
+<span class="line">│   ├── article-do-178c.json      framework, assurance level and objective article</span>
+<span class="line">│   ├── evidence-snapshot.json    the latest dashboard scan</span>
+<span class="line">│   ├── static-analysis.json      stored analysis findings</span>
+<span class="line">│   ├── annex-a-licensed.json     your licensed Annex A table, once imported</span>
+<span class="line">│   └── evidence/                 generated evidence write-ups</span>
+<span class="line">├── annex-a/                      objective map and objective text</span>
+<span class="line">├── compliance-runs/              one folder per compliance run, plus index.json</span>
+<span class="line">├── certification/                certification packages (.md, .html, .json)</span>
+<span class="line">├── documents/</span>
+<span class="line">│   ├── index.json                the document register</span>
+<span class="line">│   ├── PSAC-001.sdoc  …          each life-cycle document, and its .docx export</span>
+<span class="line">│   ├── proposals/                agent-drafted decisions awaiting review</span>
+<span class="line">│   ├── history/                  frozen revisions with their content hash</span>
+<span class="line">│   └── set-baseline.json         the declared document-set baseline</span>
+<span class="line">├── templates/                    your corporate .docx template settings</span>
+<span class="line">├── requirements/                 imported system requirements, low-level requirements</span>
+<span class="line">├── process/                      roster, reviews, problem reports, CCB, MISRA deviations</span>
+<span class="line">├── change-sets/                  staged code changes awaiting approval</span>
+<span class="line">├── verification/                 test cases, results, CBMC runs, target test runs</span>
+<span class="line">├── coverage/                     measured MC/DC per driver</span>
+<span class="line">├── manuals/                      the downloaded reference manual (PDF)</span>
+<span class="line">├── knowledge/                    the indexed register knowledge base</span>
+<span class="line">├── rag/                          the Semantic Search index</span>
+<span class="line">└── rules/  notepads/  memories.md   context you give the agents</span></code></pre></div>
+<h2 id="safe-to-delete">Safe to delete?<a class="anchor" href="#safe-to-delete" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Delete</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rag/</code>, <code>architecture/</code>, <code>knowledge/</code></td>
+<td>Rebuilt the next time you use the view. Re-indexing a manual or the workspace takes a few minutes.</td>
+</tr>
+<tr>
+<td><code>compliance/evidence-snapshot.json</code></td>
+<td>Rebuilt by the next dashboard scan.</td>
+</tr>
+<tr>
+<td><code>documents/</code>, <code>process/</code>, <code>audit-ledger.json</code>, <code>compliance-runs/</code></td>
+<td><strong>Lost for good.</strong> These are your records: issued documents, human reviews and the audit trail.</td>
+</tr>
+</tbody></table></div>
+<p>Deleting the whole folder returns the project to a fresh state. Your source files are unaffected.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/ai-agents"><small>Previous</small><span>AI &amp; agents</span></a>
+      <a class="next" href="/docs/commands"><small>Next</small><span>Commands &amp; shortcuts</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#it-stays-out-of-git">It stays out of git</a></li><li><a class="l2" href="#layout">Layout</a></li><li><a class="l2" href="#safe-to-delete">Safe to delete?</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

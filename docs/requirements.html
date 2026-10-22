@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Requirements &amp; traceability · Noyce IDE Docs</title>
+<meta name="description" content="Where requirements come from in Noyce IDE, how to write and import them, how low-level requirements are drafted from code, and how to see every trace link.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/requirements">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Requirements &amp; traceability · Noyce IDE Docs">
+<meta property="og:description" content="Where requirements come from in Noyce IDE, how to write and import them, how low-level requirements are drafted from code, and how to see every trace link.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/requirements">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements" aria-current="page">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>Requirements &amp; traceability</h1>
+      <p class="lede">Where requirements come from in Noyce IDE, how to write and import them, how low-level requirements are drafted from code, and how to see every trace link.</p>
+      
+      <div class="rule"></div>
+      <p>Noyce IDE builds one requirements picture from three sources: requirements you write or import, <code>@req</code> and <code>@verification</code> tags in source code, and the requirements sections of your DO-178C documents. The register, the graphs and the Compliance Dashboard all read the same picture.</p>
+<p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 340" role="img" aria-label="Requirements written or imported in Requirements Authoring, @req and @verification tags in source, and accepted low-level requirements build one requirements picture with its trace links, which the register, the Traceability Graph, the Compliance Dashboard and the Truth Graph all read. Accepted low-level requirements also generate CBMC harnesses." class="diagram">
+<defs>
+<linearGradient id="rq-ink" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
+<linearGradient id="rq-wire" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4b8a99"/><stop offset="1" stop-color="#5d9e6a"/></linearGradient>
+<linearGradient id="rq-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1d20"/><stop offset="1" stop-color="#151619"/></linearGradient>
+<marker id="rq-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#79c9a0"/></marker>
+<marker id="rq-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f2c35b"/></marker>
+<marker id="rq-arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f08a7a"/></marker>
+</defs>
+<rect width="1180" height="340" rx="20" fill="#121212"/>
+<text x="24" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">01</tspan><tspan dx="8">SOURCES</tspan></text><text x="420" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">02</tspan><tspan dx="8">ONE REQUIREMENTS PICTURE</tspan></text><text x="800" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">03</tspan><tspan dx="8">WHERE YOU SEE IT</tspan></text><g><rect x="24" y="76" width="330" height="52" rx="12" fill="url(#rq-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="76" width="306" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="98" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Requirements Authoring</text><text x="38" y="115" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">HLRs → SRS-001 · CSV / ReqIF / Markdown</text></g><g><rect x="24" y="146" width="330" height="52" rx="12" fill="url(#rq-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="146" width="306" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="168" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Source tags</text><text x="38" y="185" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">@req · @verification in comments</text></g><g><rect x="24" y="216" width="330" height="52" rx="12" fill="url(#rq-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="216" width="306" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="238" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Low-level requirements</text><text x="38" y="255" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">drafted per function, accepted by a person</text></g><path d="M354 102 L384 102 L384 172 L418 172" fill="none" stroke="url(#rq-wire)" stroke-width="1.5" marker-end="url(#rq-arrow)"/><path d="M354 172 L384 172 L384 172 L418 172" fill="none" stroke="url(#rq-wire)" stroke-width="1.5" marker-end="url(#rq-arrow)"/><path d="M354 242 L384 242 L384 172 L418 172" fill="none" stroke="url(#rq-wire)" stroke-width="1.5" marker-end="url(#rq-arrow)"/><g><rect x="420" y="126" width="320" height="92" rx="12" fill="url(#rq-card)" stroke="url(#rq-ink)" stroke-width="1.5"/><rect x="432" y="126" width="296" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="434" y="168" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Requirements + trace links</text><text x="434" y="185" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">system → HLR → LLR → code → test</text></g><text x="434" y="202" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">rebuilt when .noyce/requirements changes</text><path d="M740 172 L770 172 L770 90 L798 90" fill="none" stroke="url(#rq-wire)" stroke-width="1.5" marker-end="url(#rq-arrow)"/><g><rect x="800" y="66" width="350" height="48" rx="12" fill="url(#rq-card)" stroke="#2c2d30" stroke-width="1"/><rect x="812" y="66" width="326" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="814" y="86" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Requirements &amp; Evidence</text><text x="814" y="103" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">the register</text></g><path d="M740 172 L770 172 L770 150 L798 150" fill="none" stroke="url(#rq-wire)" stroke-width="1.5" marker-end="url(#rq-arrow)"/><g><rect x="800" y="126" width="350" height="48" rx="12" fill="url(#rq-card)" stroke="#2c2d30" stroke-width="1"/><rect x="812" y="126" width="326" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="814" y="146" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Traceability Graph</text><text x="814" y="163" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">links, live</text></g><path d="M740 172 L770 172 L770 210 L798 210" fill="none" stroke="url(#rq-wire)" stroke-width="1.5" marker-end="url(#rq-arrow)"/><g><rect x="800" y="186" width="350" height="48" rx="12" fill="url(#rq-card)" stroke="#2c2d30" stroke-width="1"/><rect x="812" y="186" width="326" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="814" y="206" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Compliance Dashboard</text><text x="814" y="223" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">A-2 … A-7 objectives</text></g><path d="M740 172 L770 172 L770 270 L798 270" fill="none" stroke="url(#rq-wire)" stroke-width="1.5" marker-end="url(#rq-arrow)"/><g><rect x="800" y="246" width="350" height="48" rx="12" fill="url(#rq-card)" stroke="#2c2d30" stroke-width="1"/><rect x="812" y="246" width="326" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="814" y="266" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Truth Graph</text><text x="814" y="283" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">unresolved references</text></g><path d="M189 268 L189 302 L418 302" fill="none" stroke="url(#rq-wire)" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#rq-arrow)"/><text x="300" y="294" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">accepted LLRs generate</text><g><rect x="420" y="280" width="320" height="44" rx="12" fill="url(#rq-card)" stroke="#2c2d30" stroke-width="1"/><rect x="432" y="280" width="296" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="434" y="298" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">CBMC harnesses</text><text x="434" y="315" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">staged as a change set</text></g>
+</svg>
+</div><figcaption>Requirements written or imported in Requirements Authoring, @req and @verification tags in source, and accepted low-level requirements form one picture with its trace links. The register, the Traceability Graph, the Compliance Dashboard and the Truth Graph all read it, and accepted low-level requirements also generate CBMC harnesses.</figcaption></figure></p>
+<p>Because there is one picture, fixing a trace gap in any view fixes it everywhere. If the register and the dashboard ever disagree, rescan: the graph is rebuilt whenever the files in <code>.noyce/requirements/</code> or <code>.noyce/documents/</code> change.</p>
+<h2 id="requirements-evidence">Requirements &amp; Evidence<a class="anchor" href="#requirements-evidence" aria-label="Link to this section">#</a></h2>
+<p>The register of every requirement with its status and trace state. Open it from the <strong>Requirements</strong> tile or <strong>Noyce Compliance: Show Requirements Explorer</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/requirements.webp" alt="Requirements &amp;amp; Evidence register listing 29 requirements with status and trace state" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The register on the Canister firmware: 29 requirements, none trace-ready yet, so all 29 show as coverage gaps. The selected requirement&amp;#39;s linked evidence is on the right.</figcaption></figure>
+<ul>
+<li>The counters at the top show requirements that are trace-ready, coverage gaps, and requirements with verified evidence.</li>
+<li>Select a requirement to see its rationale, its linked documents, the system requirement it traces to, and the code that implements it. <strong>Open in traceability map</strong> jumps to it in the graph.</li>
+</ul>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>The provider menu (Jama Connect, IBM DOORS Next, ReqIF) does not connect to anything in v2.0.7. To bring in requirements from those tools, export to ReqIF or CSV and import the file in Requirements Authoring.</p>
+</div></div></aside>
+<h2 id="requirements-authoring">Requirements Authoring<a class="anchor" href="#requirements-authoring" aria-label="Link to this section">#</a></h2>
+<p>Write high-level requirements, import system requirements, and check them as you type. Open it with <strong>Noyce Compliance: Open Requirements Authoring</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/requirements-authoring.webp" alt="Requirements Authoring with the high-level requirements of the SRS" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Requirements Authoring on the Canister copy: 17 high-level requirements in draft, each tracing up to a system requirement; 15 of them still have a lint error to fix.</figcaption></figure>
+<ul>
+<li><strong>High-level requirements</strong> are written into the SRS document (<code>SRS-001</code>), so the document and the register never disagree.</li>
+<li><strong>System requirements</strong> import from CSV, ReqIF, or a Markdown table. The imported file&#39;s hash is recorded, so you can show which version of the customer&#39;s requirements you worked from.</li>
+<li><strong>The live check</strong> flags a requirement with two &quot;shall&quot;s, a TBD, or no parent, and will not let it be marked reviewed or baselined until it is fixed.</li>
+</ul>
+<h2 id="low-level-requirements">Low-Level Requirements<a class="anchor" href="#low-level-requirements" aria-label="Link to this section">#</a></h2>
+<p>Noyce IDE drafts low-level requirements from the code and shows every gap between functions, LLRs and HLRs. Open it with <strong>Noyce Compliance: Open Low-Level Requirements</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/low-level-requirements.webp" alt="Low-Level Requirements view before any drafts have been generated" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Low-Level Requirements on the Canister copy before drafting: the gap counters across the top, and filters for drafts, accepted and rejected LLRs.</figcaption></figure>
+<ol class="steps">
+<li>Select <strong>Draft from code</strong>. Noyce IDE proposes one LLR per function from its signature, body and annotations and, when the reference manual is indexed, the registers it touches. No model is needed.</li>
+<li>Optionally select <strong>Draft intent with model</strong> to have your model state each function&#39;s required behaviour, and <strong>Suggest parents with model</strong> to propose the HLR each LLR refines.</li>
+<li>Review the drafts and accept or reject each one.</li>
+</ol>
+<p>A draft is only a draft. It counts as a low-level requirement once a person on your roster accepts it through a review record. Accepted LLRs are also what <a href="/docs/analysis#formal-verification-cbmc">CBMC harnesses</a> are generated from.</p>
+<h2 id="annotation-navigator">Annotation Navigator<a class="anchor" href="#annotation-navigator" aria-label="Link to this section">#</a></h2>
+<p>Lists every <code>@req</code> and <code>@verification</code> tag in the source. Run <strong>Noyce Compliance: Scan Workspace</strong> (<kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>S</kbd>) to rescan, or open it with <strong>Open Annotation Navigator</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/annotations.webp" alt="Annotation Navigator listing 20 trace tags across the firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Annotation Navigator: 20 tags on the Canister copy, each with its file, line and comment.</figcaption></figure>
+<p>Tag a requirement or a test in a comment:</p>
+<div class="code"><div class="code-bar"><span>c</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">/* @req SYS-REQ-014: Forward auto-sequence with limit-switch gating */</span>
+<span class="line">/* @verification SYS-REQ-014: test_auto_seq_forward */</span></code></pre></div>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>In v2.0.7 the navigator labels every <code>@req</code> tag <strong>Verified</strong> and every <code>@verification</code> tag <strong>Needs review</strong>, whether or not the test exists. Read the label as &quot;tag found&quot;. A <code>@verification</code> tag that names a test does not make it evidence; only an executed test result does.</p>
+</div></div></aside>
+<h2 id="traceability-graph">Traceability Graph<a class="anchor" href="#traceability-graph" aria-label="Link to this section">#</a></h2>
+<p>A live graph of requirements and what they link to: low-level requirements, source, tests, and design documents. Open it from its tile or <strong>Noyce Compliance: Open Traceability Graph</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/traceability-graph.webp" alt="Traceability Graph of the Canister requirements and their links" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Traceability Graph. Node colour shows the kind of item; the legend and filters are at the corners.</figcaption></figure>
+<p>The graph rebuilds by itself whenever the requirements or documents in <code>.noyce/</code> change.</p>
+<h2 id="project-truth-graph">Project Truth Graph<a class="anchor" href="#project-truth-graph" aria-label="Link to this section">#</a></h2>
+<p>One view of everything Noyce IDE knows about the project: requirements, code, verification evidence, generated artifacts and objectives, with the links between them and any reference that points at nothing. Open it with <strong>Noyce Project Graph: Open Project Truth Graph</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/truth-graph.webp" alt="Project Truth Graph summary for the Canister firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Truth Graph for the Canister copy: 273 nodes and 607 edges, 29 requirements, and no unresolved references.</figcaption></figure>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/projects"><small>Previous</small><span>Projects</span></a>
+      <a class="next" href="/docs/compliance"><small>Next</small><span>Compliance &amp; certification</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#requirements-evidence">Requirements &amp; Evidence</a></li><li><a class="l2" href="#requirements-authoring">Requirements Authoring</a></li><li><a class="l2" href="#low-level-requirements">Low-Level Requirements</a></li><li><a class="l2" href="#annotation-navigator">Annotation Navigator</a></li><li><a class="l2" href="#traceability-graph">Traceability Graph</a></li><li><a class="l2" href="#project-truth-graph">Project Truth Graph</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

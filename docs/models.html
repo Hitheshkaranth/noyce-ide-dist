@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Connect a model · Noyce IDE Docs</title>
+<meta name="description" content="Point Noyce IDE at a local model server, a vLLM box on your network, or a cloud provider, and set the embedding model that powers Semantic Search.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/models">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Connect a model · Noyce IDE Docs">
+<meta property="og:description" content="Point Noyce IDE at a local model server, a vLLM box on your network, or a cloud provider, and set the embedding model that powers Semantic Search.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/models">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models" aria-current="page">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Getting started</li></ol>
+    <article class="doc">
+      <h1>Connect a model</h1>
+      <p class="lede">Point Noyce IDE at a local model server, a vLLM box on your network, or a cloud provider, and set the embedding model that powers Semantic Search.</p>
+      
+      <div class="rule"></div>
+      <p>Every AI feature in Noyce IDE, including the Orchestrator agents, <strong>Fix with Noyce</strong>, document authoring and Semantic Search, runs through the model you configure on the <strong>AI Models</strong> page. Noyce IDE can run fully offline against a model on your own machine or LAN.</p>
+<p>Open it with <strong>Noyce AI: Open AI Models</strong> from the Command Palette (<kbd>⇧⌘P</kbd> on macOS, <kbd>Ctrl+Shift+P</kbd> on Windows).</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/models.webp" alt="The AI Models page with the model catalog, endpoint, embeddings and per-agent role assignment" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>AI Models: the catalog on the left; endpoint, generation parameters, embeddings, concurrency and agent role assignment on the right.</figcaption></figure>
+<h2 id="how-model-requests-are-routed">How model requests are routed<a class="anchor" href="#how-model-requests-are-routed" aria-label="Link to this section">#</a></h2>
+<p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 400" role="img" aria-label="Agents, Fix with Noyce and document authoring send chat requests to the global or per-agent model on LM Studio, vLLM, Ollama or a cloud provider; Semantic Search sends embedding requests to the embedding server, which must serve an embedding model." class="diagram">
+<defs>
+<linearGradient id="md-ink" x1="0" y1="0" x2="1100" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
+<linearGradient id="md-wire" x1="0" y1="0" x2="1100" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4b8a99"/><stop offset="1" stop-color="#5d9e6a"/></linearGradient>
+<linearGradient id="md-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1d20"/><stop offset="1" stop-color="#151619"/></linearGradient>
+<marker id="md-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#79c9a0"/></marker>
+<marker id="md-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f2c35b"/></marker>
+<marker id="md-arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f08a7a"/></marker>
+</defs>
+<rect width="1100" height="400" rx="20" fill="#121212"/>
+<text x="24" y="44" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">01</tspan><tspan dx="8">WHAT ASKS</tspan></text><text x="330" y="44" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">02</tspan><tspan dx="8">AI MODELS SETTINGS</tspan></text><text x="330" y="62" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">which model, how many at once</text><text x="720" y="44" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">03</tspan><tspan dx="8">MODEL SERVERS</tspan></text><g><rect x="24" y="84" width="250" height="56" rx="12" fill="url(#md-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="84" width="226" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="108" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Agents · Fix with Noyce</text><text x="38" y="125" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">chat requests</text></g><g><rect x="24" y="170" width="250" height="56" rx="12" fill="url(#md-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="170" width="226" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="194" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Document authoring</text><text x="38" y="211" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">docs swarm, decisions</text></g><g><rect x="24" y="256" width="250" height="56" rx="12" fill="url(#md-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="256" width="226" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="280" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Semantic Search</text><text x="38" y="297" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">embedding requests</text></g><path d="M274 112 L328 112" fill="none" stroke="url(#md-wire)" stroke-width="1.5" marker-end="url(#md-arrow)"/><path d="M274 198 L328 198" fill="none" stroke="url(#md-wire)" stroke-width="1.5" marker-end="url(#md-arrow)"/><path d="M274 284 L328 284" fill="none" stroke="url(#md-wire)" stroke-width="1.5" marker-end="url(#md-arrow)"/><g><rect x="330" y="84" width="280" height="142" rx="12" fill="url(#md-card)" stroke="#2c2d30" stroke-width="1"/><rect x="342" y="84" width="256" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="344" y="108" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Model router</text><text x="344" y="126" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">global model or per-agent role</text></g><text x="344" y="170" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">concurrency: 3 local · 1 hosted</text><text x="344" y="188" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">context window per model</text><text x="344" y="206" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">server key → OS keychain</text><g><rect x="330" y="256" width="280" height="56" rx="12" fill="url(#md-card)" stroke="#2c2d30" stroke-width="1"/><rect x="342" y="256" width="256" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="344" y="280" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Embedding resolver</text><text x="344" y="297" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">nomic · text-embedding-3-small</text></g><path d="M610 106 L778 106" fill="none" stroke="url(#md-wire)" stroke-width="1.5" marker-end="url(#md-arrow)"/><text x="694" y="98" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">OpenAI-compatible API</text><g><rect x="780" y="78" width="300" height="56" rx="12" fill="url(#md-card)" stroke="#2c2d30" stroke-width="1"/><rect x="792" y="78" width="276" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="794" y="102" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">LM Studio · vLLM</text><text x="794" y="119" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">localhost:1234 · &lt;host&gt;:8000</text></g><path d="M610 150 L740 150 L740 166 L778 166" fill="none" stroke="url(#md-wire)" stroke-width="1.5" marker-end="url(#md-arrow)"/><g><rect x="780" y="144" width="300" height="46" rx="12" fill="url(#md-card)" stroke="#2c2d30" stroke-width="1"/><rect x="792" y="144" width="276" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="794" y="163" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Ollama · Open WebUI</text><text x="794" y="180" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">localhost:11434 · :3000</text></g><path d="M610 206 L740 206 L740 222 L778 222" fill="none" stroke="#f2c35b" stroke-width="1.5" marker-end="url(#md-arrow-warn)"/><text x="676" y="198" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#f2c35b">cloud</text><g><rect x="780" y="200" width="300" height="46" rx="12" fill="url(#md-card)" stroke="#f2c35b" stroke-width="1"/><rect x="792" y="200" width="276" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="794" y="219" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Gemini · Anthropic · OpenAI</text><text x="794" y="236" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">key kept in local web storage</text></g><path d="M610 284 L778 284" fill="none" stroke="url(#md-wire)" stroke-width="1.5" marker-end="url(#md-arrow)"/><text x="694" y="276" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">/v1/embeddings</text><g><rect x="780" y="260" width="300" height="50" rx="12" fill="url(#md-card)" stroke="#2c2d30" stroke-width="1"/><rect x="792" y="260" width="276" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="794" y="281" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Embedding server</text><text x="794" y="298" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">must serve an embedding model</text></g><text x="24" y="360" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">Chat goes to the global model, or to the model assigned to that agent role. Embeddings go to their own server, which may be a different machine.</text>
+</svg>
+</div><figcaption>Chat requests from agents, Fix with Noyce and document authoring go to the global model, or to the model assigned to that agent role. Embedding requests from Semantic Search go to the embedding server, which must serve an embedding model and can be a different machine.</figcaption></figure></p>
+<p>There are two separate kinds of request, and they can go to different servers:</p>
+<ul>
+<li><strong>Chat</strong> (generating text and code) goes to the global model you select, unless that agent role has its own model.</li>
+<li><strong>Embeddings</strong> (turning text into vectors for Semantic Search) go to the server set under <strong>Embeddings</strong>. A server that only serves a chat model cannot answer them.</li>
+</ul>
+<h2 id="supported-providers">Supported providers<a class="anchor" href="#supported-providers" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Runs</th>
+<th>Default endpoint</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LM Studio</td>
+<td>Local</td>
+<td><code>http://localhost:1234</code></td>
+</tr>
+<tr>
+<td>vLLM, or any OpenAI-compatible server</td>
+<td>Local or LAN</td>
+<td>Use the LM Studio provider and enter the server URL</td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td>Local</td>
+<td><code>http://localhost:11434</code></td>
+</tr>
+<tr>
+<td>Open WebUI</td>
+<td>Local or LAN</td>
+<td><code>http://localhost:3000</code></td>
+</tr>
+<tr>
+<td>Google Gemini, Anthropic, OpenAI, OpenRouter</td>
+<td>Cloud</td>
+<td>Provider default; needs an API key</td>
+</tr>
+<tr>
+<td>Claude CLI, Codex CLI, Gemini CLI</td>
+<td>Local CLI</td>
+<td>None; uses the installed CLI</td>
+</tr>
+</tbody></table></div>
+<p>A fresh install starts on <strong>LM Studio</strong> at <code>http://localhost:1234</code> with the model set to <strong>auto</strong>, which uses whatever model the server has loaded.</p>
+<h2 id="use-a-local-server-lm-studio-vllm">Use a local server (LM Studio, vLLM)<a class="anchor" href="#use-a-local-server-lm-studio-vllm" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li>Start the server and load a model. For LM Studio, enable its local server.</li>
+<li>In <strong>AI Models</strong>, select <strong>Loaded model (auto-detect)</strong> in the <strong>Model Catalog</strong>, or pick a specific model.</li>
+<li>Under <strong>Server URL (LM Studio, vLLM, or any OpenAI-compatible server)</strong>, enter the address, for example <code>http://localhost:1234</code> or <code>http://&lt;host&gt;:8000</code> for vLLM. A trailing <code>/v1</code> is accepted.</li>
+<li>Leave <strong>API key</strong> empty unless the server was started with <code>--api-key</code>. The key is stored in the operating system keychain and sent only to that server.</li>
+</ol>
+<aside class="callout tip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><div><p class="callout-t">Tip</p><div class="callout-b"><p>If the server does not report the model&#39;s context length, set <strong>Context window (tokens)</strong> for that model. Noyce IDE sizes every prompt to fit it.</p>
+</div></div></aside>
+<h2 id="use-a-cloud-provider">Use a cloud provider<a class="anchor" href="#use-a-cloud-provider" aria-label="Link to this section">#</a></h2>
+<p>Choose the provider in the catalog and paste its key into the matching field (<strong>Google API Key</strong>, <strong>Anthropic API Key</strong>, <strong>OpenAI API Key</strong> or <strong>OpenRouter API Key</strong>).</p>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>Cloud API keys are stored in the IDE&#39;s local web storage, not in the operating system keychain. Only the local-server key and the per-agent keys use the keychain. Prefer a local model for proprietary firmware.</p>
+</div></div></aside>
+<h2 id="embeddings-for-semantic-search">Embeddings for Semantic Search<a class="anchor" href="#embeddings-for-semantic-search" aria-label="Link to this section">#</a></h2>
+<p>Semantic Search and agent grounding need an embedding model. Set it in <strong>AI Models → Embeddings</strong>:</p>
+<ul>
+<li><strong>Embedding server:</strong> the same server as chat, Ollama, LM Studio / vLLM, or OpenAI.</li>
+<li><strong>Embedding model:</strong> defaults to <code>text-embedding-nomic-embed-text-v1.5</code> on LM Studio, <code>nomic-embed-text</code> on Ollama, and <code>text-embedding-3-small</code> on OpenAI.</li>
+</ul>
+<p>Select <strong>Save &amp; test</strong>. Noyce IDE sends one request and reports the vector size it got back. If you change the embedding model, rebuild the Semantic Search index.</p>
+<h2 id="concurrency-and-per-agent-models">Concurrency and per-agent models<a class="anchor" href="#concurrency-and-per-agent-models" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Orchestrator Concurrency</strong> sets how many agent calls run at once. It defaults to 3 for local servers and 1 for hosted APIs.</li>
+<li><strong>Agent Role Assignment</strong> gives any of the 15 Orchestrator agents its own model. An agent left on <strong>Global default</strong> uses the model selected above.</li>
+<li><strong>Generation Parameters</strong> (temperature and max tokens) are shared defaults for global model runs.</li>
+</ul>
+<p>The <strong>Fixer model</strong> select in MISRA Diagnostics overrides the model for <strong>Fix with Noyce</strong> only.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/quick-start"><small>Previous</small><span>Quick start</span></a>
+      <a class="next" href="/docs/do178c-walkthrough"><small>Next</small><span>DO-178C walkthrough</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#how-model-requests-are-routed">How model requests are routed</a></li><li><a class="l2" href="#supported-providers">Supported providers</a></li><li><a class="l2" href="#use-a-local-server-lm-studio-vllm">Use a local server (LM Studio, vLLM)</a></li><li><a class="l2" href="#use-a-cloud-provider">Use a cloud provider</a></li><li><a class="l2" href="#embeddings-for-semantic-search">Embeddings for Semantic Search</a></li><li><a class="l2" href="#concurrency-and-per-agent-models">Concurrency and per-agent models</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

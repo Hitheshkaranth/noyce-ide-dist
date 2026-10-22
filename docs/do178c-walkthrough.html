@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Take a project through DO-178C · Noyce IDE Docs</title>
+<meta name="description" content="The order of work that takes a firmware project from plans to an evidence package in Noyce IDE, with what each step produces and what a person has to sign.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/do178c-walkthrough">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Take a project through DO-178C · Noyce IDE Docs">
+<meta property="og:description" content="The order of work that takes a firmware project from plans to an evidence package in Noyce IDE, with what each step produces and what a person has to sign.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/do178c-walkthrough">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough" aria-current="page">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Guides</li></ol>
+    <article class="doc">
+      <h1>Take a project through DO-178C</h1>
+      <p class="lede">The order of work that takes a firmware project from plans to an evidence package in Noyce IDE, with what each step produces and what a person has to sign.</p>
+      <div class="meta"><span class="chip">DO-178C</span><span class="chip">Annex A</span><span class="chip">People sign; agents draft</span></div>
+      <div class="rule"></div>
+      <p>This guide follows the path Noyce IDE lays out in the <strong>Compliance Run</strong> view: plans and standards, requirements, design, code, verification, then the summaries. Noyce IDE does the measuring and drafting. People do the deciding: every objective is closed by a named reviewer on your roster, never by an AI.</p>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>Noyce IDE produces evidence and drafts. It does not certify software. Your certification authority and DER decide what is acceptable.</p>
+</div></div></aside>
+<p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 330" role="img" aria-label="The DAL path runs from plans and standards through requirements, design, code and verification to the summaries, each covering its Annex A tables; a compliance run measures them all at one commit and feeds the sealed certification package. At every stage agents draft and a person signs." class="diagram">
+<defs>
+<linearGradient id="dp-ink" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
+<linearGradient id="dp-wire" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4b8a99"/><stop offset="1" stop-color="#5d9e6a"/></linearGradient>
+<linearGradient id="dp-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1d20"/><stop offset="1" stop-color="#151619"/></linearGradient>
+<marker id="dp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#79c9a0"/></marker>
+<marker id="dp-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f2c35b"/></marker>
+<marker id="dp-arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f08a7a"/></marker>
+</defs>
+<rect width="1180" height="330" rx="20" fill="#121212"/>
+<text x="24" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">01</tspan><tspan dx="8">THE DAL PATH</tspan></text><text x="24" y="58" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">the order the Compliance Run view lays out</text><g><rect x="24" y="80" width="156" height="66" rx="12" fill="url(#dp-card)" stroke="url(#dp-ink)" stroke-width="1.5"/><rect x="36" y="80" width="132" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="109" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Plans &amp; standards</text><text x="38" y="126" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">PSAC · SDP · SVP …</text></g><text x="102" y="168" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#7fd3e6">A-1</text><path d="M180 113 L194 113" fill="none" stroke="url(#dp-wire)" stroke-width="1.5" marker-end="url(#dp-arrow)"/><g><rect x="196" y="80" width="156" height="66" rx="12" fill="url(#dp-card)" stroke="#2c2d30" stroke-width="1"/><rect x="208" y="80" width="132" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="210" y="109" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Requirements</text><text x="210" y="126" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">SRS · HLR</text></g><text x="274" y="168" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#7fd3e6">A-2 · A-3</text><path d="M352 113 L366 113" fill="none" stroke="url(#dp-wire)" stroke-width="1.5" marker-end="url(#dp-arrow)"/><g><rect x="368" y="80" width="156" height="66" rx="12" fill="url(#dp-card)" stroke="#2c2d30" stroke-width="1"/><rect x="380" y="80" width="132" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="382" y="109" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Design</text><text x="382" y="126" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">SDD · LLR</text></g><text x="446" y="168" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#7fd3e6">A-4</text><path d="M524 113 L538 113" fill="none" stroke="url(#dp-wire)" stroke-width="1.5" marker-end="url(#dp-arrow)"/><g><rect x="540" y="80" width="156" height="66" rx="12" fill="url(#dp-card)" stroke="#2c2d30" stroke-width="1"/><rect x="552" y="80" width="132" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="554" y="109" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Code</text><text x="554" y="126" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">MISRA · CodeQL</text></g><text x="618" y="168" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#7fd3e6">A-5</text><path d="M696 113 L710 113" fill="none" stroke="url(#dp-wire)" stroke-width="1.5" marker-end="url(#dp-arrow)"/><g><rect x="712" y="80" width="156" height="66" rx="12" fill="url(#dp-card)" stroke="#2c2d30" stroke-width="1"/><rect x="724" y="80" width="132" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="726" y="109" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Verification</text><text x="726" y="126" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">tests · CBMC · MC/DC</text></g><text x="790" y="168" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#7fd3e6">A-6 · A-7</text><path d="M868 113 L882 113" fill="none" stroke="url(#dp-wire)" stroke-width="1.5" marker-end="url(#dp-arrow)"/><g><rect x="884" y="80" width="156" height="66" rx="12" fill="url(#dp-card)" stroke="#2c2d30" stroke-width="1"/><rect x="896" y="80" width="132" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="898" y="109" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Summaries</text><text x="898" y="126" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">SVR SCI SECI SAS</text></g><text x="962" y="168" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#7fd3e6">A-8 – A-10</text><path d="M1056 113 L1090 113 L1090 226 L1060 226" fill="none" stroke="url(#dp-wire)" stroke-width="1.5" marker-end="url(#dp-arrow)"/><g><rect x="860" y="196" width="198" height="60" rx="12" fill="url(#dp-card)" stroke="#2c2d30" stroke-width="1"/><rect x="872" y="196" width="174" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="874" y="222" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Compliance run</text><text x="874" y="239" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">every producer, one commit</text></g><path d="M860 226 L826 226" fill="none" stroke="url(#dp-wire)" stroke-width="1.5" marker-end="url(#dp-arrow)"/><g><rect x="626" y="196" width="198" height="60" rx="12" fill="url(#dp-card)" stroke="url(#dp-ink)" stroke-width="1.5"/><rect x="638" y="196" width="174" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="640" y="222" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Certification package</text><text x="640" y="239" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">sealed, ledger-anchored</text></g><rect x="24" y="196" width="580" height="60" rx="12" fill="none" stroke="#2c2d30" stroke-dasharray="4 5"/><text x="40" y="230" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">AT EVERY STAGE   agents draft  →  a person on the roster reviews, accepts and signs</text><text x="24" y="300" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">SVR and SAS cannot be issued until a compliance run shows executed verification.</text>
+</svg>
+</div><figcaption>The DAL path. Each stage covers its Annex A tables, as the Compliance Run view tags them. A compliance run measures every stage at one commit and feeds the certification package. At every stage, agents draft and a person on the roster reviews, accepts and signs.</figcaption></figure></p>
+<p>The stages are ordered because each one is checked against the one before: requirements against the plans, design against the requirements, code against the design, and verification against all of them. You can work on several at once; the Compliance Run view shows each stage&#39;s progress and suggests the next action for it.</p>
+<h2 id="before-you-start">Before you start<a class="anchor" href="#before-you-start" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li><a href="/docs/quick-start">Open the project</a> and <a href="/docs/models">connect a model</a>. Document authoring and agent drafting need a model; the measurements do not.</li>
+<li>Open <strong>Compliance</strong> (<kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>C</kbd>) and set the framework to <strong>DO-178C</strong> and the assurance level to your DAL in the header selects. The level is saved with the project&#39;s compliance article and printed on document covers.</li>
+<li>Open <strong>Evidence Records → Roster</strong> and add every person who will review, approve or sign. Reviews, approvals and signatures can only be recorded against people on the roster.</li>
+</ol>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>Set the DAL on the Compliance Dashboard. The <strong>Assurance Level</strong> in <strong>Settings → Compliance Standards</strong> is not saved and has no effect. The Compliance Run, Certification Readiness, Coupling and MC/DC views currently assess against <strong>Level A</strong> regardless of the level you pick.</p>
+</div></div></aside>
+<h2 id="1-import-the-annex-a-table-you-are-licensed-to-use">1. Import the Annex A table you are licensed to use<a class="anchor" href="#1-import-the-annex-a-table-you-are-licensed-to-use" aria-label="Link to this section">#</a></h2>
+<p>The wording of the DO-178C Annex A objectives belongs to RTCA, so Noyce IDE does not ship it. Until you import your licensed copy, plans and summaries are marked <strong>DRAFT, not for submission</strong>.</p>
+<ol class="steps">
+<li>On the Compliance Dashboard, expand <strong>Licensed Annex A table</strong>.</li>
+<li>Select <strong>Write blank template</strong>. Noyce IDE writes <code>.noyce/compliance/annex-a-licensed.template.json</code>.</li>
+<li>Fill in applicability, independence and control category for your level, and save it as <code>annex-a-licensed.json</code> in the same folder.</li>
+</ol>
+<p>Objective text for the run view is imported separately in <strong>Compliance Run → Objective map → Import objective text</strong>.</p>
+<h2 id="2-plans-and-standards">2. Plans and standards<a class="anchor" href="#2-plans-and-standards" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>DO-178C Documents</strong>. The library holds all 17 life-cycle documents, grouped as Plans (PSAC, SDP, SVP, SCMP, SQAP), Standards (SRSTD, SDSTD, SCSTD), Core (SRS, SDD, ICD, TRACE), Verification (SVCP, SVR) and Summary (SECI, SCI, SAS).</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/do178c-documents.webp" alt="The DO-178C document library with all 17 documents grouped by life-cycle stage" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>DO-178C Documents on the Canister firmware: each document&amp;#39;s card shows its revision and whether it is baselined.</figcaption></figure>
+<p>For each plan:</p>
+<ol class="steps">
+<li>Select <strong>Create from template</strong>. Sections that can be filled from the workspace, such as the toolchain, the file list and the target, are filled immediately, without a model. PSAC fills most of its sections this way.</li>
+<li>Select <strong>Propose decisions</strong>. An agent drafts each section that needs engineering judgment and marks it <strong>PROPOSED, awaiting engineer review</strong>. Nothing proposed counts until a person accepts it.</li>
+<li>Open <strong>Review decisions</strong>. For each draft choose <strong>Accept</strong>, <strong>Edit and accept</strong>, or <strong>Reject</strong> with a comment the next draft must answer. Each acceptance is recorded as a review in the audit trail.</li>
+<li>Optionally select <strong>Run docs swarm</strong> (or <strong>Author set…</strong> for several documents) to have agents write the remaining prose. Each section is saved as it is written, so a stopped run resumes where it left off.</li>
+</ol>
+<p>To use your company&#39;s Word template, select <strong>Document template… → Import from .docx</strong>. Noyce IDE lifts the styles, header, footer, page setup and logo, and applies them to every export.</p>
+<h2 id="3-requirements">3. Requirements<a class="anchor" href="#3-requirements" aria-label="Link to this section">#</a></h2>
+<p>High-level requirements live in the SRS. Bring them in from wherever they are today:</p>
+<ul>
+<li><strong>Requirements Authoring:</strong> write HLRs directly, or import system requirements from CSV, ReqIF or a Markdown table. A live check blocks the <strong>reviewed</strong> status on statements with two &quot;shall&quot;s, a TBD, or no parent.</li>
+<li><strong>Source tags:</strong> <code>@req</code> and <code>@verification</code> comments in code are picked up by <strong>Scan Workspace</strong>.</li>
+<li><strong>Low-Level Requirements:</strong> drafts one LLR per function from the code. A draft counts only once a person on the roster accepts it.</li>
+</ul>
+<p>See <a href="/docs/requirements">Requirements &amp; traceability</a> for each view.</p>
+<h2 id="4-design-and-code">4. Design and code<a class="anchor" href="#4-design-and-code" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>System Architecture</strong> builds a C4 model from the code and exports it for the SDD.</li>
+<li><strong>MISRA Diagnostics</strong> reports coding-standard findings. Fix them with <strong>Fix with Noyce</strong>, record a <strong>MISRA deviation</strong>, or leave them open; each fix becomes a change set you approve. See <a href="/docs/review-ai-changes">Review AI changes</a>.</li>
+<li><strong>Code Scanning (CodeQL)</strong> and <strong>Formal Verification (CBMC)</strong> add security and proof evidence.</li>
+</ul>
+<h2 id="5-verification">5. Verification<a class="anchor" href="#5-verification" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Test Explorer</strong> finds the project&#39;s tests and records target test runs.</li>
+<li><strong>MC/DC Coverage</strong> measures statement, decision and MC/DC coverage with LLVM, per module.</li>
+<li><strong>Data &amp; Control Coupling</strong> and <strong>Object Code Traceability</strong> cover DO-178C A-7(8) and A-7(9).</li>
+<li>Record each review in <strong>Evidence Records → Reviews</strong>. Independence is worked out from who wrote the item and who reviewed it; you do not tick a box. A review by an AI, a self-review, or a review by someone not on the roster is never independent.</li>
+</ul>
+<h2 id="6-take-a-compliance-run">6. Take a compliance run<a class="anchor" href="#6-take-a-compliance-run" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>Compliance Run</strong> and select <strong>Take a run</strong>. Noyce IDE runs every evidence producer against the current commit and stores the result as a reproducible record.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance-run.webp" alt="The Compliance Run view with its DAL path checklist from plans to summaries" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Compliance Run: no run recorded yet on this copy. The DAL path below lists what each stage still needs.</figcaption></figure>
+<p>The run shows, per Annex A table, which objectives are evidenced, unmapped or still open, what each tool reported, and what changed since the previous run. Map producers to objectives with <strong>Objective map → Map…</strong>; every mapping needs a stated basis. Select <strong>Mark baseline</strong> to fix a run as your reference.</p>
+<p>Here is a real first run on the Canister copy:</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance-run-taken.webp" alt="A completed compliance run on the Canister firmware with export blocked by 16 reasons" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Run run-20261022-101954 on the Canister copy: 0 of 71 objectives evidenced, 8 of 15 producers ran, 7 failing measurements, 1 of 8 conformity questions answered. It recorded commit 8ee50f2, a dirty working tree and level DO-178C A, and lists the 16 reasons export is blocked.</figcaption></figure>
+<p>Read a first run like this one as a to-do list, not a verdict. Each of the 16 <strong>Blocks export</strong> lines names a concrete gap and usually the fix: documents not yet baselined, requirements with no parent, a static analyzer that is not registered as a qualified tool, CodeQL include paths that could not be resolved, CBMC that ran on seeded sample input, and a working tree with uncommitted changes. The DAL path above it tells you which stage to work on next.</p>
+<p>A run cannot be exported if a producer failed, sample data was used, there is no commit, or the working tree has uncommitted changes.</p>
+<h2 id="7-issue-the-documents">7. Issue the documents<a class="anchor" href="#7-issue-the-documents" aria-label="Link to this section">#</a></h2>
+<p>In each document&#39;s <strong>Completion</strong> tab, resolve what is left: proposals awaiting review, engineering decisions, evidence the workspace has not produced yet, and cross-document consistency. Then choose the signatories from the roster and select <strong>Sign and issue (baseline)</strong>. The issued revision is frozen with a SHA-256 content hash.</p>
+<p>SVR and SAS cannot be issued until the latest compliance run shows executed verification. When the whole set is ready, select <strong>Declare set baseline</strong> in the library; it records the git commit.</p>
+<p>Select <strong>Export .docx</strong> on any document for a Word copy with your template, numbered headings, tables and figures.</p>
+<h2 id="8-export-the-evidence-package">8. Export the evidence package<a class="anchor" href="#8-export-the-evidence-package" aria-label="Link to this section">#</a></h2>
+<p>On the Compliance Dashboard, select <strong>Certification Package</strong>. Noyce IDE runs CBMC and CodeQL, gathers the requirements, traceability, analysis, coverage, reviews, documents and audit trail, and writes Markdown, HTML and JSON to <code>.noyce/certification/</code>.</p>
+<p>The button stays disabled until there are requirements and every objective has been assessed or reviewed, and the export is refused while the document set has unwaived contradictions.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>The package is sealed, not signed. Each section is hashed with SHA-256, and the package digest is anchored to the head of the hash-chained audit trail, so any later change is detectable. It carries no private-key signature.</p>
+</div></div></aside>
+<h2 id="how-annex-a-objectives-are-graded">How Annex A objectives are graded<a class="anchor" href="#how-annex-a-objectives-are-graded" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Satisfied</td>
+<td>The objective&#39;s own evidence exists and a person has reviewed it.</td>
+</tr>
+<tr>
+<td>Partial</td>
+<td>Some of the objective&#39;s evidence exists, or a project-wide measure suggests progress. A proxy can make an objective partial, never satisfied.</td>
+</tr>
+<tr>
+<td>Open / unassessed</td>
+<td>No mapped evidence yet. This is &quot;not shown&quot;, not &quot;failed&quot;.</td>
+</tr>
+<tr>
+<td>Failing</td>
+<td>A check that maps to the objective failed.</td>
+</tr>
+</tbody></table></div>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/models"><small>Previous</small><span>Models</span></a>
+      <a class="next" href="/docs/review-ai-changes"><small>Next</small><span>Review AI changes</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#before-you-start">Before you start</a></li><li><a class="l2" href="#1-import-the-annex-a-table-you-are-licensed-to-use">1. Import the Annex A table you are licensed to use</a></li><li><a class="l2" href="#2-plans-and-standards">2. Plans and standards</a></li><li><a class="l2" href="#3-requirements">3. Requirements</a></li><li><a class="l2" href="#4-design-and-code">4. Design and code</a></li><li><a class="l2" href="#5-verification">5. Verification</a></li><li><a class="l2" href="#6-take-a-compliance-run">6. Take a compliance run</a></li><li><a class="l2" href="#7-issue-the-documents">7. Issue the documents</a></li><li><a class="l2" href="#8-export-the-evidence-package">8. Export the evidence package</a></li><li><a class="l2" href="#how-annex-a-objectives-are-graded">How Annex A objectives are graded</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

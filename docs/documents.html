@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>DO-178C documents · Noyce IDE Docs</title>
+<meta name="description" content="The document library, how sections are authored from the workspace and by agents, how engineering decisions are reviewed, and how documents are issued, baselined and exported to Word.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/documents">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DO-178C documents · Noyce IDE Docs">
+<meta property="og:description" content="The document library, how sections are authored from the workspace and by agents, how engineering decisions are reviewed, and how documents are issued, baselined and exported to Word.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/documents">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents" aria-current="page">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>DO-178C documents</h1>
+      <p class="lede">The document library, how sections are authored from the workspace and by agents, how engineering decisions are reviewed, and how documents are issued, baselined and exported to Word.</p>
+      
+      <div class="rule"></div>
+      <h2 id="the-document-library">The document library<a class="anchor" href="#the-document-library" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>DO-178C Documents</strong> from its tile or <strong>Noyce Compliance: Open DO-178C Documents</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/do178c-documents.webp" alt="The DO-178C document library showing all 17 documents" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The library on the Canister copy: 17 documents at v1.0, none baselined yet, grouped by stage.</figcaption></figure>
+<p>The library holds the 17 DO-178C life-cycle documents:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Documents</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Plans</td>
+<td>PSAC, SDP, SVP, SCMP, SQAP</td>
+</tr>
+<tr>
+<td>Standards</td>
+<td>SRSTD, SDSTD, SCSTD</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>SRS, SDD, ICD, TRACE</td>
+</tr>
+<tr>
+<td>Verification</td>
+<td>SVCP, SVR</td>
+</tr>
+<tr>
+<td>Summary</td>
+<td>SECI, SCI, SAS</td>
+</tr>
+</tbody></table></div>
+<p>Filter by group, search, sort by kind, and switch between <strong>Grid</strong> and <strong>List</strong>. <strong>Export all</strong> writes every document to Word; <strong>Regenerate stale</strong> re-authors documents whose workspace inputs have changed. Each card shows the document&#39;s revision, date and baseline state.</p>
+<p>Documents are stored as StrictDoc <code>.sdoc</code> files in <code>.noyce/documents/</code>, so they are plain text you can diff.</p>
+<h2 id="author-a-document">Author a document<a class="anchor" href="#author-a-document" aria-label="Link to this section">#</a></h2>
+<p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 360" role="img" aria-label="Document sections come from three sources: workspace facts filled without a model, judgment sections drafted by an agent and accepted, edited or rejected by an engineer, and prose from the docs swarm. Signatories on the roster issue the document, which freezes it at a SHA-256 hash; issued documents are baselined as a set and exported to Word." class="diagram">
+<defs>
+<linearGradient id="ds-ink" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
+<linearGradient id="ds-wire" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4b8a99"/><stop offset="1" stop-color="#5d9e6a"/></linearGradient>
+<linearGradient id="ds-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1d20"/><stop offset="1" stop-color="#151619"/></linearGradient>
+<marker id="ds-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#79c9a0"/></marker>
+<marker id="ds-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f2c35b"/></marker>
+<marker id="ds-arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f08a7a"/></marker>
+</defs>
+<rect width="1180" height="360" rx="20" fill="#121212"/>
+<text x="24" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">01</tspan><tspan dx="8">SECTION SOURCES</tspan></text><text x="340" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">02</tspan><tspan dx="8">ENGINEER</tspan></text><text x="620" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">03</tspan><tspan dx="8">ISSUE</tspan></text><text x="900" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">04</tspan><tspan dx="8">OUTPUT</tspan></text><g><rect x="24" y="76" width="270" height="52" rx="12" fill="url(#ds-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="76" width="246" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="98" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Workspace facts</text><text x="38" y="115" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">toolchain, files, target · no model</text></g><g><rect x="24" y="146" width="270" height="52" rx="12" fill="url(#ds-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="146" width="246" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="168" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Judgment sections</text><text x="38" y="185" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">agent drafts PROPOSED</text></g><g><rect x="24" y="216" width="270" height="52" rx="12" fill="url(#ds-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="216" width="246" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="238" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Prose</text><text x="38" y="255" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">docs swarm · resumable</text></g><path d="M294 102 L600 102 L600 172 L618 172" fill="none" stroke="url(#ds-wire)" stroke-width="1.5" marker-end="url(#ds-arrow)"/><path d="M294 172 L338 172" fill="none" stroke="url(#ds-wire)" stroke-width="1.5" marker-end="url(#ds-arrow)"/><g><rect x="340" y="146" width="220" height="52" rx="12" fill="url(#ds-card)" stroke="url(#ds-ink)" stroke-width="1.5"/><rect x="352" y="146" width="196" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="354" y="168" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Review decisions</text><text x="354" y="185" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">accept · edit · reject</text></g><path d="M560 172 L618 172" fill="none" stroke="url(#ds-wire)" stroke-width="1.5" marker-end="url(#ds-arrow)"/><path d="M294 242 L600 242 L600 180" fill="none" stroke="url(#ds-wire)" stroke-width="1.5" marker-end="url(#ds-arrow)"/><text x="490" y="234" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">edited in place</text><g><rect x="620" y="146" width="240" height="52" rx="12" fill="url(#ds-card)" stroke="url(#ds-ink)" stroke-width="1.5"/><rect x="632" y="146" width="216" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="634" y="168" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Sign and issue</text><text x="634" y="185" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">roster signatories</text></g><text x="634" y="220" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">frozen at a SHA-256 hash</text><text x="634" y="236" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">later edits = new revision</text><path d="M860 172 L898 172" fill="none" stroke="url(#ds-wire)" stroke-width="1.5" marker-end="url(#ds-arrow)"/><g><rect x="900" y="76" width="250" height="52" rx="12" fill="url(#ds-card)" stroke="#2c2d30" stroke-width="1"/><rect x="912" y="76" width="226" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="914" y="98" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Set baseline</text><text x="914" y="115" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">all docs at one git commit</text></g><g><rect x="900" y="146" width="250" height="52" rx="12" fill="url(#ds-card)" stroke="#2c2d30" stroke-width="1"/><rect x="912" y="146" width="226" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="914" y="168" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">.sdoc in .noyce/documents</text><text x="914" y="185" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">plain text, diffable</text></g><g><rect x="900" y="216" width="250" height="52" rx="12" fill="url(#ds-card)" stroke="#2c2d30" stroke-width="1"/><rect x="912" y="216" width="226" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="914" y="238" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Word export</text><text x="914" y="255" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">your .docx template</text></g><path d="M880 172 L880 102 L898 102" fill="none" stroke="url(#ds-wire)" stroke-width="1.5" marker-end="url(#ds-arrow)"/><path d="M880 172 L880 242 L898 242" fill="none" stroke="url(#ds-wire)" stroke-width="1.5" marker-end="url(#ds-arrow)"/><path d="M340 188 L296 188" fill="none" stroke="#f08a7a" stroke-width="1.5" marker-end="url(#ds-arrow-bad)"/><text x="340" y="300" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#f08a7a">rejected → redrafted; the next draft must answer the comment</text><path d="M370 198 L370 284" fill="none" stroke="#f08a7a" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#ds-arrow-bad)"/>
+</svg>
+</div><figcaption>A document&amp;#39;s sections come from three places: facts filled from the workspace without a model, judgment sections an agent drafts and an engineer accepts, edits or rejects, and prose from the docs swarm. Signatories on the roster issue it, which freezes it at a SHA-256 hash; issued documents are baselined as a set and exported to Word.</figcaption></figure></p>
+<p>The split matters for review. Facts from the workspace are checkable against the project. Engineering judgment, such as why a tool needs no qualification or how independence is achieved, is the part an auditor will question, so it is always drafted as a proposal and decided by a person. Prose fills in the rest.</p>
+<p>Open a document from the library, or create one with <strong>Create from template</strong>.</p>
+<ol class="steps">
+<li><strong>From the workspace, no model.</strong> Sections whose content is a fact about the project, such as the toolchain, the source files, the target and the tools in use, are filled from the workspace when the document is created.</li>
+<li><strong>Decisions, drafted by an agent.</strong> Select <strong>Propose decisions</strong> and an agent drafts each section that needs engineering judgment. Each draft is marked <strong>PROPOSED, awaiting engineer review</strong> and counts for nothing until a person accepts it.</li>
+<li><strong>Prose, by the docs swarm.</strong> Write an instruction and select <strong>Run docs swarm</strong>, or use <strong>Author set…</strong> to author several documents in one go. Each section is saved as soon as it is written, so stopping and restarting picks up where it left off. <strong>Improve with model</strong> also revises the template prose.</li>
+</ol>
+<h2 id="review-decisions">Review decisions<a class="anchor" href="#review-decisions" aria-label="Link to this section">#</a></h2>
+<p>When drafts are waiting, the document shows how many decisions await your review. Select <strong>Review decisions</strong>, pick yourself as the reviewer, and for each draft:</p>
+<ul>
+<li><strong>Accept</strong> it as written,</li>
+<li><strong>Edit and accept</strong> it with your changes, or</li>
+<li><strong>Reject</strong> it with a comment that the next draft has to answer.</li>
+</ul>
+<p>If the fact check flags a draft, accepting it needs <strong>Accept over fact check…</strong>, so the override is on record. Every accepted decision is stored as a review and in the audit trail.</p>
+<h2 id="complete-and-issue">Complete and issue<a class="anchor" href="#complete-and-issue" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Completion</strong> tab lists what stands between the document and issue: proposals to review, engineering decisions to answer, evidence the workspace has not produced yet (<strong>Refresh from workspace</strong> checks again), and contradictions with other documents (<strong>Re-check</strong>, or waive with a reason).</p>
+<p>When it is clear, choose the signatories from the roster and select <strong>Sign and issue (baseline)</strong>. The issued revision is frozen with a SHA-256 hash of its content. Later edits become a new revision: <strong>Record revision</strong> asks what changed.</p>
+<p>SVR and SAS cannot be issued until the latest compliance run shows that verification was executed. When the set is ready, <strong>Declare set baseline</strong> records the whole set against the current git commit.</p>
+<h2 id="export-to-word">Export to Word<a class="anchor" href="#export-to-word" aria-label="Link to this section">#</a></h2>
+<p>Select <strong>Export .docx</strong> on a document, or <strong>Export all</strong> in the library. The export is a formal document with a cover page, contents, numbered headings, tables, and Mermaid and Archify figures rendered as images.</p>
+<p>To match your company&#39;s format, open <strong>Document template…</strong> and select <strong>Import from .docx…</strong> with one of your Word documents. Noyce IDE takes its styles, header and footer, page setup and logo, and suggests a cover. <strong>Save template</strong> applies it to every export; <strong>Reset to built-in</strong> goes back.</p>
+<h2 id="document-reader">Document Reader<a class="anchor" href="#document-reader" aria-label="Link to this section">#</a></h2>
+<p>Read and edit the issued Word documents and certification packages in place. Open it with <strong>Noyce: Document Reader</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/document-reader.webp" alt="Document Reader with the library rail showing each document&amp;#39;s completion" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Document Reader&amp;#39;s library: each document with its path and completion, for example ICD 13 of 13 sections complete and PSAC 90 of 98 with 8 open.</figcaption></figure>
+<h2 id="markdown-and-pdf">Markdown and PDF<a class="anchor" href="#markdown-and-pdf" aria-label="Link to this section">#</a></h2>
+<p><code>.md</code> files open in a WYSIWYG Markdown editor that saves to the file as you type, with normal undo. PDFs open in the built-in PDF viewer.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/compliance"><small>Previous</small><span>Compliance &amp; certification</span></a>
+      <a class="next" href="/docs/analysis"><small>Next</small><span>Analysis &amp; proof</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#the-document-library">The document library</a></li><li><a class="l2" href="#author-a-document">Author a document</a></li><li><a class="l2" href="#review-decisions">Review decisions</a></li><li><a class="l2" href="#complete-and-issue">Complete and issue</a></li><li><a class="l2" href="#export-to-word">Export to Word</a></li><li><a class="l2" href="#document-reader">Document Reader</a></li><li><a class="l2" href="#markdown-and-pdf">Markdown and PDF</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Review and apply AI changes · Noyce IDE Docs</title>
+<meta name="description" content="How a fix proposed by Fix with Noyce, the CBMC or CodeQL fixers, or an Orchestrator agent becomes an approved, gated change set before it touches your code.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/review-ai-changes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Review and apply AI changes · Noyce IDE Docs">
+<meta property="og:description" content="How a fix proposed by Fix with Noyce, the CBMC or CodeQL fixers, or an Orchestrator agent becomes an approved, gated change set before it touches your code.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/review-ai-changes">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes" aria-current="page">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Guides</li></ol>
+    <article class="doc">
+      <h1>Review and apply AI changes</h1>
+      <p class="lede">How a fix proposed by Fix with Noyce, the CBMC or CodeQL fixers, or an Orchestrator agent becomes an approved, gated change set before it touches your code.</p>
+      
+      <div class="rule"></div>
+      <p>Code changes proposed by AI in Noyce IDE are never written straight into your source. They arrive as a <strong>change set</strong>: the proposed files, held next to the project, that have to cite an authority, pass gates and be approved by a named person before they are applied.</p>
+<p>This applies to <strong>Fix with Noyce</strong> in MISRA Diagnostics, the fixers in Formal Verification and Code Scanning, the Firmware Validation Loop, and code written by Orchestrator agents.</p>
+<p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 380" role="img" aria-label="Fixes from Fix with Noyce, the CBMC and CodeQL fixers, Orchestrator agents and the firmware loop all become a change set, which must cite an authority, run five gates and be approved by a person on the roster before Apply writes all files or none. A file changed since gating makes the set stale; a rejection records its reason." class="diagram">
+<defs>
+<linearGradient id="cs-ink" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
+<linearGradient id="cs-wire" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4b8a99"/><stop offset="1" stop-color="#5d9e6a"/></linearGradient>
+<linearGradient id="cs-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1d20"/><stop offset="1" stop-color="#151619"/></linearGradient>
+<marker id="cs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#79c9a0"/></marker>
+<marker id="cs-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f2c35b"/></marker>
+<marker id="cs-arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f08a7a"/></marker>
+</defs>
+<rect width="1180" height="380" rx="20" fill="#121212"/>
+<text x="24" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">01</tspan><tspan dx="8">PROPOSED</tspan></text><text x="270" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">02</tspan><tspan dx="8">STAGED</tspan></text><text x="270" y="58" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">held beside the project, not written</text><text x="760" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">03</tspan><tspan dx="8">DECIDED BY A PERSON</tspan></text><g><rect x="24" y="70" width="210" height="48" rx="12" fill="url(#cs-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="70" width="186" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="90" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Fix with Noyce</text><text x="38" y="107" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">MISRA finding</text></g><g><rect x="24" y="128" width="210" height="48" rx="12" fill="url(#cs-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="128" width="186" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="148" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">CBMC · CodeQL fixers</text><text x="38" y="165" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">failed property, alert</text></g><g><rect x="24" y="186" width="210" height="48" rx="12" fill="url(#cs-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="186" width="186" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="206" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Orchestrator agents</text><text x="38" y="223" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">code tasks</text></g><g><rect x="24" y="244" width="210" height="48" rx="12" fill="url(#cs-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="244" width="186" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="264" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Firmware loop</text><text x="38" y="281" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">build-fix attempts</text></g><path d="M234 94 L252 94 L252 181 L268 181" fill="none" stroke="url(#cs-wire)" stroke-width="1.5" marker-end="url(#cs-arrow)"/><path d="M234 152 L252 152 L252 181 L268 181" fill="none" stroke="url(#cs-wire)" stroke-width="1.5" marker-end="url(#cs-arrow)"/><path d="M234 210 L252 210 L252 181 L268 181" fill="none" stroke="url(#cs-wire)" stroke-width="1.5" marker-end="url(#cs-arrow)"/><path d="M234 268 L252 268 L252 181 L268 181" fill="none" stroke="url(#cs-wire)" stroke-width="1.5" marker-end="url(#cs-arrow)"/><g><rect x="270" y="146" width="150" height="70" rx="12" fill="url(#cs-card)" stroke="#2c2d30" stroke-width="1"/><rect x="282" y="146" width="126" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="284" y="177" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Change set</text><text x="284" y="194" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">files + diff</text></g><path d="M420 181 L448 181" fill="none" stroke="url(#cs-wire)" stroke-width="1.5" marker-end="url(#cs-arrow)"/><g><rect x="450" y="146" width="130" height="70" rx="12" fill="url(#cs-card)" stroke="#2c2d30" stroke-width="1"/><rect x="462" y="146" width="106" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="464" y="177" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Cite authority</text><text x="464" y="194" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">open PR or CCB</text></g><path d="M580 181 L608 181" fill="none" stroke="url(#cs-wire)" stroke-width="1.5" marker-end="url(#cs-arrow)"/><g><rect x="610" y="126" width="140" height="110" rx="12" fill="url(#cs-card)" stroke="#2c2d30" stroke-width="1"/><rect x="622" y="126" width="116" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="624" y="150" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Run gates</text></g><text x="624" y="170" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">integrity</text><text x="624" y="186" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">authority · build</text><text x="624" y="202" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">unit tests · MISRA</text><text x="624" y="222" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#7fd3e6">all five always run</text><path d="M750 181 L768 181" fill="none" stroke="url(#cs-wire)" stroke-width="1.5" marker-end="url(#cs-arrow)"/><g><rect x="770" y="146" width="150" height="70" rx="12" fill="url(#cs-card)" stroke="url(#cs-ink)" stroke-width="1.5"/><rect x="782" y="146" width="126" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="784" y="177" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Approve</text><text x="784" y="194" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">approver on roster</text></g><path d="M920 181 L948 181" fill="none" stroke="url(#cs-wire)" stroke-width="1.5" marker-end="url(#cs-arrow)"/><g><rect x="950" y="146" width="200" height="70" rx="12" fill="url(#cs-card)" stroke="url(#cs-ink)" stroke-width="1.5"/><rect x="962" y="146" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="964" y="177" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Apply</text><text x="964" y="194" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">all files or none</text></g><path d="M1050 216 L1050 268" fill="none" stroke="#f2c35b" stroke-width="1.5" marker-end="url(#cs-arrow-warn)"/><text x="1040" y="248" text-anchor="end" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#f2c35b">file changed since gating</text><g><rect x="950" y="270" width="200" height="56" rx="12" fill="url(#cs-card)" stroke="#f2c35b" stroke-width="1"/><rect x="962" y="270" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="964" y="294" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Stale</text><text x="964" y="311" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">nothing written</text></g><path d="M845 216 L845 268" fill="none" stroke="#f08a7a" stroke-width="1.5" marker-end="url(#cs-arrow-bad)"/><text x="835" y="248" text-anchor="end" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#f08a7a">or reject</text><g><rect x="770" y="270" width="150" height="56" rx="12" fill="url(#cs-card)" stroke="#f08a7a" stroke-width="1"/><rect x="782" y="270" width="126" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="784" y="294" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Rejected</text><text x="784" y="311" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">reason recorded</text></g><text x="24" y="350" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">Before staging, Fix with Noyce asks the model whether the finding is real; a disputed finding cannot be staged.</text>
+</svg>
+</div><figcaption>Every AI code change takes the same path. It is staged beside the project, cites the authority that allows it, runs five gates, and is approved by a person on the roster before Apply writes all of its files or none. If a file changed after gating, the set goes stale and nothing is written; a rejection always records its reason.</figcaption></figure></p>
+<p>The point of the path is that the code an auditor sees can always be traced back to a reason (the authority), a check (the gates) and a person (the approver). An AI wrote the draft; none of those three steps are the AI&#39;s.</p>
+<h2 id="1-propose-a-fix">1. Propose a fix<a class="anchor" href="#1-propose-a-fix" aria-label="Link to this section">#</a></h2>
+<p>In <strong>MISRA Diagnostics</strong>, select a finding, then <strong>Fix with Noyce</strong>. The dialog shows <strong>Generating a grounded fix…</strong> while the model works.</p>
+<p>What happens before you see a diff:</p>
+<ol class="steps">
+<li><strong>Fact check.</strong> The model is first asked whether the finding is a real violation. A disputed finding cannot be staged, and the dialog says why.</li>
+<li><strong>A bounded rewrite.</strong> The model rewrites only a window around the finding: the enclosing function when it is short, otherwise about 25 lines either side. The rest of the file is kept byte for byte, so a fix cannot silently change code far from the finding.</li>
+<li><strong>Safety checks on the result.</strong> If the proposal changes nothing, or would damage the file, staging is disabled and the dialog says so.</li>
+</ol>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/misra-fix-proposal.webp" alt="Fix with Noyce dialog where the model explained a fix but returned no change, so staging is disabled" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>A real run with Ornith on the Canister copy. For a cppcheck bufferAccessOutOfBounds finding in CANISTER_CONTROLLER_INIT.c, the model explained a sensible fix but returned no change to the file. Noyce IDE flags the proposal as unsafe, shows that nothing changed, and keeps Stage change set disabled.</figcaption></figure>
+<p>When the proposal is a real change, the dialog shows its line diff. Select <strong>Stage change set</strong> to keep it, <strong>Discard</strong> to drop it, or <strong>Raise problem report from finding</strong> to track the issue instead. <strong>Fix All</strong> stages one change set for every auto-fixable finding.</p>
+<aside class="callout tip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><div><p class="callout-t">Tip</p><div class="callout-b"><p>Pick the model for fixes in the <strong>Fixer model</strong> select at the top of MISRA Diagnostics. It overrides the global model for fixes only.</p>
+</div></div></aside>
+<h2 id="2-open-the-change-set">2. Open the change set<a class="anchor" href="#2-open-the-change-set" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>Evidence Records → Change sets</strong>. Each staged set shows its files with a per-file diff.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/evidence-records.webp" alt="Evidence Records with its tabs, including Change sets and Roster" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Evidence Records. Change sets is one of ten record types; the others hold verification cases, problem reports, reviews and more.</figcaption></figure>
+<h2 id="3-cite-the-authority">3. Cite the authority<a class="anchor" href="#3-cite-the-authority" aria-label="Link to this section">#</a></h2>
+<p>Every change needs a reason that a reviewer can trace. In <strong>Authority</strong>, enter the problem report, change request or CCB decision the change answers, and select <strong>Cite</strong>. If none exists yet, <strong>Raise problem report from finding</strong> creates one.</p>
+<h2 id="4-run-the-gates">4. Run the gates<a class="anchor" href="#4-run-the-gates" aria-label="Link to this section">#</a></h2>
+<p>Select <strong>Run gates</strong>. All five gates always run, so you see every problem at once:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Passes when</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Integrity</td>
+<td>The changed files have no structural damage a compiler would reject, such as an unbalanced brace or a stray byte-order mark. Problems already in the original file are listed but do not fail the gate.</td>
+</tr>
+<tr>
+<td>Authority</td>
+<td>The cited problem report is open or in work, or a CCB decision taken with quorum approved the change.</td>
+</tr>
+<tr>
+<td>Build</td>
+<td>The project builds with the change.</td>
+</tr>
+<tr>
+<td>Unit tests</td>
+<td>The project&#39;s tests pass with the change. If they also fail without it, the result says so.</td>
+</tr>
+<tr>
+<td>MISRA</td>
+<td>The change introduces no new MISRA findings.</td>
+</tr>
+</tbody></table></div>
+<p>A gate that cannot run is marked <strong>skipped</strong>, never passed: for example when the project has no portable build, no unit tests the IDE can run, or no C or C++ file in the change. Gating refuses to start if the staged content was edited outside the change set.</p>
+<h2 id="5-approve-and-apply">5. Approve and apply<a class="anchor" href="#5-approve-and-apply" aria-label="Link to this section">#</a></h2>
+<p>Choose the <strong>Approver</strong> from the roster and select <strong>Approve</strong>. Then select <strong>Apply</strong>.</p>
+<p>Apply writes all of the files or none of them. If any file was edited after the gates ran, the change set is marked <strong>stale</strong> and nothing is written; propose the fix again on the current code. If a write fails part-way, the files already written are restored.</p>
+<p>To decline a change, enter a reason and select <strong>Reject</strong>; a rejection always records its reason. Every step (creation, cited authority, gate results, approval, rejection, apply) is kept in the change set&#39;s history.</p>
+<h2 id="orchestrator-agents">Orchestrator agents<a class="anchor" href="#orchestrator-agents" aria-label="Link to this section">#</a></h2>
+<p>Code from the Orchestrator&#39;s coding agents goes through the same path. With <strong>Auto-apply agent code</strong> off, the agent output tab shows <strong>Proposed file changes</strong> with <strong>Stage all as change set</strong>. With it on, the change set is staged for you automatically. In both cases nothing is written until you approve and apply it here.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/do178c-walkthrough"><small>Previous</small><span>DO-178C walkthrough</span></a>
+      <a class="next" href="/docs/projects"><small>Next</small><span>Projects</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#1-propose-a-fix">1. Propose a fix</a></li><li><a class="l2" href="#2-open-the-change-set">2. Open the change set</a></li><li><a class="l2" href="#3-cite-the-authority">3. Cite the authority</a></li><li><a class="l2" href="#4-run-the-gates">4. Run the gates</a></li><li><a class="l2" href="#5-approve-and-apply">5. Approve and apply</a></li><li><a class="l2" href="#orchestrator-agents">Orchestrator agents</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

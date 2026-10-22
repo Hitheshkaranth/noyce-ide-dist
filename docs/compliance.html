@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Compliance &amp; certification · Noyce IDE Docs</title>
+<meta name="description" content="The Compliance Dashboard, Annex A objectives, compliance runs, certification readiness, evidence records, the audit trail and the certification package.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/compliance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Compliance &amp; certification · Noyce IDE Docs">
+<meta property="og:description" content="The Compliance Dashboard, Annex A objectives, compliance runs, certification readiness, evidence records, the audit trail and the certification package.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/compliance">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance" aria-current="page">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>Compliance &amp; certification</h1>
+      <p class="lede">The Compliance Dashboard, Annex A objectives, compliance runs, certification readiness, evidence records, the audit trail and the certification package.</p>
+      
+      <div class="rule"></div>
+      <p>For the order to use these in, follow the <a href="/docs/do178c-walkthrough">DO-178C walkthrough</a>. This page describes each surface.</p>
+<h2 id="compliance-dashboard">Compliance Dashboard<a class="anchor" href="#compliance-dashboard" aria-label="Link to this section">#</a></h2>
+<p>The project&#39;s standing against a certification framework, objective by objective. Open it from the <strong>Compliance</strong> tile or <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>C</kbd>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance.webp" alt="Compliance Evidence dashboard for the Canister firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Compliance Evidence on the Canister copy at DAL A: 0 of 29 requirements linked, 1,532 analysis findings, 0% structural coverage, and 71 objectives with none satisfied.</figcaption></figure>
+<p><strong>Header.</strong> Choose the framework (DO-178C, ISO 26262, IEC 62304 or IEC 61508) and the assurance level. The buttons along the top:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Button</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Generate with AI</td>
+<td>Has your model draft the evidence for open objectives. Disabled until there are requirements.</td>
+</tr>
+<tr>
+<td>Generate via Orchestrator</td>
+<td>Puts each open objective on the <a href="/docs/ai-agents#ai-orchestrator">Orchestrator</a> board as a card.</td>
+</tr>
+<tr>
+<td>Generate All Evidence</td>
+<td>Runs every evidence producer the dashboard knows.</td>
+</tr>
+<tr>
+<td>Scan</td>
+<td>Rescans the project (<kbd>⌘</kbd><kbd>S</kbd> inside the dashboard).</td>
+</tr>
+<tr>
+<td>Analysis Tools, Coupling, MC/DC Coverage</td>
+<td>Open those surfaces.</td>
+</tr>
+<tr>
+<td>Evidence Pack</td>
+<td>Writes a printable HTML evidence pack.</td>
+</tr>
+<tr>
+<td>Certification Package</td>
+<td>Writes the sealed package (below).</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>Exports the dashboard as JSON (<kbd>⌘</kbd><kbd>E</kbd>).</td>
+</tr>
+</tbody></table></div>
+<p><strong>Body.</strong> Counters for requirements linked, design allocation, verification and analysis findings; the certification article with satisfied, partial, open and N/A counts; structural coverage against DO-178C A-7; and the objectives table, grouped by Annex A table, with each objective&#39;s reference, independence, status and the output it needs.</p>
+<p>Select an objective to open its drawer: the evidence behind it, <strong>Generate … with …</strong> for the agent that can produce it, its tool, and <strong>Review proposed evidence</strong>, where a reviewer from the roster accepts or rejects the evidence with a note.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>Set the assurance level here. The level in Settings has no effect. See <a href="/docs/limitations#compliance">Known limitations</a>.</p>
+</div></div></aside>
+<h3 id="how-an-objective-is-graded">How an objective is graded<a class="anchor" href="#how-an-objective-is-graded" aria-label="Link to this section">#</a></h3>
+<p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 360" role="img" aria-label="Producer output mapped to an objective with a stated basis becomes that objective's evidence, and only a review by a person on the roster makes it satisfied. A project-wide proxy can raise an objective to partial but never to satisfied, and an AI review never closes one." class="diagram">
+<defs>
+<linearGradient id="og-ink" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
+<linearGradient id="og-wire" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4b8a99"/><stop offset="1" stop-color="#5d9e6a"/></linearGradient>
+<linearGradient id="og-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1d20"/><stop offset="1" stop-color="#151619"/></linearGradient>
+<marker id="og-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#79c9a0"/></marker>
+<marker id="og-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f2c35b"/></marker>
+<marker id="og-arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f08a7a"/></marker>
+</defs>
+<rect width="1180" height="360" rx="20" fill="#121212"/>
+<text x="24" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">01</tspan><tspan dx="8">EVIDENCE</tspan></text><text x="300" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">02</tspan><tspan dx="8">MAPPING</tspan></text><text x="560" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">03</tspan><tspan dx="8">REVIEW</tspan></text><text x="880" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">04</tspan><tspan dx="8">STATUS</tspan></text><g><rect x="24" y="76" width="230" height="52" rx="12" fill="url(#og-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="76" width="206" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="98" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Producer output</text><text x="38" y="115" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">a run measured something</text></g><g><rect x="24" y="146" width="230" height="52" rx="12" fill="url(#og-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="146" width="206" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="168" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Project-wide proxy</text><text x="38" y="185" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">e.g. overall coverage</text></g><g><rect x="24" y="216" width="230" height="52" rx="12" fill="url(#og-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="216" width="206" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="238" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Agent-drafted evidence</text><text x="38" y="255" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">proposed, not counted</text></g><path d="M254 102 L298 102" fill="none" stroke="url(#og-wire)" stroke-width="1.5" marker-end="url(#og-arrow)"/><text x="276" y="94" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">mapped</text><text x="300" y="148" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">every mapping records its basis</text><g><rect x="300" y="76" width="220" height="52" rx="12" fill="url(#og-card)" stroke="#2c2d30" stroke-width="1"/><rect x="312" y="76" width="196" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="314" y="98" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Objective evidence</text><text x="314" y="115" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">this objective's own kinds</text></g><path d="M520 102 L558 102" fill="none" stroke="url(#og-wire)" stroke-width="1.5" marker-end="url(#og-arrow)"/><g><rect x="560" y="76" width="250" height="52" rx="12" fill="url(#og-card)" stroke="url(#og-ink)" stroke-width="1.5"/><rect x="572" y="76" width="226" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="574" y="98" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Human review</text><text x="574" y="115" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">reviewer on roster</text></g><path d="M810 102 L878 102" fill="none" stroke="url(#og-wire)" stroke-width="1.5" marker-end="url(#og-arrow)"/><text x="844" y="94" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">accepted</text><g><rect x="880" y="76" width="270" height="52" rx="12" fill="url(#og-card)" stroke="url(#og-ink)" stroke-width="1.5"/><rect x="892" y="76" width="246" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="894" y="98" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Satisfied</text><text x="894" y="115" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">evidence + a person</text></g><path d="M254 172 L878 172" fill="none" stroke="#f2c35b" stroke-width="1.5" marker-end="url(#og-arrow-warn)"/><text x="708" y="164" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#f2c35b">can raise to partial, never to satisfied</text><g><rect x="880" y="146" width="270" height="52" rx="12" fill="url(#og-card)" stroke="#f2c35b" stroke-width="1"/><rect x="892" y="146" width="246" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="894" y="168" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Partial</text><text x="894" y="185" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">some evidence</text></g><path d="M254 242 L536 242 L536 116 L558 116" fill="none" stroke="url(#og-wire)" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#og-arrow)"/><text x="400" y="234" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">needs a person</text><g><rect x="560" y="216" width="250" height="52" rx="12" fill="url(#og-card)" stroke="#f08a7a" stroke-width="1"/><rect x="572" y="216" width="226" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="574" y="238" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">AI review</text><text x="574" y="255" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">never closes an objective</text></g><path d="M810 242 L878 242" fill="none" stroke="#f08a7a" stroke-width="1.5" marker-end="url(#og-arrow-bad)"/><text x="844" y="234" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#f08a7a">stays</text><g><rect x="880" y="216" width="270" height="52" rx="12" fill="url(#og-card)" stroke="#2c2d30" stroke-width="1"/><rect x="892" y="216" width="246" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="894" y="238" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Open</text><text x="894" y="255" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">nothing mapped yet</text></g><g><rect x="880" y="286" width="270" height="52" rx="12" fill="url(#og-card)" stroke="#f08a7a" stroke-width="1"/><rect x="892" y="286" width="246" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="894" y="308" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Failing</text><text x="894" y="325" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">a mapped check failed</text></g><text x="24" y="316" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">Independence is derived, not ticked: an agent, the author, or someone off the roster is never an independent reviewer.</text>
+</svg>
+</div><figcaption>How an Annex A objective is graded. A producer&amp;#39;s output, mapped to the objective with a stated basis, becomes that objective&amp;#39;s evidence; only a review by a person on the roster makes it satisfied. A project-wide proxy can raise it to partial, never to satisfied, and an AI review never closes it.</figcaption></figure></p>
+<p>The grading is deliberately strict, so a green objective means the same thing to you and to an auditor:</p>
+<ul>
+<li><strong>Only the objective&#39;s own evidence counts.</strong> A coverage objective reads coverage results, a review objective reads review records. A good number elsewhere in the project does not leak in.</li>
+<li><strong>Proxies cap at partial.</strong> A project-wide measure, such as overall test coverage, can show progress but cannot satisfy a specific objective.</li>
+<li><strong>A person closes it.</strong> The final step is always a review record by someone on the roster. Whether that review counts as independent is worked out from who wrote the item and who reviewed it.</li>
+<li><strong>&quot;Open&quot; is not &quot;failed&quot;.</strong> An objective with nothing mapped yet is open. It only shows as failing when a check mapped to it actually failed.</li>
+</ul>
+<h3 id="licensed-annex-a-table">Licensed Annex A table<a class="anchor" href="#licensed-annex-a-table" aria-label="Link to this section">#</a></h3>
+<p>Expand <strong>Licensed Annex A table</strong> to import the applicability, independence and control category of each objective from your licensed copy of DO-178C. <strong>Write blank template</strong> creates the file to fill in. Until the table is imported, the PSAC, SVP, SCMP, SQAP and SAS stay marked DRAFT.</p>
+<h2 id="compliance-run">Compliance Run<a class="anchor" href="#compliance-run" aria-label="Link to this section">#</a></h2>
+<p>A reproducible measurement of the whole project at one commit. Open it from the <strong>Compliance Run</strong> tile or <strong>Noyce Compliance: Take a Compliance Run</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance-run.webp" alt="Compliance Run with the guided DAL path" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Compliance Run before the first run: the DAL path lists each stage, from plans and standards to the summaries, with what it still needs.</figcaption></figure>
+<ul>
+<li><strong>Take a run</strong> runs every evidence producer (static analysis, code scanning, formal verification, structural coverage and the rest) against the current configuration and stores the result under <code>.noyce/compliance-runs/</code>.</li>
+<li><strong>Mark baseline</strong> fixes a run as the reference later runs are compared with.</li>
+<li><strong>Annex A overlay</strong> sets up the objective map and objective text files.</li>
+<li><strong>Objective map</strong> shows which producer discharges which objective. <strong>Map…</strong> assigns one; a mapping always records its basis.</li>
+</ul>
+<p>Each run shows its configuration, objectives by table, what each tool reported, conformity checks, the change since the previous run, and every run on record. A run cannot be exported when a producer failed, sample data was used, there is no commit, or the working tree has uncommitted changes.</p>
+<h2 id="certification-readiness">Certification Readiness<a class="anchor" href="#certification-readiness" aria-label="Link to this section">#</a></h2>
+<p>Release blockers, weak evidence and next actions in one queue. Open it from the <strong>Readiness</strong> tile.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/readiness.webp" alt="Certification Readiness with its closure queue and gap inspector" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Certification Readiness on the Canister copy: score 10, blocked by 16 critical blockers, with 0 of 29 requirements verified. The closure queue lists what to do next; the gap inspector explains each gap.</figcaption></figure>
+<p>Evidence that came from sample data is labelled inadmissible and never counts.</p>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>In v2.0.7 the <strong>Security</strong> dimension reads &quot;0 CodeQL alert(s)&quot; even when CodeQL has never run. Check <strong>Code Scanning</strong> for whether a scan exists before reading that zero as a result.</p>
+</div></div></aside>
+<h2 id="evidence-records">Evidence Records<a class="anchor" href="#evidence-records" aria-label="Link to this section">#</a></h2>
+<p>The project&#39;s process records. Open it from the <strong>Evidence Records</strong> tile.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/evidence-records.webp" alt="Evidence Records with its ten record types" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Evidence Records: verification cases, problem reports, CCB, change sets, MISRA deviations, reviews, SQA / CM / liaison, roster, tool qualification and parameter data.</figcaption></figure>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Tab</th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Verification cases</td>
+<td>Test cases and their results.</td>
+</tr>
+<tr>
+<td>Problem reports</td>
+<td>Defects and change requests that authorise changes.</td>
+</tr>
+<tr>
+<td>CCB</td>
+<td>Change control board meetings, quorum and decisions.</td>
+</tr>
+<tr>
+<td>Change sets</td>
+<td>Proposed code changes awaiting gates and approval. See <a href="/docs/review-ai-changes">Review AI changes</a>.</td>
+</tr>
+<tr>
+<td>MISRA deviations</td>
+<td>Approved deviations from MISRA rules.</td>
+</tr>
+<tr>
+<td>Reviews</td>
+<td>Review records with checklists. Independence is worked out from who wrote and who reviewed the item.</td>
+</tr>
+<tr>
+<td>SQA / CM / liaison</td>
+<td>Quality assurance, configuration management and certification liaison records.</td>
+</tr>
+<tr>
+<td>Roster</td>
+<td>The people who may review, approve and sign. Add everyone here first.</td>
+</tr>
+<tr>
+<td>Tool qualification</td>
+<td>The tools used and their qualification status.</td>
+</tr>
+<tr>
+<td>Parameter data</td>
+<td>Parameter data items.</td>
+</tr>
+</tbody></table></div>
+<h2 id="audit-trail">Audit Trail<a class="anchor" href="#audit-trail" aria-label="Link to this section">#</a></h2>
+<p>Every significant action, recorded in a hash chain. Open it from the <strong>Audit Trail</strong> tile or <strong>Noyce Team: Open Audit Log</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/audit-log.webp" alt="The immutable audit trail with chain integrity verified" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The audit trail on the Canister copy: each entry with its time, actor, action and hash. Chain integrity is checked on open; export as HTML or JSON.</figcaption></figure>
+<p>Each entry&#39;s hash covers its sequence number, time, actor, action and the previous entry&#39;s hash, so editing or removing any entry breaks the chain and the check reports where. The ledger is stored in <code>.noyce/audit-ledger.json</code>.</p>
+<h2 id="certification-package">Certification Package<a class="anchor" href="#certification-package" aria-label="Link to this section">#</a></h2>
+<p>Select <strong>Certification Package</strong> on the Compliance Dashboard. Noyce IDE runs CBMC and CodeQL, then writes one package to <code>.noyce/certification/</code> as Markdown, HTML and JSON, with these sections: metadata, executive summary, objectives, Annex A coverage, compliance run identity, life-cycle data, requirements and traceability, MISRA, CBMC, CodeQL, review records, and the audit trail.</p>
+<p>The button is disabled until there are requirements and every objective has been assessed or reviewed, and the export is refused while the document set has unwaived contradictions.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>The package is sealed with SHA-256 hashes anchored to the audit trail, so later changes are detectable. It is not signed with a private key.</p>
+</div></div></aside>
+<h2 id="other-compliance-surfaces">Other compliance surfaces<a class="anchor" href="#other-compliance-surfaces" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Cyber Assurance</strong>, <strong>Data &amp; Control Coupling</strong>, <strong>Object Code Traceability</strong>, <strong>MC/DC Coverage</strong> and <strong>Quality Trend</strong> are described in <a href="/docs/analysis">Analysis &amp; proof</a>.</li>
+<li><strong>Review Workflow</strong> shows a requirement&#39;s linked evidence and its required sign-offs.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/requirements"><small>Previous</small><span>Requirements &amp; traceability</span></a>
+      <a class="next" href="/docs/documents"><small>Next</small><span>DO-178C documents</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#compliance-dashboard">Compliance Dashboard</a></li><li><a class="l3" href="#how-an-objective-is-graded">How an objective is graded</a></li><li><a class="l3" href="#licensed-annex-a-table">Licensed Annex A table</a></li><li><a class="l2" href="#compliance-run">Compliance Run</a></li><li><a class="l2" href="#certification-readiness">Certification Readiness</a></li><li><a class="l2" href="#evidence-records">Evidence Records</a></li><li><a class="l2" href="#audit-trail">Audit Trail</a></li><li><a class="l2" href="#certification-package">Certification Package</a></li><li><a class="l2" href="#other-compliance-surfaces">Other compliance surfaces</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

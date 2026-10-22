@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Install Noyce IDE · Noyce IDE Docs</title>
+<meta name="description" content="Install Noyce IDE on an Apple silicon Mac or on Windows, add the optional verification tools, and keep it up to date.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/install">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Install Noyce IDE · Noyce IDE Docs">
+<meta property="og:description" content="Install Noyce IDE on an Apple silicon Mac or on Windows, add the optional verification tools, and keep it up to date.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/install">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install" aria-current="page">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Getting started</li></ol>
+    <article class="doc">
+      <h1>Install Noyce IDE</h1>
+      <p class="lede">Install Noyce IDE on an Apple silicon Mac or on Windows, add the optional verification tools, and keep it up to date.</p>
+      <div class="meta"><span class="chip">v2.0.7</span><span class="chip">macOS arm64</span><span class="chip">Windows x64 (beta)</span></div>
+      <div class="rule"></div>
+      <p>Noyce IDE ships as a desktop application built on Code-OSS. Pick your platform below. Everything Noyce IDE generates for a project stays inside that project&#39;s <code>.noyce/</code> folder. Nothing is uploaded unless you point the IDE at a cloud model.</p>
+<h2 id="system-requirements">System requirements<a class="anchor" href="#system-requirements" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th></th>
+<th>macOS</th>
+<th>Windows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Status</td>
+<td>Released</td>
+<td>Beta</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>Apple silicon (arm64) only</td>
+<td>x64</td>
+</tr>
+<tr>
+<td>Installer</td>
+<td><code>.dmg</code>, 389 MB</td>
+<td><code>.exe</code> (system installer), 180 MB</td>
+</tr>
+<tr>
+<td>Signing</td>
+<td>Ad-hoc signed, not notarized</td>
+<td>Not code-signed</td>
+</tr>
+<tr>
+<td>Updates</td>
+<td><code>brew upgrade</code> or re-run the installer</td>
+<td>Run the newer installer</td>
+</tr>
+</tbody></table></div>
+<p>Intel Macs and Linux are not supported by the release builds.</p>
+<h2 id="macos">macOS<a class="anchor" href="#macos" aria-label="Link to this section">#</a></h2>
+<p>Choose one of the three methods. Homebrew is the easiest to keep up to date.</p>
+<h3 id="homebrew-recommended">Homebrew (recommended)<a class="anchor" href="#homebrew-recommended" aria-label="Link to this section">#</a></h3>
+<p>Add the Noyce tap, then install the cask:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide</span>
+<span class="line">brew install --cask noyce-ide</span></code></pre></div>
+<p>The cask installs <code>Noyce IDE.app</code> into <code>/Applications</code> and clears the macOS quarantine flag for you, so the app opens normally on first launch.</p>
+<h3 id="one-line-installer">One-line installer<a class="anchor" href="#one-line-installer" aria-label="Link to this section">#</a></h3>
+<p>The script downloads the latest Apple silicon <code>.dmg</code>, copies the app into <code>/Applications</code> (replacing any previous copy), and clears the quarantine flag:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">curl -fsSL https://raw.githubusercontent.com/Hitheshkaranth/noyce_ide/main/scripts/install/install.sh | bash</span></code></pre></div>
+<h3 id="disk-image">Disk image<a class="anchor" href="#disk-image" aria-label="Link to this section">#</a></h3>
+<ol class="steps">
+<li><p>Download <code>NoyceIDE-2.0.7-darwin-arm64.dmg</code> from the <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener" target="_blank">releases page</a>.</p>
+</li>
+<li><p>Open the disk image and drag <strong>Noyce IDE</strong> into <strong>Applications</strong>.</p>
+</li>
+<li><p>Clear the quarantine flag before the first launch:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">xattr -dr com.apple.quarantine &quot;/Applications/Noyce IDE.app&quot;</span></code></pre></div>
+</li>
+</ol>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>The macOS build is ad-hoc signed and not notarized. If you skip step 3, macOS reports that the app &quot;is damaged&quot; or comes from an unidentified developer and refuses to open it. Homebrew and the one-line installer run this step for you.</p>
+</div></div></aside>
+<h2 id="windows-beta">Windows (beta)<a class="anchor" href="#windows-beta" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li>Download <code>NoyceIDE-2.0.7-win32-x64-system-5b070d5.exe</code> from the <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener" target="_blank">releases page</a>.</li>
+<li>Run the installer. It installs for all users, so Windows asks for administrator approval.</li>
+<li>If Microsoft Defender SmartScreen shows <strong>Windows protected your PC</strong>, select <strong>More info</strong>, then <strong>Run anyway</strong>.</li>
+</ol>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>The Windows installer is not code-signed yet, which is why SmartScreen warns. Windows support is in beta.</p>
+</div></div></aside>
+<h2 id="first-launch">First launch<a class="anchor" href="#first-launch" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>Noyce IDE</strong> from Applications or the Start menu. The <strong>Noyce IDE</strong> tab opens with <strong>New Project</strong>, <strong>Open Folder</strong> and <strong>Import Project</strong>, your recent projects, and a tile for every workbench surface. Continue with the <a href="/docs/quick-start">Quick start</a>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/welcome.webp" alt="The Noyce IDE start tab on a real TI Tiva project, with the 29 surface tiles" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The start tab after opening the Canister Main Controller firmware (TI Tiva TM4C1294).</figcaption></figure>
+<h2 id="optional-tools">Optional tools<a class="anchor" href="#optional-tools" aria-label="Link to this section">#</a></h2>
+<p>Noyce IDE runs without any of these. Each one switches on a specific kind of evidence; when a tool is missing, the surface that needs it says so and nothing is faked.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Used by</th>
+<th>How Noyce IDE finds it</th>
+<th>Install</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CBMC 6.9.0</td>
+<td>Formal Verification</td>
+<td><code>vendor/cbmc</code>, then <code>PATH</code></td>
+<td><strong>Install CBMC</strong> in the view, or <code>brew install cbmc</code> (macOS), or winget <code>Diffblue.CBMC</code> (Windows)</td>
+</tr>
+<tr>
+<td>CodeQL CLI 2.25.6</td>
+<td>Code Scanning</td>
+<td><code>vendor/codeql</code>, then <code>PATH</code></td>
+<td><strong>Install CodeQL</strong> in the view downloads the official bundle and checks its SHA-256</td>
+</tr>
+<tr>
+<td>LLVM/Clang 18 or newer (<code>clang</code>, <code>llvm-profdata</code>, <code>llvm-cov</code>)</td>
+<td>MC/DC Coverage</td>
+<td><code>PATH</code>, then Homebrew&#39;s <code>llvm</code>, then <code>xcrun</code></td>
+<td><code>brew install llvm</code> (macOS) or the LLVM release installer (Windows)</td>
+</tr>
+<tr>
+<td>cppcheck</td>
+<td>MISRA Diagnostics</td>
+<td><code>PATH</code></td>
+<td><code>brew install cppcheck</code>. Without it, a built-in heuristic scan runs and is labelled as heuristic, not evidence</td>
+</tr>
+<tr>
+<td>Arm GNU toolchain, <code>make</code>, OpenOCD</td>
+<td>STM32 build and debug</td>
+<td><code>PATH</code>, then STM32CubeIDE and Arm toolchain folders</td>
+<td>Install from Arm or ST</td>
+</tr>
+<tr>
+<td>TI compiler (<code>armcl</code> / <code>tiarmclang</code>) and TivaWare</td>
+<td>TI Tiva builds, Build Pipeline</td>
+<td><code>~/ti</code>, <code>/Applications/ti</code>, <code>C:\ti</code></td>
+<td>Install Code Composer Studio</td>
+</tr>
+</tbody></table></div>
+<p>A debug probe needs no separate install: probe-rs is built into the IDE. OCR for schematics is bundled as well.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>If GCC and gcov are installed but LLVM is not, coverage still reports statements and branches, and MC/DC reads &quot;MC/DC unavailable&quot; with the reason. gcov cannot measure MC/DC at any version.</p>
+</div></div></aside>
+<h2 id="connect-a-model">Connect a model<a class="anchor" href="#connect-a-model" aria-label="Link to this section">#</a></h2>
+<p>The AI features need a model. Noyce IDE starts pointed at LM Studio on <code>http://localhost:1234</code>; any OpenAI-compatible server (vLLM included) works the same way. See <a href="/docs/models">Models</a>.</p>
+<h2 id="update">Update<a class="anchor" href="#update" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Homebrew:</strong> <code>brew upgrade --cask noyce-ide</code></li>
+<li><strong>One-line installer:</strong> run the same command again; it replaces the app with the latest release.</li>
+<li><strong>Disk image or Windows:</strong> download and run the newer release.</li>
+</ul>
+<p>There is no in-app updater. Your settings and every project&#39;s <code>.noyce/</code> folder are kept across updates.</p>
+<h2 id="uninstall">Uninstall<a class="anchor" href="#uninstall" aria-label="Link to this section">#</a></h2>
+<h3 id="macos-1">macOS<a class="anchor" href="#macos-1" aria-label="Link to this section">#</a></h3>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line c" data-cmd=""># Homebrew: remove the app</span>
+<span class="line">brew uninstall --cask noyce-ide</span>
+<span class="line c" data-cmd=""># or remove the app and its settings</span>
+<span class="line">brew uninstall --zap --cask noyce-ide</span>
+<span class="line c" data-cmd=""># extensions and per-user data live here, and are not removed by --zap</span>
+<span class="line">rm -rf ~/.noyce-ide</span></code></pre></div>
+<p>If you installed from the disk image or the one-line installer, drag <code>/Applications/Noyce IDE.app</code> to the Bin, then delete <code>~/Library/Application Support/Noyce IDE</code> and <code>~/.noyce-ide</code> if you want your settings gone too.</p>
+<h3 id="windows">Windows<a class="anchor" href="#windows" aria-label="Link to this section">#</a></h3>
+<p>Open <strong>Settings → Apps → Installed apps</strong>, find <strong>Noyce IDE</strong>, and choose <strong>Uninstall</strong>. Settings stay in <code>%APPDATA%\Noyce IDE</code> and extensions in <code>%USERPROFILE%\.noyce-ide</code>; delete those folders to remove everything.</p>
+<aside class="callout tip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><div><p class="callout-t">Tip</p><div class="callout-b"><p>Uninstalling never touches your projects. Each project&#39;s generated evidence stays in its own <code>.noyce/</code> folder until you delete it.</p>
+</div></div></aside>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/"><small>Previous</small><span>Overview</span></a>
+      <a class="next" href="/docs/quick-start"><small>Next</small><span>Quick start</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#system-requirements">System requirements</a></li><li><a class="l2" href="#macos">macOS</a></li><li><a class="l3" href="#homebrew-recommended">Homebrew (recommended)</a></li><li><a class="l3" href="#one-line-installer">One-line installer</a></li><li><a class="l3" href="#disk-image">Disk image</a></li><li><a class="l2" href="#windows-beta">Windows (beta)</a></li><li><a class="l2" href="#first-launch">First launch</a></li><li><a class="l2" href="#optional-tools">Optional tools</a></li><li><a class="l2" href="#connect-a-model">Connect a model</a></li><li><a class="l2" href="#update">Update</a></li><li><a class="l2" href="#uninstall">Uninstall</a></li><li><a class="l3" href="#macos-1">macOS</a></li><li><a class="l3" href="#windows">Windows</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

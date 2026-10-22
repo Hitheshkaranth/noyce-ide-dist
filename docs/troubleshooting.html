@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Troubleshooting · Noyce IDE Docs</title>
+<meta name="description" content="Fixes for the problems people hit most often, from a Mac that refuses to open the app to a view that says a tool is missing.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/troubleshooting">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Troubleshooting · Noyce IDE Docs">
+<meta property="og:description" content="Fixes for the problems people hit most often, from a Mac that refuses to open the app to a view that says a tool is missing.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/troubleshooting">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting" aria-current="page">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Reference</li></ol>
+    <article class="doc">
+      <h1>Troubleshooting</h1>
+      <p class="lede">Fixes for the problems people hit most often, from a Mac that refuses to open the app to a view that says a tool is missing.</p>
+      
+      <div class="rule"></div>
+      <h2 id="installing-and-launching">Installing and launching<a class="anchor" href="#installing-and-launching" aria-label="Link to this section">#</a></h2>
+<h3 id="macos-says-the-app-is-damaged-or-from-an-unidentified-developer">macOS says the app is damaged or from an unidentified developer<a class="anchor" href="#macos-says-the-app-is-damaged-or-from-an-unidentified-developer" aria-label="Link to this section">#</a></h3>
+<p>The disk-image build is not notarized. Clear the quarantine flag, then open the app again:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">xattr -dr com.apple.quarantine &quot;/Applications/Noyce IDE.app&quot;</span></code></pre></div>
+<p>Homebrew and the one-line installer do this for you.</p>
+<h3 id="windows-shows-windows-protected-your-pc">Windows shows &quot;Windows protected your PC&quot;<a class="anchor" href="#windows-shows-windows-protected-your-pc" aria-label="Link to this section">#</a></h3>
+<p>The beta installer is not code-signed yet. Select <strong>More info</strong>, then <strong>Run anyway</strong>.</p>
+<h3 id="the-window-is-blank-or-a-view-stops-responding">The window is blank or a view stops responding<a class="anchor" href="#the-window-is-blank-or-a-view-stops-responding" aria-label="Link to this section">#</a></h3>
+<p>Run <strong>Developer: Reload Window</strong> from the Command Palette. Your open project and its <code>.noyce/</code> data are kept.</p>
+<h2 id="models-and-ai">Models and AI<a class="anchor" href="#models-and-ai" aria-label="Link to this section">#</a></h2>
+<h3 id="a-panel-says-to-configure-a-model-first">A panel says to configure a model first<a class="anchor" href="#a-panel-says-to-configure-a-model-first" aria-label="Link to this section">#</a></h3>
+<p>The DO-178C Documents panel and the agents need a model before they can draft anything. Open <strong>Noyce AI: Open AI Models</strong>, select a model and confirm its server URL. See <a href="/docs/models">Connect a model</a>.</p>
+<h3 id="semantic-search-says-embedding-request-failed-with-status-404">Semantic Search says &quot;Embedding request failed with status 404&quot;<a class="anchor" href="#semantic-search-says-embedding-request-failed-with-status-404" aria-label="Link to this section">#</a></h3>
+<p>The full message looks like this:</p>
+<div class="code"><div class="code-bar"><span>text</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">Search failed</span>
+<span class="line">Embedding request failed with status 404: model 'text-embedding-nomic-embed-text-v1.5'</span>
+<span class="line">is not being served right now; available: ['ornith-1.5-35b-a3b']</span></code></pre></div>
+<p>The embedding server does not serve the embedding model, usually because it is the chat server and serves only a chat model. The <code>available</code> list shows what it does serve. In <strong>AI Models → Embeddings</strong>, point the embedding server at one that serves an embedding model, select <strong>Save &amp; test</strong> (it reports the vector size it received), then <strong>Build / Rebuild index</strong>. A vLLM server started for one generative model has no embeddings endpoint at all.</p>
+<h3 id="a-local-model-returns-empty-or-cut-off-answers">A local model returns empty or cut-off answers<a class="anchor" href="#a-local-model-returns-empty-or-cut-off-answers" aria-label="Link to this section">#</a></h3>
+<p>The server is probably running with a smaller context window than the model supports, or does not report it. Set <strong>Context window (tokens)</strong> for that model in AI Models to what the server actually runs. With LM Studio, also check the context length you loaded the model with.</p>
+<h3 id="cannot-reach-a-vllm-server-on-another-machine">Cannot reach a vLLM server on another machine<a class="anchor" href="#cannot-reach-a-vllm-server-on-another-machine" aria-label="Link to this section">#</a></h3>
+<p>Use the <strong>LM Studio</strong> provider and enter the server&#39;s address, for example <code>http://&lt;host&gt;:8000</code>. If the server was started with <code>--api-key</code>, enter the key in <strong>API key (only if the server requires one)</strong>.</p>
+<h2 id="analysis-tools">Analysis tools<a class="anchor" href="#analysis-tools" aria-label="Link to this section">#</a></h2>
+<h3 id="misra-findings-are-labelled-not-evidence">MISRA findings are labelled &quot;not evidence&quot;<a class="anchor" href="#misra-findings-are-labelled-not-evidence" aria-label="Link to this section">#</a></h3>
+<p>They come from the built-in heuristic scan, which runs when no analyzer is installed. Install cppcheck (<code>brew install cppcheck</code> on macOS) and select <strong>Scan</strong> again.</p>
+<h3 id="mc-dc-says-mc-dc-unavailable">MC/DC says &quot;MC/DC unavailable&quot;<a class="anchor" href="#mc-dc-says-mc-dc-unavailable" aria-label="Link to this section">#</a></h3>
+<p>MC/DC needs LLVM/Clang 18 or newer (<code>clang</code>, <code>llvm-profdata</code>, <code>llvm-cov</code>). gcov cannot measure MC/DC. Install LLVM with <code>brew install llvm</code> on macOS or the LLVM installer on Windows, then run the measurement again.</p>
+<h3 id="formal-verification-or-code-scanning-says-no-run-yet">Formal Verification or Code Scanning says no run yet<a class="anchor" href="#formal-verification-or-code-scanning-says-no-run-yet" aria-label="Link to this section">#</a></h3>
+<p>CBMC and CodeQL are not bundled. Select <strong>Install CBMC</strong> or <strong>Install CodeQL</strong> in the view, or install them yourself and make sure they are on your <code>PATH</code>. See <a href="/docs/install#optional-tools">Optional tools</a>.</p>
+<h3 id="firmware-memory-says-there-is-no-link-map">Firmware Memory says there is no link map<a class="anchor" href="#firmware-memory-says-there-is-no-link-map" aria-label="Link to this section">#</a></h3>
+<p>Firmware Memory reads the GNU linker <code>.map</code> file from a build. Build the project with a map file (<code>-Wl,-Map=&lt;name&gt;.map</code>), and add <code>-fstack-usage</code> for worst-case stack depth. TI&#39;s own linker writes a different map format, which v2.0.7 does not read.</p>
+<h3 id="register-knowledge-is-empty">Register Knowledge is empty<a class="anchor" href="#register-knowledge-is-empty" aria-label="Link to this section">#</a></h3>
+<p>The reference manual is downloaded when you import a project with the <strong>Import Project</strong> wizard, which needs a network connection. Import the project again with the wizard while online, or select <strong>Choose PDF…</strong> in Register Knowledge to index a manual you already have.</p>
+<h2 id="data-and-records">Data and records<a class="anchor" href="#data-and-records" aria-label="Link to this section">#</a></h2>
+<h3 id="my-reviews-and-documents-are-not-in-git">My reviews and documents are not in git<a class="anchor" href="#my-reviews-and-documents-are-not-in-git" aria-label="Link to this section">#</a></h3>
+<p>That is by design: <code>.noyce/</code> is kept out of version control. See <a href="/docs/noyce-folder">The .noyce folder</a> for how to keep those records.</p>
+<h3 id="a-change-set-says-it-is-stale">A change set says it is stale<a class="anchor" href="#a-change-set-says-it-is-stale" aria-label="Link to this section">#</a></h3>
+<p>A file it changes was edited after the change set was gated. Nothing was written. Propose the fix again on the current code. See <a href="/docs/review-ai-changes">Review AI changes</a>.</p>
+<h2 id="still-stuck">Still stuck<a class="anchor" href="#still-stuck" aria-label="Link to this section">#</a></h2>
+<p><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener" target="_blank">Open an issue</a> with your Noyce IDE version (<strong>Noyce: About Noyce IDE</strong>), your OS, and what you expected to happen.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/limitations"><small>Previous</small><span>Known limitations</span></a>
+      
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#installing-and-launching">Installing and launching</a></li><li><a class="l3" href="#macos-says-the-app-is-damaged-or-from-an-unidentified-developer">macOS says the app is damaged or from an unidentified developer</a></li><li><a class="l3" href="#windows-shows-windows-protected-your-pc">Windows shows &quot;Windows protected your PC&quot;</a></li><li><a class="l3" href="#the-window-is-blank-or-a-view-stops-responding">The window is blank or a view stops responding</a></li><li><a class="l2" href="#models-and-ai">Models and AI</a></li><li><a class="l3" href="#a-panel-says-to-configure-a-model-first">A panel says to configure a model first</a></li><li><a class="l3" href="#semantic-search-says-embedding-request-failed-with-status-404">Semantic Search says &quot;Embedding request failed with status 404&quot;</a></li><li><a class="l3" href="#a-local-model-returns-empty-or-cut-off-answers">A local model returns empty or cut-off answers</a></li><li><a class="l3" href="#cannot-reach-a-vllm-server-on-another-machine">Cannot reach a vLLM server on another machine</a></li><li><a class="l2" href="#analysis-tools">Analysis tools</a></li><li><a class="l3" href="#misra-findings-are-labelled-not-evidence">MISRA findings are labelled &quot;not evidence&quot;</a></li><li><a class="l3" href="#mc-dc-says-mc-dc-unavailable">MC/DC says &quot;MC/DC unavailable&quot;</a></li><li><a class="l3" href="#formal-verification-or-code-scanning-says-no-run-yet">Formal Verification or Code Scanning says no run yet</a></li><li><a class="l3" href="#firmware-memory-says-there-is-no-link-map">Firmware Memory says there is no link map</a></li><li><a class="l3" href="#register-knowledge-is-empty">Register Knowledge is empty</a></li><li><a class="l2" href="#data-and-records">Data and records</a></li><li><a class="l3" href="#my-reviews-and-documents-are-not-in-git">My reviews and documents are not in git</a></li><li><a class="l3" href="#a-change-set-says-it-is-stale">A change set says it is stale</a></li><li><a class="l2" href="#still-stuck">Still stuck</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

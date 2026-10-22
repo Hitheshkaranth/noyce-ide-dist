@@ -587,6 +587,7 @@
                 ))}
               </nav>
               <div className="flex items-center gap-1.5 justify-self-end">
+                <a href="/docs" className="btn btn-ghost btn-sm hidden sm:inline-flex">Docs</a>
                 <a href={REPO} target="_blank" rel="noreferrer" aria-label="GitHub" className="btn btn-ghost btn-sm hidden sm:inline-flex" style={{ padding: '0 10px' }}><GitHubIcon /></a>
                 <a href="#download" className="btn btn-primary btn-sm">Download</a>
                 <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} className="btn btn-ghost btn-sm lg:hidden" style={{ padding: '0 10px' }}>
@@ -2150,8 +2151,8 @@
     };
     const Download = () => {
       const cards = [
-        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'macOS 13 Ventura or later. Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 373 MB · 2.0.7', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.7', cta: 'Download · arm64', primary: true },
-        { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 172 MB · 2.0.7', sig: 'Authenticode · signed', href: REPO + '/releases/tag/v2.0.7', cta: 'Download · x64', primary: false },
+        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'macOS 13 Ventura or later. Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 389 MB · 2.0.7', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.7', cta: 'Download · arm64', primary: true },
+        { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 172 MB · 2.0.7', sig: 'not code-signed yet', href: REPO + '/releases/tag/v2.0.7', cta: 'Download · x64', primary: false },
         { os: 'Linux', status: 'Roadmap', sc: '', desc: 'Packaged AppImage and deb builds are on the roadmap. Today, build and launch from source.', cmds: ['npm ci && npm run build', 'npm run workbench:launch -- /path/to/firmware'], pkg: 'from source', sig: 'build it yourself', href: 'https://github.com/Hitheshkaranth/noyce_ide#build-from-source', cta: 'Build from source', primary: false },
       ];
       return (
@@ -2328,7 +2329,7 @@
     const Footer = () => {
       const cols = [
         { h: 'Product', links: [['DO-178C run', '#dal-a'], ['Tour', '#how'], ['Surfaces', '#features'], ['Agents', '#ai'], ['Trust', '#trust'], ['Models', '#models'], ['Compare', '#compare'], ['Download', '#download']] },
-        { h: 'Resources', links: [['Docs', REPO + '#readme'], ['Release notes', REPO + '/blob/main/RELEASE_NOTES.md'], ['Releases', REPO + '/releases'], ['What changed', '#releases']] },
+        { h: 'Resources', links: [['Docs', '/docs'], ['Install guide', '/docs/install'], ['Release notes', REPO + '/blob/main/RELEASE_NOTES.md'], ['Releases', REPO + '/releases'], ['What changed', '#releases']] },
         { h: 'Company', links: [['Pitch', '#yc'], ['Team', '#team'], ['Market', '#market'], ['Traction', '#traction'], ['The name', '#name'], ['Contact', '#contact'], ['Email', 'mailto:' + CONTACT_EMAIL]] },
       ];
       return (

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Quick start · Noyce IDE Docs</title>
+<meta name="description" content="Open a firmware project, scan it, and read your first static-analysis findings and compliance picture, in about ten minutes.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/quick-start">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Quick start · Noyce IDE Docs">
+<meta property="og:description" content="Open a firmware project, scan it, and read your first static-analysis findings and compliance picture, in about ten minutes.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/quick-start">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start" aria-current="page">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Getting started</li></ol>
+    <article class="doc">
+      <h1>Quick start</h1>
+      <p class="lede">Open a firmware project, scan it, and read your first static-analysis findings and compliance picture, in about ten minutes.</p>
+      
+      <div class="rule"></div>
+      <p>This walkthrough uses the screenshots from a real project, the Canister Main Controller firmware (TI Tiva TM4C1294, Code Composer Studio). Any C firmware project works the same way.</p>
+<h2 id="before-you-begin">Before you begin<a class="anchor" href="#before-you-begin" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="/docs/install">Install Noyce IDE</a>.</li>
+<li>Optional: <a href="/docs/models">connect a model</a>. Steps 1 to 4 below work without one.</li>
+<li>Optional: install <code>cppcheck</code> for full MISRA analysis (<code>brew install cppcheck</code> on macOS).</li>
+</ul>
+<h2 id="1-open-your-project">1. Open your project<a class="anchor" href="#1-open-your-project" aria-label="Link to this section">#</a></h2>
+<p>On the <strong>Noyce IDE</strong> start tab, choose one of:</p>
+<ul>
+<li><strong>Open Folder</strong> opens any folder as it is.</li>
+<li><strong>Import Project</strong> starts the import wizard. Pick <strong>Code Composer Studio</strong> (<code>.ccsproject</code>), <strong>STM32CubeIDE</strong> (<code>.ioc</code>), <strong>MPLAB X</strong> (<code>nbproject</code>) or <strong>Generic Folder</strong>. The wizard detects the microcontroller and, when it recognises an ST or TI part, downloads that part&#39;s reference manual in the background and indexes it for <a href="/docs/hardware#register-knowledge">Register Knowledge</a>. That download needs a network connection; everything else works offline.</li>
+</ul>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/welcome.webp" alt="The start tab with the project open and every surface one click away" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The start tab. Recent projects at the top; below it, a tile for each of the 29 surfaces.</figcaption></figure>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>Use the <strong>Import Project</strong> button on the start tab. The Command Palette entry <strong>Noyce: Import Project</strong> only picks a folder and does not run the wizard.</p>
+</div></div></aside>
+<p>Opening a project creates a <code>.noyce/</code> folder inside it for everything Noyce IDE generates, and keeps it out of git. See <a href="/docs/noyce-folder">The .noyce folder</a>.</p>
+<h2 id="2-scan-for-requirement-annotations">2. Scan for requirement annotations<a class="anchor" href="#2-scan-for-requirement-annotations" aria-label="Link to this section">#</a></h2>
+<p>Press <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>S</kbd> (<kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> then <kbd>S</kbd> on Windows), or run <strong>Noyce Compliance: Scan Workspace</strong>. Noyce IDE finds every <code>@req</code> and <code>@verification</code> tag in your source, shows the counts, and opens the <strong>Annotation Navigator</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/annotations.webp" alt="Annotation Navigator listing @req and @verification tags found in the firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Annotation Navigator on the Canister firmware: 20 tags, each with its file, line and comment text.</figcaption></figure>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>In v2.0.7 the Annotation Navigator labels every <code>@req</code> tag <strong>Verified</strong> and every <code>@verification</code> tag <strong>Needs review</strong>, whether or not a test exists. Treat the label as &quot;tag found&quot;. Whether a requirement is actually verified is shown on the <a href="/docs/compliance">Compliance Dashboard</a>, which on this project reads 0 of 29.</p>
+</div></div></aside>
+<p>If your code has no tags yet, that is fine. Requirements can also come from documents and imports; see <a href="/docs/requirements">Requirements &amp; traceability</a>.</p>
+<h2 id="3-run-static-analysis">3. Run static analysis<a class="anchor" href="#3-run-static-analysis" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>MISRA Diagnostics</strong> from its tile, or run <strong>Noyce Compliance: Open MISRA Diagnostics</strong>, then select <strong>Scan</strong>. Findings are grouped by severity (Mandatory, Required, Advisory) and by the tool that reported them. Select a finding to see its rule, file and line, with <strong>Open in Editor</strong> and <strong>Fix with Noyce</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/misra.webp" alt="Static Analysis with 624 stored findings from cppcheck and the heuristic MISRA scan" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Static Analysis on the Canister firmware: 624 stored findings, filterable by severity and tool. The detail pane offers Open in Editor and Fix with Noyce.</figcaption></figure>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>Findings from the built-in heuristic scan are labelled <strong>not evidence</strong>. Only findings from a real analyzer (cppcheck with the MISRA addon, or clang-tidy) count toward compliance.</p>
+</div></div></aside>
+<h2 id="4-see-where-the-project-stands">4. See where the project stands<a class="anchor" href="#4-see-where-the-project-stands" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>Compliance</strong> (<kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>C</kbd>). The Compliance Dashboard grades the project against DO-178C and shows each Annex A objective with the evidence behind it.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance.webp" alt="Compliance Dashboard showing requirements, findings and the 71 Annex A objectives" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Compliance Evidence for the Canister firmware: 0 of 29 requirements linked, 1,532 analysis findings, and 71 objectives: 29 partial, 42 open, none satisfied.</figcaption></figure>
+<p>An objective is only <strong>satisfied</strong> when its own evidence exists and a person has reviewed it. On a project that has just been opened, most objectives read <strong>open</strong> or <strong>partial</strong>; that is the honest starting point, not an error.</p>
+<h2 id="5-go-further">5. Go further<a class="anchor" href="#5-go-further" aria-label="Link to this section">#</a></h2>
+<div class="cards"><a class="card" href="/docs/models"><span class="card-t">Connect a model</span><span class="card-d">Needed for agents, Fix with Noyce, document authoring and Semantic Search.</span></a><a class="card" href="/docs/do178c-walkthrough"><span class="card-t">DO-178C walkthrough</span><span class="card-d">Plans, requirements, verification and the evidence package, in order.</span></a><a class="card" href="/docs/review-ai-changes"><span class="card-t">Review AI changes</span><span class="card-d">How a proposed fix becomes an approved change set.</span></a><a class="card" href="/docs/commands"><span class="card-t">Commands &amp; shortcuts</span><span class="card-d">Every command and chord, generated from the IDE itself.</span></a></div>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/install"><small>Previous</small><span>Install</span></a>
+      <a class="next" href="/docs/models"><small>Next</small><span>Models</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#before-you-begin">Before you begin</a></li><li><a class="l2" href="#1-open-your-project">1. Open your project</a></li><li><a class="l2" href="#2-scan-for-requirement-annotations">2. Scan for requirement annotations</a></li><li><a class="l2" href="#3-run-static-analysis">3. Run static analysis</a></li><li><a class="l2" href="#4-see-where-the-project-stands">4. See where the project stands</a></li><li><a class="l2" href="#5-go-further">5. Go further</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Analysis &amp; proof · Noyce IDE Docs</title>
+<meta name="description" content="Static analysis, formal verification, code scanning, measured MC/DC coverage, coupling, object-code traceability, tests, cyber assurance and code-quality trends, and what each needs installed.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/analysis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Analysis &amp; proof · Noyce IDE Docs">
+<meta property="og:description" content="Static analysis, formal verification, code scanning, measured MC/DC coverage, coupling, object-code traceability, tests, cyber assurance and code-quality trends, and what each needs installed.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/analysis">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis" aria-current="page">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>Analysis &amp; proof</h1>
+      <p class="lede">Static analysis, formal verification, code scanning, measured MC/DC coverage, coupling, object-code traceability, tests, cyber assurance and code-quality trends, and what each needs installed.</p>
+      
+      <div class="rule"></div>
+      <p>Every surface on this page measures your code with a real tool. When the tool is not installed or has not been run, the surface says so; it never shows sample results as yours. Install what you need from <a href="/docs/install#optional-tools">Optional tools</a>.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Tool</th>
+<th>DO-178C</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MISRA Diagnostics</td>
+<td>cppcheck (MISRA addon) or clang-tidy</td>
+<td>A-5</td>
+</tr>
+<tr>
+<td>Formal Verification</td>
+<td>CBMC 6.9.0</td>
+<td>A-5, A-6 (analysis, not tests)</td>
+</tr>
+<tr>
+<td>Code Scanning</td>
+<td>CodeQL 2.25.6</td>
+<td>A-5</td>
+</tr>
+<tr>
+<td>MC/DC Coverage</td>
+<td>LLVM/Clang 18+</td>
+<td>A-7</td>
+</tr>
+<tr>
+<td>Data &amp; Control Coupling</td>
+<td>Project graph</td>
+<td>A-7(8)</td>
+</tr>
+<tr>
+<td>Object Code Traceability</td>
+<td><code>arm-none-eabi-objdump</code></td>
+<td>A-7(9)</td>
+</tr>
+</tbody></table></div>
+<h2 id="misra-diagnostics">MISRA Diagnostics<a class="anchor" href="#misra-diagnostics" aria-label="Link to this section">#</a></h2>
+<p>Coding-standard findings from every analyzer, in one list. Open it from the tile or <strong>Noyce Compliance: Open MISRA Diagnostics</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/misra.webp" alt="Static Analysis with 624 stored findings on the Canister firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Static Analysis on the Canister copy. The counts line explains itself: 1,532 project findings, 1,408 from cppcheck and 124 from the heuristic scan, which is marked not evidence.</figcaption></figure>
+<p><strong>How to use it</strong></p>
+<ol class="steps">
+<li>Select <strong>Scan</strong>. Noyce IDE runs cppcheck with the MISRA addon, or clang-tidy, and falls back to a built-in heuristic scan only when neither is installed.</li>
+<li>Filter by <strong>Severity</strong> (Mandatory, Required, Advisory) or by <strong>Tool</strong>.</li>
+<li>Select a finding to see its rule, its file and line, and the tool that reported it. <strong>Open in Editor</strong> jumps to the line.</li>
+<li><strong>Fix with Noyce</strong> proposes a fix as a change set; see <a href="/docs/review-ai-changes">Review AI changes</a>. To accept a finding instead, record a deviation in <strong>Evidence Records → MISRA deviations</strong>.</li>
+<li><strong>Export Findings</strong> saves the list.</li>
+</ol>
+<p>The counts line is worth reading. On the Canister copy it says that 624 of 1,532 findings were stored, because the run stores at most 500 coding-standard findings per analyzer; no defect-class finding is ever dropped.</p>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>Heuristic findings are marked <strong>not evidence</strong> and never count toward an objective. Install cppcheck for findings an auditor will accept.</p>
+</div></div></aside>
+<h2 id="formal-verification-cbmc">Formal Verification (CBMC)<a class="anchor" href="#formal-verification-cbmc" aria-label="Link to this section">#</a></h2>
+<p>Bounded model checking proves array bounds, arithmetic overflow and your assertions, or produces a counterexample. Open it from the <strong>CBMC Verification</strong> tile or <strong>Noyce Compliance: Open Formal Verification</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/cbmc.webp" alt="Formal Verification before any run, with the requirement harnesses card" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Formal Verification on the Canister copy: no harnesses generated and no verification run yet.</figcaption></figure>
+<ol class="steps">
+<li>Install CBMC with <strong>Install CBMC</strong> in the view, or <code>brew install cbmc</code>.</li>
+<li>Select <strong>Generate harnesses</strong> to write one harness per code unit from your accepted low-level requirements: inputs bounded by each LLR&#39;s stated ranges, called functions stubbed from their prototypes, and the LLR&#39;s properties asserted. Harnesses are written to <code>cbmc-harness/llr/</code> as a change set, so you approve them like any other code.</li>
+<li>Select <strong>Run Verification</strong> (or <strong>Run harnesses</strong>). Each property is reported as proved or failed with its trace.</li>
+</ol>
+<p>CBMC results are analysis: they support code review and never count as tests. A failed property can be sent to <strong>Fix with Noyce</strong> or turned into a problem report.</p>
+<h2 id="code-scanning-codeql">Code Scanning (CodeQL)<a class="anchor" href="#code-scanning-codeql" aria-label="Link to this section">#</a></h2>
+<p>A semantic security scan that follows data from inputs through your code. Open it from the tile or <strong>Noyce Compliance: Open Code Scanning (CodeQL)</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/codeql.webp" alt="Code Scanning before the first scan, with the query pack select" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Code Scanning: choose the query pack, then Run Scan.</figcaption></figure>
+<ol class="steps">
+<li>Select <strong>Install CodeQL</strong> if it is not installed. Noyce IDE downloads the official CodeQL bundle and checks its SHA-256.</li>
+<li>Choose the query pack: <strong>security-extended</strong> or <strong>security-and-quality</strong>.</li>
+<li>Select <strong>Run Scan</strong>. For TI Code Composer Studio projects the scan uses the include paths from the project&#39;s <code>.cproject</code>.</li>
+</ol>
+<p>Each alert shows its rule, severity and the data-flow path. Fixes go through change sets.</p>
+<h2 id="mc-dc-coverage">MC/DC Coverage<a class="anchor" href="#mc-dc-coverage" aria-label="Link to this section">#</a></h2>
+<p>Statement, decision and modified condition/decision coverage, measured by running instrumented code. Open it from the tile or <strong>Noyce Compliance: Open MC/DC Coverage</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/mcdc.webp" alt="MC/DC Coverage with 150 obligation vectors and no module measured yet" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>MC/DC Coverage on the Canister copy: 109 conditions and 150 independence vectors found in the source; 0 of 9 modules measured, shown as a structural zero, not a result.</figcaption></figure>
+<p>Coverage is measured per module, with a test driver for each:</p>
+<ol class="steps">
+<li>Write a driver under <code>tests/mcdc/</code> that exercises one source file, and name the file it covers in a comment: <code>// @coverage-source ../AUTO_SEQUENCE.c</code>.</li>
+<li>Pick the module and select <strong>Measure module</strong>. Noyce IDE builds it with LLVM&#39;s MC/DC instrumentation, runs the driver and reads the result. Each run is a background job you can cancel, with a five-minute limit.</li>
+<li><strong>Generate Coverage Tests</strong> has an agent write and check tests for the decisions shown, and <strong>Fix Uncovered Decisions</strong> gives the decisions still missing independence pairs to the coding agent. Both open <strong>Agent output</strong> so you can follow the work.</li>
+</ol>
+<p>Until a module is measured, its obligations are counted and its coverage reads 0% with the note &quot;a structural zero, not a result&quot;.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>MC/DC needs LLVM/Clang 18 or newer. With only GCC and gcov installed you get statement and branch coverage, and MC/DC reads &quot;unavailable&quot;.</p>
+</div></div></aside>
+<h2 id="data-control-coupling">Data &amp; Control Coupling<a class="anchor" href="#data-control-coupling" aria-label="Link to this section">#</a></h2>
+<p>Which components call and share data with which, and whether a requirement-based test exercises each coupling. Open it from the <strong>DC/CC Analysis</strong> tile.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/coupling.webp" alt="Data &amp;amp; Control Coupling with the coupling matrix and 65 uncovered couplings" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Data &amp;amp; Control Coupling on the Canister copy: 23 components, 65 uncovered couplings, measured against the 100% Level A threshold.</figcaption></figure>
+<p>On the Canister copy coupling coverage is shown as <strong>not measured</strong>: no executed requirement-based test exists yet, so no coupling can be counted as exercised. That is the honest state, not a failure of the tool.</p>
+<h2 id="object-code-traceability">Object Code Traceability<a class="anchor" href="#object-code-traceability" aria-label="Link to this section">#</a></h2>
+<p>For DO-178C A-7(9) at Level A: object code that no source line accounts for, such as soft-float helpers, C runtime start-up and the reset vector, each of which needs a named person&#39;s justification. Open it with <strong>Noyce Compliance: Open Object Code Traceability</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/object-code.webp" alt="Object Code Traceability with no analysis on record" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Object Code Traceability before any analysis.</figcaption></figure>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>In v2.0.7 this view reads an analysis produced outside it: the view suggests <code>npm run socta -- --project &lt;path&gt;</code>, a script in the Noyce IDE source repository that is not available in the installed app. It needs a linked image and <code>arm-none-eabi-objdump</code>.</p>
+</div></div></aside>
+<h2 id="test-explorer">Test Explorer<a class="anchor" href="#test-explorer" aria-label="Link to this section">#</a></h2>
+<p>Finds the project&#39;s tests, runs them with <strong>Run All</strong>, drafts new ones with <strong>AI Generate</strong>, and records test runs on the target as verification evidence. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>T</kbd>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/test-explorer.webp" alt="Test Explorer on a project with no Unity or C tests yet" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Test Explorer on the Canister copy, which has no Unity or C tests yet.</figcaption></figure>
+<h2 id="cyber-assurance">Cyber Assurance<a class="anchor" href="#cyber-assurance" aria-label="Link to this section">#</a></h2>
+<p>A software bill of materials from the project&#39;s real manifests, matched against known vulnerabilities and weaknesses. Open it from the tile.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/cyber.webp" alt="Cyber Assurance with 3 SBOM components and posture not assessed" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Cyber Assurance on the Canister copy: 3 components. No vulnerability database was queried, because none of them records a version, so the posture reads not assessed.</figcaption></figure>
+<p>Choose the standard (for example DO-326A / ED-202A) and select <strong>Analyze</strong>. CVE matching uses OSV and needs a network connection, and it matches by version: a component with no recorded version is not assessed rather than reported clean. <strong>Generate SBOM</strong> and <strong>Export Security Pack</strong> write the results.</p>
+<h2 id="quality-trend">Quality Trend<a class="anchor" href="#quality-trend" aria-label="Link to this section">#</a></h2>
+<p>Code-quality metrics computed in the IDE, with snapshots over time. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>Q</kbd>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/quality-trend.webp" alt="Quality Trend with maintainability 46 of 100 and cyclomatic complexity" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Quality Trend on the Canister copy: 22 source files and 83 functions, maintainability 46 of 100, average cyclomatic complexity 7.7, highest 65.</figcaption></figure>
+<p><strong>Capture Snapshot</strong> records today&#39;s numbers so later scans show the trend. The function list ranks functions by cyclomatic complexity; <strong>Fix with agent</strong> on a function hands it to an agent to reduce its complexity.</p>
+<h2 id="analysis-tools">Analysis Tools<a class="anchor" href="#analysis-tools" aria-label="Link to this section">#</a></h2>
+<p>The catalogue of analyzers Noyce IDE can run, with what is installed and what is recommended for the project. Open it with <strong>Noyce Compliance: Open Analysis Tools</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/analysis-tools.webp" alt="Analysis Tools catalogue with installed and recommended analyzers" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Analysis Tools: installed analyzers at the top, with Run Analysis; recommended and commercial tools below.</figcaption></figure>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/documents"><small>Previous</small><span>DO-178C documents</span></a>
+      <a class="next" href="/docs/hardware"><small>Next</small><span>Hardware</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#misra-diagnostics">MISRA Diagnostics</a></li><li><a class="l2" href="#formal-verification-cbmc">Formal Verification (CBMC)</a></li><li><a class="l2" href="#code-scanning-codeql">Code Scanning (CodeQL)</a></li><li><a class="l2" href="#mc-dc-coverage">MC/DC Coverage</a></li><li><a class="l2" href="#data-control-coupling">Data &amp; Control Coupling</a></li><li><a class="l2" href="#object-code-traceability">Object Code Traceability</a></li><li><a class="l2" href="#test-explorer">Test Explorer</a></li><li><a class="l2" href="#cyber-assurance">Cyber Assurance</a></li><li><a class="l2" href="#quality-trend">Quality Trend</a></li><li><a class="l2" href="#analysis-tools">Analysis Tools</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>AI &amp; agents · Noyce IDE Docs</title>
+<meta name="description" content="The AI Orchestrator and its 15 agents, the agents chat panel, inline edits, project rules and memories, the firmware validation loop, commit messages and terminal help.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/ai-agents">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI &amp; agents · Noyce IDE Docs">
+<meta property="og:description" content="The AI Orchestrator and its 15 agents, the agents chat panel, inline edits, project rules and memories, the firmware validation loop, commit messages and terminal help.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/ai-agents">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents" aria-current="page">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>AI &amp; agents</h1>
+      <p class="lede">The AI Orchestrator and its 15 agents, the agents chat panel, inline edits, project rules and memories, the firmware validation loop, commit messages and terminal help.</p>
+      
+      <div class="rule"></div>
+      <p>Every AI feature runs on the model you choose in <a href="/docs/models">AI Models</a>. For the screenshots on this page that was Ornith (<code>ornith-1.5-35b-a3b</code>), served by vLLM on a machine on the local network.</p>
+<h2 id="ai-orchestrator">AI Orchestrator<a class="anchor" href="#ai-orchestrator" aria-label="Link to this section">#</a></h2>
+<p>A kanban board where agents work through tasks for this project. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>O</kbd> or <strong>Noyce AI: Open AI Orchestrator</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/orchestrator.webp" alt="The AI Orchestrator board with 71 objective cards to do and 17 document cards in handover" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Orchestrator on the Canister copy: Ornith with a 262K context, up to 3 concurrent calls, and 88 cards in the sprint: 71 Annex A objectives to do and 17 documents waiting in Handover for review.</figcaption></figure>
+<p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 330" role="img" aria-label="Orchestrator cards move from backlog through to do, in progress and handover to done; an agent with its model works each card, writing documents and evidence as drafts in .noyce and code as change sets that a person approves." class="diagram">
+<defs>
+<linearGradient id="or-ink" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
+<linearGradient id="or-wire" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4b8a99"/><stop offset="1" stop-color="#5d9e6a"/></linearGradient>
+<linearGradient id="or-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1d20"/><stop offset="1" stop-color="#151619"/></linearGradient>
+<marker id="or-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#79c9a0"/></marker>
+<marker id="or-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f2c35b"/></marker>
+<marker id="or-arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f08a7a"/></marker>
+</defs>
+<rect width="1180" height="330" rx="20" fill="#121212"/>
+<text x="24" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">01</tspan><tspan dx="8">THE BOARD</tspan></text><text x="24" y="58" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">.noyce/orchestrator-tasks.json, per project</text><g><rect x="24" y="76" width="200" height="56" rx="12" fill="url(#or-card)" stroke="#2c2d30" stroke-width="1"/><rect x="36" y="76" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="100" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Backlog</text><text x="38" y="117" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">one task per line</text></g><path d="M224 104 L252 104" fill="none" stroke="url(#or-wire)" stroke-width="1.5" marker-end="url(#or-arrow)"/><g><rect x="254" y="76" width="200" height="56" rx="12" fill="url(#or-card)" stroke="#2c2d30" stroke-width="1"/><rect x="266" y="76" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="268" y="100" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">To Do</text><text x="268" y="117" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">ready for an agent</text></g><path d="M454 104 L482 104" fill="none" stroke="url(#or-wire)" stroke-width="1.5" marker-end="url(#or-arrow)"/><g><rect x="484" y="76" width="200" height="56" rx="12" fill="url(#or-card)" stroke="#2c2d30" stroke-width="1"/><rect x="496" y="76" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="498" y="100" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">In Progress</text><text x="498" y="117" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">owned by an agent</text></g><path d="M684 104 L712 104" fill="none" stroke="url(#or-wire)" stroke-width="1.5" marker-end="url(#or-arrow)"/><g><rect x="714" y="76" width="200" height="56" rx="12" fill="url(#or-card)" stroke="url(#or-ink)" stroke-width="1.5"/><rect x="726" y="76" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="728" y="100" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Handover</text><text x="728" y="117" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">needs operator review</text></g><path d="M914 104 L942 104" fill="none" stroke="url(#or-wire)" stroke-width="1.5" marker-end="url(#or-arrow)"/><g><rect x="944" y="76" width="200" height="56" rx="12" fill="url(#or-card)" stroke="#2c2d30" stroke-width="1"/><rect x="956" y="76" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="958" y="109" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Done</text></g><text x="714" y="154" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#7fd3e6">you review here</text><g><rect x="484" y="196" width="200" height="56" rx="12" fill="url(#or-card)" stroke="#2c2d30" stroke-width="1"/><rect x="496" y="196" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="498" y="220" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Agent + model</text><text x="498" y="237" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">role model or global</text></g><path d="M584 132 L584 194" fill="none" stroke="#5a9584" stroke-width="1.5" marker-end="url(#or-arrow)"/><text x="592" y="168" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">runs</text><path d="M684 224 L742 224" fill="none" stroke="url(#or-wire)" stroke-width="1.5" marker-end="url(#or-arrow)"/><text x="712" y="216" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">code</text><g><rect x="744" y="196" width="200" height="56" rx="12" fill="url(#or-card)" stroke="url(#or-ink)" stroke-width="1.5"/><rect x="756" y="196" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="758" y="220" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Change set</text><text x="758" y="237" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">approve to apply</text></g><path d="M484 224 L382 224" fill="none" stroke="url(#or-wire)" stroke-width="1.5" marker-end="url(#or-arrow)"/><text x="433" y="216" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">docs, evidence</text><g><rect x="180" y="196" width="200" height="56" rx="12" fill="url(#or-card)" stroke="#2c2d30" stroke-width="1"/><rect x="192" y="196" width="176" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="194" y="220" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">.noyce/ artifacts</text><text x="194" y="237" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">drafts, never final</text></g><text x="24" y="296" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">Cards come from the backlog box, Generate via Orchestrator on the Compliance Dashboard, and DO-178C document authoring.</text>
+</svg>
+</div><figcaption>A card moves from Backlog to To Do, In Progress, Handover and Done. While it is in progress an agent works it on its model, writing documents and evidence into .noyce as drafts and code as a change set. Handover is where you review the result.</figcaption></figure></p>
+<p><strong>Reading the board</strong></p>
+<ul>
+<li><strong>The header</strong> shows the model in use, its context size, live token rate, and how many calls are running. It is a readout; choose models in <strong>Models</strong>.</li>
+<li><strong>The strip</strong> shows concurrency, sprint progress, how many cards wait for your review, and the handoff chain of the 15 agents.</li>
+<li><strong>The columns:</strong> <strong>To Do</strong> (ready for an agent), <strong>In Progress</strong> (an agent owns it), <strong>Handover</strong> (the agent is done and you need to review it), <strong>Done</strong>. <strong>Status / By agent</strong> switches the grouping.</li>
+</ul>
+<p><strong>Adding work</strong></p>
+<ul>
+<li>Type tasks in <strong>Backlog</strong>, one per line. Prefix a line with an agent to route it (<code>coder: implement voltage clamp</code>) and add <code>[high]</code> for priority. Then <strong>Add to sprint</strong> or <strong>Add to backlog</strong>.</li>
+<li><strong>Generate via Orchestrator</strong> on the Compliance Dashboard adds one card per open objective.</li>
+<li>Authoring a DO-178C document adds a card for that document.</li>
+</ul>
+<p><strong>Running it</strong></p>
+<ul>
+<li><strong>Run next</strong> runs the next card. <strong>Run sprint</strong> works through the sprint. <strong>Run full pipeline</strong> runs the multi-agent pipeline on an objective you type in the box next to it.</li>
+<li><strong>Auto-run</strong> keeps the sprint moving as cards finish.</li>
+<li><strong>Agent output</strong> opens one tab per agent with its streamed output, its reasoning, and the actions it took.</li>
+</ul>
+<p><strong>What agents produce.</strong> Documents and evidence are written into <code>.noyce/</code> as drafts for you to review. Code is never written to your files directly: with <strong>Auto-apply agent code</strong> off you choose <strong>Stage all as change set</strong> in the agent&#39;s output; with it on, the change set is staged for you. Either way it waits in <a href="/docs/review-ai-changes">Evidence Records → Change sets</a> for a person to approve.</p>
+<p>The board is saved per project in <code>.noyce/orchestrator-tasks.json</code>, so cards from one project never appear in another.</p>
+<h3 id="the-15-agents">The 15 agents<a class="anchor" href="#the-15-agents" aria-label="Link to this section">#</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Typical work</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>System Designer</td>
+<td>Breaks a goal into tasks and design.</td>
+</tr>
+<tr>
+<td>Software Engineer</td>
+<td>Writes code (route with <code>coder:</code>).</td>
+</tr>
+<tr>
+<td>Test Engineer</td>
+<td>Writes tests.</td>
+</tr>
+<tr>
+<td>Code Reviewer</td>
+<td>Reviews changes.</td>
+</tr>
+<tr>
+<td>Doc Generator</td>
+<td>Drafts documents and objective evidence.</td>
+</tr>
+<tr>
+<td>Traceability Monitor</td>
+<td>Checks trace links.</td>
+</tr>
+<tr>
+<td>MISRA Code Fixer, CBMC Fixer, CodeQL Fixer</td>
+<td>Propose fixes for findings, as change sets.</td>
+</tr>
+<tr>
+<td>Compliance Author</td>
+<td>Writes compliance evidence.</td>
+</tr>
+<tr>
+<td>Doc Author, Doc Reviewer</td>
+<td>Author and review DO-178C document sections.</td>
+</tr>
+<tr>
+<td>UI/UX Designer, Frontend Developer, API Integrator</td>
+<td>General roles, not firmware-specific.</td>
+</tr>
+</tbody></table></div>
+<p>Give any agent its own model in <strong>AI Models → Agent Role Assignment</strong>.</p>
+<h2 id="agents-chat">Agents chat<a class="anchor" href="#agents-chat" aria-label="Link to this section">#</a></h2>
+<p>A chat panel in the secondary sidebar, with a choice of agent persona. Open it with <kbd>⌘</kbd><kbd>⇧</kbd><kbd>A</kbd> or <strong>Noyce AI: Open Agents Chat</strong> (<kbd>⌘</kbd><kbd>⌃</kbd><kbd>I</kbd>).</p>
+<ul>
+<li>Switch agent with <kbd>⌘</kbd><kbd>K</kbd> <kbd>⌘</kbd><kbd>A</kbd>, attach a file with <kbd>⌘</kbd><kbd>⇧</kbd><kbd>O</kbd>, search the thread with <kbd>⌘</kbd><kbd>F</kbd>, and stop a reply with <kbd>⌘</kbd><kbd>.</kbd>.</li>
+<li><strong>Agent History</strong> keeps every thread, with export, delete and re-run.</li>
+<li>Edits an agent makes from the chat can be undone with <strong>Revert Last Agent Edit</strong> or <strong>Revert All Agent Edits</strong>.</li>
+</ul>
+<p>In the Code-OSS <strong>Chat</strong> view, the <code>@noyce</code> participant answers in agent, ask or edit mode and has <code>/fix</code>, <code>/test</code>, <code>/explain</code> and <code>/trace</code>.</p>
+<h2 id="in-the-editor">In the editor<a class="anchor" href="#in-the-editor" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Inline edit:</strong> select code, press <kbd>⌘</kbd><kbd>K</kbd> <kbd>⌘</kbd><kbd>I</kbd>, describe the change, and review the inline diff. <kbd>Enter</kbd> accepts, <kbd>Esc</kbd> rejects.</li>
+<li><strong>Composer</strong> (<kbd>⌘</kbd><kbd>⌥</kbd><kbd>K</kbd>) opens a review panel for an agent&#39;s changes across several files, with a diff per file.</li>
+<li><strong>CodeLens actions</strong> above functions: <strong>Refactor with Coder</strong>, <strong>Audit MISRA with Reviewer</strong>, <strong>Generate Tests with Tester</strong>.</li>
+<li><strong>Generate Driver from Datasheet</strong> (<kbd>⌘</kbd><kbd>⌥</kbd><kbd>D</kbd>) drafts a driver from a datasheet you attach.</li>
+<li><strong>Fix with Noyce</strong> appears as a quick fix on MISRA diagnostics.</li>
+</ul>
+<p>Inline completions are off by default; turn them on with the <code>noyce.agents.inline.enabled</code> setting.</p>
+<h2 id="context-you-give-the-agents">Context you give the agents<a class="anchor" href="#context-you-give-the-agents" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Command</th>
+<th>Stored in</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Project rules: standing instructions, such as your coding standard</td>
+<td><strong>Create Project Rule</strong>, <strong>Show Project Rules</strong></td>
+<td><code>.noyce/rules/*.md</code></td>
+</tr>
+<tr>
+<td>Notepads: reusable notes you can attach</td>
+<td><strong>Create Notepad…</strong>, <strong>Show Notepads…</strong></td>
+<td><code>.noyce/notepads/*.md</code></td>
+</tr>
+<tr>
+<td>Memories: facts the agents keep about the project</td>
+<td><strong>Show Project Memories</strong></td>
+<td><code>.noyce/memories.md</code></td>
+</tr>
+</tbody></table></div>
+<p>When the Semantic Search index is built, relevant code from it is added to agent prompts as well.</p>
+<h2 id="firmware-validation-loop">Firmware Validation Loop<a class="anchor" href="#firmware-validation-loop" aria-label="Link to this section">#</a></h2>
+<p>Build, read the errors, propose a repair, and build again, until the build passes or you stop it. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>V</kbd>. Each proposed repair is staged as a change set; it is never written straight to your files. <strong>Fix Build Errors with AI</strong> does a single pass.</p>
+<h2 id="source-control-and-terminal">Source control and terminal<a class="anchor" href="#source-control-and-terminal" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Generate Commit Message</strong> and <strong>Explain My Changes</strong> sit in the Source Control title bar. They read your staged diff and fill the commit message box.</li>
+<li>In the terminal, <kbd>⌘</kbd><kbd>K</kbd> opens <strong>Generate Terminal Command</strong>: describe what you want and get one command, with <strong>Insert</strong>, <strong>Run</strong> or <strong>Copy</strong>. Commands that look dangerous are flagged for review before you insert them. <strong>Explain Terminal Failure</strong> explains the last error.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/architecture-search"><small>Previous</small><span>Architecture &amp; search</span></a>
+      <a class="next" href="/docs/noyce-folder"><small>Next</small><span>The .noyce folder</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#ai-orchestrator">AI Orchestrator</a></li><li><a class="l3" href="#the-15-agents">The 15 agents</a></li><li><a class="l2" href="#agents-chat">Agents chat</a></li><li><a class="l2" href="#in-the-editor">In the editor</a></li><li><a class="l2" href="#context-you-give-the-agents">Context you give the agents</a></li><li><a class="l2" href="#firmware-validation-loop">Firmware Validation Loop</a></li><li><a class="l2" href="#source-control-and-terminal">Source control and terminal</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Architecture &amp; search · Noyce IDE Docs</title>
+<meta name="description" content="Understand an unfamiliar firmware project fast with the Project Graph, a C4 architecture model, Archify diagrams and semantic search over the code.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/architecture-search">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Architecture &amp; search · Noyce IDE Docs">
+<meta property="og:description" content="Understand an unfamiliar firmware project fast with the Project Graph, a C4 architecture model, Archify diagrams and semantic search over the code.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/architecture-search">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search" aria-current="page">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>Architecture &amp; search</h1>
+      <p class="lede">Understand an unfamiliar firmware project fast with the Project Graph, a C4 architecture model, Archify diagrams and semantic search over the code.</p>
+      
+      <div class="rule"></div>
+      <h2 id="project-graph">Project Graph<a class="anchor" href="#project-graph" aria-label="Link to this section">#</a></h2>
+<p>Every function, file and macro in the project and how they connect, on one canvas. Open it from the <strong>Project Graph</strong> activity bar icon, its tile, or <strong>Noyce Project Graph: Open Project Graph</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/project-graph.webp" alt="Project Graph of the Canister firmware with the main entry flow highlighted" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Project Graph on the Canister copy: 92 functions, 23 files and 59 macros. The entry flow from main is highlighted; the side panels show code ownership, libraries and the selected node&amp;#39;s neighbourhood.</figcaption></figure>
+<p><strong>Read it like this</strong></p>
+<ul>
+<li><strong>Entry flow</strong> starts at <code>main</code> and follows the call edges, so you see how the firmware boots and what its loop calls.</li>
+<li><strong>Code ownership</strong> separates your project code from vendor code (TivaWare or STM32 HAL) and generated or boot code.</li>
+<li>Select a node to see its callers, callees and the macros it uses. <strong>Focus Entry</strong> recentres on the entry flow; <strong>Reset View</strong> fits everything.</li>
+</ul>
+<p><strong>Cluster by</strong> groups the graph to answer different questions:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Cluster by</th>
+<th>Answers</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Directory</td>
+<td>How is the code laid out on disk?</td>
+</tr>
+<tr>
+<td>Layer</td>
+<td>What is application, middleware, vendor SDK?</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Where are the C, assembly and headers?</td>
+</tr>
+<tr>
+<td>Ownership, Library</td>
+<td>What is ours and what is the vendor&#39;s?</td>
+</tr>
+<tr>
+<td>Community</td>
+<td>Which functions form tightly connected groups (Louvain)?</td>
+</tr>
+<tr>
+<td>Blast radius</td>
+<td>What is affected if the selected function changes?</td>
+</tr>
+</tbody></table></div>
+<h2 id="system-architecture">System Architecture<a class="anchor" href="#system-architecture" aria-label="Link to this section">#</a></h2>
+<p>A C4 architecture model built from the code. Open it from the <strong>Architecture</strong> activity bar icon, its tile, or <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>Y</kbd>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/architecture.webp" alt="System Architecture showing the containers of the Canister firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>System Architecture on the Canister copy: 23 files and 92 functions grouped into 3 subsystems with 111 relationships, shown at the Containers level.</figcaption></figure>
+<ol class="steps">
+<li>Choose the analysis mode. <strong>Static</strong> builds the model from the code graph alone, with no model. <strong>AI</strong> and <strong>Hybrid</strong> also ask your model to name and group the subsystems; if the model is unavailable, the static result is shown and labelled as such.</li>
+<li>Select <strong>Analyze</strong>.</li>
+<li>Move between levels with the tabs: <strong>Context</strong>, <strong>Containers</strong>, <strong>Components</strong>, <strong>Code</strong>, <strong>Dependencies</strong>, <strong>Data Flow</strong> and <strong>Embedded</strong>. Select a node for its details.</li>
+<li>Export the model as Structurizr <strong>DSL</strong>, <strong>Mermaid</strong>, <strong>Markdown</strong>, <strong>Draw.io</strong>, <strong>JSON</strong>, <strong>SVG</strong>, <strong>PNG</strong> or <strong>PDF</strong>, or <strong>Save to .noyce</strong> to keep it with the project for the SDD.</li>
+</ol>
+<p><strong>High-Level Design</strong> opens a design view built from the same model.</p>
+<h2 id="archify-diagrams">Archify Diagrams<a class="anchor" href="#archify-diagrams" aria-label="Link to this section">#</a></h2>
+<p>An architecture diagram of the open project, drawn by your model and checked before it is shown. Open it with <strong>Noyce: Archify Diagrams</strong> or the <strong>Archify</strong> button in System Architecture.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/archify.webp" alt="Archify diagram of the Canister Main Controller firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Archify on the Canister copy: the controller&amp;#39;s subsystems (UDP and RS485 intercom, system time, auto sequence, DI/DO card control, flash) and the paths between them, generated by the local model.</figcaption></figure>
+<p>The model writes the diagram in Archify&#39;s structured format, Noyce IDE validates it, and only a valid diagram is rendered. Pick the diagram type and select <strong>Regenerate</strong> to draw it again. Diagrams are saved to <code>.noyce/diagrams/</code> and can be placed in DO-178C documents and their Word exports.</p>
+<h2 id="semantic-search">Semantic Search<a class="anchor" href="#semantic-search" aria-label="Link to this section">#</a></h2>
+<p>Ask a question in plain language and get the most relevant code and documentation. Open it from the tile or <strong>Noyce: Semantic Search</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/semantic-search.webp" alt="Semantic Search with a built index of 300 chunks" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Semantic Search with the Canister index built: 300 chunks of code and documentation, ready to query.</figcaption></figure>
+<ol class="steps">
+<li>Set an embedding server in <strong>AI Models → Embeddings</strong> and select <strong>Save &amp; test</strong>. See <a href="/docs/models#embeddings-for-semantic-search">Connect a model</a>.</li>
+<li>Select <strong>Build / Rebuild index</strong>. The index is stored in <code>.noyce/rag/index.json</code>.</li>
+<li>Type a question, for example &quot;where is the RS485 packet checksum verified&quot;, and press <kbd>Enter</kbd>.</li>
+</ol>
+<p>The same index grounds the agents: relevant code is added to their prompts, so their answers cite your project.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/semantic-search-query.webp" alt="Semantic Search failing because the server does not serve the embedding model" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>What a missing embedding model looks like: the server answered 404 because it does not serve text-embedding-nomic-embed-text-v1.5. The index is fine; the query cannot be embedded.</figcaption></figure>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>Both building the index and every query need the embedding model. If your model server only serves a chat model, queries fail as shown above. Point <strong>Embeddings</strong> at a server that serves an embedding model, and rebuild the index if you change models.</p>
+</div></div></aside>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/hardware"><small>Previous</small><span>Hardware</span></a>
+      <a class="next" href="/docs/ai-agents"><small>Next</small><span>AI &amp; agents</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#project-graph">Project Graph</a></li><li><a class="l2" href="#system-architecture">System Architecture</a></li><li><a class="l2" href="#archify-diagrams">Archify Diagrams</a></li><li><a class="l2" href="#semantic-search">Semantic Search</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

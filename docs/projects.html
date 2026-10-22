@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Projects · Noyce IDE Docs</title>
+<meta name="description" content="The start tab, opening and importing TI, ST and Microchip projects, and how Noyce IDE lays out its surfaces around the editor.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/projects">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Projects · Noyce IDE Docs">
+<meta property="og:description" content="The start tab, opening and importing TI, ST and Microchip projects, and how Noyce IDE lays out its surfaces around the editor.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/projects">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects" aria-current="page">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>Projects</h1>
+      <p class="lede">The start tab, opening and importing TI, ST and Microchip projects, and how Noyce IDE lays out its surfaces around the editor.</p>
+      
+      <div class="rule"></div>
+      <h2 id="the-start-tab">The start tab<a class="anchor" href="#the-start-tab" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Noyce IDE</strong> tab opens when the IDE starts. Reopen it any time with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>D</kbd>, or <strong>Noyce: Show Getting Started</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/welcome.webp" alt="The Noyce IDE start tab with project actions, recent projects and the surface tiles" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The start tab: New Project, Open Folder and Import Project, your recent projects, and a tile for each of the 29 surfaces.</figcaption></figure>
+<ul>
+<li><strong>Open Folder</strong> opens any folder as a project.</li>
+<li><strong>Import Project</strong> starts the import wizard (below).</li>
+<li><strong>Recent projects</strong> lists what you opened before. <strong>Browse…</strong> picks another.</li>
+<li><strong>Every tool, one click away</strong> has a tile per surface. Each tile opens its surface in its own editor tab, so you can arrange surfaces side by side like files.</li>
+</ul>
+<p><strong>New Project</strong> and <strong>Try the demo</strong> open demonstration content only; see <a href="/docs/limitations#projects-and-navigation">Known limitations</a>.</p>
+<h2 id="import-a-project">Import a project<a class="anchor" href="#import-a-project" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Import Project</strong> wizard understands four kinds of project:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Recognised by</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Code Composer Studio (TI)</td>
+<td><code>.ccsproject</code></td>
+</tr>
+<tr>
+<td>STM32CubeIDE (ST)</td>
+<td><code>.ioc</code></td>
+</tr>
+<tr>
+<td>MPLAB X (Microchip)</td>
+<td><code>nbproject/</code></td>
+</tr>
+<tr>
+<td>Generic folder</td>
+<td>Any folder of C sources</td>
+</tr>
+</tbody></table></div>
+<p>The wizard analyses the project, opens it, and detects the microcontroller. For a recognised ST or TI part it then downloads that part&#39;s reference manual and indexes it for <a href="/docs/hardware#register-knowledge">Register Knowledge</a>. The download runs in the background and needs a network connection.</p>
+<h3 id="stm32-and-tiva-commands">STM32 and Tiva commands<a class="anchor" href="#stm32-and-tiva-commands" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>Noyce STM32: Import CubeIDE Project</strong> generates <code>.vscode/launch.json</code> and <code>compile_commands.json</code> for an STM32CubeIDE project, set up for OpenOCD.</li>
+<li><strong>Noyce Tiva: Import Pin Config from Source</strong> rebuilds the pin map of a TivaWare project from its C source.</li>
+<li>Opening an <code>.ioc</code> file opens it straight in the <a href="/docs/hardware#pin-configurator">Pin Configurator</a>.</li>
+<li><strong>Validate Toolchain</strong> checks that the Arm GNU tools, debugger and OpenOCD are on your <code>PATH</code>.</li>
+</ul>
+<h2 id="where-things-are">Where things are<a class="anchor" href="#where-things-are" aria-label="Link to this section">#</a></h2>
+<p>Noyce IDE keeps the Code-OSS layout you may know from Visual Studio Code, and adds:</p>
+<ul>
+<li><strong>Activity bar icons</strong> for Noyce IDE (tools and lifecycle), Compliance, Hardware, Noyce AI, Project Graph and Architecture. Each opens a launcher tree in the sidebar.</li>
+<li><strong>Agents</strong> in the secondary sidebar: the agents chat and its history.</li>
+<li><strong>Status bar items:</strong> the <strong>Classified</strong> mode toggle, the CodeGraph symbol count, the Noyce IDE service status (<strong>Noyce: ok</strong>), and the AI activity with its live token rate.</li>
+</ul>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance-launcher.webp" alt="The Compliance launcher in the sidebar listing every compliance surface" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Compliance launcher lists every compliance surface with a one-line description.</figcaption></figure>
+<p>Every surface can also be opened from the Command Palette. See <a href="/docs/commands">Commands &amp; shortcuts</a>.</p>
+<h2 id="classified-mode">Classified mode<a class="anchor" href="#classified-mode" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Classified</strong> status bar item toggles a flag in the Noyce IDE core service. In v2.0.7 no feature reads that flag yet, so switching it on does not change what the IDE sends or stores. To keep source code on your machine, use a local model; see <a href="/docs/models">Connect a model</a>.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/review-ai-changes"><small>Previous</small><span>Review AI changes</span></a>
+      <a class="next" href="/docs/requirements"><small>Next</small><span>Requirements &amp; traceability</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#the-start-tab">The start tab</a></li><li><a class="l2" href="#import-a-project">Import a project</a></li><li><a class="l3" href="#stm32-and-tiva-commands">STM32 and Tiva commands</a></li><li><a class="l2" href="#where-things-are">Where things are</a></li><li><a class="l2" href="#classified-mode">Classified mode</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>
