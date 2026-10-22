@@ -74,19 +74,19 @@
 </ul>
 <h2 id="records-and-documents">Records and documents<a class="anchor" href="#records-and-documents" aria-label="Link to this section">#</a></h2>
 <ul>
-<li><strong>Evidence Records evaluates at Level A.</strong> Admissible verification cases and tool qualification levels in that view assume Level A.</li>
-<li><strong>Verification cases judge independence by name.</strong> A case&#39;s reviewer only has to differ from its author by name; the Reviews tab, which uses the roster, is the stricter check.</li>
-<li><strong>Removing a person from the roster does not ask for confirmation.</strong></li>
-<li><strong>Document Reader edits are temporary for generated documents.</strong> Edit changes the <code>.docx</code>; reopening a DO-178C or Markdown-based document rebuilds it from its source.</li>
-<li><strong>High-Level Design needs a Gemma model on LM Studio.</strong> With any other model it explains why and does not draw.</li>
+<li><strong>Evidence Records evaluates at Level A.</strong> Admissible verification cases and tool qualification levels in that view assume Level A. <em>Fixed on main for the next release.</em></li>
+<li><strong>Verification cases judge independence by name.</strong> A case&#39;s reviewer only has to differ from its author by name; the Reviews tab, which uses the roster, is the stricter check. <em>Fixed on main for the next release.</em></li>
+<li><strong>Removing a person from the roster does not ask for confirmation.</strong> <em>Fixed on main for the next release.</em></li>
+<li><strong>Document Reader edits are temporary for generated documents.</strong> Edit changes the <code>.docx</code>; reopening a DO-178C or Markdown-based document rebuilds it from its source. <em>Fixed on main for the next release.</em></li>
+<li><strong>High-Level Design needs a Gemma model on LM Studio.</strong> With any other model it explains why and does not draw. <em>Fixed on main for the next release.</em></li>
 </ul>
 <h2 id="team-and-build">Team and build<a class="anchor" href="#team-and-build" aria-label="Link to this section">#</a></h2>
 <ul>
 <li><strong>Team Activity is always empty</strong> and <strong>Review Workflow cannot sync</strong>: no collaboration backend is connected.</li>
-<li><strong>Build Pipeline runs real builds only for TI Code Composer Studio projects.</strong> Its YAML Source tab is generated for reference, and Artifacts lists log lines that mention outputs.</li>
-<li><strong>Test Explorer&#39;s Run All results are not recorded</strong>, and the <strong>Analyze with AI Agent</strong> button on a failed test does nothing. Requirement-based and target runs are recorded.</li>
-<li><strong>The Firmware Validation Loop stops after the first staged repair</strong>, whatever <code>maxAttempts</code> is set to. Apply the change set and run it again.</li>
-<li><strong>STM32 Read Target Memory, RTT streaming and the STM32 Debug State registers need an attached probe</strong> that these commands cannot attach themselves. Use the Debug Probe view.</li>
+<li><strong>Build Pipeline runs real builds only for TI Code Composer Studio projects.</strong> Its YAML Source tab is generated for reference, and Artifacts lists log lines that mention outputs. <em>Fixed on main for the next release.</em></li>
+<li><strong>Test Explorer&#39;s Run All results are not recorded</strong>, and the <strong>Analyze with AI Agent</strong> button on a failed test does nothing. Requirement-based and target runs are recorded. <em>Fixed on main for the next release.</em></li>
+<li><strong>The Firmware Validation Loop stops after the first staged repair</strong>, whatever <code>maxAttempts</code> is set to. Apply the change set and run it again. <em>Fixed on main for the next release.</em></li>
+<li><strong>STM32 Read Target Memory, RTT streaming and the STM32 Debug State registers need an attached probe</strong> that these commands cannot attach themselves. Use the Debug Probe view. <em>Fixed on main for the next release.</em></li>
 <li><strong>Build Pipeline (original sentence kept below)</strong> The <strong>Pipeline Status</strong> tree in the sidebar always reads idle; no CI system is connected.</li>
 </ul>
 <h2 id="hardware">Hardware<a class="anchor" href="#hardware" aria-label="Link to this section">#</a></h2>
@@ -103,7 +103,7 @@
 <ul>
 <li><strong>Classified mode has no effect yet.</strong> The status bar toggle is stored, but no feature reads it. Use a local model to keep code on your machine. <em>Fixed on main for the next release:</em> with Classified on, calls to cloud providers from the Noyce IDE window are refused. The agents chat panel is not covered yet.</li>
 <li><strong>Cloud API keys are stored in the IDE&#39;s local web storage</strong>, not the operating system keychain. Local-server and per-agent keys use the keychain. <em>Fixed on main for the next release.</em></li>
-<li><strong>The Trace agent&#39;s output tab shows fixed coverage figures</strong> (100% traced, 96% covered) that are not measured.</li>
+<li><strong>The Trace agent&#39;s output tab shows fixed coverage figures</strong> (100% traced, 96% covered) that are not measured. <em>Fixed on main for the next release.</em></li>
 <li><strong>Three Orchestrator agents are general web roles</strong> (UI/UX Designer, Frontend Developer, API Integrator) and are not specific to firmware.</li>
 <li><strong>There is no in-app updater.</strong> See <a href="/docs/install#update">Update</a>.</li>
 </ul>

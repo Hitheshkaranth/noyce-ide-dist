@@ -73,7 +73,7 @@
 <li><strong>Records that describe something that happened are append-only.</strong> Reviews, CCB minutes and SQA / CM records can be added but never edited; a mistaken SQA / CM record is voided with a reason and stays on file.</li>
 <li><strong>Each form tells you whether the record will count.</strong> A box under the form says either &quot;This record is complete and will count toward its objective&quot; or lists why it will not count yet.</li>
 </ul>
-<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>In v2.0.7, checks in this view that depend on the software level, such as admissible verification cases and tool qualification levels, are evaluated at Level A.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>In v2.0.7, checks in this view that depend on the software level, such as admissible verification cases and tool qualification levels, are evaluated at Level A. <em>Fixed on main for the next release:</em> they use the project&#39;s level, and verification-case independence is judged by the roster.</p>
 </div></div></aside>
 <h2 id="start-with-the-roster">Start with the roster<a class="anchor" href="#start-with-the-roster" aria-label="Link to this section">#</a></h2>
 <p><strong>Roster</strong> lists the people who may author, review, approve, sign and attend meetings. Fill it in before anything else.</p>
@@ -93,7 +93,7 @@
 <li>who may approve a change set or a MISRA deviation,</li>
 <li>who may make SQA and configuration-management records.</li>
 </ul>
-<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><strong>Remove</strong> deletes a person immediately, without asking for confirmation.</p>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><strong>Remove</strong> deletes a person immediately, without asking for confirmation. <em>Fixed on main for the next release:</em> Remove asks you to confirm.</p>
 </div></div></aside>
 <h2 id="problem-reports">Problem reports<a class="anchor" href="#problem-reports" aria-label="Link to this section">#</a></h2>
 <p>Defects, deficiencies and change requests, with their disposition. Open problem reports are what authorise a code change.</p>

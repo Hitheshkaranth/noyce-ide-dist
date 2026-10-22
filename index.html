@@ -1790,7 +1790,7 @@
         points: [
           { k: 'The run', t: 'One reproducible act against one frozen configuration.', d: 'A command freezes the commit, the working-tree state and the assurance level, executes every evidence producer in order, and writes an append-only record anchored to the audit-ledger head. Two runs over an unchanged tree share an assessment digest, so a regression is detectable rather than plausible.' },
           { k: 'Real denominators', t: 'All 71 Annex A objectives, reported as ratios.', d: 'A table with one measured objective out of thirteen reports one of thirteen, and can never render as a pass. Objective wording is licensed by RTCA and is not shipped: objectives stay identified by number until you load your own copy. Nothing here invents a fallback.' },
-          { k: 'Did not run', t: 'A producer that did not execute claims nothing.', d: 'Not a zero, not a failing claim. Coverage analysed but never measured produces no claim. CBMC with zero properties proves nothing. And the CBMC and CodeQL sample fallbacks, which are right for a panel, are treated as did-not-run: a sample in a signed package is fabricated evidence.' },
+          { k: 'Did not run', t: 'A producer that did not execute claims nothing.', d: 'Not a zero, not a failing claim. Coverage analysed but never measured produces no claim. CBMC with zero properties proves nothing. And the CBMC and CodeQL sample fallbacks, which are right for a panel, are treated as did-not-run: a sample in a sealed package is fabricated evidence.' },
           { k: 'Verification', t: 'Cases and results, not prose a model wrote.', d: 'A case with no result is not-run, never a pass. A host result does not discharge target compatibility. Coverage shortfall is classified as a missing case, dead code, deactivated code with its means of prevention, or justified with an approver, and a missing case is never a resolution.' },
           { k: 'Process', t: 'The half of Annex A no analyser reaches.', d: 'Problem reports whose closure needs a disposition and a confirmation by someone else. Review records whose independence is derived from author not equal to reviewer, never asserted. And the conformity checklist an SOI 4 opens with, where a question the evidence cannot answer is not a pass.' },
         ],
@@ -1958,7 +1958,7 @@
     /* ---------- Trust: the evidence rules ---------- */
     const Trust = () => {
       const rules = [
-        { t: 'A tool that did not run claims nothing.', d: 'Not a zero and not a failing claim. Coverage that was analysed but never measured, CBMC with zero properties, and the sample fallbacks shown in panels all count as did-not-run, and never enter a signed package.' },
+        { t: 'A tool that did not run claims nothing.', d: 'Not a zero and not a failing claim. Coverage that was analysed but never measured, CBMC with zero properties, and the sample fallbacks shown in panels all count as did-not-run, and never enter a sealed package.' },
         { t: 'Zero findings counts only after a scan.', d: 'A clean result needs a scan that actually ran. CodeQL is not counted as measured by default, and a cyber posture score needs a real vulnerability source.' },
         { t: 'AI earns no independence credit.', d: 'Reviews record who authored and who reviewed, from the project roster. AI-assisted reviews are labelled as such and never satisfy an independence requirement.' },
         { t: 'Every objective has a real denominator.', d: 'All 71 Annex A objectives are reported as ratios. One measured objective out of thirteen reads one of thirteen, and can never render as a pass.' },
@@ -2305,7 +2305,7 @@
       <section id="demo" className="section">
         <div className="wrap">
           <SectionHead eyebrow="Demo" title={<span>Watch the workbench <span className="muted">run end to end.</span></span>}>
-            A full walkthrough of the pin graph, the register knowledge path, and the signed certification package coming out the other side.
+            A full walkthrough of the pin graph, the register knowledge path, and the sealed certification package coming out the other side.
           </SectionHead>
           <Reveal className="tile p-2.5">
             <div className="frame relative aspect-video" style={{ background: '#000' }}>
@@ -2394,7 +2394,7 @@
         blocks: [
           { id: 'annex', t: 'DO-178C Annex A', s: '71 objectives', h: 56, d: 'All 71 Annex A objectives, each graded satisfied, partial or open on its own evidence. Nothing is rounded up to a pass.' },
           { id: 'docs', t: 'Plans & documents', s: 'PSAC · SRS · SDD', h: 44, d: 'Seventeen life-cycle documents, PSAC through SAS, authored from the workspace with revisions and a baseline hash.' },
-          { id: 'cert', t: 'Certification pkg', s: 'signed export', h: 44, d: 'A signed, hash-chained export of requirements, analyses, coverage and the audit trail, ready for review.' },
+          { id: 'cert', t: 'Certification pkg', s: 'sealed export', h: 44, d: 'A sealed, hash-chained export of requirements, analyses, coverage and the audit trail, ready for review.' },
         ] },
     ];
     const SYS_FLOW = [
@@ -2773,7 +2773,7 @@
       { img: '14-misra-diagnostics', tone: 215, k: 'Local engines', t: 'Findings from real tools.', d: 'MISRA C, CBMC, CodeQL, MC/DC, memory and traceability run on your machine. A finding is a tool result, never a model opinion.' },
       { img: '01-ai-orchestrator', tone: 195, k: 'Your model', t: 'Agents draft, engineers decide.', d: 'Fifteen agents on the model you choose write documents, tests and fixes as proposals. Nothing reaches the tree until an engineer approves it.' },
       { img: '26-audit-trail', tone: 165, k: 'Evidence', t: 'Every action, hash-chained.', d: 'Runs, reviews and approvals land in an append-only ledger. Each entry carries the hash of the one before it.' },
-      { img: '10-compliance-dashboard', tone: 145, k: 'DO-178C', t: 'Graded on its own evidence.', d: 'All 71 Annex A objectives, each satisfied, partial or open, with the gaps listed. The document set and the signed package come from here.' },
+      { img: '10-compliance-dashboard', tone: 145, k: 'DO-178C', t: 'Graded on its own evidence.', d: 'All 71 Annex A objectives, each satisfied, partial or open, with the gaps listed. The document set and the sealed package come from here.' },
     ];
     const AN_GAP = 118;
 
