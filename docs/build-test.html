@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Build, test &amp; debug · Noyce IDE Docs</title>
+<meta name="description" content="Building TI projects in the IDE, running unit and target tests, the AI build-repair loop, STM32 workspace setup, probes and RTT, and following an agent's work in Agent Output.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/build-test">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Build, test &amp; debug · Noyce IDE Docs">
+<meta property="og:description" content="Building TI projects in the IDE, running unit and target tests, the AI build-repair loop, STM32 workspace setup, probes and RTT, and following an agent's work in Agent Output.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/build-test">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test" aria-current="page">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>Build, test &amp; debug</h1>
+      <p class="lede">Building TI projects in the IDE, running unit and target tests, the AI build-repair loop, STM32 workspace setup, probes and RTT, and following an agent's work in Agent Output.</p>
+      
+      <div class="rule"></div>
+      <h2 id="build-pipeline">Build Pipeline<a class="anchor" href="#build-pipeline" aria-label="Link to this section">#</a></h2>
+<p>Builds a TI Code Composer Studio project with the TI compiler you have installed, without opening CCS. Open it from the <strong>Build Pipeline</strong> tile or <strong>Noyce Build: Open Build Pipeline</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/build-pipeline.webp" alt="Build Pipeline for the Canister firmware, blocked because the declared TI compiler is not installed" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Build Pipeline on the Canister copy. The project declares TI ARM Code Generation Tools (armcl) 20.2, which is not installed on this machine, so the stage is blocked and lists what is missing: the compiler, CG_TOOL_ROOT, and the TivaWare install and library paths, each with how to fix it. The button reads Build unavailable.</figcaption></figure>
+<p><strong>What it can build.</strong> A project with a CCS <code>.cproject</code> at its root. It reads the configuration, the declared compiler (TI ARM CGT <code>armcl</code>, TI Arm Clang <code>tiarmclang</code> or GNU Arm <code>arm-none-eabi-gcc</code>), the sources and the include paths.</p>
+<p><strong>How it finds the compiler.</strong> Your <code>PATH</code> first, then the TI install folders: <code>~/ti</code> and <code>/Applications/ti</code> on macOS, <code>C:\ti</code> and <code>%USERPROFILE%\ti</code> on Windows. When several versions are installed, the newest is used. TivaWare is found automatically; other SDK locations come from the <code>COM_TI_*_INSTALL_DIR</code> and <code>SW_ROOT</code> environment variables.</p>
+<p><strong>Running a build</strong></p>
+<ol class="steps">
+<li>Read the <strong>Build (TI CCS)</strong> stage. Before a run it shows the project, the compiler found, any unresolved variables, the include paths and the exact command line. If anything is missing the stage reads <strong>blocked</strong> and says what.</li>
+<li>Select <strong>Build with <em>compiler</em></strong>. The build runs for up to 15 minutes.</li>
+<li>The stage shows <strong>Passed</strong> or <strong>Failed</strong>, the duration, the full compiler output and the exit status.</li>
+</ol>
+<p>Output never goes into your project&#39;s own <code>Debug/</code> folder. Object files, and the <code>.out</code> and <code>.map</code> when the project links, are written to <code>.noyce/build/ccs-&lt;configuration&gt;/</code>, together with a <code>build-record.json</code> of the compiler, command, exit code and output. The IDE only runs compilers it found itself.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>Linking happens only with <code>armcl</code> and a linker command file whose libraries all resolve; otherwise the build compiles only. The <strong>YAML Source</strong> tab is generated from the stage names for reference; it is not a pipeline file in your project. <strong>Artifacts</strong> lists log lines that mention build outputs.</p>
+</div></div></aside>
+<h2 id="test-explorer">Test Explorer<a class="anchor" href="#test-explorer" aria-label="Link to this section">#</a></h2>
+<p>Finds the project&#39;s C unit tests, runs them on your computer, and runs requirement-based tests on the target through a debug probe. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>T</kbd>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/test-explorer.webp" alt="Test Explorer on a project with no tests yet" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Test Explorer on the Canister copy, which has no Unity or C tests yet. The Run on target card is shown because a desktop host is connected.</figcaption></figure>
+<p><strong>Unit tests on your computer</strong></p>
+<ul>
+<li>Tests are found by scanning <code>.c</code> and <code>.cpp</code> files for <code>TEST_CASE(</code> or <code>void test_…</code> functions; each file is a suite.</li>
+<li><strong>Run All</strong> compiles every test file, with Unity, into one program using your host <code>gcc</code>, runs it, and shows each test&#39;s result. If the project does not include Unity, the IDE&#39;s bundled copy is used from <code>.noyce/unity/</code>. It needs <code>gcc</code> and <code>gcov</code> on macOS or Linux.</li>
+<li><strong>AI Generate</strong> has the Test Engineer agent write Unity tests for the active file, compiles and runs them, and makes one repair attempt if they fail. The generated tests are staged as a change set, not written into your project.</li>
+</ul>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><strong>Run All</strong> results are shown in the panel only; they are not recorded as verification evidence. Use <strong>By requirement → Run tests</strong> for a recorded run.</p>
+</div></div></aside>
+<p><strong>Requirement-based tests.</strong> Switch the right pane to <strong>By requirement</strong> and select <strong>Run tests</strong>. Noyce IDE runs your project&#39;s own test command (<code>make test</code>, or <code>make</code> in <code>tests/</code> or <code>test/</code>) and seals the result under <code>.noyce/verification/test-runs/</code>.</p>
+<p><strong>Run on target.</strong> Builds <code>tests/target/*.c</code> with the portable build, flashes it through a probe-rs probe (ST-Link, J-Link or CMSIS-DAP), verifies the flash, and reads <code>TEST name reqs PASS|FAIL</code> lines over RTT. Each run is recorded with the chip, probe, firmware SHA-256 and toolchain in <code>.noyce/verification/target/runs/</code>. It needs:</p>
+<ul>
+<li>an attached probe,</li>
+<li><code>portable-build/build-config.json</code> with a linker script (select <strong>Generate portable build</strong> in Evidence Records → Change sets),</li>
+<li>at least one <code>tests/target/&lt;name&gt;.c</code> defining <code>noyce_suite_&lt;name&gt;()</code>, and a <code>main()</code> in the build.</li>
+</ul>
+<p>Nothing is recorded unless flashing finished and read back correctly.</p>
+<h2 id="firmware-validation-loop">Firmware Validation Loop<a class="anchor" href="#firmware-validation-loop" aria-label="Link to this section">#</a></h2>
+<p>Builds, flashes and checks your firmware with your own commands and, when a step fails, asks the coding agent for a repair. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>V</kbd>; <strong>Noyce: Configure Firmware Validation Loop</strong> opens its settings.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>noyce.agents.firmwareLoop.buildCommand</code></td>
+<td>none</td>
+<td>Required. Any shell command, run in the workspace folder.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.firmwareLoop.flashCommand</code></td>
+<td>none</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.firmwareLoop.observeCommand</code></td>
+<td>none</td>
+<td>Optional, for example reading the serial port.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.firmwareLoop.successPattern</code></td>
+<td>none</td>
+<td>Regular expression the observe output must match.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.firmwareLoop.timeoutSeconds</code></td>
+<td>120</td>
+<td>Per command, 5 to 600.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.firmwareLoop.autoApply</code></td>
+<td>off</td>
+<td>Skips the review prompt; the repair is still only staged.</td>
+</tr>
+</tbody></table></div>
+<p><strong>One run:</strong> build, then flash, then observe. A step fails on a non-zero exit, a timeout, or an observe output that does not match the pattern. On the first failure the coding agent receives the command, its output and the source files it names, and returns a patch. You review it and <strong>Stage for Review</strong>; it becomes a change set. It is never written to your files directly.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>In v2.0.7 the loop stops after the first repair is staged. Approve and apply the change set in Evidence Records, then run the loop again. The loop needs <code>noyce.agents.enableShell</code>; it asks before turning it on.</p>
+</div></div></aside>
+<p><strong>Fix Build Errors with AI</strong> is the single-pass version: it takes the errors in the Problems panel (no build is run), asks the coding agent for fixes, and stages them as a change set with <strong>Stage all fixes</strong> or <strong>Stage per file…</strong>.</p>
+<h2 id="stm32-projects">STM32 projects<a class="anchor" href="#stm32-projects" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Noyce STM32: Import CubeIDE Project</strong></td>
+<td>Reads a <code>.ioc</code> or project folder and writes <code>.vscode/tasks.json</code>, <code>launch.json</code>, <code>settings.json</code>, <code>extensions.json</code> and <code>compile_commands.json</code>: a <code>make</code> build task, an OpenOCD flash task, a Cortex-Debug launch configuration, and clangd set up for the project. It also loads the pin configuration. Existing files of those names are overwritten.</td>
+</tr>
+<tr>
+<td><strong>Regenerate Workspace Files</strong></td>
+<td>Writes the same files again for the open folder.</td>
+</tr>
+<tr>
+<td><strong>Validate Toolchain</strong></td>
+<td>Checks <code>arm-none-eabi-gcc</code>, <code>arm-none-eabi-gdb</code>, <code>openocd</code> (required), <code>make</code>, <code>cmake</code>, <code>STM32_Programmer_CLI</code> and <code>st-util</code> on your <code>PATH</code>, one line each.</td>
+</tr>
+<tr>
+<td><strong>List Debug Probes</strong></td>
+<td>Lists connected probes through probe-rs.</td>
+</tr>
+<tr>
+<td><strong>Read Target Memory</strong>, <strong>Start / Stop RTT Streaming</strong></td>
+<td>Read memory and stream RTT into the &quot;Noyce RTT&quot; output.</td>
+</tr>
+</tbody></table></div>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>In v2.0.7, <strong>Read Target Memory</strong>, RTT streaming and the <strong>STM32 Debug State</strong> view&#39;s registers and memory watches need a probe already attached, and these STM32 commands have no attach step of their own, so they report &quot;No debug target attached&quot; or stay empty. Use the <a href="/docs/hardware#debug-probe-and-memory-view">Debug Probe</a> view to attach, flash and read memory instead.</p>
+</div></div></aside>
+<h2 id="agent-output">Agent Output<a class="anchor" href="#agent-output" aria-label="Link to this section">#</a></h2>
+<p>Follow what each Orchestrator agent is doing and what it produced. Open it with <strong>Agent output</strong> in the Orchestrator.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/orchestrator-agent-output.webp" alt="Agent Output with one tab per agent and the selected task&amp;#39;s run summary" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Agent Output on the Canister copy: one tab per agent, the tasks routed to the selected agent on the left, and the selected task&amp;#39;s live output, reasoning, actions and run summary.</figcaption></figure>
+<ul>
+<li><strong>One tab per agent</strong>, with a dot while it is running or waiting for your review, and its task count. The view follows the agent currently running.</li>
+<li><strong>Workflow Tasks</strong> on the left: the tasks routed to that agent and their status.</li>
+<li><strong>The selected task:</strong> the live output as it streams, <strong>Model reasoning</strong> (opens on its own while the model is thinking), <strong>Actions</strong> (each tool step, with steps that write files or run commands marked apart), and a <strong>Run summary</strong> with the outcome, tokens and time.</li>
+<li><strong>Proposed file changes</strong> for the coding and test agents, with <strong>Stage all as change set</strong> or <strong>Stage</strong> per file. Nothing is written until the change set is approved and applied.</li>
+</ul>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>In v2.0.7 the Trace agent&#39;s tab shows a &quot;Coverage Analytics Updated&quot; card with fixed figures (100% traced, 96% covered) that are not measured. Use the Compliance Dashboard and MC/DC Coverage for real numbers.</p>
+</div></div></aside>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/analysis"><small>Previous</small><span>Analysis &amp; proof</span></a>
+      <a class="next" href="/docs/hardware"><small>Next</small><span>Hardware</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#build-pipeline">Build Pipeline</a></li><li><a class="l2" href="#test-explorer">Test Explorer</a></li><li><a class="l2" href="#firmware-validation-loop">Firmware Validation Loop</a></li><li><a class="l2" href="#stm32-projects">STM32 projects</a></li><li><a class="l2" href="#agent-output">Agent Output</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>

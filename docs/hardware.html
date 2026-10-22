@@ -44,7 +44,7 @@
       <kbd>/</kbd>
       <div id="results" class="results" role="listbox" hidden></div>
     </div>
-    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/hardware" aria-current="page">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware" aria-current="page">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
   </aside>
   <main class="main" id="content">
     <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
@@ -95,7 +95,19 @@
 <h2 id="schematic-viewer">Schematic Viewer<a class="anchor" href="#schematic-viewer" aria-label="Link to this section">#</a></h2>
 <p>Search a schematic PDF, extract a bill of materials from it, and see an inferred component graph. Open it from the <strong>Schematic + BoM</strong> tile.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/schematic.webp" alt="Schematic Viewer listing the PDFs found in the project" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Schematic Viewer lists the PDFs it finds in the project; choose one or select Open PDF….</figcaption></figure>
-<p>Text is extracted with OCR where the PDF has none. The component graph is inferred from the text, not read from a netlist, so treat its edges as a guide. Send the extracted BoM to <strong>BoM Studio</strong> to enrich it.</p>
+<p><strong>How to use it</strong></p>
+<ol class="steps">
+<li>Pick a PDF from <strong>PDFs found in this project</strong>, or <strong>Open PDF…</strong>. The pages render; nothing is analysed yet.</li>
+<li>Select <strong>Analyze</strong> (or <strong>Find</strong>, which analyses first). Noyce IDE extracts every piece of text with its position: through LiteParse, with PaddleOCR on pages that have almost no text, when the desktop host provides them; otherwise with pdf.js and tesseract.js OCR in the window. The header then reads how many text items and parts it found.</li>
+<li><strong>BoM</strong> opens the bill of materials built from the reference designators it found: quantity, class, value and designators. Select a designator to jump to it on the page.</li>
+<li><strong>Graph</strong> opens the inferred component graph.</li>
+<li><strong>Find</strong> (<kbd>⌘</kbd><kbd>F</kbd>) searches every extracted word, net labels included.</li>
+<li><strong>Open in BoM Studio</strong> hands the BoM over for distributor lookups and Excel export.</li>
+</ol>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/schematic-bom.webp" alt="Schematic Viewer with the bill of materials extracted from the Tiva controller schematic" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Canister controller schematic after Analyze: 1,674 text items and 222 parts, extracted with pdf.js. The Bill of Materials groups them by class with every designator; the title block is blurred here.</figcaption></figure>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/schematic-graph.webp" alt="Schematic Viewer with the inferred component graph" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The inferred component graph for the same sheet. Edges come from shared net labels and from parts placed close together.</figcaption></figure>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>The component graph is inferred from the layout, not parsed from a netlist: a NET edge joins parts near the same net label, and a dashed PROXIMITY edge joins parts placed close together. Treat it as a guide when reading the schematic, not as connectivity evidence.</p>
+</div></div></aside>
 <h2 id="bom-studio">BoM Studio<a class="anchor" href="#bom-studio" aria-label="Link to this section">#</a></h2>
 <p>Load a bill of materials from Excel or CSV, or take the one extracted from a schematic, and enrich each part with distributor data. Open it with <strong>Noyce Hardware: Open BoM Studio</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/bom-studio.webp" alt="BoM Studio before a BoM is loaded" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>BoM Studio: load an Excel or CSV BoM, or use the one from the Schematic Viewer.</figcaption></figure>
@@ -129,7 +141,7 @@
 
     </article>
     <nav class="pager" aria-label="Previous and next">
-      <a class="prev" href="/docs/analysis"><small>Previous</small><span>Analysis &amp; proof</span></a>
+      <a class="prev" href="/docs/build-test"><small>Previous</small><span>Build, test &amp; debug</span></a>
       <a class="next" href="/docs/architecture-search"><small>Next</small><span>Architecture &amp; search</span></a>
     </nav>
   </main>

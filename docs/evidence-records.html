@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Evidence records · Noyce IDE Docs</title>
+<meta name="description" content="The process records DO-178C asks for, and how Noyce IDE keeps each one honest - the roster, problem reports, CCB meetings, change sets, MISRA deviations, reviews, SQA and CM records, tool qualification and parameter data.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/evidence-records">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Evidence records · Noyce IDE Docs">
+<meta property="og:description" content="The process records DO-178C asks for, and how Noyce IDE keeps each one honest - the roster, problem reports, CCB meetings, change sets, MISRA deviations, reviews, SQA and CM records, tool qualification and parameter data.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/evidence-records">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records" aria-current="page">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>Evidence records</h1>
+      <p class="lede">The process records DO-178C asks for, and how Noyce IDE keeps each one honest - the roster, problem reports, CCB meetings, change sets, MISRA deviations, reviews, SQA and CM records, tool qualification and parameter data.</p>
+      
+      <div class="rule"></div>
+      <p><strong>Evidence Records</strong> holds everything a certification authority asks you to show about <em>how</em> the software was built: who did what, which problems were raised and decided, which changes were authorised, and which reviews happened. Open it from its tile or <strong>Noyce Compliance: Open Evidence Records</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/evidence-records.webp" alt="Evidence Records with its ten record types" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Evidence Records has ten tabs, one per record type. Each is stored as a file in the project&amp;#39;s .noyce folder.</figcaption></figure>
+<p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 380" role="img" aria-label="The roster of people and roles underlies every record: problem reports are decided by quorate CCB meetings and cited as the authority for change sets, review records count as independent only by the roster, and SQA and configuration-management records close objectives only when made by someone with the right role." class="diagram">
+<defs>
+<linearGradient id="rc-ink" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
+<linearGradient id="rc-wire" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4b8a99"/><stop offset="1" stop-color="#5d9e6a"/></linearGradient>
+<linearGradient id="rc-card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1d20"/><stop offset="1" stop-color="#151619"/></linearGradient>
+<marker id="rc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#79c9a0"/></marker>
+<marker id="rc-arrow-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f2c35b"/></marker>
+<marker id="rc-arrow-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#f08a7a"/></marker>
+</defs>
+<rect width="1180" height="380" rx="20" fill="#121212"/>
+<text x="24" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">01</tspan><tspan dx="8">PEOPLE</tspan></text><text x="330" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">02</tspan><tspan dx="8">AUTHORITY</tspan></text><text x="640" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">03</tspan><tspan dx="8">CHANGE</tspan></text><text x="920" y="40" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="12" letter-spacing="1.8" fill="#bdbdbd"><tspan fill="#7fd3e6">04</tspan><tspan dx="8">WHAT IT CLOSES</tspan></text><g><rect x="24" y="140" width="260" height="100" rx="12" fill="url(#rc-card)" stroke="url(#rc-ink)" stroke-width="1.5"/><rect x="36" y="140" width="236" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="38" y="164" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Roster</text><text x="38" y="182" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">people + roles</text></g><text x="38" y="196" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">developer · verifier · sqa</text><text x="38" y="212" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">configuration-manager</text><text x="38" y="228" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">manager · certification-liaison</text><g><rect x="330" y="76" width="260" height="56" rx="12" fill="url(#rc-card)" stroke="#2c2d30" stroke-width="1"/><rect x="342" y="76" width="236" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="344" y="100" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Problem report</text><text x="344" y="117" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">open → in-work → closed</text></g><g><rect x="330" y="162" width="260" height="56" rx="12" fill="url(#rc-card)" stroke="#2c2d30" stroke-width="1"/><rect x="342" y="162" width="236" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="344" y="186" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">CCB meeting</text><text x="344" y="203" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">quorum: 3, chair + SQA</text></g><g><rect x="330" y="248" width="260" height="56" rx="12" fill="url(#rc-card)" stroke="#2c2d30" stroke-width="1"/><rect x="342" y="248" width="236" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="344" y="272" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Review record</text><text x="344" y="289" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">appended, never edited</text></g><path d="M284 172 L306 172 L306 104 L328 104" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><path d="M284 190 L328 190" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><path d="M284 210 L306 210 L306 276 L328 276" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><path d="M460 132 L460 160" fill="none" stroke="#5a9584" stroke-width="1.5" marker-end="url(#rc-arrow)"/><text x="468" y="150" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">decides</text><path d="M590 104 L638 104" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><text x="600" y="66" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">authority: a PR or CCB decision</text><path d="M590 190 L614 190 L614 112 L638 112" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><g><rect x="640" y="76" width="240" height="56" rx="12" fill="url(#rc-card)" stroke="url(#rc-ink)" stroke-width="1.5"/><rect x="652" y="76" width="216" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="654" y="100" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Change set</text><text x="654" y="117" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">authority · gates · approve</text></g><path d="M880 104 L918 104" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><g><rect x="920" y="76" width="236" height="56" rx="12" fill="url(#rc-card)" stroke="#2c2d30" stroke-width="1"/><rect x="932" y="76" width="212" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="934" y="100" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Code changed</text><text x="934" y="117" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">all files or none</text></g><path d="M590 276 L918 276" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><text x="754" y="268" text-anchor="middle" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">independent only if the roster says so</text><g><rect x="920" y="248" width="236" height="56" rx="12" fill="url(#rc-card)" stroke="#2c2d30" stroke-width="1"/><rect x="932" y="248" width="212" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="934" y="272" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">Annex A objective</text><text x="934" y="289" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">reviewed evidence</text></g><g><rect x="640" y="162" width="240" height="56" rx="12" fill="url(#rc-card)" stroke="#2c2d30" stroke-width="1"/><rect x="652" y="162" width="216" height="1" fill="#ffffff" fill-opacity="0.07"/><text x="654" y="186" font-family="Geist, 'Inter', ui-sans-serif, system-ui, sans-serif" font-weight="600" font-size="14" fill="#f3f3f3">SQA / CM records</text><text x="654" y="203" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#bdbdbd">made by the right role</text></g><path d="M284 226 L618 226 L618 190 L638 190" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><path d="M880 190 L900 190 L900 264 L918 264" fill="none" stroke="url(#rc-wire)" stroke-width="1.5" marker-end="url(#rc-arrow)"/><text x="24" y="344" text-anchor="start" font-family="'Geist Mono', ui-monospace, Menlo, monospace" font-size="11" fill="#8f8f8f">Approvals, signatures, closures and CCB quorum are checked against the roster. With an empty roster they cannot be recorded, and no review counts as independent.</text>
+</svg>
+</div><figcaption>Every record rests on the roster. Problem reports are decided at quorate CCB meetings and cited as the authority for a change set. Review records count as independent only through the roster, and SQA and configuration-management records close their objectives only when the right role made them.</figcaption></figure></p>
+<p>Two rules apply to every tab:</p>
+<ul>
+<li><strong>Records that describe something that happened are append-only.</strong> Reviews, CCB minutes and SQA / CM records can be added but never edited; a mistaken SQA / CM record is voided with a reason and stays on file.</li>
+<li><strong>Each form tells you whether the record will count.</strong> A box under the form says either &quot;This record is complete and will count toward its objective&quot; or lists why it will not count yet.</li>
+</ul>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>In v2.0.7, checks in this view that depend on the software level, such as admissible verification cases and tool qualification levels, are evaluated at Level A.</p>
+</div></div></aside>
+<h2 id="start-with-the-roster">Start with the roster<a class="anchor" href="#start-with-the-roster" aria-label="Link to this section">#</a></h2>
+<p><strong>Roster</strong> lists the people who may author, review, approve, sign and attend meetings. Fill it in before anything else.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/records-roster.webp" alt="Roster tab, empty on the Canister copy" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Roster on the Canister copy is empty, so independence, closure and quorum cannot yet be established for this project.</figcaption></figure>
+<ol class="steps">
+<li>Select <strong>Add person</strong>.</li>
+<li>Enter an <strong>Id</strong> (an employee id or email a record can cite), a <strong>Name</strong> and the <strong>Organisation</strong>.</li>
+<li>Choose one or more roles: developer, verifier, sqa, configuration-manager, manager, certification-liaison.</li>
+<li>Select <strong>Save</strong>.</li>
+</ol>
+<p>The roster refuses entries that would weaken the records: a person with no id or no name, a person with no role, a duplicate id, and any name that identifies an AI or a tool rather than a person.</p>
+<p>The roster decides:</p>
+<ul>
+<li>whether a review is independent,</li>
+<li>who may verify that a problem report is closed,</li>
+<li>who may attend, chair and act as SQA at a CCB meeting, and whether it was quorate,</li>
+<li>who may approve a change set or a MISRA deviation,</li>
+<li>who may make SQA and configuration-management records.</li>
+</ul>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><strong>Remove</strong> deletes a person immediately, without asking for confirmation.</p>
+</div></div></aside>
+<h2 id="problem-reports">Problem reports<a class="anchor" href="#problem-reports" aria-label="Link to this section">#</a></h2>
+<p>Defects, deficiencies and change requests, with their disposition. Open problem reports are what authorise a code change.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/records-problem-reports.webp" alt="Problem reports tab, with no reports yet" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Problem reports on the Canister copy: none raised yet. The header counts open, blocking and deferred reports.</figcaption></figure>
+<p>Select <strong>New report</strong> and fill in the <strong>Title</strong>, <strong>Raised by</strong>, <strong>Classification</strong> (requirement, design, code, verification, process or documentation), <strong>Severity</strong> and <strong>Description</strong>. An open <strong>blocking</strong> report stops a baseline.</p>
+<p><strong>Lifecycle:</strong> open → in-work → resolved, deferred or closed. As a report moves on, more fields become required:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>To</th>
+<th>It needs</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Resolved</td>
+<td>A disposition: fix, defer or no-change.</td>
+</tr>
+<tr>
+<td>Deferred</td>
+<td>A rationale, a defer disposition, the safety effect, an AC/AMC 20-189 certification class, and a CCB decision to defer. A significant report cannot be deferred past certification.</td>
+</tr>
+<tr>
+<td>Closed</td>
+<td>A disposition, the certification class, the CCB decision, who implemented it, the changed configuration items for a fix, and <strong>Closure verified by</strong>: a person on the roster who is neither the implementer nor the person who dispositioned it.</td>
+</tr>
+</tbody></table></div>
+<p>A closed or deferred report that fails these checks is not saved. Saved reports that later become inconsistent are badged <strong>incoherent</strong> in the list.</p>
+<h2 id="ccb">CCB<a class="anchor" href="#ccb" aria-label="Link to this section">#</a></h2>
+<p>Change Control Board meetings and their decisions. A decision approves, rejects or defers the problem reports and change requests it names.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/records-ccb.webp" alt="CCB tab, with Record a meeting disabled until the roster has people" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The CCB tab. Record a meeting is disabled until the roster has people: attendees, chair and SQA are chosen from it.</figcaption></figure>
+<ol class="steps">
+<li>Select <strong>Record a meeting</strong>.</li>
+<li>Set the <strong>Meeting id</strong>, <strong>Date</strong>, the <strong>Attendees</strong> present, the <strong>Chair</strong> and the <strong>SQA</strong> (both chosen from the attendees).</li>
+<li><strong>Add decision</strong> for each item: the subjects (for example <code>PR-001, CR-002</code>), the outcome (approve, reject or defer), the rationale, and a revisit date for a deferral.</li>
+<li>Write the <strong>Minutes</strong> and select <strong>Append minutes</strong>.</li>
+</ol>
+<p>A meeting is quorate with at least three attendees including a chair and an SQA representative, and the badge says <strong>quorum</strong> or why not. Minutes are appended, never rewritten, and are refused if a decision names no subject, has no rationale, or was taken without quorum.</p>
+<h2 id="change-sets">Change sets<a class="anchor" href="#change-sets" aria-label="Link to this section">#</a></h2>
+<p>Code changes proposed by agents and fixers, waiting for authority, gates and approval. They are created by <strong>Fix with Noyce</strong>, the CBMC and CodeQL fixers, the Firmware Validation Loop and Orchestrator agents, not in this tab.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/records-change-sets.webp" alt="Change sets tab, with Generate portable build" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Change sets on the Canister copy: none staged. Generate portable build enables the build gate.</figcaption></figure>
+<p>The full workflow is in <a href="/docs/review-ai-changes">Review and apply AI changes</a>. The authority you cite must be an open or in-work problem report, a change request approved by a quorate CCB decision, or that CCB decision itself. Until you select <strong>Generate portable build</strong>, the build gate is skipped.</p>
+<h2 id="misra-deviations">MISRA deviations<a class="anchor" href="#misra-deviations" aria-label="Link to this section">#</a></h2>
+<p>Approved departures from a MISRA rule, with their scope and justification. Findings a deviation covers are counted as covered in the static-analysis results.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/records-deviations.webp" alt="MISRA deviations tab with Import from docs and New deviation" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>MISRA deviations: import existing ones from docs/misra-deviations.md, or write a new one.</figcaption></figure>
+<p>Select <strong>New deviation</strong>, or <strong>Import from docs</strong> to read <code>docs/misra-deviations.md</code> and add each entry as proposed. Each deviation records the rule (or <code>*</code>), category, title, the files and lines or vendor folders it covers, the rationale, and a risk assessment with controls. Choose an <strong>Approver</strong> from the roster and select <strong>Approve</strong>.</p>
+<p>A mandatory guideline cannot be deviated, and an approver must be a person on the roster, never an AI. Editing an approved deviation sends it back to proposed.</p>
+<h2 id="reviews">Reviews<a class="anchor" href="#reviews" aria-label="Link to this section">#</a></h2>
+<p>Records of reviews that took place, with their checklist. Reviews are what close most Annex A objectives.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/records-reviews.webp" alt="Reviews tab listing review records marked not independent" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Reviews on the Canister copy. Each was recorded by an AI on a person&amp;#39;s behalf, so every one is marked not independent; none of them can close an objective that needs independence.</figcaption></figure>
+<p>Select <strong>Record a review</strong>, choose the <strong>Target</strong> (plan, standard, requirements, design, code, verification cases, verification results or configuration), name the item, the checklist, the <strong>Author of the item</strong> and the <strong>Reviewer</strong>, answer each checklist item, and set the outcome: accepted, accepted with actions, or rejected. Accepted with actions needs the problem reports it raised. Select <strong>Append</strong>.</p>
+<p><strong>Independence is worked out, not ticked.</strong> A review is not independent when the reviewer or the author is an AI, when it is a self-review, when there is no roster, or when either person is not on it. The badge says <strong>independent</strong> or <strong>not independent</strong> with the reason.</p>
+<h2 id="sqa-cm-liaison">SQA / CM / liaison<a class="anchor" href="#sqa-cm-liaison" aria-label="Link to this section">#</a></h2>
+<p>Software quality assurance, configuration management and certification liaison records. Each kind closes specific objectives, but only when made by someone holding the matching role.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Role needed</th>
+<th>Closes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SQA audit</td>
+<td>sqa</td>
+<td>A-9 (1–4), A-1 (6)</td>
+</tr>
+<tr>
+<td>Conformity review</td>
+<td>sqa</td>
+<td>A-9 (5)</td>
+</tr>
+<tr>
+<td>Configuration index</td>
+<td>configuration-manager</td>
+<td>A-8 (1)</td>
+</tr>
+<tr>
+<td>Release / archive</td>
+<td>configuration-manager</td>
+<td>A-8 (4)</td>
+</tr>
+<tr>
+<td>Load control</td>
+<td>configuration-manager</td>
+<td>A-8 (5)</td>
+</tr>
+<tr>
+<td>Environment control</td>
+<td>configuration-manager</td>
+<td>A-8 (6)</td>
+</tr>
+<tr>
+<td>Certification liaison</td>
+<td>certification-liaison</td>
+<td>A-10 (1–3)</td>
+</tr>
+</tbody></table></div>
+<p>Select <strong>New record</strong> (it needs a roster), pick the kind, the person, the date, what it covers and a summary, then <strong>Record</strong>. Records are not edited; <strong>Void</strong> marks a mistaken one with who voided it and why.</p>
+<h2 id="tool-qualification">Tool qualification<a class="anchor" href="#tool-qualification" aria-label="Link to this section">#</a></h2>
+<p>The tool register: every tool used, the credit taken for it, and whether it needs qualification.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/records-tool-qualification.webp" alt="Tool qualification tab with Seed register and New tool" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Tool qualification on the Canister copy: the register is empty. Seed register adds the tools Noyce IDE itself uses.</figcaption></figure>
+<p><strong>Seed register</strong> adds the tools Noyce IDE uses (the IDE itself, compiler, linker, CBMC, CodeQL, llvm-cov, the Unity runner and cppcheck), each with no credit taken. <strong>New tool</strong> adds another. For each, record the version, the executable&#39;s SHA-256, the credit taken (none, verification or development), the DO-330 criterion and, whenever credit is taken, the rationale.</p>
+<p>Qualification is required when credit is taken and the tool&#39;s output is not independently verified. The badge then shows the tool qualification level (TQL-1 to TQL-5) from the criterion and the software level, and asks for the qualification data.</p>
+<h2 id="verification-cases-and-parameter-data">Verification cases and parameter data<a class="anchor" href="#verification-cases-and-parameter-data" aria-label="Link to this section">#</a></h2>
+<p><strong>Verification cases</strong> describe each test, analysis, review or inspection: the requirements it verifies, normal-range or robustness, the environment (target, simulator or host; only a target result discharges A-6(5)), the procedure, the expected result and, at Levels A and B, a reviewer other than the author.</p>
+<p><strong>Parameter data</strong> lists each parameter data item with its file, SHA-256, description, requirements and how it was verified. A project with none can declare <strong>No parameter data</strong> with a statement and a plan reference.</p>
+<h2 id="where-records-are-stored">Where records are stored<a class="anchor" href="#where-records-are-stored" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Record</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Roster</td>
+<td><code>.noyce/process/roster.json</code></td>
+</tr>
+<tr>
+<td>Problem reports</td>
+<td><code>.noyce/process/problem-reports.json</code></td>
+</tr>
+<tr>
+<td>CCB</td>
+<td><code>.noyce/process/ccb.json</code></td>
+</tr>
+<tr>
+<td>Change sets</td>
+<td><code>.noyce/change-sets/</code></td>
+</tr>
+<tr>
+<td>MISRA deviations</td>
+<td><code>.noyce/process/misra-deviations.json</code></td>
+</tr>
+<tr>
+<td>Reviews</td>
+<td><code>.noyce/process/review-records.jsonl</code></td>
+</tr>
+<tr>
+<td>SQA / CM / liaison</td>
+<td><code>.noyce/process/process-records.json</code></td>
+</tr>
+<tr>
+<td>Tool qualification</td>
+<td><code>.noyce/configuration/tool-register.json</code></td>
+</tr>
+<tr>
+<td>Verification cases</td>
+<td><code>.noyce/verification/cases.json</code></td>
+</tr>
+<tr>
+<td>Parameter data</td>
+<td><code>.noyce/configuration/parameter-data.json</code></td>
+</tr>
+</tbody></table></div>
+<p>These files are not in your git repository; see <a href="/docs/noyce-folder">The .noyce folder</a>.</p>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/compliance"><small>Previous</small><span>Compliance &amp; certification</span></a>
+      <a class="next" href="/docs/documents"><small>Next</small><span>DO-178C documents</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#start-with-the-roster">Start with the roster</a></li><li><a class="l2" href="#problem-reports">Problem reports</a></li><li><a class="l2" href="#ccb">CCB</a></li><li><a class="l2" href="#change-sets">Change sets</a></li><li><a class="l2" href="#misra-deviations">MISRA deviations</a></li><li><a class="l2" href="#reviews">Reviews</a></li><li><a class="l2" href="#sqa-cm-liaison">SQA / CM / liaison</a></li><li><a class="l2" href="#tool-qualification">Tool qualification</a></li><li><a class="l2" href="#verification-cases-and-parameter-data">Verification cases and parameter data</a></li><li><a class="l2" href="#where-records-are-stored">Where records are stored</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>
