@@ -55,12 +55,14 @@
       <div class="rule"></div>
       <h2 id="the-start-tab">The start tab<a class="anchor" href="#the-start-tab" aria-label="Link to this section">#</a></h2>
 <p>The <strong>Noyce IDE</strong> tab opens when the IDE starts. Reopen it any time with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>D</kbd>, or <strong>Noyce: Show Getting Started</strong>.</p>
-<figure class="fig"><div class="fig-frame"><img src="/docs/img/welcome.webp" alt="The Noyce IDE start tab with project actions, recent projects and the surface tiles" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The start tab: New Project, Open Folder and Import Project, your recent projects, and a tile for each of the 29 surfaces.</figcaption></figure>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/welcome.webp" alt="The Noyce IDE start tab with project actions, recent projects and the surface tiles" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The start tab on the Canister copy: the project actions and keyboard starters at the top, your recent projects, and a tile for each of the 29 surfaces.</figcaption></figure>
 <ul>
-<li><strong>Open Folder</strong> opens any folder as a project.</li>
-<li><strong>Import Project</strong> starts the import wizard (below).</li>
-<li><strong>Recent projects</strong> lists what you opened before. <strong>Browse…</strong> picks another.</li>
-<li><strong>Every tool, one click away</strong> has a tile per surface. Each tile opens its surface in its own editor tab, so you can arrange surfaces side by side like files.</li>
+<li><strong>Open folder…</strong> opens any folder as a project.</li>
+<li><strong>Import project…</strong> starts the import wizard (below).</li>
+<li><strong>New project</strong> opens Project Templates.</li>
+<li>On a wide window, the keyboard shortcuts for a build, the Compliance Dashboard, the Test Explorer and the Command Palette sit beside them.</li>
+<li><strong>Recent projects</strong> lists what you opened before.</li>
+<li><strong>Workbench surfaces</strong> has a tile per surface, grouped by area; type in <strong>Filter surfaces</strong> to narrow them. Each tile opens its surface in its own editor tab, so you can arrange surfaces side by side like files.</li>
 </ul>
 <p><strong>New Project</strong> and <strong>Try the demo</strong> open demonstration content only; see <a href="/docs/limitations#projects-and-navigation">Known limitations</a>.</p>
 <h2 id="import-a-project">Import a project<a class="anchor" href="#import-a-project" aria-label="Link to this section">#</a></h2>
@@ -107,7 +109,7 @@
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance-launcher.webp" alt="The Compliance launcher in the sidebar listing every compliance surface" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Compliance launcher lists every compliance surface with a one-line description.</figcaption></figure>
 <p>Every surface can also be opened from the Command Palette. See <a href="/docs/commands">Commands &amp; shortcuts</a>.</p>
 <h2 id="classified-mode">Classified mode<a class="anchor" href="#classified-mode" aria-label="Link to this section">#</a></h2>
-<p>The <strong>Classified</strong> status bar item toggles a flag in the Noyce IDE core service. In v2.0.7 no feature reads that flag yet, so switching it on does not change what the IDE sends or stores. To keep source code on your machine, use a local model; see <a href="/docs/models">Connect a model</a>.</p>
+<p>Switch on <strong>Classified</strong> in the status bar when the project&#39;s source must not leave your machine. While it is on, every call to a cloud model provider is refused: from the Noyce IDE window, from the agents chat panel, and from the hosted Claude, Codex and Gemini CLIs. Local models keep working; see <a href="/docs/models">Connect a model</a>.</p>
 
     </article>
     <nav class="pager" aria-label="Previous and next">
@@ -122,7 +124,7 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.7</span>
+  <span>© 2026 Noyce · Docs for the next release</span>
 </div></footer>
 <script src="/docs/assets/docs.js?v=2.0.7" defer></script>
 </body>

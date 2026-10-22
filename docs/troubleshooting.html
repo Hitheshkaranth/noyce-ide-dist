@@ -83,7 +83,7 @@
 <h3 id="formal-verification-or-code-scanning-says-no-run-yet">Formal Verification or Code Scanning says no run yet<a class="anchor" href="#formal-verification-or-code-scanning-says-no-run-yet" aria-label="Link to this section">#</a></h3>
 <p>CBMC and CodeQL are not bundled. Select <strong>Install CBMC</strong> or <strong>Install CodeQL</strong> in the view, or install them yourself and make sure they are on your <code>PATH</code>. See <a href="/docs/install#optional-tools">Optional tools</a>.</p>
 <h3 id="firmware-memory-says-there-is-no-link-map">Firmware Memory says there is no link map<a class="anchor" href="#firmware-memory-says-there-is-no-link-map" aria-label="Link to this section">#</a></h3>
-<p>Firmware Memory reads the GNU linker <code>.map</code> file from a build. Build the project with a map file (<code>-Wl,-Map=&lt;name&gt;.map</code>), and add <code>-fstack-usage</code> for worst-case stack depth. TI&#39;s own linker writes a different map format, which v2.0.7 does not read. <em>Fixed on main for the next release.</em> TI Arm linker maps are read; build the project in CCS or Build Pipeline so the <code>.map</code> exists.</p>
+<p>Firmware Memory reads GNU and TI Arm linker <code>.map</code> files from a build. For a GNU build, create a map file (<code>-Wl,-Map=&lt;name&gt;.map</code>) and add <code>-fstack-usage</code> for worst-case stack depth. For a TI Arm build, build the project in CCS or Build Pipeline so the <code>.map</code> exists.</p>
 <h3 id="register-knowledge-is-empty">Register Knowledge is empty<a class="anchor" href="#register-knowledge-is-empty" aria-label="Link to this section">#</a></h3>
 <p>The reference manual is downloaded when you import a project with the <strong>Import Project</strong> wizard, which needs a network connection. Import the project again with the wizard while online, or select <strong>Choose PDF…</strong> in Register Knowledge to index a manual you already have.</p>
 <h2 id="data-and-records">Data and records<a class="anchor" href="#data-and-records" aria-label="Link to this section">#</a></h2>
@@ -107,7 +107,7 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.7</span>
+  <span>© 2026 Noyce · Docs for the next release</span>
 </div></footer>
 <script src="/docs/assets/docs.js?v=2.0.7" defer></script>
 </body>

@@ -63,17 +63,17 @@
 <h2 id="1-open-your-project">1. Open your project<a class="anchor" href="#1-open-your-project" aria-label="Link to this section">#</a></h2>
 <p>On the <strong>Noyce IDE</strong> start tab, choose one of:</p>
 <ul>
-<li><strong>Open Folder</strong> opens any folder as it is.</li>
-<li><strong>Import Project</strong> starts the import wizard. Pick <strong>Code Composer Studio</strong> (<code>.ccsproject</code>), <strong>STM32CubeIDE</strong> (<code>.ioc</code>), <strong>MPLAB X</strong> (<code>nbproject</code>) or <strong>Generic Folder</strong>. The wizard detects the microcontroller and, when it recognises an ST or TI part, downloads that part&#39;s reference manual in the background and indexes it for <a href="/docs/hardware#register-knowledge">Register Knowledge</a>. That download needs a network connection; everything else works offline.</li>
+<li><strong>Open folder…</strong> opens any folder as it is.</li>
+<li><strong>Import project…</strong> starts the import wizard. Pick <strong>Code Composer Studio</strong> (<code>.ccsproject</code>), <strong>STM32CubeIDE</strong> (<code>.ioc</code>), <strong>MPLAB X</strong> (<code>nbproject</code>) or <strong>Generic Folder</strong>. The wizard detects the microcontroller and, when it recognises an ST or TI part, downloads that part&#39;s reference manual in the background and indexes it for <a href="/docs/hardware#register-knowledge">Register Knowledge</a>. That download needs a network connection; everything else works offline.</li>
 </ul>
-<figure class="fig"><div class="fig-frame"><img src="/docs/img/welcome.webp" alt="The start tab with the project open and every surface one click away" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The start tab. Recent projects at the top; below it, a tile for each of the 29 surfaces.</figcaption></figure>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/welcome.webp" alt="The start tab with the project open and every surface one click away" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The start tab. The project actions at the top, then recent projects, then a tile for each of the 29 surfaces.</figcaption></figure>
 <aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>Use the <strong>Import Project</strong> button on the start tab. The Command Palette entry <strong>Noyce: Import Project</strong> only picks a folder and does not run the wizard.</p>
 </div></div></aside>
 <p>Opening a project creates a <code>.noyce/</code> folder inside it for everything Noyce IDE generates, and keeps it out of git. See <a href="/docs/noyce-folder">The .noyce folder</a>.</p>
 <h2 id="2-scan-for-requirement-annotations">2. Scan for requirement annotations<a class="anchor" href="#2-scan-for-requirement-annotations" aria-label="Link to this section">#</a></h2>
 <p>Press <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>S</kbd> (<kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> then <kbd>S</kbd> on Windows), or run <strong>Noyce Compliance: Scan Workspace</strong>. Noyce IDE finds every <code>@req</code> and <code>@verification</code> tag in your source, shows the counts, and opens the <strong>Annotation Navigator</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/annotations.webp" alt="Annotation Navigator listing @req and @verification tags found in the firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Annotation Navigator on the Canister firmware: 20 tags, each with its file, line and comment text.</figcaption></figure>
-<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>In v2.0.7 the Annotation Navigator labels every <code>@req</code> tag <strong>Verified</strong> and every <code>@verification</code> tag <strong>Needs review</strong>, whether or not a test exists. Treat the label as &quot;tag found&quot;. Whether a requirement is actually verified is shown on the <a href="/docs/compliance">Compliance Dashboard</a>, which on this project reads 0 of 29.</p>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>A tag is not evidence. The navigator labels a requirement <strong>Verified</strong> only when an executed test result backs it; tagged requirements without one read <strong>Needs review</strong>. The <a href="/docs/compliance">Compliance Dashboard</a> shows the verified count, which on this project reads 0 of 29.</p>
 </div></div></aside>
 <p>If your code has no tags yet, that is fine. Requirements can also come from documents and imports; see <a href="/docs/requirements">Requirements &amp; traceability</a>.</p>
 <h2 id="3-run-static-analysis">3. Run static analysis<a class="anchor" href="#3-run-static-analysis" aria-label="Link to this section">#</a></h2>
@@ -101,7 +101,7 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.7</span>
+  <span>© 2026 Noyce · Docs for the next release</span>
 </div></footer>
 <script src="/docs/assets/docs.js?v=2.0.7" defer></script>
 </body>

@@ -51,7 +51,7 @@
     <article class="doc">
       <h1>Noyce IDE documentation</h1>
       <p class="lede">Noyce IDE is a Code-OSS workbench for embedded firmware that has to certify. These docs show how to install it, open a real project, and use every surface, with screenshots taken from the IDE running on production TI Tiva firmware.</p>
-      <div class="meta"><span class="chip">v2.0.7</span><span class="chip">DO-178C</span><span class="chip">MISRA C</span><span class="chip">Runs offline</span></div>
+      <div class="meta"><span class="chip">Next release</span><span class="chip">DO-178C</span><span class="chip">MISRA C</span><span class="chip">Runs offline</span></div>
       <div class="rule"></div>
       <h2 id="start-here">Start here<a class="anchor" href="#start-here" aria-label="Link to this section">#</a></h2>
 <div class="cards"><a class="card" href="/docs/install"><span class="card-t">Install</span><span class="card-d">macOS with Homebrew, the one-line installer or the disk image, and Windows (beta).</span></a><a class="card" href="/docs/quick-start"><span class="card-t">Quick start</span><span class="card-d">Open a firmware project and get your first findings in about ten minutes.</span></a><a class="card" href="/docs/models"><span class="card-t">Connect a model</span><span class="card-d">Local LM Studio or vLLM, Ollama, or a cloud provider, plus embeddings.</span></a><a class="card" href="/docs/do178c-walkthrough"><span class="card-t">DO-178C walkthrough</span><span class="card-d">Take a project from plans to an evidence package, step by step.</span></a></div>
@@ -85,7 +85,7 @@
 <li><strong>Everything lands in <code>.noyce/</code>.</strong> Results, records and documents live in one folder in the project, outside version control, and the important ones are hashed so changes are detectable.</li>
 </ul>
 <h2 id="how-these-docs-were-made">How these docs were made<a class="anchor" href="#how-these-docs-were-made" aria-label="Link to this section">#</a></h2>
-<p>Every screenshot in these docs was taken from Noyce IDE v2.0.7 running on a copy of the <strong>Canister Main Controller</strong> firmware, a production TI Tiva TM4C1294 project. The numbers you see, such as 624 stored MISRA findings, 29 requirements and 71 Annex A objectives, are what the IDE measured on that copy. Empty states are shown as they are: where a tool has not been run, the screenshot says so.</p>
+<p>Every screenshot in these docs was taken from the current build of Noyce IDE running on a copy of the <strong>Canister Main Controller</strong> firmware, a production TI Tiva TM4C1294 project. The numbers you see, such as 624 stored MISRA findings, 29 requirements and 71 Annex A objectives, are what the IDE measured on that copy. Empty states are shown as they are: where a tool has not been run, the screenshot says so.</p>
 <aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>The copy includes uncommitted changes from earlier Noyce IDE sessions: <code>@req</code> and <code>@verification</code> comment blocks at the top of eight source files, and edits to a few functions. They are why the Annotation Navigator finds requirement tags. Nothing was written to the project to make these docs; Noyce IDE keeps what it generates in the project&#39;s <code>.noyce/</code> folder. See <a href="/docs/noyce-folder">The .noyce folder</a>.</p>
 </div></div></aside>
 <h2 id="feature-reference">Feature reference<a class="anchor" href="#feature-reference" aria-label="Link to this section">#</a></h2>
@@ -104,7 +104,7 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.7</span>
+  <span>© 2026 Noyce · Docs for the next release</span>
 </div></footer>
 <script src="/docs/assets/docs.js?v=2.0.7" defer></script>
 </body>

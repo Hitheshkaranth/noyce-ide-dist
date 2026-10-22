@@ -124,12 +124,12 @@
 <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> <kbd>H</kbd></td>
 </tr>
 <tr>
-<td>Open MISRA Diagnostics</td>
-<td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>M</kbd></td>
-<td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> <kbd>M</kbd></td>
+<td>Show Project Graph</td>
+<td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>J</kbd></td>
+<td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> <kbd>J</kbd></td>
 </tr>
 <tr>
-<td>Open Firmware Memory &amp; Stack</td>
+<td>Open MISRA Diagnostics</td>
 <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>M</kbd></td>
 <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> <kbd>M</kbd></td>
 </tr>
@@ -140,11 +140,6 @@
 </tr>
 <tr>
 <td>Open Pin Configurator</td>
-<td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>P</kbd></td>
-<td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> <kbd>P</kbd></td>
-</tr>
-<tr>
-<td>Show Project Graph</td>
 <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>P</kbd></td>
 <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> <kbd>P</kbd></td>
 </tr>
@@ -167,6 +162,11 @@
 <td>Open Test Explorer</td>
 <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>T</kbd></td>
 <td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> <kbd>T</kbd></td>
+</tr>
+<tr>
+<td>Open Firmware Memory &amp; Stack</td>
+<td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>U</kbd></td>
+<td><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>N</kbd> <kbd>U</kbd></td>
 </tr>
 <tr>
 <td>Noyce: Open Firmware Validation Loop <span class="muted">(in context)</span></td>
@@ -214,6 +214,11 @@
 <td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>A</kbd></td>
 </tr>
 <tr>
+<td>Build <span class="muted">(in context)</span></td>
+<td><kbd>⌘</kbd><kbd>⇧</kbd><kbd>B</kbd></td>
+<td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>B</kbd></td>
+</tr>
+<tr>
 <td>Noyce: Attach File… <span class="muted">(in context)</span></td>
 <td><kbd>⌘</kbd><kbd>⇧</kbd><kbd>O</kbd></td>
 <td><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>O</kbd></td>
@@ -229,12 +234,6 @@
 <td><kbd>ESCAPE</kbd></td>
 </tr>
 </tbody></table></div>
-<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>Some chords are bound to two commands, so pressing them runs only one of the two. Use the Command Palette for the other:</p>
-<ul>
-<li><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>M</kbd>: <strong>Open MISRA Diagnostics</strong> and <strong>Open Firmware Memory &amp; Stack</strong></li>
-<li><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>P</kbd>: <strong>Open Pin Configurator</strong> and <strong>Show Project Graph</strong></li>
-</ul>
-</div></div></aside>
 <h2 id="all-commands">All commands<a class="anchor" href="#all-commands" aria-label="Link to this section">#</a></h2>
 <h3 id="noyce">Noyce<a class="anchor" href="#noyce" aria-label="Link to this section">#</a></h3>
 <div class="table"><table>
@@ -270,6 +269,14 @@
 </tr>
 <tr>
 <td>Import Project</td>
+<td></td>
+</tr>
+<tr>
+<td>Noyce STM32: Attach Debug Probe</td>
+<td></td>
+</tr>
+<tr>
+<td>Noyce STM32: Detach Debug Probe</td>
 <td></td>
 </tr>
 <tr>
@@ -553,11 +560,23 @@
 </tr>
 </thead>
 <tbody><tr>
+<td>Build</td>
+<td><kbd>⌘</kbd><kbd>⇧</kbd><kbd>B</kbd></td>
+</tr>
+<tr>
+<td>Clean</td>
+<td></td>
+</tr>
+<tr>
 <td>Open Build Pipeline</td>
 <td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>B</kbd></td>
 </tr>
 <tr>
 <td>Open Project Templates</td>
+<td></td>
+</tr>
+<tr>
+<td>Select Configuration</td>
 <td></td>
 </tr>
 </tbody></table></div>
@@ -575,6 +594,10 @@
 </tr>
 <tr>
 <td>Edit Document Template</td>
+<td></td>
+</tr>
+<tr>
+<td>Import Licensed Annex A Table (applicability, independence)</td>
 <td></td>
 </tr>
 <tr>
@@ -642,7 +665,15 @@
 <td></td>
 </tr>
 <tr>
+<td>Open Review Inbox</td>
+<td></td>
+</tr>
+<tr>
 <td>Open Traceability Graph</td>
+<td></td>
+</tr>
+<tr>
+<td>Recover System Requirements from Prototype</td>
 <td></td>
 </tr>
 <tr>
@@ -717,7 +748,7 @@
 </tr>
 <tr>
 <td>Open Firmware Memory &amp; Stack</td>
-<td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>M</kbd></td>
+<td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>U</kbd></td>
 </tr>
 <tr>
 <td>Open FPGA Workspace</td>
@@ -790,7 +821,7 @@
 </tr>
 <tr>
 <td>Show Project Graph</td>
-<td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>P</kbd></td>
+<td><kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> <kbd>J</kbd></td>
 </tr>
 </tbody></table></div>
 <h3 id="noyce-team">Noyce Team<a class="anchor" href="#noyce-team" aria-label="Link to this section">#</a></h3>
@@ -870,7 +901,7 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.7</span>
+  <span>© 2026 Noyce · Docs for the next release</span>
 </div></footer>
 <script src="/docs/assets/docs.js?v=2.0.7" defer></script>
 </body>

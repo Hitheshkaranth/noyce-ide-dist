@@ -118,12 +118,14 @@
 <p>CBMC results are analysis: they support code review and never count as tests. A failed property can be sent to <strong>Fix with Noyce</strong> or turned into a problem report.</p>
 <h2 id="code-scanning-codeql">Code Scanning (CodeQL)<a class="anchor" href="#code-scanning-codeql" aria-label="Link to this section">#</a></h2>
 <p>A semantic security scan that follows data from inputs through your code. Open it from the tile or <strong>Noyce Compliance: Open Code Scanning (CodeQL)</strong>.</p>
-<figure class="fig"><div class="fig-frame"><img src="/docs/img/codeql.webp" alt="Code Scanning before the first scan, with the query pack select" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Code Scanning: choose the query pack, then Run Scan.</figcaption></figure>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/codeql-results.webp" alt="Code Scanning with the alerts from a scan of the Canister firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Code Scanning on the Canister copy after a security-and-quality scan. The TI compiler cannot be traced, so the scan ran buildless and says so above the alert counts.</figcaption></figure>
 <ol class="steps">
 <li>Select <strong>Install CodeQL</strong> if it is not installed. Noyce IDE downloads the official CodeQL bundle and checks its SHA-256.</li>
 <li>Choose the query pack: <strong>security-extended</strong> or <strong>security-and-quality</strong>.</li>
-<li>Select <strong>Run Scan</strong>. For TI Code Composer Studio projects the scan uses the include paths from the project&#39;s <code>.cproject</code>.</li>
+<li>Select <strong>Run scan</strong>. For TI Code Composer Studio projects the scan uses the include paths from the project&#39;s <code>.cproject</code>.</li>
 </ol>
+<p><strong>How the code is extracted.</strong> CodeQL normally watches the project&#39;s build to see every file exactly as compiled. Its tracer cannot follow the TI <code>armcl</code> compiler, so a traced scan of a TI project extracts nothing. Noyce IDE then repeats the scan with <code>--build-mode=none</code>, which reads the sources directly and guesses include paths and defines. On the Canister firmware that extracts 21 of its 22 files.</p>
+<p>The dashboard always says how the database was built. A buildless or partial extraction is listed above the alert counts, so a count of 0 is never read as &quot;no problems&quot;: only a traced scan that extracted every file is conclusive.</p>
 <p>Each alert shows its rule, severity and the data-flow path. Fixes go through change sets.</p>
 <h2 id="mc-dc-coverage">MC/DC Coverage<a class="anchor" href="#mc-dc-coverage" aria-label="Link to this section">#</a></h2>
 <p>Statement, decision and modified condition/decision coverage, measured by running instrumented code. Open it from the tile or <strong>Noyce Compliance: Open MC/DC Coverage</strong>.</p>
@@ -144,7 +146,7 @@
 <h2 id="object-code-traceability">Object Code Traceability<a class="anchor" href="#object-code-traceability" aria-label="Link to this section">#</a></h2>
 <p>For DO-178C A-7(9) at Level A: object code that no source line accounts for, such as soft-float helpers, C runtime start-up and the reset vector, each of which needs a named person&#39;s justification. Open it with <strong>Noyce Compliance: Open Object Code Traceability</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/object-code.webp" alt="Object Code Traceability with no analysis on record" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Object Code Traceability before any analysis.</figcaption></figure>
-<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>In v2.0.7 this view reads an analysis produced outside it: the view suggests <code>npm run socta -- --project &lt;path&gt;</code>, a script in the Noyce IDE source repository that is not available in the installed app. It needs a linked image and <code>arm-none-eabi-objdump</code>.</p>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>This view reads an analysis produced outside it: the view suggests <code>npm run socta -- --project &lt;path&gt;</code>, a script in the Noyce IDE source repository that is not available in the installed app. It needs a linked image and <code>arm-none-eabi-objdump</code>.</p>
 </div></div></aside>
 <h2 id="test-explorer">Test Explorer<a class="anchor" href="#test-explorer" aria-label="Link to this section">#</a></h2>
 <p>Finds the project&#39;s tests, runs them with <strong>Run All</strong>, drafts new ones with <strong>AI Generate</strong>, and records test runs on the target as verification evidence. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>T</kbd>.</p>
@@ -174,7 +176,7 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.7</span>
+  <span>© 2026 Noyce · Docs for the next release</span>
 </div></footer>
 <script src="/docs/assets/docs.js?v=2.0.7" defer></script>
 </body>
