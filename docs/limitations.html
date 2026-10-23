@@ -68,7 +68,7 @@
 </ul>
 <h2 id="build-and-team">Build and team<a class="anchor" href="#build-and-team" aria-label="Link to this section">#</a></h2>
 <ul>
-<li><strong>Builds cover TI Code Composer Studio and STM32CubeIDE projects.</strong> <kbd>⇧</kbd><kbd>⌘</kbd><kbd>B</kbd>, the status bar items and the Noyce build tasks appear only when the folder has a CCS <code>.cproject</code>.</li>
+<li><strong>Builds cover TI Code Composer Studio and STM32CubeIDE projects.</strong> The status bar items and the Noyce build tasks appear only when the folder has a CCS <code>.cproject</code>. An STM32 project gets its <kbd>⇧</kbd><kbd>⌘</kbd><kbd>B</kbd> task from <strong>Noyce STM32: Regenerate Workspace Files</strong>, and that task runs CubeIDE&#39;s own makefiles; makefiles generated on another computer fail there, so use the Build view&#39;s <strong>Build with a generated makefile</strong>.</li>
 <li><strong>A TI build links only with <code>armcl</code></strong> and a linker command file whose libraries all resolve; otherwise it compiles only, and there is no <code>.map</code> for Firmware Memory.</li>
 <li><strong>Team Activity is always empty</strong> and <strong>Review Workflow cannot sync</strong>: no collaboration backend is connected.</li>
 <li><strong>Build Status and the Build view&#39;s History tab differ.</strong> Build Status lists your last 10 builds, TI CCS and STM32. The Build view&#39;s History tab still shows only the latest CCS build of each configuration. No CI system is connected.</li>
