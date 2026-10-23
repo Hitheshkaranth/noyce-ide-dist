@@ -172,6 +172,24 @@
 </tr>
 </tbody></table></div>
 <p>A debug probe needs no separate install: probe-rs is built into the IDE. OCR for schematics is bundled as well.</p>
+<p>If the STM32 tools are installed somewhere Noyce IDE does not search, point it at them in <strong>Settings</strong>:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Points to</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>noyce.stm32.cubeIdePath</code></td>
+<td>The STM32CubeIDE install folder, for example <code>/Applications/STM32CubeIDE.app</code> or <code>C:\ST\STM32CubeIDE_1.15.0</code>. Its bundled <code>make</code>, GNU tools, STM32CubeProgrammer, ST-LINK GDB server, OpenOCD and headless builder are then used. The standard install locations are searched without this.</td>
+</tr>
+<tr>
+<td><code>noyce.stm32.armToolchainPath</code></td>
+<td>A folder holding <code>arm-none-eabi-gcc</code> and <code>arm-none-eabi-gdb</code>. Used by <strong>Validate Toolchain</strong>, the generated build tasks and the debug launch.</td>
+</tr>
+</tbody></table></div>
+<p>Run <strong>Validate Toolchain</strong> afterwards to see what was found.</p>
 <aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>If GCC and gcov are installed but LLVM is not, coverage still reports statements and branches, and MC/DC reads &quot;MC/DC unavailable&quot; with the reason. gcov cannot measure MC/DC at any version.</p>
 </div></div></aside>
 <h2 id="connect-a-model">Connect a model<a class="anchor" href="#connect-a-model" aria-label="Link to this section">#</a></h2>

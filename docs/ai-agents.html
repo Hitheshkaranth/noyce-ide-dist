@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f0f0f">
 <title>AI &amp; agents · Noyce IDE Docs</title>
-<meta name="description" content="The AI Orchestrator and its 15 agents, the agents chat panel, inline edits, project rules and memories, the firmware validation loop, commit messages and terminal help.">
+<meta name="description" content="The AI Orchestrator and its 15 agents, the agents chat panel, inline edits and next-edit prediction, context and @-mentions, build fixes, commit messages, terminal help and every agent setting.">
 <link rel="canonical" href="https://noyce-ide.tech/docs/ai-agents">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AI &amp; agents · Noyce IDE Docs">
-<meta property="og:description" content="The AI Orchestrator and its 15 agents, the agents chat panel, inline edits, project rules and memories, the firmware validation loop, commit messages and terminal help.">
+<meta property="og:description" content="The AI Orchestrator and its 15 agents, the agents chat panel, inline edits and next-edit prediction, context and @-mentions, build fixes, commit messages, terminal help and every agent setting.">
 <meta property="og:url" content="https://noyce-ide.tech/docs/ai-agents">
 <meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
 <meta name="twitter:card" content="summary_large_image">
@@ -50,7 +50,7 @@
     <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
     <article class="doc">
       <h1>AI &amp; agents</h1>
-      <p class="lede">The AI Orchestrator and its 15 agents, the agents chat panel, inline edits, project rules and memories, the firmware validation loop, commit messages and terminal help.</p>
+      <p class="lede">The AI Orchestrator and its 15 agents, the agents chat panel, inline edits and next-edit prediction, context and @-mentions, build fixes, commit messages, terminal help and every agent setting.</p>
       
       <div class="rule"></div>
       <p>Every AI feature runs on the model you choose in <a href="/docs/models">AI Models</a>. For the screenshots on this page that was Ornith (<code>ornith-1.5-35b-a3b</code>), served by vLLM on a machine on the local network.</p>
@@ -149,14 +149,31 @@
 </ul>
 <p>In the Code-OSS <strong>Chat</strong> view, the <code>@noyce</code> participant answers in agent, ask or edit mode and has <code>/fix</code>, <code>/test</code>, <code>/explain</code> and <code>/trace</code>.</p>
 <h2 id="in-the-editor">In the editor<a class="anchor" href="#in-the-editor" aria-label="Link to this section">#</a></h2>
+<p>These features use the <strong>Coder</strong> agent and the model assigned to it.</p>
+<h3 id="inline-edit">Inline edit<a class="anchor" href="#inline-edit" aria-label="Link to this section">#</a></h3>
+<ol class="steps">
+<li>Select the code to change, or leave the cursor on a line to change only that line.</li>
+<li>Press <kbd>⌘</kbd><kbd>K</kbd> <kbd>⌘</kbd><kbd>I</kbd> (<strong>Edit Inline…</strong>) and describe the change.</li>
+<li>The proposal appears in the file: the old lines in red, the new lines in green below them. <kbd>Enter</kbd> accepts it, <kbd>Esc</kbd> rejects it.</li>
+</ol>
+<p>Accepting saves the file, records the edit in the audit trail, and adds a checkpoint, so <strong>Revert Last Agent Edit</strong> can undo it. Your <a href="#context-you-give-the-agents">project rules</a> that match the file are sent with the request. Only one inline edit can be open at a time.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><kbd>⌘</kbd><kbd>K</kbd> <kbd>⌘</kbd><kbd>I</kbd> replaces the Code-OSS <strong>Show Hover</strong> shortcut. Rebind either in <strong>Keyboard Shortcuts</strong> if you need both.</p>
+</div></div></aside>
+<h3 id="completions-and-next-edit">Completions and next edit<a class="anchor" href="#completions-and-next-edit" aria-label="Link to this section">#</a></h3>
+<p>Both are off by default.</p>
 <ul>
-<li><strong>Inline edit:</strong> select code, press <kbd>⌘</kbd><kbd>K</kbd> <kbd>⌘</kbd><kbd>I</kbd>, describe the change, and review the inline diff. <kbd>Enter</kbd> accepts, <kbd>Esc</kbd> rejects.</li>
-<li><strong>Composer</strong> (<kbd>⌘</kbd><kbd>⌥</kbd><kbd>K</kbd>) opens a review panel for an agent&#39;s changes across several files, with a diff per file.</li>
+<li><strong>Inline completions</strong> (<code>noyce.agents.inline.enabled</code>) show ghost text as you type. <kbd>Tab</kbd> accepts.</li>
+<li><strong>Next edit</strong> (<code>noyce.agents.inline.nextEdit.enabled</code>, which also needs completions on) predicts the next change you are likely to make elsewhere in the file, after you accept a completion or when you run <strong>Predict Next Edit</strong>. When a prediction is ready, <kbd>⌘</kbd><kbd>⌥</kbd><kbd>]</kbd> (<strong>Jump to Next Edit</strong>) moves the cursor there and shows it as ghost text; <kbd>Tab</kbd> accepts it and <kbd>Esc</kbd> dismisses it. Typing in the file discards the prediction.</li>
+</ul>
+<p><code>noyce.agents.inline.maxLines</code> (12) caps how long a suggestion can be.</p>
+<h3 id="other-editor-actions">Other editor actions<a class="anchor" href="#other-editor-actions" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>Composer</strong> (<kbd>⌘</kbd><kbd>⌥</kbd><kbd>K</kbd>) reviews an agent&#39;s changes across several files, hunk by hunk. Accepted hunks are staged as a change set.</li>
 <li><strong>CodeLens actions</strong> above functions: <strong>Refactor with Coder</strong>, <strong>Audit MISRA with Reviewer</strong>, <strong>Generate Tests with Tester</strong>.</li>
 <li><strong>Generate Driver from Datasheet</strong> (<kbd>⌘</kbd><kbd>⌥</kbd><kbd>D</kbd>) drafts a driver from a datasheet you attach.</li>
-<li><strong>Fix with Noyce</strong> appears as a quick fix on MISRA diagnostics.</li>
+<li><strong>Fix with Noyce</strong> appears as a quick fix on MISRA diagnostics. See <a href="/docs/review-ai-changes">Review AI changes</a>.</li>
+<li><strong>Register hovers:</strong> when the workspace has a CMSIS-SVD file, hovering a peripheral register in C or C++ shows its description and fields, and completions are grounded in it. Noyce IDE uses <code>noyce.agents.svd.path</code> or else the first <code>*.svd</code> in the workspace; run <strong>Reload SVD File</strong> after replacing it.</li>
 </ul>
-<p>Inline completions are off by default; turn them on with the <code>noyce.agents.inline.enabled</code> setting.</p>
 <h2 id="context-you-give-the-agents">Context you give the agents<a class="anchor" href="#context-you-give-the-agents" aria-label="Link to this section">#</a></h2>
 <div class="table"><table>
 <thead>
@@ -169,7 +186,7 @@
 <tbody><tr>
 <td>Project rules: standing instructions, such as your coding standard</td>
 <td><strong>Create Project Rule</strong>, <strong>Show Project Rules</strong></td>
-<td><code>.noyce/rules/*.md</code></td>
+<td><code>NOYCE.md</code> and <code>.noyce/rules/*.md</code></td>
 </tr>
 <tr>
 <td>Notepads: reusable notes you can attach</td>
@@ -178,18 +195,122 @@
 </tr>
 <tr>
 <td>Memories: facts the agents keep about the project</td>
-<td><strong>Show Project Memories</strong></td>
+<td><strong>Remember This…</strong>, <strong>Show Project Memories</strong>, <strong>Clear Project Memories</strong></td>
 <td><code>.noyce/memories.md</code></td>
 </tr>
 </tbody></table></div>
+<p>Rules and memories are added to every request, up to <code>noyce.agents.rules.maxChars</code> (6,000) and <code>noyce.agents.memories.maxChars</code> (4,000) characters.</p>
+<p>In the agents chat, type <code>@</code> to attach context to one message:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Mention</th>
+<th>Attaches</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@file</code>, <code>@folder</code></td>
+<td>A file (up to <code>noyce.agents.context.maxFileBytes</code>, 32 KB) or a folder listing</td>
+</tr>
+<tr>
+<td><code>@symbol</code></td>
+<td>A function or type and its neighbours from the code graph</td>
+</tr>
+<tr>
+<td><code>@codebase</code></td>
+<td>The most relevant code from the Semantic Search index</td>
+</tr>
+<tr>
+<td><code>@git</code></td>
+<td>Your staged changes and the last commit</td>
+</tr>
+<tr>
+<td><code>@requirement</code></td>
+<td>A requirement&#39;s shall statement, from your requirement documents</td>
+</tr>
+<tr>
+<td><code>@docs</code></td>
+<td>Matching passages from the project&#39;s <code>docs/</code> folder</td>
+</tr>
+<tr>
+<td><code>@notepad</code></td>
+<td>One of your notepads</td>
+</tr>
+<tr>
+<td><code>@serial</code></td>
+<td>The end of the latest Serial Monitor capture</td>
+</tr>
+<tr>
+<td><code>@web</code></td>
+<td>An online search. Off by default; turn on <code>noyce.agents.context.web.enabled</code></td>
+</tr>
+</tbody></table></div>
 <p>When the Semantic Search index is built, relevant code from it is added to agent prompts as well.</p>
+<h3 id="change-an-agent-s-instructions">Change an agent&#39;s instructions<a class="anchor" href="#change-an-agent-s-instructions" aria-label="Link to this section">#</a></h3>
+<p><strong>Edit Agent System Prompt…</strong> lists the agents and shows which ones have a custom prompt. Pick one to copy its built-in prompt into <code>.noyce/agents/prompts/&lt;agent&gt;.md</code> and open it; your edited copy is used from then on. Delete the file to go back to the built-in prompt.</p>
+<p>Prompts saved by earlier versions in <code>.noyce-agents/prompts/&lt;agent&gt;.md</code> are still used when there is no copy under <code>.noyce/</code>. When you pick one of those agents, you are asked whether to move its file to the new location; nothing is deleted unless you choose <strong>Move</strong>.</p>
 <h2 id="firmware-validation-loop">Firmware Validation Loop<a class="anchor" href="#firmware-validation-loop" aria-label="Link to this section">#</a></h2>
-<p>Build, read the errors, propose a repair, and build again, until the build passes or you stop it. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>V</kbd>. Each proposed repair is staged as a change set; it is never written straight to your files. <strong>Fix Build Errors with AI</strong> does a single pass.</p>
+<p>Build, flash, watch the output, propose a repair, and build again, until the output matches what you expect or the attempts run out. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>V</kbd>. Each proposed repair is staged as a change set; it is never written straight to your files. The loop needs <code>noyce.agents.enableShell</code>, and offers to turn it on for the workspace.</p>
+<h2 id="fix-build-errors">Fix build errors<a class="anchor" href="#fix-build-errors" aria-label="Link to this section">#</a></h2>
+<p><strong>Fix Build Errors with AI</strong> sends the errors in the <strong>Problems</strong> list, with a few lines of source around each, to the Coder agent and asks for a patch. A diff opens for each file, then you choose <strong>Stage all fixes</strong>, <strong>Stage per file…</strong> or <strong>Discard</strong>. Nothing is written to your source: staged fixes wait as a change set in <a href="/docs/evidence-records">Evidence Records</a> for you to approve. Warnings are included only if <code>noyce.agents.buildfix.includeWarnings</code> is on.</p>
 <h2 id="source-control-and-terminal">Source control and terminal<a class="anchor" href="#source-control-and-terminal" aria-label="Link to this section">#</a></h2>
 <ul>
-<li><strong>Generate Commit Message</strong> and <strong>Explain My Changes</strong> sit in the Source Control title bar. They read your staged diff and fill the commit message box.</li>
-<li>In the terminal, <kbd>⌘</kbd><kbd>K</kbd> opens <strong>Generate Terminal Command</strong>: describe what you want and get one command, with <strong>Insert</strong>, <strong>Run</strong> or <strong>Copy</strong>. Commands that look dangerous are flagged for review before you insert them. <strong>Explain Terminal Failure</strong> explains the last error.</li>
+<li><strong>Generate Commit Message</strong> in the Source Control title bar writes a message for your staged changes (or all changes when nothing is staged) into the commit message box, following Conventional Commits unless you turn off <code>noyce.agents.scm.conventionalCommits</code>. Nothing is committed for you.</li>
+<li><strong>Explain My Changes</strong>, next to it, opens a plain-language summary of the same diff.</li>
+<li>In the terminal, <kbd>⌘</kbd><kbd>K</kbd> opens <strong>Generate Terminal Command</strong> (replacing the Code-OSS <strong>Clear</strong> shortcut there). Describe what you want; the command comes back with <strong>Insert into terminal</strong>, <strong>Insert and run</strong> and <strong>Copy</strong>. Commands that look dangerous never offer <strong>Insert and run</strong>.</li>
+<li><strong>Explain Terminal Failure</strong> explains the output you have selected in the terminal, or output you paste.</li>
 </ul>
+<h2 id="agent-settings">Agent settings<a class="anchor" href="#agent-settings" aria-label="Link to this section">#</a></h2>
+<p>Find these in <strong>Settings</strong> under <strong>Noyce Agents</strong>. Every feature setting ending in <code>.enabled</code> turns its feature off when cleared.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>noyce.agents.enableShell</code></td>
+<td>off</td>
+<td>Lets agents run shell commands in the workspace (120-second limit). Needed for <code>verifyCommand</code> and the Firmware Validation Loop.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.verifyCommand</code></td>
+<td>empty</td>
+<td>The command an agent runs when it checks its own work, such as your build or test command. Without it, or with the shell off, the check uses the editor&#39;s diagnostics only.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.auditCapture</code></td>
+<td>on</td>
+<td>Records agent file edits and checks in the audit trail, <code>.noyce/audit-ledger.json</code>.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.gemini.fallbackChain</code></td>
+<td>Gemini 3.1 Pro … 2.5 Flash-Lite</td>
+<td>When a Gemini model reports a quota or rate limit, it rests for the time Gemini asks (or 60 seconds) and the next model in the list is used.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.scm.maxDiffChars</code></td>
+<td>24,000</td>
+<td>How much of a diff is sent for commit messages and summaries.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.buildfix.contextLines</code>, <code>maxFiles</code></td>
+<td>6, 8</td>
+<td>Source lines around each error, and how many files (those with the most errors) are sent.</td>
+</tr>
+<tr>
+<td><code>noyce.agents.firmwareLoop.*</code></td>
+<td></td>
+<td>The loop&#39;s build, flash and observe commands, success pattern, attempts (3), time limit (120 s) and auto-apply (off).</td>
+</tr>
+<tr>
+<td><code>noyce.chat.enableShell</code></td>
+<td>off</td>
+<td>Lets the <code>@noyce</code> participant in the Chat view run shell commands. Separate from <code>noyce.agents.enableShell</code>.</td>
+</tr>
+</tbody></table></div>
 
     </article>
     <nav class="pager" aria-label="Previous and next">
@@ -197,7 +318,7 @@
       <a class="next" href="/docs/noyce-folder"><small>Next</small><span>The .noyce folder</span></a>
     </nav>
   </main>
-  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#ai-orchestrator">AI Orchestrator</a></li><li><a class="l3" href="#the-15-agents">The 15 agents</a></li><li><a class="l2" href="#agents-chat">Agents chat</a></li><li><a class="l2" href="#in-the-editor">In the editor</a></li><li><a class="l2" href="#context-you-give-the-agents">Context you give the agents</a></li><li><a class="l2" href="#firmware-validation-loop">Firmware Validation Loop</a></li><li><a class="l2" href="#source-control-and-terminal">Source control and terminal</a></li></ul></nav>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#ai-orchestrator">AI Orchestrator</a></li><li><a class="l3" href="#the-15-agents">The 15 agents</a></li><li><a class="l2" href="#agents-chat">Agents chat</a></li><li><a class="l2" href="#in-the-editor">In the editor</a></li><li><a class="l3" href="#inline-edit">Inline edit</a></li><li><a class="l3" href="#completions-and-next-edit">Completions and next edit</a></li><li><a class="l3" href="#other-editor-actions">Other editor actions</a></li><li><a class="l2" href="#context-you-give-the-agents">Context you give the agents</a></li><li><a class="l3" href="#change-an-agent-s-instructions">Change an agent's instructions</a></li><li><a class="l2" href="#firmware-validation-loop">Firmware Validation Loop</a></li><li><a class="l2" href="#fix-build-errors">Fix build errors</a></li><li><a class="l2" href="#source-control-and-terminal">Source control and terminal</a></li><li><a class="l2" href="#agent-settings">Agent settings</a></li></ul></nav>
 </div>
 <footer class="foot"><div class="foot-in">
   <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>

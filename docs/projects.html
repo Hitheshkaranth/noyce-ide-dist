@@ -102,9 +102,65 @@
 <h2 id="where-things-are">Where things are<a class="anchor" href="#where-things-are" aria-label="Link to this section">#</a></h2>
 <p>Noyce IDE keeps the Code-OSS layout you may know from Visual Studio Code, and adds:</p>
 <ul>
-<li><strong>Activity bar icons</strong> for Noyce IDE (tools and lifecycle), Compliance, Hardware, Noyce AI, Project Graph and Architecture. Each opens a launcher tree in the sidebar.</li>
+<li><strong>Activity bar icons</strong> for Noyce IDE, Compliance, Hardware, Noyce AI, Project Graph and Architecture. Each opens views in the sidebar:</li>
+</ul>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Icon</th>
+<th>View</th>
+<th>Shows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Noyce IDE</td>
+<td><strong>Noyce Tools</strong></td>
+<td>Every tool, grouped into Development, Hardware, Test &amp; Telemetry, and Safety &amp; Collaboration. Select one to open it.</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Build Status</strong></td>
+<td>The 10 most recent builds of the project, TI CCS or STM32CubeIDE, newest first, with the result, the kind, the duration and the time. Hover one for the toolchain and exit code; select it to open the Build view. See <a href="/docs/build-test#where-the-output-goes">Where the output goes</a>.</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Project Lifecycle</strong></td>
+<td>Project Templates, Build Pipeline, Team Activity, Review Workflow and Audit Log.</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>STM32 Debug State</strong></td>
+<td>The attached probe, core registers and your memory watches. See <a href="/docs/hardware#stm32-debug-state">Hardware</a>.</td>
+</tr>
+<tr>
+<td>Compliance</td>
+<td><strong>Compliance</strong></td>
+<td>Every compliance surface, from the Dashboard to Scan Workspace.</td>
+</tr>
+<tr>
+<td>Hardware</td>
+<td><strong>Hardware</strong></td>
+<td>Every hardware surface.</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Serial Ports</strong></td>
+<td>The serial ports on this machine, checked every 10 seconds. Select one to open it in the Serial Monitor.</td>
+</tr>
+<tr>
+<td>Noyce AI</td>
+<td><strong>Noyce AI</strong></td>
+<td>AI Orchestrator, Run Agent Pipeline, Agents Chat and AI Models.</td>
+</tr>
+<tr>
+<td>Project Graph, Architecture</td>
+<td></td>
+<td>Selecting the icon opens the Project Graph or System Architecture in the editor.</td>
+</tr>
+</tbody></table></div>
+<ul>
 <li><strong>Agents</strong> in the secondary sidebar: the agents chat and its history.</li>
-<li><strong>Status bar items:</strong> the <strong>Classified</strong> mode toggle, the CodeGraph symbol count, the Noyce IDE service status (<strong>Noyce: ok</strong>), and the AI activity with its live token rate.</li>
+<li><strong>Status bar items:</strong> the <strong>Classified</strong> mode toggle, the CodeGraph symbol count, the Noyce IDE service status (<strong>Noyce: ok</strong>), the number of serial ports (<strong>No Ports</strong> when there are none; select it to open the Serial Monitor), and the AI activity with its live token rate.</li>
 </ul>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance-launcher.webp" alt="The Compliance launcher in the sidebar listing every compliance surface" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Compliance launcher lists every compliance surface with a one-line description.</figcaption></figure>
 <p>Every surface can also be opened from the Command Palette. See <a href="/docs/commands">Commands &amp; shortcuts</a>.</p>

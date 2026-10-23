@@ -89,8 +89,9 @@
 <h2 id="register-inspector-svd">Register Inspector (SVD)<a class="anchor" href="#register-inspector-svd" aria-label="Link to this section">#</a></h2>
 <p>A CMSIS-SVD browser and decoder: look up any register&#39;s fields, or paste a value and see each field decoded. Open it with <strong>Noyce Hardware: Open Register Inspector</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/register-inspector.webp" alt="Register Inspector with the built-in sample device loaded" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Register Inspector before an SVD is loaded: it shows a small built-in sample device until you load your part&amp;#39;s SVD.</figcaption></figure>
-<p>Select <strong>Load .svd…</strong> and pick your part&#39;s SVD file (<code>.svd</code> or <code>.xml</code>). Then search for a peripheral or register, and paste a value into <strong>Decode Register Value</strong> to see every field.</p>
-<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>The view opens on a built-in sample device even when it has detected your part. Load your own SVD before trusting the field layout.</p>
+<p><strong>Where the SVD comes from.</strong> When the project contains an SVD file, the view opens on it and says &quot;Loaded <file> from the workspace.&quot; It uses the file named in the <code>noyce.agents.svd.path</code> setting (absolute, or relative to the project folder), or else the first <code>*.svd</code> in the project outside <code>node_modules</code>, <code>.git</code>, <code>out</code>, <code>dist</code> and <code>build</code>. Files over 30 MB are not loaded. To use another file for this session, select <strong>Load .svd…</strong> and pick it (<code>.svd</code> or <code>.xml</code>).</p>
+<p>Then search for a peripheral or register, and paste a value into <strong>Decode Register Value</strong> to see every field.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>With no SVD in the project, the view opens on a small built-in sample device and says so, naming your part when it has detected it. Load your own SVD before trusting the field layout. The same SVD also powers register hovers and completions in the editor; see <a href="/docs/ai-agents#other-editor-actions">AI &amp; agents</a>.</p>
 </div></div></aside>
 <h2 id="schematic-viewer">Schematic Viewer<a class="anchor" href="#schematic-viewer" aria-label="Link to this section">#</a></h2>
 <p>Search a schematic PDF, extract a bill of materials from it, and see an inferred component graph. Open it from the <strong>Schematic + BoM</strong> tile.</p>
@@ -111,7 +112,33 @@
 <h2 id="bom-studio">BoM Studio<a class="anchor" href="#bom-studio" aria-label="Link to this section">#</a></h2>
 <p>Load a bill of materials from Excel or CSV, or take the one extracted from a schematic, and enrich each part with distributor data. Open it with <strong>Noyce Hardware: Open BoM Studio</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/bom-studio.webp" alt="BoM Studio before a BoM is loaded" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>BoM Studio: load an Excel or CSV BoM, or use the one from the Schematic Viewer.</figcaption></figure>
-<p>Distributor enrichment uses DigiKey and Mouser and needs their API keys in <strong>Settings → Noyce Parts</strong>. <strong>Export .xlsx</strong> and <strong>Export .csv</strong> write <code>bom.xlsx</code> or <code>bom.csv</code> to <code>.noyce/bom/</code> in the project.</p>
+<p>Distributor enrichment uses Mouser and DigiKey. Enter their credentials with these commands from the Command Palette. Each opens a password prompt, and what you type is stored in the system keychain (VS Code SecretStorage), not in your settings:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it asks for</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Noyce Parts: Set Mouser API Key…</strong></td>
+<td>Your Mouser Search API key</td>
+</tr>
+<tr>
+<td><strong>Noyce Parts: Set DigiKey Credentials…</strong></td>
+<td>Your DigiKey API application&#39;s OAuth client ID, then its client secret. Both are kept in the keychain.</td>
+</tr>
+<tr>
+<td><strong>Noyce Parts: Clear Distributor Credentials</strong></td>
+<td>Nothing: it removes the Mouser and DigiKey credentials from the keychain after you confirm</td>
+</tr>
+</tbody></table></div>
+<p>When no distributor is configured and a BoM is loaded, BoM Studio also shows <strong>Set Mouser API key…</strong> and <strong>Set DigiKey credentials…</strong> buttons that open the same prompts.</p>
+<p>The setting <code>noyce.parts.preferredDistributor</code> is <code>mouser</code> (default) or <code>digikey</code>: which one is asked first. The other is asked when the first has no answer. If only one is configured, it is used whatever this says.</p>
+<p>Each enriched row shows which distributor answered. The credentials never leave the extension host: they are not logged and are never passed to the BoM Studio page itself.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>Earlier versions kept these credentials in the plain settings <code>noyce.parts.mouser.apiKey</code>, <code>noyce.parts.digikey.clientId</code> and <code>noyce.parts.digikey.clientSecret</code>. On the first start after updating, Noyce IDE moves any of them it finds (in User, Workspace or folder settings) into the keychain, removes them from every settings file they were in, and tells you once. A credential already in the keychain is kept. A value committed to a repository&#39;s <code>.vscode/settings.json</code> before the move is still in that repository&#39;s history, so rotate it.</p>
+</div></div></aside>
+<p><strong>Export .xlsx</strong> and <strong>Export .csv</strong> write <code>bom.xlsx</code> or <code>bom.csv</code> to <code>.noyce/bom/</code> in the project.</p>
 <h2 id="fault-analyzer">Fault Analyzer<a class="anchor" href="#fault-analyzer" aria-label="Link to this section">#</a></h2>
 <p>Decode an ARM Cortex-M HardFault from its fault registers. Open it from the <strong>HardFault Analyzer</strong> tile.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/fault.webp" alt="Fault Analyzer decoding the built-in example dump as a precise BusFault" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Fault Analyzer on its built-in example dump, marked as an example: a precise BusFault, with the stacked exception frame, the fault status bits and recommendations.</figcaption></figure>
@@ -132,6 +159,14 @@
 <li><strong>Debug Probe</strong> lists connected probes, finds your chip in the probe-rs registry, attaches, and gives you halt, run, step, reset and reset-and-halt. It can also flash an image and verify it.</li>
 <li><strong>Memory View</strong> reads live target memory once a probe is attached.</li>
 </ul>
+<h3 id="stm32-debug-state">STM32 Debug State<a class="anchor" href="#stm32-debug-state" aria-label="Link to this section">#</a></h3>
+<p>The <strong>STM32 Debug State</strong> view in the Noyce IDE sidebar shows, for the attached target:</p>
+<ul>
+<li><strong>Probe Status:</strong> each probe on the USB bus, and whether a target is attached. When none is, select <strong>Attach Debug Probe</strong>.</li>
+<li><strong>Core Registers:</strong> the core registers, with values that changed since the last read marked.</li>
+<li><strong>Memory Watches:</strong> addresses you want to keep an eye on. Select <strong>+</strong> (<strong>Add Memory Watch</strong>), then enter either a hex address such as <code>0x20000000</code> or a symbol name such as <code>adc_samples</code>, then a label and a size in bytes. A symbol name is looked up in the project&#39;s GNU ld <code>.map</code> file, the newest one in the workspace, so build the project first. The size defaults to the symbol&#39;s size when the map gives it, and to 4 bytes when it does not; change it if the variable is larger. If the name is not in the map, the view says so and asks again. Each watch shows the bytes at that address in hex, with the symbol name in its label. Bytes that changed since the last read are marked. Watches are kept with the workspace; remove one with its <strong>×</strong> button.</li>
+</ul>
+<p>The view reads through probe-rs. While it is visible and a target is attached, it re-reads the core registers and memory watches every second. Set <code>noyce.stm32.debug.refreshIntervalMs</code> to change the interval (250 ms minimum), or to <code>0</code> to turn auto-refresh off. It also updates when you select <strong>Refresh</strong>, add or remove a watch, or attach or detach. A symbol is resolved to its address when you add the watch: after a rebuild that moves it, add the watch again. Watches read memory, not expressions.</p>
 <h2 id="modbus-monitor">Modbus Monitor<a class="anchor" href="#modbus-monitor" aria-label="Link to this section">#</a></h2>
 <p>A Modbus master over a serial port: choose the port, baud rate and slave ID, and read holding registers. Open it with <strong>Noyce Hardware: Open Modbus Monitor</strong>.</p>
 <aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>The register table starts as an example register map and is labelled so. Replace the addresses and names with your device&#39;s register map. The serial connection is real.</p>
@@ -149,7 +184,7 @@
       <a class="next" href="/docs/architecture-search"><small>Next</small><span>Architecture &amp; search</span></a>
     </nav>
   </main>
-  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#register-knowledge">Register Knowledge</a></li><li><a class="l2" href="#firmware-memory-stack">Firmware Memory &amp; Stack</a></li><li><a class="l2" href="#pin-configurator">Pin Configurator</a></li><li><a class="l2" href="#peripheral-registers">Peripheral Registers</a></li><li><a class="l2" href="#register-inspector-svd">Register Inspector (SVD)</a></li><li><a class="l2" href="#schematic-viewer">Schematic Viewer</a></li><li><a class="l2" href="#bom-studio">BoM Studio</a></li><li><a class="l2" href="#fault-analyzer">Fault Analyzer</a></li><li><a class="l2" href="#serial-monitor">Serial Monitor</a></li><li><a class="l2" href="#debug-probe-and-memory-view">Debug Probe and Memory View</a></li><li><a class="l2" href="#modbus-monitor">Modbus Monitor</a></li><li><a class="l2" href="#simulated-surfaces">Simulated surfaces</a></li><li><a class="l2" href="#fpga-workspace">FPGA Workspace</a></li></ul></nav>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#register-knowledge">Register Knowledge</a></li><li><a class="l2" href="#firmware-memory-stack">Firmware Memory &amp; Stack</a></li><li><a class="l2" href="#pin-configurator">Pin Configurator</a></li><li><a class="l2" href="#peripheral-registers">Peripheral Registers</a></li><li><a class="l2" href="#register-inspector-svd">Register Inspector (SVD)</a></li><li><a class="l2" href="#schematic-viewer">Schematic Viewer</a></li><li><a class="l2" href="#bom-studio">BoM Studio</a></li><li><a class="l2" href="#fault-analyzer">Fault Analyzer</a></li><li><a class="l2" href="#serial-monitor">Serial Monitor</a></li><li><a class="l2" href="#debug-probe-and-memory-view">Debug Probe and Memory View</a></li><li><a class="l3" href="#stm32-debug-state">STM32 Debug State</a></li><li><a class="l2" href="#modbus-monitor">Modbus Monitor</a></li><li><a class="l2" href="#simulated-surfaces">Simulated surfaces</a></li><li><a class="l2" href="#fpga-workspace">FPGA Workspace</a></li></ul></nav>
 </div>
 <footer class="foot"><div class="foot-in">
   <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>

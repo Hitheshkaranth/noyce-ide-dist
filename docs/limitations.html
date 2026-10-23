@@ -71,13 +71,13 @@
 <li><strong>Builds cover TI Code Composer Studio and STM32CubeIDE projects.</strong> <kbd>⇧</kbd><kbd>⌘</kbd><kbd>B</kbd>, the status bar items and the Noyce build tasks appear only when the folder has a CCS <code>.cproject</code>.</li>
 <li><strong>A TI build links only with <code>armcl</code></strong> and a linker command file whose libraries all resolve; otherwise it compiles only, and there is no <code>.map</code> for Firmware Memory.</li>
 <li><strong>Team Activity is always empty</strong> and <strong>Review Workflow cannot sync</strong>: no collaboration backend is connected.</li>
-<li><strong>The Pipeline Status tree</strong> in the sidebar always reads idle; no CI system is connected.</li>
+<li><strong>Build Status and the Build view&#39;s History tab differ.</strong> Build Status lists your last 10 builds, TI CCS and STM32. The Build view&#39;s History tab still shows only the latest CCS build of each configuration. No CI system is connected.</li>
 </ul>
 <h2 id="hardware">Hardware<a class="anchor" href="#hardware" aria-label="Link to this section">#</a></h2>
 <ul>
 <li><strong>Simulated data.</strong> Signal Viewer, Live Data Dashboard, HIL Test Runner, Energy Profiler and Data Recorder show generated data under a &quot;simulated&quot; banner. Do not use their numbers as measurements.</li>
 <li><strong>Fault Analyzer opens on a built-in example dump</strong>, marked as an example, until you paste your own. It does not read faults from a live target.</li>
-<li><strong>Register Inspector opens on a sample device</strong> until you load your own <code>.svd</code> file. When it has detected your part it says the sample is not that part.</li>
+<li><strong>Register Inspector opens on a sample device</strong> when the project has no <code>.svd</code> file and you have not loaded one. When it has detected your part it says the sample is not that part.</li>
 <li><strong>Modbus Monitor starts with an example register map</strong>, labelled as one. The serial connection is real.</li>
 <li><strong>Firmware Memory cannot establish worst-case stack depth for TI builds.</strong> TI&#39;s compiler does not write <code>-fstack-usage</code> records, so the view shows the configured stack size instead.</li>
 <li><strong>Peripheral Registers is derived from the pin configuration</strong>, not read from the target.</li>
@@ -111,6 +111,13 @@
 <li><strong>BoM Studio</strong> and <strong>Data Recorder</strong> exports do not download inside the IDE window.</li>
 <li><strong>FPGA Workspace</strong>: <strong>Run synthesis</strong> reports &quot;Synthesis complete&quot; without running anything, over a fixed example report with no banner.</li>
 <li><strong>Load demo project</strong> on the start tab opens an error.</li>
+<li><strong>Register Inspector</strong> never opens the project&#39;s own SVD file; load it with <strong>Load .svd…</strong> every time.</li>
+<li><strong>Pipeline Status</strong> in the sidebar is empty, or reads &quot;Pipeline idle&quot;. It does not list your builds.</li>
+<li>The sidebar view listing serial ports is called <strong>Workspace Signals</strong>, and the status bar reads <strong>No Probe</strong> when there are no serial ports; it has nothing to do with debug probes.</li>
+<li>Some agent commands appear in the Command Palette as &quot;Noyce Agents: Noyce: …&quot;.</li>
+<li><strong>Mouser and DigiKey credentials</strong> are plain settings, not stored in the keychain.</li>
+<li><strong>Custom agent prompts</strong> live in <code>.noyce-agents/prompts/</code>. The current release reads them from there too, and offers to move them to <code>.noyce/agents/prompts/</code>.</li>
+<li><strong>STM32 Debug State</strong> memory watches update only when you select <strong>Refresh</strong>, and take hex addresses only.</li>
 </ul>
 
     </article>
