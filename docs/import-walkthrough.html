@@ -58,7 +58,7 @@
 <li>a TI Tiva TM4C1294 project from Code Composer Studio;</li>
 <li>an STM32G431 project from STM32CubeIDE.</li>
 </ul>
-<p>The two take different routes after the import. Here, the TI project built and linked. The STM32 project was blocked by the toolchain, and the IDE said exactly why. Both outcomes are shown.</p>
+<p>Both end in a passing, linked build. The STM32 project first needed two things fixed, and both were reported by the IDE: a compiler without its C library, and makefiles generated on another computer. Both problems and their fixes are shown.</p>
 <h2 id="before-you-begin">Before you begin<a class="anchor" href="#before-you-begin" aria-label="Link to this section">#</a></h2>
 <div class="table"><table>
 <thead>
@@ -77,7 +77,7 @@
 </tr>
 <tr>
 <td>Building an STM32 project</td>
-<td><code>make</code> and a complete Arm GNU Toolchain, that is <code>arm-none-eabi-gcc</code> with its C library (newlib). STM32CubeIDE&#39;s bundled toolchain or the Arm GNU Toolchain both work.</td>
+<td><code>make</code> and a complete Arm GNU Toolchain, that is <code>arm-none-eabi-gcc</code> with its C library (newlib). STM32CubeIDE&#39;s bundled toolchain or the <a href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads" rel="noopener" target="_blank">Arm GNU Toolchain</a> both work. Prefer the GCC version the project declares (see step 4).</td>
 </tr>
 <tr>
 <td>Flashing and debugging an STM32</td>
@@ -153,13 +153,19 @@
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-pins.webp" alt="The Pin Configurator opened from the project&amp;#39;s .ioc" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The STM32G431VBTx in LQFP100, opened from the .ioc: ADC1, DMA, GPIO, RCC, TIM3/4/6 and USART1–3 enabled.</figcaption></figure>
 <h3 id="2-check-the-toolchain">2. Check the toolchain<a class="anchor" href="#2-check-the-toolchain" aria-label="Link to this section">#</a></h3>
 <p>Run <strong>Noyce STM32: Validate Toolchain</strong>. The <strong>Noyce STM32</strong> output lists each tool, then whether you can build, flash and debug, and why not.</p>
-<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-validate.webp" alt="Validate Toolchain reporting the build, flash and debug as blocked, with the reason for each" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>On this Mac the build is blocked because Homebrew&amp;#39;s arm-none-eabi-gcc has no C library, and flash and debug are blocked because no flash tool, GDB or GDB server is installed.</figcaption></figure>
-<p>On the computer used here, all three were blocked:</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-validate.webp" alt="Validate Toolchain reporting the build, flash and debug as blocked, with the reason for each" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>First run: the build is blocked because Homebrew&amp;#39;s arm-none-eabi-gcc has no C library, and flash and debug are blocked because no flash tool, GDB or GDB server is installed.</figcaption></figure>
+<p>On the first run here, all three were blocked:</p>
 <ul>
-<li><strong>Build:</strong> Homebrew&#39;s <code>arm-none-eabi-gcc</code> formula has no C library (<code>nano.specs</code> and <code>libc.a</code> are missing). Fix it by installing the Arm GNU Toolchain (<code>brew install --cask gcc-arm-embedded</code>) or STM32CubeIDE, then putting it first on your <code>PATH</code> or setting <code>noyce.stm32.armToolchainPath</code>.</li>
+<li><strong>Build:</strong> the <code>arm-none-eabi-gcc</code> on <code>PATH</code> was Homebrew&#39;s formula, which has no C library (<code>nano.specs</code> and <code>libc.a</code> are missing).</li>
 <li><strong>Flash:</strong> no STM32CubeProgrammer, OpenOCD or st-util, so no flash task is generated.</li>
 <li><strong>Debug:</strong> no <code>arm-none-eabi-gdb</code> and no GDB server.</li>
 </ul>
+<p><strong>The fix for the build</strong> is a complete toolchain, and a setting that points at it:</p>
+<ol class="steps">
+<li>Install the Arm GNU Toolchain, or use the one inside STM32CubeIDE. Arm&#39;s macOS <code>.tar.xz</code> downloads unpack anywhere with no installer, for example into <code>~/tools/</code>.</li>
+<li>Set <strong><code>noyce.stm32.armToolchainPath</code></strong> to its <code>bin</code> folder, for example <code>~/tools/arm-gnu-toolchain-12.3.rel1-darwin-arm64-arm-none-eabi/bin</code>.</li>
+</ol>
+<p>A toolchain in that folder wins over any copy on <code>PATH</code>, including a broken one. The setting is used by Validate Toolchain, the generated tasks (which put the folder first on their <code>PATH</code>), the debug launch, and the Build view. Run Validate Toolchain again: it lists <code>arm-none-eabi-gcc</code> and <code>arm-none-eabi-gdb</code> from the folder, and the newlib block is gone.</p>
 <h3 id="3-set-up-the-workspace">3. Set up the workspace<a class="anchor" href="#3-set-up-the-workspace" aria-label="Link to this section">#</a></h3>
 <p>Run <strong>Noyce STM32: Regenerate Workspace Files</strong>. It writes <code>.vscode/tasks.json</code>, <code>launch.json</code>, <code>settings.json</code>, <code>extensions.json</code> and <code>compile_commands.json</code> for the open folder:</p>
 <ul>
@@ -175,11 +181,23 @@
 <p><strong>From the Build view.</strong> The view checks the makefiles before running them. Because they name paths that do not exist on this computer, <strong>Build</strong> is disabled and <strong>Build blocked</strong> names one such path. It gives two ways out:</p>
 <ul>
 <li><strong>Regenerate the makefiles:</strong> run the <strong>STM32 CubeIDE Headless Build</strong> task (it needs STM32CubeIDE installed), or build once in STM32CubeIDE on this computer.</li>
-<li><strong>Build with a generated makefile:</strong> Noyce IDE writes its own makefile from the <code>.cproject</code> and <code>.ioc</code>, under <code>.noyce/build/stm32-&lt;configuration&gt;/portable-build/</code>, and builds with <code>arm-none-eabi-gcc</code> and <code>make</code>. This is not the CubeIDE build, so check its output against a CubeIDE build before you rely on it.</li>
+<li><strong>Build with a generated makefile:</strong> Noyce IDE writes its own makefile from the <code>.cproject</code> and <code>.ioc</code>, under <code>.noyce/build/stm32-&lt;configuration&gt;/portable-build/</code>. It then builds with <code>make</code> and the <code>arm-none-eabi-gcc</code> from <code>noyce.stm32.armToolchainPath</code>, or from <code>PATH</code> when the setting is empty. This is not the CubeIDE build, so check its output against a CubeIDE build before you rely on it.</li>
 </ul>
-<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-build.webp" alt="The Build view with the CubeIDE build blocked and a failed generated-makefile build" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Build blocked names the Windows path in the CubeIDE makefiles. The generated-makefile build ran, then failed before compiling anything, because the compiler has no C library.</figcaption></figure>
-<p>Here, the generated-makefile build failed in 0.2 s, because this compiler has no newlib. The <strong>Output</strong> tab begins with a one-line hint saying so. <strong>Errors</strong> reads 0 with <strong>Failed before any located error; see Output</strong>: the compiler stopped before it reported any error against a file and line. With a complete toolchain, the same button compiles the project, and the link map feeds Firmware Memory as in the TI walkthrough.</p>
-<h3 id="5-find-the-builds-again">5. Find the builds again<a class="anchor" href="#5-find-the-builds-again" aria-label="Link to this section">#</a></h3>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-build.webp" alt="The Build view after a passing generated-makefile build: 0 errors, 10 warnings, FLASH 42.6 KB and SRAM 3.3 KB" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The CubeIDE makefiles stay blocked, but the generated-makefile build passed with Arm GNU Toolchain 12.3. Image size is read from its link map.</figcaption></figure>
+<p>Here, the generated-makefile build passed in 3.3 s with 10 warnings, and linked the <code>.elf</code>, <code>.hex</code>, <code>.bin</code> and <code>.map</code>. <strong>Image size</strong> is read from the new map. The <strong>Toolchain</strong> tab and the build record name the compiler and its measured version.</p>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><strong>Use the compiler version the project was built with.</strong> This project declares GNU Tools for STM32 12.3. With Arm GNU Toolchain 15.2, the same build stopped with one error, in a call to <code>HAL_CRC_Calculate</code> that passes a <code>uint8_t *</code> where the HAL declares <code>uint32_t *</code>. Since GCC 14, an incompatible pointer type is an error by default instead of a warning. The fault is in the source, but switching compilers mid-project changes what builds. Use the declared version, and fix such warnings deliberately.</p>
+</div></div></aside>
+<p>Along the way, a build that fails before the compiler reports any error against a file and line (for example, a compiler without newlib) shows <strong>Errors 0</strong> with <strong>Failed before any located error; see Output</strong>. The <strong>Output</strong> tab starts with a one-line hint when the cause is a missing C library.</p>
+<h3 id="5-see-where-the-memory-and-stack-go">5. See where the memory and stack go<a class="anchor" href="#5-see-where-the-memory-and-stack-go" aria-label="Link to this section">#</a></h3>
+<p>Select <strong>Open Firmware Memory</strong>. It opens on the map the build just wrote under <code>.noyce/build/</code>. An older map in the project&#39;s own <code>Debug/</code> folder stays in the picker, but is not chosen first.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-memory.webp" alt="Firmware Memory for the STM32 build: FLASH 33.3 %, RAM 10.3 %, and stack checks with a worst case of 288 B" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The generated build compiles with -fstack-usage, so Firmware Memory adds stack checks: worst-case depth along the deepest call path from main, against the linker&amp;#39;s heap/stack reservation.</figcaption></figure>
+<p>Because the generated makefile compiles with <code>-fstack-usage</code>, this view adds what the TI build could not:</p>
+<ul>
+<li><strong>Stack checks:</strong> the worst-case stack depth (288 B here), along the deepest path from <code>main</code>;</li>
+<li>whether that depth fits the linker&#39;s 1 KB reservation, and the space below it.</li>
+</ul>
+<p>The figures cover the functions with stack data (82.7 % here). The view states what each check does and does not establish.</p>
+<h3 id="6-find-the-builds-again">6. Find the builds again<a class="anchor" href="#6-find-the-builds-again" aria-label="Link to this section">#</a></h3>
 <p>Every recorded build is listed in <strong>Build Status</strong> in the Noyce IDE sidebar, newest first. Hover a build to see what ran (<strong>CubeIDE makefile</strong>, <strong>Generated makefile</strong> or <strong>CubeIDE headless</strong>) and its toolchain. Select it to open the Build view.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-build-status.webp" alt="Build Status listing both STM32 builds, with the generated tasks.json and the failed ⇧⌘B task" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Build Status lists the ⇧⌘B build and the generated-makefile build. Beside it, the generated tasks.json and the terminal where make stopped on a C: path.</figcaption></figure>
 <h2 id="what-next">What next<a class="anchor" href="#what-next" aria-label="Link to this section">#</a></h2>
@@ -195,7 +213,7 @@
       <a class="next" href="/docs/do178c-walkthrough"><small>Next</small><span>DO-178C walkthrough</span></a>
     </nav>
   </main>
-  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#before-you-begin">Before you begin</a></li><li><a class="l2" href="#the-import-wizard">The import wizard</a></li><li><a class="l2" href="#walkthrough-a-tivaware-project-from-code-composer-studio">Walkthrough: a TivaWare project from Code Composer Studio</a></li><li><a class="l3" href="#1-import-it">1. Import it</a></li><li><a class="l3" href="#2-build">2. Build</a></li><li><a class="l3" href="#3-read-the-result-in-the-build-view">3. Read the result in the Build view</a></li><li><a class="l3" href="#4-see-where-the-memory-goes">4. See where the memory goes</a></li><li><a class="l3" href="#5-rebuild-the-pin-map-from-the-source">5. Rebuild the pin map from the source</a></li><li><a class="l2" href="#walkthrough-an-stm32cubeide-project">Walkthrough: an STM32CubeIDE project</a></li><li><a class="l3" href="#1-import-it-1">1. Import it</a></li><li><a class="l3" href="#2-check-the-toolchain">2. Check the toolchain</a></li><li><a class="l3" href="#3-set-up-the-workspace">3. Set up the workspace</a></li><li><a class="l3" href="#4-build">4. Build</a></li><li><a class="l3" href="#5-find-the-builds-again">5. Find the builds again</a></li><li><a class="l2" href="#what-next">What next</a></li></ul></nav>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#before-you-begin">Before you begin</a></li><li><a class="l2" href="#the-import-wizard">The import wizard</a></li><li><a class="l2" href="#walkthrough-a-tivaware-project-from-code-composer-studio">Walkthrough: a TivaWare project from Code Composer Studio</a></li><li><a class="l3" href="#1-import-it">1. Import it</a></li><li><a class="l3" href="#2-build">2. Build</a></li><li><a class="l3" href="#3-read-the-result-in-the-build-view">3. Read the result in the Build view</a></li><li><a class="l3" href="#4-see-where-the-memory-goes">4. See where the memory goes</a></li><li><a class="l3" href="#5-rebuild-the-pin-map-from-the-source">5. Rebuild the pin map from the source</a></li><li><a class="l2" href="#walkthrough-an-stm32cubeide-project">Walkthrough: an STM32CubeIDE project</a></li><li><a class="l3" href="#1-import-it-1">1. Import it</a></li><li><a class="l3" href="#2-check-the-toolchain">2. Check the toolchain</a></li><li><a class="l3" href="#3-set-up-the-workspace">3. Set up the workspace</a></li><li><a class="l3" href="#4-build">4. Build</a></li><li><a class="l3" href="#5-see-where-the-memory-and-stack-go">5. See where the memory and stack go</a></li><li><a class="l3" href="#6-find-the-builds-again">6. Find the builds again</a></li><li><a class="l2" href="#what-next">What next</a></li></ul></nav>
 </div>
 <footer class="foot"><div class="foot-in">
   <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
