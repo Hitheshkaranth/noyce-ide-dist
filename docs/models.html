@@ -116,6 +116,44 @@
 </tr>
 </tbody></table></div>
 <p>A fresh install starts on <strong>LM Studio</strong> at <code>http://localhost:1234</code> with the model set to <strong>auto</strong>, which uses whatever model the server has loaded.</p>
+<h2 id="tested-models">Tested models<a class="anchor" href="#tested-models" aria-label="Link to this section">#</a></h2>
+<p>Noyce IDE has been run end to end on real TI and ST firmware with these models. Any OpenAI-compatible server works; these are the ones it was tested on.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Served by</th>
+<th>What was run on it</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemma 4 26B A4B</td>
+<td>LM Studio, on a 24 GB Mac</td>
+<td>All five pipeline agents and the native AI audit.</td>
+</tr>
+<tr>
+<td>Qwen 3.6 35B A3B (NVFP4)</td>
+<td>vLLM on a DGX Spark</td>
+<td>An IV&amp;V sweep of office firmware, and development swarms.</td>
+</tr>
+<tr>
+<td>Qwen 3.8 27B</td>
+<td>vLLM on a DGX Spark</td>
+<td>The PSAC and black-box low-level requirements of a TI Tiva controller.</td>
+</tr>
+<tr>
+<td>Qwen 3.8 Flash Next</td>
+<td>vLLM, over Tailscale</td>
+<td>Three DO-178C DAL A runs on a TI Tiva controller; all 75 issues they logged are fixed.</td>
+</tr>
+<tr>
+<td>Ornith 1.5 35B A3B</td>
+<td>vLLM with an API key, 262K context</td>
+<td>All 17 DO-178C documents on the Canister firmware, and the Archify diagram in this manual.</td>
+</tr>
+</tbody></table></div>
+<aside class="callout tip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><div><p class="callout-t">Tip</p><div class="callout-b"><p>Reasoning models such as Gemma 4 and Qwen 3.8 can spend their whole token budget thinking. If a model returns empty answers, see <a href="/docs/troubleshooting#a-local-model-returns-empty-or-cut-off-answers">A local model returns empty or cut-off answers</a>.</p>
+</div></div></aside>
 <h2 id="use-a-local-server-lm-studio-vllm">Use a local server (LM Studio, vLLM)<a class="anchor" href="#use-a-local-server-lm-studio-vllm" aria-label="Link to this section">#</a></h2>
 <ol class="steps">
 <li>Start the server and load a model. For LM Studio, enable its local server.</li>
@@ -150,7 +188,7 @@
       <a class="next" href="/docs/import-walkthrough"><small>Next</small><span>Import and build</span></a>
     </nav>
   </main>
-  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#how-model-requests-are-routed">How model requests are routed</a></li><li><a class="l2" href="#supported-providers">Supported providers</a></li><li><a class="l2" href="#use-a-local-server-lm-studio-vllm">Use a local server (LM Studio, vLLM)</a></li><li><a class="l2" href="#use-a-cloud-provider">Use a cloud provider</a></li><li><a class="l2" href="#embeddings-for-semantic-search">Embeddings for Semantic Search</a></li><li><a class="l2" href="#concurrency-and-per-agent-models">Concurrency and per-agent models</a></li></ul></nav>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#how-model-requests-are-routed">How model requests are routed</a></li><li><a class="l2" href="#supported-providers">Supported providers</a></li><li><a class="l2" href="#tested-models">Tested models</a></li><li><a class="l2" href="#use-a-local-server-lm-studio-vllm">Use a local server (LM Studio, vLLM)</a></li><li><a class="l2" href="#use-a-cloud-provider">Use a cloud provider</a></li><li><a class="l2" href="#embeddings-for-semantic-search">Embeddings for Semantic Search</a></li><li><a class="l2" href="#concurrency-and-per-agent-models">Concurrency and per-agent models</a></li></ul></nav>
 </div>
 <footer class="foot"><div class="foot-in">
   <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>

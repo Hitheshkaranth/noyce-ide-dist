@@ -86,6 +86,16 @@
     /* Layout */
     .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
+    /* Models the IDE has been run on */
+    .tm { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+    .tm-card { display: flex; flex-direction: column; gap: 10px; padding: 18px; border: 1px solid var(--border); border-radius: var(--r-panel); background: var(--surface); }
+    .tm-logo { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; background: var(--surface-raised); border: 1px solid var(--border-subtle); }
+    .tm-logo img { width: 24px; height: 24px; }
+    .tm-mono { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; background: var(--grad-ink); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .tm-name { font-family: var(--font-display); font-weight: 600; font-size: 1rem; color: var(--fg); line-height: 1.25; }
+    .tm-serve { font-family: var(--font-mono); font-size: .72rem; color: var(--text-3); }
+    .tm-ran { margin: 0; font-size: .8125rem; line-height: 1.45; color: var(--text-2); }
+
     /* Product showcase under the hero: a tabbed frame onto real IDE screens */
     .sc { position: relative; margin-top: 8px; }
     .sc-note { position: absolute; right: 28px; top: -30px; display: flex; align-items: flex-end; gap: 6px; font-family: var(--font-mono); font-size: .75rem; color: var(--text-3); pointer-events: none; }
@@ -1320,10 +1330,33 @@
                 </Reveal>
               ))}
             </div>
+            <Reveal className="mt-10">
+              <div className="flex flex-wrap items-baseline justify-between gap-2 mb-4">
+                <h3 className="h3">Tested on these models</h3>
+                <span className="muted text-[13px]">Run end to end on real TI and ST firmware</span>
+              </div>
+              <div className="tm">
+                {TESTED_MODELS.map((m) => (
+                  <div key={m.name} className="tm-card">
+                    <div className="tm-logo">{m.logo ? <img src={m.logo} alt="" /> : <span className="tm-mono" aria-hidden="true">{m.mono}</span>}</div>
+                    <div><div className="tm-name">{m.name}</div><div className="tm-serve">{m.serve}</div></div>
+                    <p className="tm-ran">{m.ran}</p>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
           </div>
         </section>
       );
     };
+
+    const TESTED_MODELS = [
+      { name: 'Gemma 4 26B A4B', logo: 'icons_resources/models/gemma.svg', serve: 'LM Studio · on a Mac', ran: 'All five pipeline agents and the native AI audit, on a 24 GB laptop.' },
+      { name: 'Qwen 3.6 35B A3B', logo: 'icons_resources/models/qwen.svg', serve: 'vLLM · NVFP4 · DGX Spark', ran: 'An IV&V sweep of the office firmware, and the development swarms.' },
+      { name: 'Qwen 3.8 27B', logo: 'icons_resources/models/qwen.svg', serve: 'vLLM · DGX Spark', ran: 'The PSAC and black-box low-level requirements of a TI Tiva controller.' },
+      { name: 'Qwen 3.8 Flash Next', logo: 'icons_resources/models/qwen.svg', serve: 'vLLM · over Tailscale', ran: 'Three DO-178C DAL A runs on a TI Tiva controller; all 75 issues they logged are fixed.' },
+      { name: 'Ornith 1.5 35B A3B', mono: 'O', serve: 'vLLM · API key · 262K context', ran: 'All 17 DO-178C documents on the Canister firmware, and the diagrams in the manual.' },
+    ];
 
     /* ---------- Silicon x Software ---------- */
     const SplitScene = ({ src, title, flip, children }) => (
