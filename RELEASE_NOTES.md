@@ -1,3 +1,45 @@
+# Noyce IDE v2.0.8 Release
+
+## Import and build real projects
+Importing real TI and ST projects end to end found these, all fixed:
+- **The import wizard works.** Every import used to fail with "Invalid project import."; the hand-off to the host lost the project type. An import now survives the window reload, reports **Project Imported** and fetches the part's reference manual (a server that does not answer is abandoned after 30 s).
+- **Native build tasks for TI CCS.** ⇧⌘B builds the selected configuration, the status bar shows the configuration and the last result, and diagnostics land in Problems. Output goes to `.noyce/build/`, never into the project's `Debug/`.
+- **A Build view** with errors, warnings, duration and FLASH/SRAM from the map, plus Diagnostics, Output, Toolchain, Artifacts and History tabs. **Build Status** in the sidebar lists the last 10 builds, TI and STM32.
+- **STM32 builds.** Validate Toolchain says whether you can build, flash and debug, and why not, including a compiler with no C library. Makefiles that CubeIDE generated on another machine are detected; **Build with a generated makefile** builds from the `.cproject`/`.ioc` instead. ⇧⌘B STM32 task builds are recorded.
+- **`noyce.stm32.armToolchainPath` wins over PATH**, so a broken compiler on PATH can be steered around. Builds record the compiler's measured version.
+- **Firmware Memory** reads TI `armcl` linker maps, finds the IDE's own build output first, and shows stack checks for GNU builds.
+
+## DO-178C field runs
+Two more DAL A field runs (an STM32 battery charger, and a firmware audit on a local vLLM model) drove:
+- **One Review Inbox** of every human touchpoint, as Supply / Decide / Sign items, each opening the surface that closes it.
+- **System requirements recovered from the prototype**, with provenance, validated only by a person on the roster. ICD tables are read the way engineers lay them out, and code is checked against them.
+- **Model text is fact-checked** against the DO-178C outline and workspace facts: nonexistent sections, reuse denials over a linked vendor library, the wrong core.
+- **Documents regenerate in dependency order** until they converge.
+- **Change sets** commit their fix and re-run the sealed tests after they are applied; applying one updates the problem reports it cites.
+- **Coverage provenance** is checked against file bytes; stale coverage is never scored.
+- **Fix with Noyce** edits the code around the finding and shows only the change. It used to ask for the whole file, and could rewrite a file header.
+
+## A design system
+Every surface moved onto one design-system foundation that follows the active VS Code theme, with UI-literal and contrast gates in CI. There is a new start tab, and the Code-OSS Welcome page matches it.
+
+## Fixes the user manual had to document
+- The assurance level is saved and respected; views no longer assume Level A.
+- Annotation Navigator no longer labels every tag **Verified**.
+- **Classified** mode blocks cloud models, including the agents chat.
+- Cloud API keys and Mouser/DigiKey credentials are kept in the OS keychain.
+- High-Level Design draws labelled boxes with any model.
+- Test Explorer records **Run All**.
+- The Firmware Validation Loop iterates its repairs.
+- STM32 memory reads and RTT attach a probe themselves.
+- Register Inspector opens the project's own SVD.
+- FPGA Workspace and Data Recorder say when their data is an example.
+
+## Documentation
+A user manual at [noyce-ide.tech/docs](https://noyce-ide.tech/docs): 21 pages, every screenshot taken in the IDE, including a walkthrough of importing and building a TI and an STM32 project.
+
+## Security
+- dompurify override raised to ≥3.4.17. The production dependency audit reports 0 vulnerabilities.
+
 # Noyce IDE v2.0.7 Release
 
 ## Second DAL A field run: a TI Tiva controller with a local model

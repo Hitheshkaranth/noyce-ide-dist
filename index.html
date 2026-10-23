@@ -85,6 +85,30 @@
 
     /* Layout */
     .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    /* Product showcase under the hero: a tabbed frame onto real IDE screens */
+    .sc { position: relative; margin-top: 8px; }
+    .sc-note { position: absolute; right: 28px; top: -30px; display: flex; align-items: flex-end; gap: 6px; font-family: var(--font-mono); font-size: .75rem; color: var(--text-3); pointer-events: none; }
+    .sc-frame { padding: 10px; border: 1px solid var(--border); border-radius: var(--r-surface); background: var(--surface); box-shadow: var(--shadow-floating); }
+    .sc-tabs { display: flex; gap: 4px; padding: 2px 2px 10px; overflow-x: auto; scrollbar-width: none; }
+    .sc-tabs::-webkit-scrollbar { display: none; }
+    .sc-tab { flex: 1 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 42px; padding: 0 16px; border: 1px solid transparent; border-radius: var(--r-control); background: none; color: var(--text-2); font: inherit; font-size: .875rem; font-weight: 500; white-space: nowrap; cursor: pointer; transition: background-color var(--d-fast) var(--ease-std), border-color var(--d-fast) var(--ease-std), color var(--d-fast) var(--ease-std); }
+    .sc-tab:hover { color: var(--fg); background: var(--surface-raised); }
+    .sc-tab[aria-selected="true"] { color: var(--fg); background: var(--surface-hover); border-color: var(--border-strong); box-shadow: var(--shadow-resting); }
+    .sc-tab:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+    .sc-stage { position: relative; overflow: hidden; padding: clamp(14px, 3vw, 40px) clamp(14px, 3vw, 40px) 0; border-radius: var(--r-panel); background:
+        radial-gradient(120% 90% at 50% 0%, oklch(48% .09 190 / .55), transparent 70%),
+        repeating-linear-gradient(115deg, transparent 0 46px, oklch(100% 0 0 / .035) 46px 47px),
+        oklch(20% .02 200); }
+    .sc-shot { position: relative; display: block; width: 100%; aspect-ratio: 1600 / 916; border: 1px solid var(--border-strong); border-bottom: 0; border-radius: 14px 14px 0 0; overflow: hidden; box-shadow: var(--shadow-raised); background: var(--bg); }
+    .sc-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top left; opacity: 0; transition: opacity var(--d-std) var(--ease-std); }
+    .sc-shot img[data-on="true"] { opacity: 1; }
+    .sc-cta { position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 18px; border-radius: 999px; background: var(--grad-ink); color: oklch(18% 0 0); font-size: .875rem; font-weight: 600; text-decoration: none; white-space: nowrap; box-shadow: var(--shadow-floating); transition: transform var(--d-fast) var(--ease-std); }
+    .sc-cta:hover { transform: translateX(-50%) translateY(-1px); }
+    .sc-meta { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; padding: 14px 8px 4px; }
+    .sc-meta p { margin: 0; max-width: 62ch; color: var(--text-2); font-size: .9375rem; line-height: 1.5; }
+    @media (max-width: 640px) { .sc-note { display: none; } .sc-tab { height: 38px; padding: 0 12px; font-size: .8125rem; } .sc-cta { height: 36px; font-size: .8125rem; bottom: 12px; } }
+    @media (prefers-reduced-motion: reduce) { .sc-shot img, .sc-tab, .sc-cta { transition: none; } }
     @media (max-width: 640px) { .wrap { padding: 0 16px; } }
     .section { padding: clamp(72px, 9vw, 120px) 0; }
 
@@ -687,7 +711,7 @@
             </WidgetTile>
 
             <div className="hero-card tile-in" style={{ '--c': '3 / 6', '--r': '2', animationDelay: '0s' }}>
-              <a href="#release-207" className="chip mb-6 hover:text-white" style={{ height: 30, padding: '0 12px' }}><span className="ink font-semibold">New in 2.0.7</span><span>A second DO-178C run, on a local model</span><Icon name="arrowRight" size={13} /></a>
+              <a href="#release-208" className="chip mb-6 hover:text-white" style={{ height: 30, padding: '0 12px' }}><span className="ink font-semibold">New in 2.0.8</span><span>Import and build real projects</span><Icon name="arrowRight" size={13} /></a>
               <div className="flex items-center gap-4 md:gap-5">
                 <img src="icons_resources/icon_large.png" alt="" className="hero-mark" />
                 <h1 className="h1">Noyce IDE</h1>
@@ -696,7 +720,7 @@
                 The AI-native Code-OSS workbench for firmware that has to certify.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2.5 mt-8">
-                <a href="#download" className="btn btn-primary"><Icon name="download" size={15} /> Download 2.0.7</a>
+                <a href="#download" className="btn btn-primary"><Icon name="download" size={15} /> Download 2.0.8</a>
                 <a href="#how" className="btn btn-secondary">Take the tour <Icon name="arrowRight" size={15} /></a>
               </div>
             </div>
@@ -1751,6 +1775,18 @@
     /* ---------- Releases: one section, switched by version ---------- */
     const RELEASES = [
       {
+        v: '2.0.8', id: 'release-208', title: 'Import and build real projects.',
+        lede: 'Real TI and ST projects were imported and built end to end, and every gap the run found is fixed. The release also brings two more DO-178C field runs, one design system across every surface, and a user manual.',
+        points: [
+          { k: 'Import', t: 'The import wizard works end to end.', d: 'Pick a Code Composer Studio folder or an STM32CubeIDE .ioc. The project opens, the part is detected and its reference manual is fetched and indexed for Register Knowledge.' },
+          { k: 'Build', t: 'TI builds with ⇧⌘B, and a Build view.', d: 'Native build tasks, a status-bar configuration and result, diagnostics in Problems, and a Build view with errors, warnings, duration and FLASH/SRAM from the map. Build Status lists the last 10 TI and STM32 builds.' },
+          { k: 'STM32', t: 'STM32 builds that say why they cannot.', d: 'Validate Toolchain reports build, flash and debug readiness, including a compiler with no C library. CubeIDE makefiles from another machine are detected and a generated makefile builds instead. The configured Arm toolchain wins over PATH.' },
+          { k: 'Review Inbox', t: 'Every human touchpoint in one queue.', d: 'Supply, Decide and Sign items across documents, change sets, problem reports and objectives, each opening the surface that closes it.' },
+          { k: 'Requirements', t: 'System requirements recovered from the prototype.', d: 'Candidates read from the code, the .ioc and ICD tables, each with its provenance, validated only by a person on the roster. Code is checked against the ICD tables.' },
+          { k: 'Manual', t: 'A 21-page user manual.', d: 'Every surface documented at noyce-ide.tech/docs, with every screenshot taken in the IDE, including walkthroughs from import to a linked build.' },
+        ],
+      },
+      {
         v: '2.0.7', id: 'release-207', title: 'A second DO-178C run, on a local model.',
         lede: 'A TI Tiva power-distribution controller was taken through DO-178C with a local Qwen model over Tailscale. The run logged 75 issues across the flow and the interface, and every one is fixed in this release.',
         points: [
@@ -2082,7 +2118,7 @@
 
     /* ---------- Traction ---------- */
     const Traction = () => {
-      const stats = [['2', 'companies running it on their own firmware'], ['6', 'firmware projects it has been used on'], ['2.0.7', 'public dist, source open for technical review']];
+      const stats = [['2', 'companies running it on their own firmware'], ['6', 'firmware projects it has been used on'], ['2.0.8', 'public dist, source open for technical review']];
       return (
         <section id="traction" className="section">
           <div className="wrap">
@@ -2151,8 +2187,8 @@
     };
     const Download = () => {
       const cards = [
-        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'macOS 13 Ventura or later. Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 389 MB · 2.0.7', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.7', cta: 'Download · arm64', primary: true },
-        { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 172 MB · 2.0.7', sig: 'not code-signed yet', href: REPO + '/releases/tag/v2.0.7', cta: 'Download · x64', primary: false },
+        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'macOS 13 Ventura or later. Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 388 MB · 2.0.8', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.8', cta: 'Download · arm64', primary: true },
+        { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 180 MB · 2.0.8', sig: 'not code-signed yet', href: REPO + '/releases/tag/v2.0.8', cta: 'Download · x64', primary: false },
         { os: 'Linux', status: 'Roadmap', sc: '', desc: 'Packaged AppImage and deb builds are on the roadmap. Today, build and launch from source.', cmds: ['npm ci && npm run build', 'npm run workbench:launch -- /path/to/firmware'], pkg: 'from source', sig: 'build it yourself', href: 'https://github.com/Hitheshkaranth/noyce_ide#build-from-source', cta: 'Build from source', primary: false },
       ];
       return (
@@ -2185,7 +2221,7 @@
                 <h3 className="h3 mb-1.5">Also on GitHub Packages</h3>
                 <p className="small m-0" style={{ fontSize: '.875rem' }}>Every release is published as <span className="code">ghcr.io/hitheshkaranth/noyce-ide</span>, tagged by version and <span className="code">latest</span>.</p>
               </div>
-              <CopyCmd cmd="oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.7" />
+              <CopyCmd cmd="oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.8" />
             </Reveal>
           </div>
         </section>
@@ -2343,7 +2379,7 @@
                     <span className="font-medium" style={{ fontFamily: 'var(--font-display)', letterSpacing: '-.02em' }}>Noyce IDE</span>
                   </div>
                   <p className="small m-0" style={{ maxWidth: '16rem' }}>An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
-                  <div className="mt-5"><span className="chip chip-ok chip-dot">v2.0.7 · macOS + Windows · Free during beta</span></div>
+                  <div className="mt-5"><span className="chip chip-ok chip-dot">v2.0.8 · macOS + Windows · Free during beta</span></div>
                 </div>
                 {cols.map((col) => (
                   <div key={col.h}>
@@ -2894,12 +2930,76 @@
     const N_ANAT_DEFAULT = 4;
 
 
+    /* ---------- Showcase: real IDE screens, one tab per surface ---------- */
+    const SHOWCASE = [
+      { id: 'build', icon: 'cpu', label: 'Import & build', img: 'docs/img/walkthrough-ti-build.webp', alt: 'The Build view after a passing TI build: 0 errors, 23 warnings, 12.7 s, FLASH 54.6 KB and SRAM 106.0 KB',
+        text: 'Import a TI Code Composer Studio project and build it with ⇧⌘B. The Build view shows every diagnostic and the image size from the link map.', href: 'docs/import-walkthrough', cta: 'Import and build walkthrough' },
+      { id: 'stm32', icon: 'cpu', label: 'STM32', img: 'docs/img/walkthrough-stm32-build.webp', alt: 'The Build view after a passing STM32 generated-makefile build',
+        text: 'STM32CubeIDE makefiles from another computer are caught before make runs. A generated makefile builds instead, with the Arm toolchain you choose.', href: 'docs/import-walkthrough#walkthrough-an-stm32cubeide-project', cta: 'STM32 walkthrough' },
+      { id: 'memory', icon: 'graph', label: 'Firmware Memory', img: 'docs/img/walkthrough-stm32-memory.webp', alt: 'Firmware Memory: FLASH 33.3 %, RAM 10.3 % and stack checks with a worst case of 288 B',
+        text: 'Flash and RAM budgets per region, and the worst-case stack path from main, read from the linker map and GCC stack records.', href: 'docs/hardware#firmware-memory-stack', cta: 'Firmware Memory & Stack' },
+      { id: 'compliance', icon: 'shield', label: 'Compliance', img: 'docs/img/compliance.webp', alt: 'Compliance Evidence for a TI Tiva firmware at DAL A with 71 Annex A objectives',
+        text: 'Requirements, analysis findings, structural coverage and all 71 DO-178C Annex A objectives, graded only from evidence that was measured.', href: 'docs/compliance#compliance-dashboard', cta: 'Compliance dashboard' },
+      { id: 'requirements', icon: 'file', label: 'Requirements', img: 'docs/img/requirements.webp', alt: 'The requirements register with status, trace state and linked evidence',
+        text: 'One register of requirements with their trace state and linked evidence, and every gap called out.', href: 'docs/requirements', cta: 'Requirements & traceability' },
+      { id: 'registers', icon: 'search', label: 'Register Knowledge', img: 'docs/img/register-knowledge-gpioafsel.webp', alt: 'Register Knowledge showing GPIOAFSEL on page 770 of the TM4C1294 datasheet',
+        text: 'Your part’s reference manual turned into 888 searchable registers and 592 rules, each citing its page, and linked to the code that writes them.', href: 'docs/hardware#register-knowledge', cta: 'Register Knowledge' },
+      { id: 'agents', icon: 'graph', label: 'Agents', img: 'docs/img/orchestrator.webp', alt: 'The AI Orchestrator board with objective and document cards',
+        text: 'Specialist agents work a board of objectives and documents on your own model. Every result waits in Handover for a person to review.', href: 'docs/ai-agents#ai-orchestrator', cta: 'AI Orchestrator' },
+    ];
+    const Showcase = () => {
+      const [cur, setCur] = useState(0);
+      const tabs = useRef([]);
+      const item = SHOWCASE[cur];
+      const onKey = (e) => {
+        const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        const next = (cur + step + SHOWCASE.length) % SHOWCASE.length;
+        setCur(next);
+        tabs.current[next]?.focus();
+      };
+      return (
+        <section className="pb-12 md:pb-20" aria-label="Noyce IDE screens">
+          <div className="wrap sc">
+            <div className="sc-note" aria-hidden="true">
+              <svg width="34" height="22" viewBox="0 0 34 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M32 3C22 2 12 6 5 17" /><path d="m4 10 1 8 7-3" /></svg>
+              <span>real screens, real firmware</span>
+            </div>
+            <div className="sc-frame">
+              <div className="sc-tabs" role="tablist" aria-label="Choose a surface" onKeyDown={onKey}>
+                {SHOWCASE.map((t, i) => (
+                  <button key={t.id} ref={(el) => { tabs.current[i] = el; }} id={`sc-tab-${t.id}`} role="tab" className="sc-tab"
+                    aria-selected={i === cur} aria-controls="sc-panel" tabIndex={i === cur ? 0 : -1} onClick={() => setCur(i)}>
+                    <Icon name={t.icon} size={15} />{t.label}
+                  </button>
+                ))}
+              </div>
+              <div id="sc-panel" role="tabpanel" aria-labelledby={`sc-tab-${item.id}`}>
+                <div className="sc-stage">
+                  <div className="sc-shot">
+                    {SHOWCASE.map((t, i) => <img key={t.id} src={t.img} alt={i === cur ? t.alt : ''} aria-hidden={i !== cur} data-on={i === cur} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />)}
+                  </div>
+                  <a className="sc-cta" href={item.href}>{item.cta} <Icon name="arrowRight" size={15} /></a>
+                </div>
+                <div className="sc-meta">
+                  <p>{item.text}</p>
+                  <span className="muted text-[12px]">Captured in Noyce IDE on real TI and ST firmware</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
     /* ---------- App ---------- */
     const App = () => (
       <div className="min-h-screen">
         <a href="#main" className="skip">Skip to content</a>
         <Header />
         <Hero />
+        <Showcase />
         <main id="main">
           <About />
           <Anatomy />

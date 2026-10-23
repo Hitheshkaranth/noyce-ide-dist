@@ -7,8 +7,9 @@
 <p>Requirements, source, DO-178C evidence, hardware tooling and fifteen specialist agents —<br/>in one Code-OSS window, against the code that is actually open.</p>
 
 <p>
-<a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest"><img src="https://img.shields.io/badge/Download-2.0.7-111111?style=for-the-badge&logo=github&logoColor=white" alt="Download 2.0.7" /></a>&nbsp;
+<a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest"><img src="https://img.shields.io/badge/Download-2.0.8-111111?style=for-the-badge&logo=github&logoColor=white" alt="Download 2.0.8" /></a>&nbsp;
 <a href="https://noyce-ide.tech"><img src="https://img.shields.io/badge/Website-noyce--ide.tech-111111?style=for-the-badge&logo=safari&logoColor=white" alt="Website" /></a>&nbsp;
+<a href="https://noyce-ide.tech/docs"><img src="https://img.shields.io/badge/User_manual-111111?style=for-the-badge&logo=bookstack&logoColor=white" alt="User manual" /></a>&nbsp;
 <a href="RELEASE_NOTES.md"><img src="https://img.shields.io/badge/Release_notes-111111?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Release notes" /></a>
 </p>
 
@@ -174,6 +175,31 @@ pie showData
 > **AI earns no independence credit.** Reviews record author and reviewer from the project roster; AI-assisted reviews are labelled and never satisfy independence.
 
 ---
+
+## What's new in 2.0.8
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**📥 Import that works.** The import wizard takes a Code Composer Studio folder or an STM32CubeIDE `.ioc`. It opens the project, detects the part, and fetches and indexes its reference manual.
+
+**🔨 Build in the IDE.** TI CCS projects build with ⇧⌘B and native tasks. A Build view shows errors, warnings, duration and FLASH/SRAM from the map, and Build Status lists the last 10 TI and STM32 builds.
+
+**🧰 STM32 builds that explain themselves.** Validate Toolchain says whether you can build, flash and debug, and why not. CubeIDE makefiles from another computer are detected, and a generated makefile builds instead. The configured Arm toolchain wins over `PATH`.
+
+</td>
+<td width="50%" valign="top">
+
+**📋 One Review Inbox.** Every human touchpoint in one Supply / Decide / Sign queue, each item opening the surface that closes it.
+
+**🔁 Requirements from the prototype.** System requirements are recovered from the code, the `.ioc` and the ICD tables, with provenance, and validated only by a person on the roster.
+
+**📖 A user manual.** 21 pages at [noyce-ide.tech/docs](https://noyce-ide.tech/docs), with every screenshot taken in the IDE, including import-to-build walkthroughs for a TI and an STM32 project.
+
+</td>
+</tr>
+</table>
 
 ## What's new in 2.0.7
 
