@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0f0f0f">
 <title>The .noyce folder · Noyce IDE Docs</title>
-<meta name="description" content="Where Noyce IDE keeps everything it generates for a project, what each file is, and how it stays out of version control.">
+<meta name="description" content="Where Noyce IDE keeps everything it generates for a project, what each file is, and what belongs in version control.">
 <link rel="canonical" href="https://noyce-ide.tech/docs/noyce-folder">
 <meta property="og:type" content="article">
 <meta property="og:title" content="The .noyce folder · Noyce IDE Docs">
-<meta property="og:description" content="Where Noyce IDE keeps everything it generates for a project, what each file is, and how it stays out of version control.">
+<meta property="og:description" content="Where Noyce IDE keeps everything it generates for a project, what each file is, and what belongs in version control.">
 <meta property="og:url" content="https://noyce-ide.tech/docs/noyce-folder">
 <meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
 <meta name="twitter:card" content="summary_large_image">
@@ -44,28 +44,35 @@
       <kbd>/</kbd>
       <div id="results" class="results" role="listbox" hidden></div>
     </div>
-    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder" aria-current="page">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder" aria-current="page">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
   </aside>
   <main class="main" id="content">
     <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Reference</li></ol>
     <article class="doc">
       <h1>The .noyce folder</h1>
-      <p class="lede">Where Noyce IDE keeps everything it generates for a project, what each file is, and how it stays out of version control.</p>
+      <p class="lede">Where Noyce IDE keeps everything it generates for a project, what each file is, and what belongs in version control.</p>
       
       <div class="rule"></div>
       <p>Noyce IDE never writes generated files into your source tree. Everything it produces for a project (analysis results, documents, evidence, the audit trail, agent state) goes into a <code>.noyce/</code> folder at the project root.</p>
-<h2 id="it-stays-out-of-git">It stays out of git<a class="anchor" href="#it-stays-out-of-git" aria-label="Link to this section">#</a></h2>
-<p>Two things keep the folder out of version control, without changing any file you track:</p>
-<ul>
-<li><code>.noyce/.gitignore</code> contains <code>*</code>, so git ignores everything inside.</li>
-<li>If the project is a git repository, <code>.noyce/</code> and <code>.codegraph/</code> are added to <code>.git/info/exclude</code>, which is local to your clone and is never committed.</li>
-</ul>
-<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>Because <code>.noyce/</code> is never committed, your requirements register, review records, issued documents and audit ledger are not in your repository. Back the folder up, or archive it with each release, if those records must be kept. A compliance run records the git commit it measured, so the evidence still points at the exact source.</p>
-</div></div></aside>
+<h2 id="version-control">Version control<a class="anchor" href="#version-control" aria-label="Link to this section">#</a></h2>
+<p>Commit the life-cycle data in <code>.noyce/</code> with the project: documents, requirements, review and verification records, compliance runs, change sets, configuration, and the audit ledger. The IDE does not commit these files for you.</p>
+<p>The IDE writes <code>.noyce/.gitignore</code> when <code>.noyce/</code> is first created and checks for it when a workspace folder opens. It ignores only these regenerable caches and scratch files:</p>
+<div class="code"><div class="code-bar"><span>gitignore</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">/build/</span>
+<span class="line">/codeql/db-*</span>
+<span class="line">/codeql/result-*</span>
+<span class="line">/codeql/mirror-*</span>
+<span class="line">/rag/</span>
+<span class="line">/manuals/</span>
+<span class="line">/knowledge/</span>
+<span class="line">/serial/</span>
+<span class="line">/architecture/model-cache.json</span>
+<span class="line">/audit-ledger.json.tmp.*</span></code></pre></div>
+<p>Downloaded vendor manuals can be downloaded again. The knowledge index, register code links, and graph are regenerated from the manual and project sources. Kept CodeQL evidence (<code>codeql/last-scan-*.sarif</code>) remains committable.</p>
+<p>The IDE replaces its legacy <code>.gitignore</code> header followed by a single <code>*</code>, but preserves user-edited ignore files. It also removes the legacy <code>.noyce/</code> entry it wrote to <code>.git/info/exclude</code>; only <code>.codegraph/</code> is excluded there. Other project or global ignore rules may still prevent files from appearing in Source Control.</p>
 <h2 id="layout">Layout<a class="anchor" href="#layout" aria-label="Link to this section">#</a></h2>
 <p>This is the folder from the Canister Main Controller copy used for these docs, plus the locations each surface writes to once it has been used. Folders appear only when the feature that owns them has run.</p>
 <div class="code"><div class="code-bar"><span>text</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">.noyce/</span>
-<span class="line">├── .gitignore                    &quot;*&quot;, keeps the whole folder out of git</span>
+<span class="line">├── .gitignore                    ignores only regenerable caches and scratch</span>
 <span class="line">├── audit-ledger.json             hash-chained audit trail</span>
 <span class="line">├── orchestrator-tasks.json       the Orchestrator board for this project</span>
 <span class="line">├── architecture/                 System Architecture model cache and exports</span>
@@ -104,7 +111,7 @@
 </tr>
 </thead>
 <tbody><tr>
-<td><code>rag/</code>, <code>architecture/</code>, <code>knowledge/</code></td>
+<td><code>rag/</code>, <code>architecture/model-cache.json</code>, <code>knowledge/</code></td>
 <td>Rebuilt the next time you use the view. Re-indexing a manual or the workspace takes a few minutes.</td>
 </tr>
 <tr>
@@ -124,14 +131,14 @@
       <a class="next" href="/docs/commands"><small>Next</small><span>Commands &amp; shortcuts</span></a>
     </nav>
   </main>
-  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#it-stays-out-of-git">It stays out of git</a></li><li><a class="l2" href="#layout">Layout</a></li><li><a class="l2" href="#safe-to-delete">Safe to delete?</a></li></ul></nav>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#version-control">Version control</a></li><li><a class="l2" href="#layout">Layout</a></li><li><a class="l2" href="#safe-to-delete">Safe to delete?</a></li></ul></nav>
 </div>
 <footer class="foot"><div class="foot-in">
   <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for the next release</span>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
 </div></footer>
 <script src="/docs/assets/docs.js?v=2.0.7" defer></script>
 </body>

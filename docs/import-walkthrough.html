@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Import and build a TI or ST project · Noyce IDE Docs</title>
+<meta name="description" content="Two end-to-end walkthroughs, a TivaWare project from Code Composer Studio and an STM32CubeIDE project, from the import wizard to a recorded build, its memory map and its pin configuration.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/import-walkthrough">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Import and build a TI or ST project · Noyce IDE Docs">
+<meta property="og:description" content="Two end-to-end walkthroughs, a TivaWare project from Code Composer Studio and an STM32CubeIDE project, from the import wizard to a recorded build, its memory map and its pin configuration.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/import-walkthrough">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.7">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough" aria-current="page">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Guides</li></ol>
+    <article class="doc">
+      <h1>Import and build a TI or ST project</h1>
+      <p class="lede">Two end-to-end walkthroughs, a TivaWare project from Code Composer Studio and an STM32CubeIDE project, from the import wizard to a recorded build, its memory map and its pin configuration.</p>
+      
+      <div class="rule"></div>
+      <p>Two real projects, imported into a fresh copy and taken as far as this computer allows. Every step and screenshot below was checked in the IDE:</p>
+<ul>
+<li>a TI Tiva TM4C1294 project from Code Composer Studio;</li>
+<li>an STM32G431 project from STM32CubeIDE.</li>
+</ul>
+<p>The two take different routes after the import. Here, the TI project built and linked. The STM32 project was blocked by the toolchain, and the IDE said exactly why. Both outcomes are shown.</p>
+<h2 id="before-you-begin">Before you begin<a class="anchor" href="#before-you-begin" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>For</th>
+<th>You need</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Importing either kind</td>
+<td>Nothing beyond Noyce IDE. The reference-manual download needs a network connection.</td>
+</tr>
+<tr>
+<td>Building a TI project</td>
+<td>The TI ARM compiler (<code>armcl</code>, TI Arm Clang or GNU Arm), and TivaWare when the project uses it. Noyce IDE finds them on your <code>PATH</code> or under <code>~/ti</code>, <code>/Applications/ti</code>, <code>C:\ti</code> or <code>%USERPROFILE%\ti</code>. See <a href="/docs/build-test#build">Build</a>.</td>
+</tr>
+<tr>
+<td>Building an STM32 project</td>
+<td><code>make</code> and a complete Arm GNU Toolchain, that is <code>arm-none-eabi-gcc</code> with its C library (newlib). STM32CubeIDE&#39;s bundled toolchain or the Arm GNU Toolchain both work.</td>
+</tr>
+<tr>
+<td>Flashing and debugging an STM32</td>
+<td><code>arm-none-eabi-gdb</code>, plus OpenOCD, STM32CubeProgrammer or st-util.</td>
+</tr>
+</tbody></table></div>
+<aside class="callout tip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2.3h6c0-1.1.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></svg><div><p class="callout-t">Tip</p><div class="callout-b"><p>Try this on a copy of your project first. The import itself writes only <code>.noyce/</code>, but the STM32 workspace step (step 3 of the STM32 walkthrough) writes <code>.vscode/</code> files and overwrites files of the same names.</p>
+</div></div></aside>
+<h2 id="the-import-wizard">The import wizard<a class="anchor" href="#the-import-wizard" aria-label="Link to this section">#</a></h2>
+<p>On the <strong>Noyce IDE</strong> start tab, select <strong>Import project…</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/import-wizard.webp" alt="The Import Project wizard with the four project types" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Import Project wizard. Selecting a type opens a folder picker (a file picker for STM32CubeIDE).</figcaption></figure>
+<p>Selecting a type opens the matching picker:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Pick</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Code Composer Studio</strong></td>
+<td>The project folder, the one holding <code>.ccsproject</code> and <code>.cproject</code>.</td>
+</tr>
+<tr>
+<td><strong>STM32CubeIDE</strong></td>
+<td>The <code>.ioc</code> file. Cancel that picker to choose the project folder instead.</td>
+</tr>
+<tr>
+<td><strong>MPLAB X IDE</strong>, <strong>Generic Folder</strong></td>
+<td>The project folder.</td>
+</tr>
+</tbody></table></div>
+<p>What happens next:</p>
+<ol class="steps">
+<li>The wizard reads the project and shows what it found, for example <em>TI Code Composer Studio Project Detected</em>.</li>
+<li>The window reloads with the project open. When you open a folder for the first time, Code-OSS asks <strong>Do you trust the authors of the files in this folder?</strong>. Choose <strong>Yes, I trust the authors</strong>; in Restricted Mode, Code-OSS does not run tasks, so the builds below would not start.</li>
+<li>A <strong>Project Imported</strong> notification appears.</li>
+<li>Noyce IDE detects the microcontroller from the project&#39;s files and fetches its reference manual for <a href="/docs/hardware#register-knowledge">Register Knowledge</a>. A notification reports the outcome:<ul>
+<li><strong>Reference manual indexed</strong>: the PDF is in <code>.noyce/manuals/</code> and its register index in <code>.noyce/knowledge/</code>.</li>
+<li><strong>Reference manual for</strong> the part, as a warning: the download failed. The message names the manual and its URL, so you can download it in a browser and choose it with <strong>Choose PDF…</strong> in Register Knowledge. A server that does not answer is abandoned after 30 seconds.</li>
+</ul>
+</li>
+<li>The project is added to <strong>Recent projects</strong> on the start tab, marked <strong>Current</strong>.</li>
+</ol>
+<p>The import writes only the <code>.noyce/</code> folder, including its <code>.gitignore</code> for caches and the downloaded manuals. See <a href="/docs/noyce-folder">The .noyce folder</a>.</p>
+<h2 id="walkthrough-a-tivaware-project-from-code-composer-studio">Walkthrough: a TivaWare project from Code Composer Studio<a class="anchor" href="#walkthrough-a-tivaware-project-from-code-composer-studio" aria-label="Link to this section">#</a></h2>
+<p>The project: an MPDU controller on a TM4C1294NCPDT, built with TI ARM CGT 20.2.6.LTS and TivaWare 2.2.0.295, both installed under <code>~/ti</code>.</p>
+<h3 id="1-import-it">1. Import it<a class="anchor" href="#1-import-it" aria-label="Link to this section">#</a></h3>
+<p><strong>Import project…</strong> → <strong>Code Composer Studio</strong> → the project folder. After the reload and the trust prompt, the reference-manual notification reports that the TM4C1294 datasheet (<code>spms433.pdf</code>) was downloaded and indexed.</p>
+<h3 id="2-build">2. Build<a class="anchor" href="#2-build" aria-label="Link to this section">#</a></h3>
+<p>The status bar now shows the configuration (<strong>Debug</strong>) and <strong>Build</strong>. Press <kbd>⇧</kbd><kbd>⌘</kbd><kbd>B</kbd> (<kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>B</kbd> on Windows).</p>
+<p>The build runs as the <strong>Noyce: Build Debug</strong> task in the terminal. When it finishes, the status bar reads <strong>Built 12.7s</strong>, and its warnings are in the <strong>Problems</strong> panel. The objects, <code>.out</code> and <code>.map</code> are written to <code>.noyce/build/ccs-Debug/</code>, not to the project&#39;s own <code>Debug/</code> folder.</p>
+<h3 id="3-read-the-result-in-the-build-view">3. Read the result in the Build view<a class="anchor" href="#3-read-the-result-in-the-build-view" aria-label="Link to this section">#</a></h3>
+<p>Open the <strong>Build Pipeline</strong> tile, or <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>B</kbd>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-ti-build.webp" alt="The Build view after a passing TI build: 0 errors, 23 warnings, 12.7 s, FLASH 54.6 KB and SRAM 106.0 KB" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Build view after the ⇧⌘B build: the compiler and version in the header, the counts, the image size from the link map, and every warning with its TI diagnostic code and file:line.</figcaption></figure>
+<p>The header names the compiler that was found and its version. <strong>Image size</strong> comes from the link map. <strong>Diagnostics</strong> lists each warning with its TI code (<code>994-D</code>, <code>179-D</code>…); select a file and line to open it. See <a href="/docs/build-test#the-build-view">The Build view</a> for the other tabs.</p>
+<h3 id="4-see-where-the-memory-goes">4. See where the memory goes<a class="anchor" href="#4-see-where-the-memory-goes" aria-label="Link to this section">#</a></h3>
+<p>Select <strong>Open Firmware Memory</strong>.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-ti-memory.webp" alt="Firmware Memory for the TI build: SRAM 41.4 % and FLASH 5.3 % of budget, with sections and per-object sizes" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Firmware Memory reads the TI linker map the build wrote under .noyce/build: each region against its budget, its sections, and what each object file costs.</figcaption></figure>
+<p>Firmware Memory finds the map the build wrote and shows each memory region against its size, with its sections and the cost of each object file. On this project, SRAM is 106.0 KB of 256 KB and FLASH is 54.6 KB of 1 MB. <strong>Worst case</strong> stack depth stays <strong>—</strong>: it needs GCC <code>-fstack-usage</code> records, which a TI build does not produce. The configured <code>.stack</code> size (2.0 KB) is still shown.</p>
+<h3 id="5-rebuild-the-pin-map-from-the-source">5. Rebuild the pin map from the source<a class="anchor" href="#5-rebuild-the-pin-map-from-the-source" aria-label="Link to this section">#</a></h3>
+<p>A CCS project has no <code>.ioc</code>, so the pin configuration is reconstructed from the TivaWare calls in the C source (<code>GPIOPinConfigure</code>, <code>GPIOPinType…</code>, <code>SysCtlPeripheralEnable</code>). To run it and open the result, use <strong>Noyce Tiva: Import Pin Config from Source</strong> from the Command Palette. In the folder picker, choose the project folder (the open folder is preselected).</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-ti-pins.webp" alt="The Pin Configurator showing the TM4C1294NCPDT reconstructed from the project&amp;#39;s source" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The TM4C1294NCPDT in its TQFP128 package, rebuilt from the TivaWare source. The peripherals the source enables (UART0, UART1, UART4…) are switched on.</figcaption></figure>
+<p>The Pin Configurator opens on the part and package detected from the source. The peripherals the source configures are switched on, and each pin is coloured by its use. <strong>Generate init code</strong> writes initialisation code for the configuration shown. See <a href="/docs/hardware#pin-configurator">Pin Configurator</a>.</p>
+<h2 id="walkthrough-an-stm32cubeide-project">Walkthrough: an STM32CubeIDE project<a class="anchor" href="#walkthrough-an-stm32cubeide-project" aria-label="Link to this section">#</a></h2>
+<p>The project: an H-bridge controller on an STM32G431VBTx, last built in STM32CubeIDE on a Windows machine.</p>
+<h3 id="1-import-it-1">1. Import it<a class="anchor" href="#1-import-it-1" aria-label="Link to this section">#</a></h3>
+<p><strong>Import project…</strong> → <strong>STM32CubeIDE</strong> → the project&#39;s <code>.ioc</code> file. After the reload and the trust prompt:</p>
+<ul>
+<li>the <code>.ioc</code> opens in the <strong>Pin Configurator</strong>, with the part, the package and the peripherals the <code>.ioc</code> enables;</li>
+<li>the reference manual (RM0440 for the STM32G4) is fetched. In the run shown here, st.com did not answer, so the warning gave the manual&#39;s URL to download by hand.</li>
+</ul>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-pins.webp" alt="The Pin Configurator opened from the project&amp;#39;s .ioc" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The STM32G431VBTx in LQFP100, opened from the .ioc: ADC1, DMA, GPIO, RCC, TIM3/4/6 and USART1–3 enabled.</figcaption></figure>
+<h3 id="2-check-the-toolchain">2. Check the toolchain<a class="anchor" href="#2-check-the-toolchain" aria-label="Link to this section">#</a></h3>
+<p>Run <strong>Noyce STM32: Validate Toolchain</strong>. The <strong>Noyce STM32</strong> output lists each tool, then whether you can build, flash and debug, and why not.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-validate.webp" alt="Validate Toolchain reporting the build, flash and debug as blocked, with the reason for each" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>On this Mac the build is blocked because Homebrew&amp;#39;s arm-none-eabi-gcc has no C library, and flash and debug are blocked because no flash tool, GDB or GDB server is installed.</figcaption></figure>
+<p>On the computer used here, all three were blocked:</p>
+<ul>
+<li><strong>Build:</strong> Homebrew&#39;s <code>arm-none-eabi-gcc</code> formula has no C library (<code>nano.specs</code> and <code>libc.a</code> are missing). Fix it by installing the Arm GNU Toolchain (<code>brew install --cask gcc-arm-embedded</code>) or STM32CubeIDE, then putting it first on your <code>PATH</code> or setting <code>noyce.stm32.armToolchainPath</code>.</li>
+<li><strong>Flash:</strong> no STM32CubeProgrammer, OpenOCD or st-util, so no flash task is generated.</li>
+<li><strong>Debug:</strong> no <code>arm-none-eabi-gdb</code> and no GDB server.</li>
+</ul>
+<h3 id="3-set-up-the-workspace">3. Set up the workspace<a class="anchor" href="#3-set-up-the-workspace" aria-label="Link to this section">#</a></h3>
+<p>Run <strong>Noyce STM32: Regenerate Workspace Files</strong>. It writes <code>.vscode/tasks.json</code>, <code>launch.json</code>, <code>settings.json</code>, <code>extensions.json</code> and <code>compile_commands.json</code> for the open folder:</p>
+<ul>
+<li>a <code>make</code> build task, <strong>STM32 Build (Debug)</strong>, which becomes the <kbd>⇧</kbd><kbd>⌘</kbd><kbd>B</kbd> build;</li>
+<li>a flash task, when a flash tool was found;</li>
+<li>a Cortex-Debug launch configuration;</li>
+<li>clangd set up for the project.</li>
+</ul>
+<p><strong>Noyce STM32: Import CubeIDE Project</strong> does the same after asking for the <code>.ioc</code> or project folder.</p>
+<h3 id="4-build">4. Build<a class="anchor" href="#4-build" aria-label="Link to this section">#</a></h3>
+<p>The build depends on the makefiles STM32CubeIDE generated in <code>Debug/</code>. Those makefiles hold absolute paths from the computer that generated them.</p>
+<p><strong>With <kbd>⇧</kbd><kbd>⌘</kbd><kbd>B</kbd>.</strong> The task runs <code>make -j4 all</code> in <code>Debug/</code>. Here, the makefiles named <code>C:/…</code> paths, so <code>make</code> stopped with <code>makefile:63: *** multiple target patterns. Stop.</code> The task&#39;s description in <code>tasks.json</code> warns about this when it is generated. The build is still recorded in <strong>Build Status</strong>, with the compiler version.</p>
+<p><strong>From the Build view.</strong> The view checks the makefiles before running them. Because they name paths that do not exist on this computer, <strong>Build</strong> is disabled and <strong>Build blocked</strong> names one such path. It gives two ways out:</p>
+<ul>
+<li><strong>Regenerate the makefiles:</strong> run the <strong>STM32 CubeIDE Headless Build</strong> task (it needs STM32CubeIDE installed), or build once in STM32CubeIDE on this computer.</li>
+<li><strong>Build with a generated makefile:</strong> Noyce IDE writes its own makefile from the <code>.cproject</code> and <code>.ioc</code>, under <code>.noyce/build/stm32-&lt;configuration&gt;/portable-build/</code>, and builds with <code>arm-none-eabi-gcc</code> and <code>make</code>. This is not the CubeIDE build, so check its output against a CubeIDE build before you rely on it.</li>
+</ul>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-stm32-build.webp" alt="The Build view with the CubeIDE build blocked and a failed generated-makefile build" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Build blocked names the Windows path in the CubeIDE makefiles. The generated-makefile build ran, then failed before compiling anything, because the compiler has no C library.</figcaption></figure>
+<p>Here, the generated-makefile build failed in 0.2 s, because this compiler has no newlib. The <strong>Output</strong> tab begins with a one-line hint saying so. <strong>Errors</strong> reads 0 with <strong>Failed before any located error; see Output</strong>: the compiler stopped before it reported any error against a file and line. With a complete toolchain, the same button compiles the project, and the link map feeds Firmware Memory as in the TI walkthrough.</p>
+<h3 id="5-find-the-builds-again">5. Find the builds again<a class="anchor" href="#5-find-the-builds-again" aria-label="Link to this section">#</a></h3>
+<p>Every recorded build is listed in <strong>Build Status</strong> in the Noyce IDE sidebar, newest first. Hover a build to see what ran (<strong>CubeIDE makefile</strong>, <strong>Generated makefile</strong> or <strong>CubeIDE headless</strong>) and its toolchain. Select it to open the Build view.</p>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/walkthrough-build-status.webp" alt="Build Status listing both STM32 builds, with the generated tasks.json and the failed ⇧⌘B task" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Build Status lists the ⇧⌘B build and the generated-makefile build. Beside it, the generated tasks.json and the terminal where make stopped on a C: path.</figcaption></figure>
+<h2 id="what-next">What next<a class="anchor" href="#what-next" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><a href="/docs/quick-start">Quick start</a>: scan the imported project for requirement annotations and run static analysis.</li>
+<li><a href="/docs/hardware">Hardware</a>: Register Knowledge from the downloaded manual, probes, RTT and the serial monitor.</li>
+<li><a href="/docs/build-test">Build, test &amp; debug</a>: build configurations, your own build tasks, the test explorer and the firmware validation loop.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/models"><small>Previous</small><span>Models</span></a>
+      <a class="next" href="/docs/do178c-walkthrough"><small>Next</small><span>DO-178C walkthrough</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#before-you-begin">Before you begin</a></li><li><a class="l2" href="#the-import-wizard">The import wizard</a></li><li><a class="l2" href="#walkthrough-a-tivaware-project-from-code-composer-studio">Walkthrough: a TivaWare project from Code Composer Studio</a></li><li><a class="l3" href="#1-import-it">1. Import it</a></li><li><a class="l3" href="#2-build">2. Build</a></li><li><a class="l3" href="#3-read-the-result-in-the-build-view">3. Read the result in the Build view</a></li><li><a class="l3" href="#4-see-where-the-memory-goes">4. See where the memory goes</a></li><li><a class="l3" href="#5-rebuild-the-pin-map-from-the-source">5. Rebuild the pin map from the source</a></li><li><a class="l2" href="#walkthrough-an-stm32cubeide-project">Walkthrough: an STM32CubeIDE project</a></li><li><a class="l3" href="#1-import-it-1">1. Import it</a></li><li><a class="l3" href="#2-check-the-toolchain">2. Check the toolchain</a></li><li><a class="l3" href="#3-set-up-the-workspace">3. Set up the workspace</a></li><li><a class="l3" href="#4-build">4. Build</a></li><li><a class="l3" href="#5-find-the-builds-again">5. Find the builds again</a></li><li><a class="l2" href="#what-next">What next</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.7</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.7" defer></script>
+</body>
+</html>
