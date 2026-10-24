@@ -7,7 +7,7 @@
   <meta name="description" content="Noyce IDE is an AI-native Code-OSS workbench for certifiable embedded firmware. Requirements, native editing, schematic intelligence, CBMC proofs, CodeQL scans, and a hash-chained certification package live in one window." />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Noyce IDE - AI workbench for certifiable firmware." />
-  <meta property="og:description" content="A Code-OSS IDE for DO-178C, ISO 26262, and MISRA teams. Twenty-six full-pane surfaces, native editing, Register Knowledge, CBMC, and offline CodeQL." />
+  <meta property="og:description" content="A Code-OSS IDE for DO-178C, ISO 26262, and MISRA teams. Twenty-six full-pane surfaces, native editing, Register Knowledge, CBMC, and CodeQL scans." />
   <meta property="og:url" content="https://noyce-ide.tech/" />
   <meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1" />
   <meta property="og:image:width" content="1200" />
@@ -1050,7 +1050,7 @@
     const YCSnapshot = () => {
       const points = [
         { label: 'Problem', body: 'Certifiable firmware is still built across a vendor IDE, a pin tool, two static analyzers, a requirements manager, a traceability spreadsheet, a CI dashboard, and a generic AI chat. Every hop drops context the auditor later asks for.' },
-        { label: 'Solution', body: 'One Code-OSS window: 53 surfaces, native editing, an in-IDE knowledge graph RAG pipeline that traces code to registers, schematic BoM, CBMC, offline CodeQL, MISRA, MC/DC, coupling, and a SHA-256-anchored certification package written under .noyce/ so the project stays git-clean.' },
+        { label: 'Solution', body: 'One Code-OSS window: 53 surfaces, native editing, an in-IDE knowledge graph RAG pipeline that traces code to registers, schematic BoM, CBMC, CodeQL, MISRA, MC/DC, coupling, and a SHA-256-anchored certification package written under .noyce/ so the project stays git-clean.' },
         { label: 'Customer', body: 'Aerospace, automotive, medical, industrial, robotics, and defense firmware teams that must produce DO-178C / ISO 26262 / MISRA evidence before they can ship or raise the next round of hardware.' },
         { label: 'Why now', body: 'Models can finally read a workspace, but regulated teams cannot put an unaudited cloud chatbot in the loop. Noyce runs the full agent and RAG stack on models served from the team\'s own hardware (LM Studio, vLLM, Ollama), with cloud providers only where the team chooses them. Every AI action is recorded on the same hash-chained ledger as the code.' },
         { label: 'Wedge', body: 'Start as the IDE they already know (Code-OSS), not a new portal. Expand from editor-native compliance into the operating system for safety-critical software delivery: evidence, hardware, CI, and agents on one thread.' },
@@ -1108,7 +1108,7 @@
       { k: 'ver', l: 'Verification', s: 'The real tools on the real tree: coverage, proofs, scans and coupling, reported as measured.', items: [
         ['19-mcdc-coverage', 'MC/DC Coverage', 'Statement, decision and MC/DC measured with LLVM -fcoverage-mcdc and attributed to the module under test.'],
         ['16-formal-verification', 'CBMC Formal Verification', 'Bounded model checking with per-LLR harnesses and a vacuity check.'],
-        ['17-codeql-scanning', 'CodeQL Code Scanning', 'SARIF alerts with data-flow paths, from vendored packs, offline.'],
+        ['17-codeql-scanning', 'CodeQL Code Scanning', 'SARIF alerts with data-flow paths, traced from the project build.'],
         ['14-misra-diagnostics', 'Static Analysis (MISRA)', 'cppcheck and clang-tidy findings decoded by rule, with fix and deviation flows.'],
         ['15-analysis-tools', 'Analysis Tools', 'The 755-tool catalogue filtered to your stack, with a runnable subset.'],
         ['18-test-explorer', 'Test Explorer', 'Requirement-linked tests, host runs and on-target runs.'],
@@ -1438,7 +1438,7 @@
       const loop = [
         { t: 'Import', d: 'Open STM32CubeIDE .ioc, TI TivaWare / Code Composer, MPLAB X, or a generic folder. Pin maps, SVD, and the MCU identity come from the project files, not a form.' },
         { t: 'Index', d: 'In-IDE knowledge graph RAG over code, requirements, and the vendor manual. Register Knowledge links the register graph to source. Semantic search and agents share that index, so a load or store traces to the datasheet register it touches.' },
-        { t: 'Prove', d: 'CBMC on the harness. CodeQL security-extended from vendored packs (offline). MC/DC and data/control coupling from the AST and call graph. MISRA via cppcheck, clang-tidy, and the 755-tool catalog.' },
+        { t: 'Prove', d: 'CBMC on the harness. CodeQL security-extended, traced from the project build (GitHub’s bundle, fetched once and checksum-verified, then offline). MC/DC and data/control coupling from the AST and call graph. MISRA via cppcheck, clang-tidy, and the 755-tool catalog.' },
         { t: 'Package', d: 'Specialist agents fill DO-178C Table A artifacts. The Certification Evidence Package is sealed HTML + JSON whose SHA-256 is anchored to the hash-chained audit head.' },
       ];
       return (
@@ -1548,7 +1548,7 @@
       {
         rel: 'verified by',
         left: { id: 'arch', k: 'A-4', t: 'Software architecture', s: 'Architecture · Project Graph', d: 'A C4 view built from the tree: 3 subsystems, 116 relationships, 12 types. The System Designer agent writes the Software Design Description and names the hardware dependencies it assumes, ADC, GPIO, timer, interrupt.' },
-        right: { id: 'sysver', k: 'A-6', t: 'System verification', s: 'Formal Verification · Code Scanning', d: 'CBMC bounded model checking over the firmware harness, 70 of 70 properties proved. CodeQL security-extended from vendored packs, offline. Cyber Assurance builds a real-source SBOM with OSV lookup.' },
+        right: { id: 'sysver', k: 'A-6', t: 'System verification', s: 'Formal Verification · Code Scanning', d: 'CBMC bounded model checking over the firmware harness, 70 of 70 properties proved. CodeQL security-extended, traced from the project build. Cyber Assurance builds a real-source SBOM with OSV lookup.' },
       },
       {
         rel: 'verified by',
@@ -1806,7 +1806,7 @@
     const Services = () => {
       const cards = [
         { video: DEMO + 'review-package.mp4', poster: DEMO + 'review-package.jpg', tag: 'Compliance', title: 'Evidence and Certification', desc: 'Live DO-178C Table A from the project. Each objective routes to a specialist agent. A review package is prepared in stages and sealed as HTML + JSON whose SHA-256 is the audit-trail head. Requirements import from CSV, ReqIF or Markdown. Print-ready .docx plans and records.' },
-        { video: DEMO + 'misra-finding.mp4', poster: DEMO + 'misra-finding.jpg', tag: 'Verification', title: 'CBMC, CodeQL, catalog', desc: 'Real CBMC bounded model checking. Real CodeQL CLI, offline packs. Vendored analysis-tools-dev (755 tools), executable subset cppcheck, clang-tidy, ESLint, Ruff, ShellCheck. Cyber Assurance is a real-source SBOM with OSV CVE lookup.' },
+        { video: DEMO + 'misra-finding.mp4', poster: DEMO + 'misra-finding.jpg', tag: 'Verification', title: 'CBMC, CodeQL, catalog', desc: 'Real CBMC bounded model checking. Real CodeQL: GitHub’s bundle, fetched on first use and checked against a pinned SHA-256, then run offline. Vendored analysis-tools-dev (755 tools), executable subset cppcheck, clang-tidy, ESLint, Ruff, ShellCheck. Cyber Assurance is a real-source SBOM with OSV CVE lookup.' },
       ];
       return (
         <section className="section">
@@ -1984,7 +1984,7 @@
     /* ---------- DO-178C run (2.0.6) ---------- */
     const DAL_STEPS = [
       { k: 'Requirements', clip: 'requirements', clipCap: 'Requirements & Evidence · select a requirement and its evidence ledger follows', t: 'Write the high-level requirements', d: '15 high-level requirements authored into the SRS with per-requirement lint and system trace. System requirements import from CSV, ReqIF-lite or Markdown, and low-level requirements enter the set only through human review.', shot: '06-requirements-authoring.png', cap: 'Requirements Authoring · HLRs written into SRS-001 with lint and system trace' },
-      { k: 'Verification', t: 'Measure, prove, and analyse', d: '99 host tests, with normal-range and robustness tests for all 15 high-level requirements. Statement, decision and MC/DC coverage 100% across all 12 project modules, measured with LLVM on the host with stubs, and stated as such. Five CBMC harnesses with 1,172 properties proved. Every cppcheck MISRA finding stays listed: 383 open on the latest run, none hidden.', shot: '16-formal-verification.png', cap: 'CBMC Formal Verification · bounded model checking with per-function harnesses' },
+      { k: 'Verification', t: 'Measure, prove, and analyse', d: '99 host tests, with normal-range and robustness tests for all 15 high-level requirements. Statement, decision and MC/DC coverage 100% across all 12 project modules, measured with LLVM on the host with stubs, and stated as such. Five CBMC harnesses with 1,172 properties proved. CodeQL security-extended over the traced build: 79 of 79 files, 0 alerts. Every cppcheck MISRA finding stays listed: 383 open on the latest run, none hidden.', shot: '16-formal-verification.png', cap: 'CBMC Formal Verification · bounded model checking with per-function harnesses' },
       { k: 'Documents', clip: 'documents', clipCap: 'DO-178C Documents · the 17-document library, each baselined at v1.1, in grid and list view', t: 'Complete the document set', d: 'All 17 life-cycle documents authored from the workspace. Every open item is classified as a proposal, an engineer decision, or missing evidence, and each has a way to close. A document issues only when nothing is open.', shot: '23-do178c-documents.png', cap: 'DO-178C Documents · the 17-document set, authored, completed and baselined' },
       { k: 'Decisions', t: 'Let agents propose, engineers decide', d: 'Engineering-judgment sections such as software level, partitioning and certification basis are drafted by an agent with rationale, evidence and confidence. An engineer accepts them in a review queue, and acceptance is recorded as an independent review.', shot: '27-review-workflow.png', cap: 'Review Workflow · reviews with author and reviewer independence' },
       { k: 'Baseline', t: 'Baseline only a consistent set', d: 'Contradictions between documents block a baseline unless a named person records a waiver. Problem reports follow AC/AMC 20-189 with CCB decisions and independent closure. Every compliance run is a hashed, reproducible record.', shot: '11-compliance-run.png', cap: 'Compliance Run · one reproducible, hashed record of what was measured' },
@@ -2222,7 +2222,7 @@
                 Noyce exists because that is the job. The spreadsheet holding the trace matrix, the hop between the vendor IDE and the analyser, and the evidence pack assembled after the fact are not hypotheticals here. They are the working week.
               </p>
               <p className="small m-0" style={{ fontSize: '.875rem' }}>
-                Designed and shipped Noyce as a native Code-OSS Electron workbench: Register Knowledge, CBMC in the IDE, offline CodeQL, the hash-chained certification package, and the local agent stack. Public dist, notarized macOS installer, Windows beta.
+                Designed and shipped Noyce as a native Code-OSS Electron workbench: Register Knowledge, CBMC in the IDE, CodeQL, the hash-chained certification package, and the local agent stack. Public dist, notarized macOS installer, Windows beta.
               </p>
             </div>
           </Reveal>
@@ -2507,7 +2507,7 @@
         blocks: [
           { id: 'misra', t: 'MISRA C', s: 'rule checks', h: 40, d: 'cppcheck with the MISRA addon. Fix with Noyce proposes a change set for one finding; nothing is applied until an engineer approves it.' },
           { id: 'cbmc', t: 'CBMC', s: 'model checking', h: 40, d: 'Bounded model checking on harnesses. On the H-Bridge DO-178C run: 1,172 properties proved, 0 failed.' },
-          { id: 'codeql', t: 'CodeQL', s: 'code scanning', h: 40, d: 'CodeQL queries run offline against your build, with results kept as SARIF.' },
+          { id: 'codeql', t: 'CodeQL', s: 'code scanning', h: 40, d: 'CodeQL queries run on your machine against your build, with results kept as SARIF.' },
           { id: 'mcdc', t: 'MC/DC', s: 'llvm-cov', h: 40, d: 'Decisions and conditions come from the source. Coverage is measured from an LLVM-instrumented build, so the numerator actually executed.' },
           { id: 'mem', t: 'Memory', s: 'stack · flash', h: 40, d: 'Flash and RAM budget and worst-case stack for every build, with a diff against the last one.' },
           { id: 'trace', t: 'Traceability', s: 'req to code', h: 40, d: 'Requirement to code to test as one graph. A requirement missing one side shows up as a gap, never as coverage.' },

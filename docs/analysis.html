@@ -121,11 +121,12 @@
 <p>A semantic security scan that follows data from inputs through your code. Open it from the tile or <strong>Noyce Compliance: Open Code Scanning (CodeQL)</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/codeql-results.webp" alt="Code Scanning with the alerts from a scan of the Canister firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Code Scanning on the Canister copy after a security-and-quality scan. The TI compiler cannot be traced, so the scan ran buildless and says so above the alert counts.</figcaption></figure>
 <ol class="steps">
-<li>Select <strong>Install CodeQL</strong> if it is not installed. Noyce IDE downloads the official CodeQL bundle and checks its SHA-256.</li>
+<li>The first time you open Code Scanning, Noyce IDE downloads GitHub&#39;s official CodeQL bundle into <code>~/.noyce/codeql</code> and checks its SHA-256. The download is about 1.35 GB and happens once; scans then run offline. <strong>Reinstall CodeQL</strong> repeats it.</li>
 <li>Choose the query pack: <strong>security-extended</strong> or <strong>security-and-quality</strong>.</li>
 <li>Select <strong>Run scan</strong>. For TI Code Composer Studio projects the scan uses the include paths from the project&#39;s <code>.cproject</code>.</li>
 </ol>
 <p><strong>How the code is extracted.</strong> CodeQL normally watches the project&#39;s build to see every file exactly as compiled. Its tracer cannot follow the TI <code>armcl</code> compiler, so a traced scan of a TI project extracts nothing. Noyce IDE then repeats the scan with <code>--build-mode=none</code>, which reads the sources directly and guesses include paths and defines. On the Canister firmware that extracts 21 of its 22 files.</p>
+<p>An STM32 project is traced through its STM32CubeIDE makefiles. When those were generated on another computer and name paths that do not exist here, the scan traces the project&#39;s portable build recipe (<code>portable-build/</code>) instead, compiling with the Arm toolchain set in <code>noyce.stm32.armToolchainPath</code>. On the H-Bridge controller that extracts all 79 files the firmware build compiles, with no compiler errors.</p>
 <p>The dashboard always says how the database was built. A buildless or partial extraction is listed above the alert counts, so a count of 0 is never read as &quot;no problems&quot;: only a traced scan that extracted every file is conclusive.</p>
 <p>Each alert shows its rule, severity and the data-flow path. Fixes go through change sets.</p>
 <h2 id="mc-dc-coverage">MC/DC Coverage<a class="anchor" href="#mc-dc-coverage" aria-label="Link to this section">#</a></h2>

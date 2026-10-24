@@ -141,10 +141,10 @@
 <td><strong>Install CBMC</strong> in the view, or <code>brew install cbmc</code> (macOS), or winget <code>Diffblue.CBMC</code> (Windows)</td>
 </tr>
 <tr>
-<td>CodeQL CLI 2.25.6</td>
+<td>CodeQL bundle 2.25.6</td>
 <td>Code Scanning</td>
-<td><code>vendor/codeql</code>, then <code>PATH</code></td>
-<td><strong>Install CodeQL</strong> in the view downloads the official bundle and checks its SHA-256</td>
+<td><code>~/.noyce/codeql</code></td>
+<td>Opening Code Scanning the first time downloads GitHub&#39;s official bundle (about 1.35 GB) and checks its SHA-256; scans then run offline. A CodeQL on <code>PATH</code> alone does not count, because it has no query packs</td>
 </tr>
 <tr>
 <td>LLVM/Clang 18 or newer (<code>clang</code>, <code>llvm-profdata</code>, <code>llvm-cov</code>)</td>
