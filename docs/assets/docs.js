@@ -1,6 +1,6 @@
 // Noyce IDE docs: search, copy buttons, on-this-page scrollspy, screenshot zoom, mobile drawer.
 // Runs in the browser on the published site, not in Node.
-/* global document, addEventListener, removeEventListener, scrollY, innerHeight, location */
+/* global document, addEventListener, scrollY, innerHeight, innerWidth, location */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -8,13 +8,16 @@
 
   // Mobile drawer
   const menu = $('.menu-btn');
-  const closeNav = () => { document.body.classList.remove('nav-open'); menu?.setAttribute('aria-expanded', 'false'); };
+  const closeNav = () => { document.body.classList.remove('nav-open'); menu?.setAttribute('aria-expanded', 'false'); menu?.setAttribute('aria-label', 'Open navigation'); };
   menu?.addEventListener('click', () => {
     const open = document.body.classList.toggle('nav-open');
     menu.setAttribute('aria-expanded', String(open));
+    menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    if (open) $('#q')?.focus();
   });
   $('.scrim')?.addEventListener('click', closeNav);
-  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeNav(); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.body.classList.contains('nav-open')) { closeNav(); menu?.focus(); } });
+  $('.side')?.addEventListener('click', (e) => { if (e.target.closest('a')) closeNav(); });
 
   // Copy buttons
   $$('.copy').forEach((b) => b.addEventListener('click', async () => {
@@ -26,36 +29,29 @@
     setTimeout(() => { delete b.dataset.done; b.lastChild.textContent = 'Copy'; }, 1600);
   }));
 
-  // Screenshot zoom
-  $$('.fig-frame img').forEach((img) => img.addEventListener('click', () => {
-    const z = document.createElement('div');
-    z.className = 'zoom';
-    z.setAttribute('role', 'dialog');
-    z.setAttribute('aria-label', img.alt);
-    const big = document.createElement('img');
-    big.src = img.currentSrc || img.src;
-    big.alt = img.alt;
-    z.append(big);
-    const close = () => { z.remove(); removeEventListener('keydown', onKey); };
-    const onKey = (e) => { if (e.key === 'Escape') close(); };
-    z.addEventListener('click', close);
-    addEventListener('keydown', onKey);
-    document.body.append(z);
-  }));
-
-  // Diagrams enlarge the same way
-  $$('.diagram-wrap').forEach((w) => w.addEventListener('click', () => {
-    const z = document.createElement('div');
-    z.className = 'zoom';
-    z.setAttribute('role', 'dialog');
-    z.setAttribute('aria-label', w.querySelector('svg')?.getAttribute('aria-label') ?? 'Diagram');
-    z.append(w.querySelector('svg').cloneNode(true));
-    const close = () => { z.remove(); removeEventListener('keydown', onKey); };
-    const onKey = (e) => { if (e.key === 'Escape') close(); };
-    z.addEventListener('click', close);
-    addEventListener('keydown', onKey);
-    document.body.append(z);
-  }));
+  // Native dialogs provide Escape, focus trapping, and an explicit close control.
+  const openZoom = (source, label, trigger) => {
+    const z = document.createElement('dialog');
+    z.className = 'zoom'; z.setAttribute('aria-label', label);
+    const close = document.createElement('button');
+    close.type = 'button'; close.className = 'zoom-close'; close.textContent = 'Close ×'; close.setAttribute('aria-label', 'Close enlarged image');
+    close.addEventListener('click', () => z.close());
+    z.append(source, close);
+    z.addEventListener('click', e => { if (e.target === z) z.close(); });
+    z.addEventListener('close', () => { z.remove(); trigger.focus(); }, { once: true });
+    document.body.append(z); z.showModal();
+  };
+  $$('.fig-frame img, .diagram-wrap').forEach(trigger => {
+    const svg = trigger.querySelector('svg');
+    const label = svg?.getAttribute('aria-label') || trigger.alt || 'Diagram';
+    trigger.tabIndex = 0; trigger.setAttribute('role', 'button'); trigger.setAttribute('aria-label', 'Enlarge: ' + label);
+    const open = () => {
+      if (svg) openZoom(svg.cloneNode(true), label, trigger);
+      else { const img = document.createElement('img'); img.src = trigger.currentSrc || trigger.src; img.alt = trigger.alt; openZoom(img, label, trigger); }
+    };
+    trigger.addEventListener('click', open);
+    trigger.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+  });
 
   // On this page: highlight the section being read
   const links = $$('.toc a');
@@ -76,17 +72,45 @@
   const input = $('#q');
   const box = $('#results');
   if (!input || !box) return;
+  input.setAttribute('role', 'combobox');
+  input.setAttribute('aria-autocomplete', 'list');
+  input.setAttribute('aria-expanded', 'false');
+  const hideSearch = () => { box.hidden = true; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); };
+  const positionSearch = () => {
+    const r = input.getBoundingClientRect();
+    const left = Math.max(8, Math.min(r.left, innerWidth - 328));
+    box.style.left = left + 'px';
+    box.style.top = (r.bottom + 6) + 'px';
+    box.style.width = Math.min(400, innerWidth - left - 12) + 'px';
+    box.style.maxHeight = Math.max(80, Math.min(innerHeight * .6, innerHeight - r.bottom - 20)) + 'px';
+  };
+  addEventListener('resize', positionSearch);
+  document.addEventListener('scroll', () => { if (!box.hidden) positionSearch(); }, { passive: true, capture: true });
   let index = null;
   let sel = -1;
-  const load = async () => { index ??= await (await fetch(BASE + 'search.json')).json(); return index; };
+  const load = async () => {
+    if (!index) {
+      const response = await fetch(BASE + 'search.json');
+      if (!response.ok) throw new Error('Search index unavailable');
+      index = await response.json();
+    }
+    return index;
+  };
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const hi = (s, terms) => terms.reduce((acc, t) => acc.replace(new RegExp(`(${t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'ig'), '<mark>$1</mark>'), esc(s));
   const render = async () => {
     const q = input.value.trim().toLowerCase();
-    if (q.length < 2) { box.hidden = true; return; }
+    if (q.length < 2) { hideSearch(); return; }
+    let docs;
+    try { docs = await load(); } catch {
+      if (input.value.trim().toLowerCase() !== q || document.activeElement !== input) return;
+      box.innerHTML = '<div class="empty" role="status">Search is unavailable. Browse the topics below, or try again.</div>';
+      positionSearch(); box.hidden = false; input.setAttribute('aria-expanded', 'true'); return;
+    }
+    if (input.value.trim().toLowerCase() !== q || document.activeElement !== input) return;
     const terms = q.split(/\s+/).filter(Boolean);
     const rows = [];
-    for (const doc of await load()) {
+    for (const doc of docs) {
       for (const s of doc.sections) {
         const hay = (s.h + ' ' + s.t).toLowerCase();
         if (!terms.every((t) => hay.includes(t))) continue;
@@ -100,27 +124,33 @@
     rows.sort((a, b) => b.score - a.score);
     sel = -1;
     box.innerHTML = rows.length
-      ? rows.slice(0, 12).map((r) => `<a href="${r.href}" role="option"><span class="r-t">${hi(r.title, terms)}</span><span class="r-p">${esc(r.page)}</span><span class="r-s">${hi(r.snip, terms)}</span></a>`).join('')
+      ? rows.slice(0, 12).map((r, i) => `<a id="search-result-${i}" href="${r.href}" role="option" aria-selected="false"><span class="r-t">${hi(r.title || r.page, terms)}</span><span class="r-p">${esc(r.page)}</span><span class="r-s">${hi(r.snip, terms)}</span></a>`).join('')
       : '<div class="empty">No matches. Try a surface name like “MISRA” or “Register Knowledge”.</div>';
-    box.hidden = false;
+    positionSearch(); box.hidden = false; input.setAttribute('aria-expanded', 'true'); input.removeAttribute('aria-activedescendant');
   };
   input.addEventListener('input', render);
-  input.addEventListener('focus', () => { load(); if (input.value.trim().length > 1) render(); });
+  input.addEventListener('focus', () => { if (input.value.trim().length > 1) render(); });
   input.addEventListener('keydown', (e) => {
     const opts = $$('a', box);
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
+      if (!opts.length || box.hidden) return;
       sel = (sel + (e.key === 'ArrowDown' ? 1 : -1) + opts.length) % opts.length;
       opts.forEach((o, i) => o.setAttribute('aria-selected', String(i === sel)));
+      input.setAttribute('aria-activedescendant', opts[sel].id);
       opts[sel]?.scrollIntoView({ block: 'nearest' });
-    } else if (e.key === 'Enter' && opts.length) {
+    } else if (e.key === 'Enter' && opts.length && !box.hidden) {
       location.href = (opts[sel] ?? opts[0]).href;
     } else if (e.key === 'Escape') {
-      box.hidden = true; input.blur();
+      hideSearch(); input.blur();
     }
   });
-  document.addEventListener('click', (e) => { if (!e.target.closest('.search')) box.hidden = true; });
+  document.addEventListener('click', (e) => { if (!e.target.closest('.search')) hideSearch(); });
   addEventListener('keydown', (e) => {
-    if (e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)) { e.preventDefault(); input.focus(); }
+    if (e.key === '/' && !/input|textarea/i.test(document.activeElement.tagName)) {
+      e.preventDefault();
+      if (menu && menu.offsetParent !== null) { document.body.classList.add('nav-open'); menu.setAttribute('aria-expanded', 'true'); menu.setAttribute('aria-label', 'Close navigation'); }
+      input.focus();
+    }
   });
 })();

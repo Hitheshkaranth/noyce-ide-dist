@@ -472,6 +472,11 @@
     .v3-bridge { cursor: pointer; }
     .v3-up { animation-direction: reverse; }
   </style>
+<!-- noyce-site-refinement -->
+  <link rel="stylesheet" href="refinement/refinement.css">
+  <link rel="stylesheet" href="refinement/anatomy.css">
+  <script src="refinement/review.js" defer></script>
+  <script src="refinement/anatomy.js" defer></script>
 </head>
 <body>
   <div id="root"></div>
@@ -602,7 +607,7 @@
     );
 
     /* ---------- Header ---------- */
-    const NAV = [['#system', 'How it works', 'system'], ['#how', 'Tour', 'how'], ['#dal-a', 'DO-178C run', 'dal-a'], ['#features', 'Product', 'features'], ['#ai', 'Agents', 'ai'], ['#graph', 'Knowledge graph', 'graph']];
+    const NAV = [['#review', 'Code review', 'review'], ['#anatomy', 'Inside Noyce', 'anatomy'], ['#how', 'Product tour', 'how'], ['#dal-a', 'DO-178C run', 'dal-a']];
     const Header = () => {
       const [scrolled, setScrolled] = useState(false);
       const [here, setHere] = useState('');
@@ -652,7 +657,7 @@
             </div>
             {open && (
               <div className="hdr-menu lg:hidden">
-                {NAV.concat([['#contact', 'Contact', 'contact']]).map(([h, l, id]) => (
+                {NAV.concat([['/docs/', 'Documentation', 'docs'], ['#contact', 'Contact', 'contact']]).map(([h, l, id]) => (
                   <a key={id} href={h} onClick={() => setOpen(false)}>{l}</a>
                 ))}
               </div>
@@ -803,6 +808,22 @@
         </section>
       );
     };
+
+
+    const SupportedAgents = () => (
+      <section className="nx-support" aria-label="Supported agents and models">
+        <div className="wrap">
+          <div className="nx-support-logos">
+            {[
+              ['claude', 'Claude Code'], ['openai', 'Codex'], ['gemini', 'Gemini CLI'], ['ollama', 'Ollama'],
+            ].map(([icon, name]) => <a key={name} href="#models" className="nx-support-item" aria-label={name + ' integration'}><img src={'refinement/agents/' + icon + '.svg'} alt="" width="28" height="28" /><span>{name}</span></a>)}
+            {['Signa', 'Lab'].map(name => <span key={name} className="nx-support-item nx-support-upcoming"><span>{name}</span><span className="nx-upcoming-label">Upcoming</span></span>)}
+          </div>
+          <p>Supported agents &amp; models</p>
+        </div>
+      </section>
+    );
+
 
     const LoopVideo = ({ src, className, poster, controls, label, captions }) => {
       const ref = useRef(null);
@@ -3132,11 +3153,19 @@
         <a href="#main" className="skip">Skip to content</a>
         <Header />
         <Hero />
+        <SupportedAgents />
         <Showcase />
         <VendorRoll />
         <main id="main">
           <About />
-          <Anatomy />
+          <section id="review" className="nx-section wrap" aria-labelledby="nx-review-heading">
+            <div className="nx-section-head"><div><h2 id="nx-review-heading">Every change deserves<br />a clear review.</h2><p>See the finding, inspect the proposal, and decide what reaches your firmware.</p></div><a href="/docs/review-ai-changes" className="nx-text-link">Read the review guide <Icon name="arrowRight" size={16} /></a></div>
+            <noyce-review></noyce-review>
+          </section>
+          <section id="anatomy" className="nx-section wrap" aria-labelledby="nx-anatomy-heading">
+            <div className="nx-section-head"><div><h2 id="nx-anatomy-heading">Open up the workbench.</h2><p>Choose a layer to see the actual IDE view, what it does, and where its evidence goes.</p></div><a href="/docs/" className="nx-text-link">Explore the documentation <Icon name="arrowRight" size={16} /></a></div>
+            <noyce-anatomy data-docs-base="/docs/"></noyce-anatomy>
+          </section>
           <System3D />
           <Featured />
           <Story />
