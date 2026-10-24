@@ -300,6 +300,8 @@
     .window-bar span { flex: 1; margin-right: 44px; text-align: center; color: var(--text-3); font-size: 11.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .window-stage { position: relative; aspect-ratio: 1600 / 988; background: #0e0e0e; }
     .window-stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .window.film .window-stage { aspect-ratio: 16 / 9; }
+    .window.film .window-stage video { object-fit: contain; }
     .glow { position: relative; isolation: isolate; }
     .glow::before { content: ''; position: absolute; inset: 12% 8% -4%; z-index: -1; border-radius: 50%; background: var(--grad-ink); filter: blur(100px); opacity: .14; pointer-events: none; }
 
@@ -311,7 +313,7 @@
       .reel-pin { position: sticky; top: 0; height: 100vh; padding: 0; display: flex; flex-direction: column; justify-content: center; overflow: clip; }
       .reel-head { position: absolute; left: 0; right: 0; top: max(96px, 12vh); margin: 0 auto; opacity: clamp(0, calc(1 - var(--p, 0) * 2.4), 1); transform: translateY(calc(var(--p, 0) * -48px)); }
       .reel-pin > .wrap { width: 100%; }
-      .reel-win { width: min(100%, calc((100vh - 104px) * 1.56)); margin-top: 48px; transform: translateY(calc((1 - var(--p, 0)) * 16vh)) scale(calc(.6 + .4 * var(--p, 0))); transform-origin: 50% 50%; will-change: transform; }
+      .reel-win { width: min(100%, calc((100vh - 220px) * 1.778)); margin-top: 56px; transform: translateY(calc((1 - var(--p, 0)) * 16vh)) scale(calc(.6 + .4 * var(--p, 0))); transform-origin: 50% 50%; will-change: transform; }
       .reel-cap { opacity: clamp(0, calc(var(--p, 0) * 3 - 2), 1); }
     }
 
@@ -827,7 +829,7 @@
             </div>
             <div className="wrap">
               <div className="reel-win glow">
-                <Window title="Noyce IDE">
+                <Window title="Noyce IDE" className="film">
                   <LoopVideo src={DEMO + 'noyce-office-v15.mp4'} poster={DEMO + 'noyce-office-v15.jpg'} captions={DEMO + 'noyce-office-v15.vtt'} controls label="Noyce IDE film, with narration and captions" />
                 </Window>
                 <div className="reel-cap flex flex-wrap items-center justify-between gap-2 px-1 pt-4">
@@ -1370,8 +1372,8 @@
     /* ---------- Silicon x Software ---------- */
     const SplitScene = ({ src, poster, title, flip, wide, children }) => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:items-stretch">
-        <Reveal className={'tile p-2.5 ' + (flip ? 'md:order-2' : '')}>
-          <div className="frame h-full" style={{ aspectRatio: wide ? '16 / 10' : '4 / 3' }}>
+        <Reveal className={'tile p-2.5 ' + (wide ? 'flex items-center ' : '') + (flip ? 'md:order-2' : '')}>
+          <div className={'frame ' + (wide ? 'w-full' : 'h-full')} style={{ aspectRatio: wide ? '16 / 9' : '4 / 3' }}>
             <LoopVideo src={src} poster={poster} label={title} className={'w-full h-full ' + (wide ? 'object-contain' : 'object-cover')} />
           </div>
         </Reveal>
@@ -2015,8 +2017,8 @@
             <Reveal className="tile tile-pad grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-8 lg:gap-12">
               <div>
                 <div className="label mb-2">Annex A, graded by the current IDE · re-run 24 Oct 2026</div>
-                <h3 className="h3 h3-lg mb-3">None of 71 satisfied until a person reviews them. That is the honest starting point.</h3>
-                <p className="body m-0">The current IDE grades the project 39 partial and 32 open. Two objectives, decision and statement coverage under A-7, are fully evidenced by measurement and wait for review: Noyce never marks an objective satisfied without a human reviewer, and AI earns no independence credit. The Software Accomplishment Summary states non-compliance. The IDE shows the same gap list, not a green dashboard.</p>
+                <h3 className="h3 h3-lg mb-3">39 of 71 objectives evidenced. Two fully measured, waiting for a reviewer.</h3>
+                <p className="body m-0">Decision and statement coverage under A-7 are fully evidenced by measurement. Satisfied takes a person: Noyce never marks an objective satisfied without a human reviewer, and AI earns no independence credit, so the count stays at 0 satisfied until those reviews are recorded. The other 32 objectives are open, and the IDE lists each gap instead of a green dashboard.</p>
               </div>
               <div className="flex flex-col gap-6">
                 <AnnexBar size="lg" />
@@ -2454,7 +2456,7 @@
                     <span className="font-medium" style={{ fontFamily: 'var(--font-display)', letterSpacing: '-.02em' }}>Noyce IDE</span>
                   </div>
                   <p className="small m-0" style={{ maxWidth: '16rem' }}>An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
-                  <div className="mt-5"><span className="chip chip-ok chip-dot">v2.0.8 · macOS + Windows · Free during beta</span></div>
+                  <div className="mt-5 flex flex-wrap gap-1.5"><span className="chip chip-ok">v2.0.8</span><span className="chip">macOS + Windows</span><span className="chip">Free during beta</span></div>
                 </div>
                 {cols.map((col) => (
                   <div key={col.h}>
