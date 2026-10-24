@@ -477,6 +477,7 @@
   <link rel="stylesheet" href="refinement/anatomy.css">
   <script src="refinement/review.js" defer></script>
   <script src="refinement/anatomy.js" defer></script>
+<link rel="stylesheet" href="refinement/layout.css">
 </head>
 <body>
   <div id="root"></div>
@@ -961,7 +962,7 @@
     const Story = () => {
       const pinned = useMedia('(min-width: 1024px) and (prefers-reduced-motion: no-preference)');
       return (
-        <section id="how" className="pt-16 md:pt-24">
+        <section id="tour-reference" className="pt-16 md:pt-24">
           <div className="wrap">
             <SectionHead eyebrow="Tour · H-Bridge motor controller, STM32G431" title={<span>Scroll through a certification pass. <span className="muted">Every frame is the running IDE.</span></span>} className="mb-4 md:mb-6" />
           </div>
@@ -1184,7 +1185,7 @@
       const a = AREAS.find((x) => x.k === area);
       const it = a.items[Math.min(pick, a.items.length - 1)];
       return (
-        <section id="features" className="section">
+        <section id="all-surfaces" className="section">
           <div className="wrap">
             <SectionHead title={<span>{SURFACE_COUNT} surfaces. <span className="muted">One window.</span></span>}>
               Every screenshot below is the running Code-OSS build with a real firmware project open. Nothing is a mockup. Generated artifacts stay in <span className="code">.noyce/</span> and the firmware tree stays git-clean.
@@ -1264,7 +1265,7 @@
         return () => clearInterval(id);
       }, [a.cmd]);
       return (
-        <section id="ai" className="section">
+        <section id="ai-reference" className="section">
           <div className="wrap">
             <SectionHead title={<span>{AGENT_COUNT === 15 ? 'Fifteen' : AGENT_COUNT} specialist agents, <span className="muted">one auditable thread.</span></span>}>
               Each agent can run on its own model. A firmware loop, document and compliance authors, single-finding fixers, and the workbench UI team. Agents draft; engineers decide. Completions are hash-chained.
@@ -1333,7 +1334,7 @@
         { h: 'Agent CLIs and runners', note: 'Drive existing tools', items: PROVIDERS.cli },
       ];
       return (
-        <section id="models" className="section">
+        <section id="models-reference" className="section">
           <div className="wrap">
             <SectionHead title={<span>Your models, <span className="muted">on your network.</span></span>}>
               Regulated teams cannot put an unaudited cloud chatbot in the loop. Run every agent on a model server inside the building, choose a cloud provider per agent, or mix both. Select a block to follow a slice of code through.
@@ -1420,7 +1421,7 @@
       </div>
     );
     const Philosophy = () => (
-      <section id="hardware" className="section">
+      <section id="hardware-reference" className="section">
         <div className="wrap">
           <SectionHead title={<span>Silicon <span className="muted">×</span> Software.</span>} />
           <div className="flex flex-col gap-4">
@@ -1708,7 +1709,7 @@
               Safety programs already run the V. What breaks is the horizontal: the line that says this test verifies that requirement. It normally lives in a spreadsheet nobody trusts. Select a stage, or a bridge across the V, to see the surface that produces it and the stage it answers to.
             </SectionHead>
             {wide ? (
-              <Reveal className="tile v3-tile overflow-hidden mb-4"><VModel3D active={active} partner={partner} onPick={setActive} /></Reveal>
+              <Reveal className="tile v3-tile overflow-hidden mb-4"><VModel3D active={active} partner={partner} onPick={setActive} /><div className="ng-vmodel-stages" role="group" aria-label="Select a V model stage">{flat.map(n => <VNode key={n.id} n={n} />)}</div></Reveal>
             ) : (
             <Reveal className="tile diagram dots mb-4">
               <div className="flex items-center justify-between mb-4">
@@ -2082,7 +2083,7 @@
         { t: 'Your firmware tree stays yours.', d: 'Everything generated goes under .noyce/ with its own .gitignore. Agent writes are confined to the project and arrive as change sets you approve, gated on build, tests and MISRA.' },
       ];
       return (
-        <section id="trust" className="section">
+        <section id="trust-reference" className="section">
           <div className="wrap">
             <SectionHead title="Evidence you can defend in an audit.">
               Most tools are judged on how green the dashboard looks. An auditor judges the opposite: what was measured, by whom, against which configuration. These are the rules Noyce holds itself to.
@@ -3147,56 +3148,131 @@
       );
     };
 
+    /* ---------- Graphite-inspired page structure; the original hero stays intact. ---------- */
+    const NG_TOUR = [
+      { title: 'Understand the hardware behind the code', description: 'Open the reference manual beside the firmware. Follow a register back to its page and the source that uses it.', image: 'register-knowledge-gpioafsel', caption: 'Register Knowledge', href: '/docs/hardware' },
+      { title: 'Build the project you already have', description: 'Import a TI, STM32, or MPLAB project. Keep the build diagnostics and memory footprint next to your editor.', image: 'walkthrough-ti-build', caption: 'Build view', href: '/docs/import-walkthrough' },
+      { title: 'Review what your agents propose', description: 'Inspect staged changes and recorded reviews. An engineer makes the decision before a proposed change reaches the project.', image: 'records-reviews', caption: 'Review records', href: '/docs/review-ai-changes' },
+      { title: 'Measure the verification', description: 'Read MISRA findings, CBMC proofs, and measured MC/DC coverage from the tools that ran on your project.', image: 'mcdc', caption: 'MC/DC coverage', href: '/docs/analysis' },
+      { title: 'Keep the evidence connected', description: 'Trace requirements, source, tests, and review records through to the life-cycle documents.', image: 'traceability-graph', caption: 'Traceability Graph', href: '/docs/requirements' },
+    ];
+
+    const NGHeading = ({ title, children }) => <div className="ng-heading"><h2>{title}</h2>{children && <p>{children}</p>}</div>;
+    const NGLink = ({ href, children }) => <a className="ng-link" href={href}>{children}<Icon name="arrowRight" size={15} /></a>;
+    const NGImage = ({ name, alt, className = '' }) => <img className={className} src={'docs/img/' + name + '.webp'} alt={alt} width="1600" height="958" loading="lazy" decoding="async" />;
+    const NGButton = ({ href, children }) => <a href={href} className="ng-glow-button">{children}</a>;
+
+    const NG_FILMS = [['noyce-office-v15','Full walkthrough'], ['requirements','Requirements'], ['traceability','Traceability'], ['mcdc','Verification'], ['orchestrator','Agents'], ['audit','Audit trail']];
+    const NGFilm = () => {
+      const [active, setActive] = useState(0), [started, setStarted] = useState(false), [playing, setPlaying] = useState(false), [failed, setFailed] = useState(false);
+      const video = useRef(null);
+      const clip = NG_FILMS[active][0];
+      useEffect(() => {
+        const el = video.current; if (!el) return;
+        const io = new IntersectionObserver(([e]) => { if (!e.isIntersecting) el.pause(); });
+        io.observe(el); return () => io.disconnect();
+      }, [active]);
+      const play = async () => { try { setStarted(true); await video.current.play(); } catch { setFailed(true); } };
+      return <section className="ng-film-section" aria-label="Recorded Noyce walkthroughs">
+        <div className="ng-film-frame"><div className="ng-film-stage"><video key={clip} ref={video} src={'media/demo/' + clip + '.mp4'} poster={'media/demo/' + (active === 0 ? 'orchestrator' : clip) + '.jpg'} preload="none" playsInline controls={started} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} aria-label={'Noyce recording: ' + NG_FILMS[active][1]}>{active === 0 && <track kind="captions" src="media/demo/noyce-office-v15.vtt" srcLang="en" label="English" />}</video>{!playing && !failed && <button type="button" className="ng-film-play" onClick={play} aria-label={'Play ' + NG_FILMS[active][1]}><Icon name="play" size={22} /></button>}{failed && <a className="ng-film-fallback" href={'media/demo/' + clip + '.mp4'}>Open the recording <Icon name="arrowUpRight" size={16} /></a>}<span className="ng-film-corner ng-film-corner-tl" aria-hidden="true">+</span><span className="ng-film-corner ng-film-corner-br" aria-hidden="true">+</span></div>
+        <div className="ng-film-tabs" role="group" aria-label="Choose a recorded workflow"><span>Noyce in action</span>{NG_FILMS.map(([file,label],i) => <button key={file} type="button" aria-pressed={i === active} onClick={() => { video.current?.pause(); setActive(i); setStarted(false); setPlaying(false); setFailed(false); }}>{label}</button>)}{active === 0 && <a className="ng-film-credits" href="media/demo/noyce-office-v15-credits.txt">Film credits</a>}</div></div>
+        <div className="ng-guide-strip">{[['TI Tiva','Import and build a real project','/docs/import-walkthrough'],['DO-178C','Follow the evidence workflow','/docs/do178c-walkthrough'],['AI changes','Inspect the review gates','/docs/review-ai-changes']].map(([tag,title,href]) => <a key={tag} href={href}><span>{tag}</span><strong>{title}</strong><Icon name="arrowUpRight" size={16} /></a>)}</div>
+      </section>;
+    };
+
+    const NGReviewArt = () => <div className="ng-review-art" aria-hidden="true"><div className="ng-example-label">Illustrative review</div><div className="ng-art-file"><Icon name="file" size={14} /> motor_control.c <span>Proposed change</span></div><div className="ng-art-code"><span>void motor_set(uint8_t channel, uint16_t duty)</span><span>{'{'}</span><ins>+  if (channel &gt;= MOTOR_CHANNEL_COUNT) {'{'}</ins><ins>+      return;</ins><ins>+  {'}'}</ins><span>   outputs[channel] = duty;</span><span>{'}'}</span></div><div className="ng-art-comment"><span className="ng-art-initial">N</span><div><strong>Validate the channel before the write.</strong><p>The proposal adds a guard before indexing the output table.</p><span>Needs engineer review</span></div></div></div>;
+    const NGRecordArt = () => <div className="ng-record-art" aria-hidden="true">{[['cpu','Verification'],['check','Reviews'],['file','Documents'],['graph','Audit ledger'],['cpu','Change sets']].map(([icon,label]) => <span key={label}><Icon name={icon} size={20} />{label}</span>)}</div>;
+    const NGStackArt = () => <div className="ng-stack-art" aria-hidden="true"><div>{['Documents','Evidence','Human review','Analysis','Firmware'].map((label,i) => <span key={label} className={'ng-stack-plane ' + (i === 2 ? 'is-selected' : '')} style={{'--plane':i}}><b>{label}</b><i /><i /><i /></span>)}</div></div>;
+    const NGReviewSpotlight = () => {
+      const [open, setOpen] = useState(false);
+      return <section id="review" className="ng-section ng-spotlight-section"><div className="ng-feature ng-feature-wide ng-spotlight"><div className="ng-feature-copy"><h2>Review the change before<br />it reaches the hardware.</h2><p>Understand the finding, inspect the proposed diff, and decide what reaches your firmware.</p><button type="button" className="ng-glow-button" aria-expanded={open} aria-controls="ng-review-expanded" onClick={() => setOpen(v=>!v)}>{open ? 'Close the example' : 'Try the review example'}</button></div><NGReviewArt /></div><div id="ng-review-expanded" className="ng-expanded" hidden={!open}>{open && <noyce-review></noyce-review>}</div></section>;
+    };
+    const NGWorkbenchSpotlight = () => {
+      const [open, setOpen] = useState(false);
+      return <section id="anatomy" className="ng-section ng-spotlight-section"><div className="ng-feature ng-feature-wide ng-spotlight"><div className="ng-feature-copy"><h2>Open up the workbench.</h2><p>From the firmware to the evidence, five connected layers. Explore the real IDE view behind each one.</p><button type="button" className="ng-glow-button" aria-expanded={open} aria-controls="ng-workbench-expanded" onClick={() => setOpen(v=>!v)}>{open ? 'Close the workbench' : 'Explore the workbench'}</button><NGLink href="/docs/">Read the documentation</NGLink></div><NGStackArt /></div><div id="ng-workbench-expanded" className="ng-expanded" hidden={!open}>{open && <noyce-anatomy data-docs-base="/docs/"></noyce-anatomy>}</div></section>;
+    };
+
+    const NGOverview = () => {
+      const tour = [NG_TOUR[2], NG_TOUR[0], NG_TOUR[1], NG_TOUR[3], NG_TOUR[4]];
+      const [active, setActive] = useState(0);
+      const buttons = useRef([]);
+      const onKey = e => {
+        if (e.target.getAttribute('role') !== 'tab') return;
+        const next = e.key === 'ArrowDown' ? (active + 1) % tour.length : e.key === 'ArrowUp' ? (active + tour.length - 1) % tour.length : e.key === 'Home' ? 0 : e.key === 'End' ? tour.length - 1 : -1;
+        if (next < 0) return;
+        e.preventDefault(); setActive(next); buttons.current[next]?.focus();
+      };
+      return <section id="how" className="ng-section ng-overview" aria-label="Explore the Noyce workflow">
+        <div className="ng-tour">
+          <div className="ng-tour-media" id="ng-tour-panel" role="tabpanel" aria-labelledby={'ng-tour-' + active} tabIndex="0">
+            <span className="ng-tour-cross ng-tour-cross-tl" aria-hidden="true">+</span><span className="ng-tour-cross ng-tour-cross-tr" aria-hidden="true">+</span>
+            <div className="ng-tour-preview"><div className="ng-tour-images">{tour.map((t, i) => <NGImage key={t.image} name={t.image} alt={i === active ? t.caption + ': ' + t.description : ''} className={i === active ? 'is-active' : ''} />)}</div><span className="ng-tour-preview-label">{tour[active].caption}<small>Captured in Noyce IDE</small></span></div>
+            <span className="ng-tour-cross ng-tour-cross-bl" aria-hidden="true">+</span><span className="ng-tour-cross ng-tour-cross-br" aria-hidden="true">+</span>
+          </div>
+          <div className="ng-tour-controls" role="tablist" aria-orientation="vertical" aria-label="Explore Noyce workflows" onKeyDown={onKey}>
+            {tour.map((t, i) => <div className={'ng-tour-row' + (active === i ? ' is-active' : '')} key={t.image}>
+              <button type="button" role="tab" id={'ng-tour-' + i} aria-controls="ng-tour-panel" aria-selected={active === i} tabIndex={active === i ? 0 : -1} ref={el => { buttons.current[i] = el; }} onClick={() => setActive(i)}><span className="ng-tour-title">{t.title}</span><span className="ng-tour-description" hidden={active !== i}>{t.description}</span></button>
+              {active === i && <NGLink href={t.href}>Learn more</NGLink>}
+            </div>)}
+          </div>
+        </div>
+      </section>;
+    };
+
+    const NGFeatures = () => <section id="features" className="ng-section">
+      <NGHeading title="Everything you need for firmware.">One connected workflow for code, hardware, and evidence.</NGHeading>
+      <div className="ng-feature-grid">
+        <article className="ng-feature ng-feature-wide" id="hardware">
+          <div className="ng-feature-copy"><h3>Hardware context,<br />next to your code.</h3><p>Follow a register to the reference manual, the code that uses it, and the pin it connects to.</p><div className="ng-feature-actions"><NGButton href="/docs/hardware">Explore the hardware</NGButton><NGLink href="#anatomy">Look inside Noyce</NGLink></div></div>
+          <div className="ng-feature-visual ng-register-visual"><NGImage name="register-knowledge-gpioafsel" alt="Register Knowledge with page-cited register information linked to firmware source" /></div>
+        </article>
+        <article className="ng-feature ng-feature-build"><div className="ng-feature-copy"><h3>Build from the project you have.</h3><p>Import TI Tiva, STM32, or MPLAB projects. Keep the diagnostics and memory footprint beside the editor.</p><NGLink href="/docs/import-walkthrough">Follow the import walkthrough</NGLink></div><div className="ng-feature-visual"><NGImage name="walkthrough-ti-build" alt="Noyce Build view with compiler diagnostics and measured image size" /></div></article>
+        <article className="ng-feature ng-feature-proof"><div className="ng-feature-copy"><h3>Findings you can act on.</h3><p>Read a finding in context, inspect the fix, and bring it to review.</p><NGLink href="#review">Explore the review workflow</NGLink></div><NGReviewArt /></article>
+        <article className="ng-feature ng-feature-trace"><div className="ng-feature-copy"><h3>Follow the requirement to the test.</h3><p>Requirements, implementation, and verification, connected. Missing links stay visible.</p><NGLink href="/docs/requirements">Explore traceability</NGLink></div><div className="ng-feature-visual"><NGImage name="traceability-graph" alt="Noyce Traceability Graph showing requirements, code, and tests" /></div></article>
+        <article className="ng-feature ng-feature-records"><div className="ng-feature-copy"><h3>One project.<br />All the engineering records.</h3><p>Reviews, runs, documents, and approvals share one project-local history.</p><NGLink href="/docs/evidence-records">Understand the evidence</NGLink></div><NGRecordArt /></article>
+        <article className="ng-feature ng-feature-wide" id="ai"><div className="ng-feature-copy"><h3>Agents draft.<br />Engineers decide.</h3><p>Work with specialist agents on code, tests, and documents, using the model you choose. Review every proposal.</p><div className="ng-feature-actions"><NGButton href="/docs/ai-agents">Meet the agents</NGButton><NGLink href="#models">Connect your model</NGLink></div></div><div className="ng-feature-visual ng-agent-visual"><NGImage name="orchestrator" alt="The Noyce AI Orchestrator with specialist agents and handover states" /></div></article>
+      </div>
+      <div className="ng-section-link"><NGLink href="#all-surfaces">Explore every product surface</NGLink></div>
+    </section>;
+
+    const NGInfrastructure = () => <section id="models" className="ng-section ng-infrastructure">
+      <NGHeading title="Your models. Your environment.">Use the infrastructure you already have, with clear boundaries around the code and its records.</NGHeading>
+      <div className="ng-infra-row"><div className="ng-infra-image"><NGImage name="models" alt="Noyce model settings for local model servers and configured providers" /></div><div className="ng-infra-copy"><h3>Run on your own hardware.</h3><p>Connect LM Studio, Ollama, or vLLM on your machine or network. Cloud providers are available when you choose to configure them.</p><div className="ng-provider-names"><span>LM Studio</span><span>Ollama</span><span>vLLM</span></div><NGLink href="/docs/models">Connect a model</NGLink></div></div>
+      <div className="ng-infra-row"><div className="ng-project-tree" aria-label="Project-local evidence folders"><span className="ng-tree-project">firmware-project/</span><span>├─ src/</span><span>├─ tests/</span><span className="ng-tree-accent">└─ .noyce/</span><span>   ├─ change-sets/</span><span>   ├─ documents/</span><span>   ├─ verification/</span><span>   └─ audit-ledger.json</span></div><div className="ng-infra-copy"><h3>Keep the evidence with the project.</h3><p>Generated artifacts live under <code>.noyce/</code>. Staged changes, documents, verification records, and audit history share the same workspace.</p><NGLink href="/docs/noyce-folder">Look inside the project folder</NGLink></div></div>
+    </section>;
+
+    const NGEvidence = () => <section id="trust" className="ng-section ng-evidence">
+      <NGHeading title="Evidence you can bring to a review.">A clear account of what ran, what was reviewed, and what is still open.</NGHeading>
+      <div className="ng-evidence-grid"><article><h3>Measured by real tools</h3><p>Coverage, findings, and proofs come from the tools that ran on your project. Unrun checks are identified.</p><NGLink href="/docs/analysis">See the verification workflow</NGLink></article><article><h3>Decided by a person</h3><p>Reviews record the author and reviewer. AI assistance does not earn independence credit.</p><NGLink href="/docs/evidence-records">Understand review records</NGLink></article><article><h3>Open about the gaps</h3><p>Annex A objectives retain their open items. Noyce prepares evidence; the authority grants certification.</p><NGLink href="/docs/limitations">Read the known limitations</NGLink></article></div>
+    </section>;
+
+    const NGMore = () => <div className="ng-restored-details">
+      <nav className="ng-detail-index" aria-label="Engineering and project details"><span>Explore Noyce</span>{[['Product surfaces','#all-surfaces'],['System architecture','#system'],['V model','#vmodel'],['DO-178C run','#dal-a'],['Release history','#releases'],['The team','#team'],['Download','#download']].map(([label,href]) => <a key={href} href={href}>{label}</a>)}</nav>
+      <div className="ng-reference"><About /><VendorRoll /><Featured /><Product /><System3D /><KnowledgeGraph /><Agents /><LocalModels /><Philosophy /><Stack /><Story /></div>
+      <div className="ng-reference"><DalA /><Trust /><Proof /><Compliance /><Services /><Releases /><Competition /></div>
+      <div className="ng-reference"><YCSnapshot /><Market /><Traction /><Team /><NamedFor /><Contact /></div>
+      <div className="ng-reference"><Download /><FAQ /></div>
+    </div>;
+
+    const NGFooter = () => <footer className="ng-footer"><div className="ng-container"><div className="ng-footer-grid"><div className="ng-footer-brand"><a href="#top"><img src="icons_resources/icon_large.png" alt="" width="30" height="30" />Noyce IDE</a><p>An AI-native Code-OSS workbench for certifiable embedded firmware.</p></div>{[
+      ['Product', [['Product tour','#how'],['Hardware','#hardware'],['AI agents','#ai'],['Models','#models'],['Download','#download']]],
+      ['Engineering', [['Workbench anatomy','#anatomy'],['Code review','#review'],['V model','#vmodel'],['DO-178C walkthrough','#dal-a'],['All product surfaces','#all-surfaces'],['Release history','#releases']]],
+      ['Resources', [['Documentation','/docs/'],['Quick start','/docs/quick-start'],['Known limitations','/docs/limitations'],['FAQ','#faq']]],
+      ['Connect', [['GitHub',REPO],['The team','#team'],['Contact','#contact'],['Email','mailto:' + CONTACT_EMAIL]]],
+    ].map(([title, links]) => <nav key={title} aria-label={title + ' footer links'}><h3>{title}</h3>{links.map(([label, href]) => <a key={label} href={href}>{label}</a>)}</nav>)}</div><div className="ng-footer-bottom"><span>© 2026 Noyce · Built with Code-OSS, Rust, and React</span><a href="/docs/install">Installation guide <Icon name="arrowUpRight" size={13} /></a></div><div className="ng-footer-wordmark" aria-hidden="true">Noyce<span>IDE</span></div></div></footer>;
+
     /* ---------- App ---------- */
     const App = () => (
-      <div className="min-h-screen">
-        <a href="#main" className="skip">Skip to content</a>
-        <Header />
-        <Hero />
-        <SupportedAgents />
-        <Showcase />
-        <VendorRoll />
-        <main id="main">
-          <About />
-          <section id="review" className="nx-section wrap" aria-labelledby="nx-review-heading">
-            <div className="nx-section-head"><div><h2 id="nx-review-heading">Every change deserves<br />a clear review.</h2><p>See the finding, inspect the proposal, and decide what reaches your firmware.</p></div><a href="/docs/review-ai-changes" className="nx-text-link">Read the review guide <Icon name="arrowRight" size={16} /></a></div>
-            <noyce-review></noyce-review>
-          </section>
-          <section id="anatomy" className="nx-section wrap" aria-labelledby="nx-anatomy-heading">
-            <div className="nx-section-head"><div><h2 id="nx-anatomy-heading">Open up the workbench.</h2><p>Choose a layer to see the actual IDE view, what it does, and where its evidence goes.</p></div><a href="/docs/" className="nx-text-link">Explore the documentation <Icon name="arrowRight" size={16} /></a></div>
-            <noyce-anatomy data-docs-base="/docs/"></noyce-anatomy>
-          </section>
-          <System3D />
-          <Featured />
-          <Story />
-          <DalA />
-          <Trust />
-          <KnowledgeGraph />
-          <Product />
-          <Agents />
-          <LocalModels />
-          <Philosophy />
-          <Stack />
-          <VModel />
-          <Proof />
-          <Compliance />
-          <Services />
-          <Releases />
-          <Competition />
-          <Download />
-          <FAQ />
-          {/* Company: for partners and investors, kept below the product. */}
-          <YCSnapshot />
-          <Market />
-          <Traction />
-          <Team />
-          <NamedFor />
-          <Contact />
-          <CTA />
-        </main>
-        <Footer />
+      <div className="min-h-screen ng-site">
+        <a href="#main" className="skip">Skip to content</a><Header /><Hero /><SupportedAgents />
+        <main id="main" className="ng-page"><div className="ng-container">
+          <NGFilm /><NGOverview /><NGFeatures /><NGReviewSpotlight /><NGWorkbenchSpotlight />
+          <NGInfrastructure /><NGEvidence /><div className="ng-reference ng-vmodel-visible"><VModel /></div><NGMore />
+          <section className="ng-section ng-closing"><h2>Open your firmware.<br />Bring the evidence with it.</h2><p>Start with a real project and follow the work from the first build to the review.</p><div><a href="#download" className="btn btn-primary">Download Noyce IDE <Icon name="arrowRight" size={16} /></a><a href="/docs/quick-start" className="btn btn-secondary">Read the quick start</a></div></section>
+        </div></main><NGFooter />
       </div>
     );
+
     ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
