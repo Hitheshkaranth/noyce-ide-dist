@@ -136,7 +136,7 @@
     .code { font-family: var(--font-mono); font-size: .875em; color: var(--fg); background: var(--surface-muted); border: 1px solid var(--border); border-radius: 6px; padding: 0 .35em; letter-spacing: 0; }
     .ink { background: var(--grad-ink); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .eyebrow { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; color: var(--text-3); font-size: .875rem; font-weight: 500; }
-    .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--grad-ink); }
+    .link { color: var(--fg); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; } .link:hover { text-decoration-color: var(--fg); }
     .label { color: var(--text-3); font-size: .8125rem; font-weight: 500; }
 
     /* Surfaces: a tile is Arc's card; a well is the inset surface nested inside one. */
@@ -787,7 +787,7 @@
       );
     };
 
-    const LoopVideo = ({ src, className, poster, controls, label }) => {
+    const LoopVideo = ({ src, className, poster, controls, label, captions }) => {
       const ref = useRef(null);
       useEffect(() => {
         const v = ref.current; if (!v) return;
@@ -802,7 +802,7 @@
         io.observe(v);
         return () => io.disconnect();
       }, [src]);
-      return <video ref={ref} poster={poster} className={className} muted loop playsInline preload="none" controls={controls} aria-label={label} />;
+      return <video ref={ref} poster={poster} className={className} muted loop playsInline preload="none" controls={controls} aria-label={label}>{captions && <track kind="captions" src={captions} srcLang="en" label="English" />}</video>;
     };
 
     /* Live demo clips recorded in the running IDE on the H-Bridge project (media/demo). */
@@ -823,16 +823,16 @@
           <div className="reel-pin">
             <div className="reel-head wrap">
               <h2 className="display">See it work.<br /><span className="ink">On real firmware.</span></h2>
-              <p className="lede mx-auto" style={{ maxWidth: '34rem' }}>Three minutes of recorded Noyce IDE footage: from the hardware to the code, the tests and the DO-178C document set.</p>
+              <p className="lede mx-auto" style={{ maxWidth: '34rem' }}>Three minutes of the current Noyce IDE on real firmware, from the code to the tests and the DO-178C document set.</p>
             </div>
             <div className="wrap">
               <div className="reel-win glow">
                 <Window title="Noyce IDE">
-                  <LoopVideo src={DEMO + 'noyce-reel.mp4'} poster={DEMO + 'noyce-reel.jpg'} controls label="Noyce IDE demo reel" />
+                  <LoopVideo src={DEMO + 'noyce-office-v15.mp4'} poster={DEMO + 'noyce-office-v15.jpg'} captions={DEMO + 'noyce-office-v15.vtt'} controls label="Noyce IDE film, with narration and captions" />
                 </Window>
                 <div className="reel-cap flex flex-wrap items-center justify-between gap-2 px-1 pt-4">
-                  <span className="small">Recorded in the running IDE, edited for narrative · 3:00</span>
-                  <span className="chip chip-ok chip-dot">Actual IDE recordings</span>
+                  <span className="small">Current IDE footage, with 3D scenes that illustrate the hardware and the air-gapped setup. 3:00. <a className="link" href={DEMO + 'noyce-office-v15-credits.txt'}>Film credits</a></span>
+                  <span className="chip chip-ok chip-dot">Current IDE footage</span>
                 </div>
               </div>
             </div>
@@ -964,7 +964,7 @@
                   </div>
                 </div>
                 <div className="glow">
-                  <Window title={'Noyce IDE — ' + s.win}>
+                  <Window title={'Noyce IDE - ' + s.win}>
                     {STORY.map((c, i) => (
                       <div key={c.clip} className="stage-layer absolute inset-0" data-on={i === idx ? '' : undefined} aria-hidden={i !== idx}>
                         <StageVideo clip={c.clip} active={i === idx} near={Math.abs(i - idx) <= 1} label={c.win + ': ' + c.t} />
@@ -986,10 +986,10 @@
       <div className="wrap pt-6 pb-8">
         {STORY.map((c, i) => (
           <Reveal key={c.clip} className="story-card">
-            <div className="story-count mb-2">{String(i + 1).padStart(2, '0')} · {c.k}</div>
+            <div className="story-count mb-2">{c.k}</div>
             <h3 className="h3 h3-lg mb-2">{c.t}</h3>
             <p className="body mt-0 mb-5" style={{ maxWidth: '40rem' }}>{c.d}</p>
-            <Window title={'Noyce IDE — ' + c.win}>
+            <Window title={'Noyce IDE - ' + c.win}>
               <LoopVideo src={DEMO + c.clip + '.mp4'} poster={DEMO + c.clip + '.jpg'} label={c.win + ': ' + c.t} />
             </Window>
           </Reveal>
@@ -1035,14 +1035,14 @@
         { label: 'Problem', body: 'Certifiable firmware is still built across a vendor IDE, a pin tool, two static analyzers, a requirements manager, a traceability spreadsheet, a CI dashboard, and a generic AI chat. Every hop drops context the auditor later asks for.' },
         { label: 'Solution', body: 'One Code-OSS window: 53 surfaces, native editing, an in-IDE knowledge graph RAG pipeline that traces code to registers, schematic BoM, CBMC, offline CodeQL, MISRA, MC/DC, coupling, and a SHA-256-anchored certification package written under .noyce/ so the project stays git-clean.' },
         { label: 'Customer', body: 'Aerospace, automotive, medical, industrial, robotics, and defense firmware teams that must produce DO-178C / ISO 26262 / MISRA evidence before they can ship or raise the next round of hardware.' },
-        { label: 'Why now', body: 'Models can finally read a workspace, but regulated teams cannot put an unaudited cloud chatbot in the loop. Noyce runs the full agent and RAG stack on models served from the team\'s own hardware (LM Studio, vLLM, Ollama), with cloud providers only where the team chooses them. Every AI action is signed onto the same graph as the code.' },
+        { label: 'Why now', body: 'Models can finally read a workspace, but regulated teams cannot put an unaudited cloud chatbot in the loop. Noyce runs the full agent and RAG stack on models served from the team\'s own hardware (LM Studio, vLLM, Ollama), with cloud providers only where the team chooses them. Every AI action is recorded on the same hash-chained ledger as the code.' },
         { label: 'Wedge', body: 'Start as the IDE they already know (Code-OSS), not a new portal. Expand from editor-native compliance into the operating system for safety-critical software delivery: evidence, hardware, CI, and agents on one thread.' },
         { label: 'Moat', body: 'Real CLIs and parsers, not screenshots of them. CBMC, CodeQL, LiteParse, PaddleOCR, CMSIS-SVD, STM32 .ioc / CCS / MPLAB importers, a 755-tool catalog, and a hash-chained ledger. That stack is hard to fake and harder to leave.' },
       ];
       return (
         <section id="yc" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Company · Pitch" title="A platform for regulated firmware teams.">
+            <SectionHead eyebrow="Company" title="A platform for regulated firmware teams.">
               Make embedded engineers faster without breaking certification discipline. Diligence can run the installer, open a Tiva or STM32 project, and see CBMC, CodeQL, and the audit trail report what they measured.
             </SectionHead>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -1148,7 +1148,7 @@
       return (
         <section id="features" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Product" title={<span>{SURFACE_COUNT} surfaces. <span className="muted">One window.</span></span>}>
+            <SectionHead title={<span>{SURFACE_COUNT} surfaces. <span className="muted">One window.</span></span>}>
               Every screenshot below is the running Code-OSS build with a real firmware project open. Nothing is a mockup. Generated artifacts stay in <span className="code">.noyce/</span> and the firmware tree stays git-clean.
             </SectionHead>
             <Reveal className="mb-4">
@@ -1228,7 +1228,7 @@
       return (
         <section id="ai" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Agents" title={<span>{AGENT_COUNT === 15 ? 'Fifteen' : AGENT_COUNT} specialist agents, <span className="muted">one auditable thread.</span></span>}>
+            <SectionHead title={<span>{AGENT_COUNT === 15 ? 'Fifteen' : AGENT_COUNT} specialist agents, <span className="muted">one auditable thread.</span></span>}>
               Each agent can run on its own model. A firmware loop, document and compliance authors, single-finding fixers, and the workbench UI team. Agents draft; engineers decide. Completions are hash-chained.
             </SectionHead>
             <Reveal className="flex flex-col gap-2.5 mb-4">
@@ -1275,7 +1275,7 @@
         { id: 'ide', kicker: 'Workstation', title: 'Noyce IDE', hint: `Electron · ${AGENT_COUNT} agents · RAG`, body: 'The workbench stays on the engineer machine. Agents, Register Knowledge, and the editor share one graph. Completions are hash-chained. Nothing is sent to a public cloud unless you point it there.' },
         { id: 'rag', kicker: 'Graph', title: 'Register Knowledge', hint: 'code linked to registers', body: 'The in-IDE knowledge graph RAG indexes the vendor manual with the firmware. A load or store traces to the register and bit field it touches. Embeddings can come from their own server, for example a local Ollama.' },
         { id: 'model', kicker: 'Same LAN', title: 'Your model server', hint: 'LM Studio · vLLM · Ollama', body: 'Point AI Models at an OpenAI-compatible endpoint on localhost or the LAN: LM Studio, vLLM (key-protected servers included), Ollama or Open WebUI. Each agent can use its own model, and the Agents panel shows the model the server actually serves.' },
-        { id: 'out', kicker: 'On disk', title: '.noyce/ package', hint: 'docs · fixes · SHA-256', body: 'Specialist agents write DO-178C / MISRA artifacts for that slice, propose fixes as gated change sets in the same window, and file signed HTML + JSON under .noyce/. The firmware tree stays git-clean.' },
+        { id: 'out', kicker: 'On disk', title: '.noyce/ package', hint: 'docs · fixes · SHA-256', body: 'Specialist agents write DO-178C / MISRA artifacts for that slice, propose fixes as gated change sets in the same window, and file sealed HTML + JSON under .noyce/. The firmware tree stays git-clean.' },
       ];
       const [active, setActive] = useState('model');
       const n = nodes.find((x) => x.id === active) || nodes[1];
@@ -1297,7 +1297,7 @@
       return (
         <section id="models" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Models" title={<span>Your models, <span className="muted">on your network.</span></span>}>
+            <SectionHead title={<span>Your models, <span className="muted">on your network.</span></span>}>
               Regulated teams cannot put an unaudited cloud chatbot in the loop. Run every agent on a model server inside the building, choose a cloud provider per agent, or mix both. Select a block to follow a slice of code through.
             </SectionHead>
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] gap-4 mb-4">
@@ -1368,11 +1368,11 @@
     ];
 
     /* ---------- Silicon x Software ---------- */
-    const SplitScene = ({ src, title, flip, children }) => (
+    const SplitScene = ({ src, poster, title, flip, wide, children }) => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:items-stretch">
         <Reveal className={'tile p-2.5 ' + (flip ? 'md:order-2' : '')}>
-          <div className="frame h-full" style={{ aspectRatio: '4 / 3' }}>
-            <LoopVideo src={src} className="w-full h-full object-cover" />
+          <div className="frame h-full" style={{ aspectRatio: wide ? '16 / 10' : '4 / 3' }}>
+            <LoopVideo src={src} poster={poster} label={title} className={'w-full h-full ' + (wide ? 'object-contain' : 'object-cover')} />
           </div>
         </Reveal>
         <Reveal delay={0.06} className={'tile tile-pad flex flex-col justify-center ' + (flip ? 'md:order-1' : '')}>
@@ -1384,9 +1384,9 @@
     const Philosophy = () => (
       <section id="hardware" className="section">
         <div className="wrap">
-          <SectionHead eyebrow="Hardware" title={<span>Silicon <span className="muted">×</span> Software.</span>} />
+          <SectionHead title={<span>Silicon <span className="muted">×</span> Software.</span>} />
           <div className="flex flex-col gap-4">
-            <SplitScene src="web-Prototype/assets/philosophy.mp4?v=7" title="Pins, registers, and the schematic.">
+            <SplitScene src={DEMO + 'firmware-memory.mp4'} poster={DEMO + 'firmware-memory.jpg'} wide title="Memory, pins, registers and the schematic.">
               <p className="body m-0">Pin maps from STM32CubeMX <span className="code">.ioc</span> files, SVD registers, a Cortex-M CFSR decoder, and GNU ld memory maps. Register Knowledge indexes the vendor manual and links each register to the source that touches it, so the datasheet and the firmware stay one graph.</p>
               <div className="h-px my-6" style={{ background: 'var(--border-subtle)' }}></div>
               <p className="body m-0">The schematic viewer pans and zooms the board PDF, then Analyze builds a class-aware BoM and an inferred net graph. Importers cover STM32CubeIDE, TI Tiva / Code Composer, MPLAB X, and a generic folder.</p>
@@ -1422,12 +1422,12 @@
         { t: 'Import', d: 'Open STM32CubeIDE .ioc, TI TivaWare / Code Composer, MPLAB X, or a generic folder. Pin maps, SVD, and the MCU identity come from the project files, not a form.' },
         { t: 'Index', d: 'In-IDE knowledge graph RAG over code, requirements, and the vendor manual. Register Knowledge links the register graph to source. Semantic search and agents share that index, so a load or store traces to the datasheet register it touches.' },
         { t: 'Prove', d: 'CBMC on the harness. CodeQL security-extended from vendored packs (offline). MC/DC and data/control coupling from the AST and call graph. MISRA via cppcheck, clang-tidy, and the 755-tool catalog.' },
-        { t: 'Package', d: 'Specialist agents fill DO-178C Table A artifacts. The Certification Evidence Package is signed HTML + JSON whose SHA-256 is anchored to the hash-chained audit head.' },
+        { t: 'Package', d: 'Specialist agents fill DO-178C Table A artifacts. The Certification Evidence Package is sealed HTML + JSON whose SHA-256 is anchored to the hash-chained audit head.' },
       ];
       return (
         <section id="stack" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Stack" title="What it is, mechanically.">
+            <SectionHead title="What it is, mechanically.">
               A single Electron process tree. Noyce-owned config stays out of the vendored Code-OSS checkout (scripts/lib/codeoss-pin.json pins upstream commit and Node). That is how the product stays reproducible without forking VS Code into sludge.
             </SectionHead>
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] gap-4 mb-4">
@@ -1525,8 +1525,8 @@
     const VPAIRS = [
       {
         rel: 'validated by',
-        left: { id: 'req', k: 'A-3', t: 'System requirements', s: 'Requirements · Semantic Search', d: 'Requirements arrive from Jama or a generic ALM, or the System Designer agent drafts them from the system description. Each one carries a @req tag that lives in the source the compiler sees, not in a parallel spreadsheet.' },
-        right: { id: 'cert', k: 'A-1 · A-8 · A-9', t: 'Certification evidence', s: 'Compliance · Audit Trail', d: 'DO-178C Table A objectives assemble into a signed HTML and JSON package under .noyce/. Its SHA-256 becomes the new head of the hash-chained audit trail, so the evidence is anchored to the run that produced it.' },
+        left: { id: 'req', k: 'A-3', t: 'System requirements', s: 'Requirements · Semantic Search', d: 'Requirements import from CSV, ReqIF or Markdown, or the System Designer agent drafts them from the system description. Each one carries a @req tag that lives in the source the compiler sees, not in a parallel spreadsheet.' },
+        right: { id: 'cert', k: 'A-1 · A-8 · A-9', t: 'Certification evidence', s: 'Compliance · Audit Trail', d: 'DO-178C Table A objectives assemble into a sealed HTML and JSON package under .noyce/. Its SHA-256 becomes the new head of the hash-chained audit trail, so the evidence is anchored to the run that produced it.' },
       },
       {
         rel: 'verified by',
@@ -1666,7 +1666,7 @@
       return (
         <section id="vmodel" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Traceability" title="The V model, with both arms in one window.">
+            <SectionHead title="The V model, with both arms in one window.">
               Safety programs already run the V. What breaks is the horizontal: the line that says this test verifies that requirement. It normally lives in a spreadsheet nobody trusts. Select a stage, or a bridge across the V, to see the surface that produces it and the stage it answers to.
             </SectionHead>
             {wide ? (
@@ -1739,7 +1739,7 @@
               The workbench is exercised across certifiable firmware trees. Figures below are from a running 2.0.4 Code-OSS build after analysis finished. Empty or unsupported views say so.
             </SectionHead>
             <Reveal className="tile p-2.5 mb-4">
-              <div className="frame"><img src="screenshots/10-pin-configurator.png" alt="Pin Configurator showing the TM4C1294NCPDT TQFP128 package with mux state imported from the vendor project" loading="lazy" /></div>
+              <div className="frame"><img src="docs/img/pin-config.webp" alt="Pin Configurator showing the TM4C1294NCPDT TQFP128 package with mux state imported from the vendor project" loading="lazy" /></div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {groups.map((g, i) => (
@@ -1766,11 +1766,11 @@
       return (
         <section id="compliance" className="section">
           <div className="wrap">
-            <SectionHead center eyebrow="Compliance" title="REQ to Design to Test, kept honest.">
+            <SectionHead center title="REQ to Design to Test, kept honest.">
               Numbers below are from the Canister Main Controller firmware in the running Code-OSS build, after analysis had finished. Empty or unsupported views say so.
             </SectionHead>
             <Reveal className="tile p-2.5 mb-4">
-              <div className="frame"><img src="docs/screenshots/new/11-mcdc-coverage.png" alt="MC/DC Structural Coverage against the Canister Main Controller firmware" loading="lazy" /></div>
+              <div className="frame"><img src="docs/img/mcdc.webp" alt="MC/DC Coverage on the Canister Main Controller firmware: conditions and independence vectors found, modules not yet measured shown as a structural zero" loading="lazy" /></div>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {metrics.map(([n, l], i) => (
@@ -1788,18 +1788,18 @@
     /* ---------- Engines ---------- */
     const Services = () => {
       const cards = [
-        { video: 'web-Prototype/assets/strategy.mp4?v=6', tag: 'Compliance', title: 'Evidence and Certification', desc: 'Live DO-178C Table A from the project. Each objective routes to a specialist agent. One click builds a signed HTML + JSON package whose SHA-256 is the audit-trail head. Jama / generic ALM for the requirement register. Print-ready .docx plans and records.' },
-        { video: 'web-Prototype/assets/craft.mp4?v=6', tag: 'Verification', title: 'CBMC, CodeQL, catalog', desc: 'Real CBMC bounded model checking. Real CodeQL CLI, offline packs. Vendored analysis-tools-dev (755 tools), executable subset cppcheck, clang-tidy, ESLint, Ruff, ShellCheck. Cyber Assurance is a real-source SBOM with OSV CVE lookup.' },
+        { video: DEMO + 'review-package.mp4', poster: DEMO + 'review-package.jpg', tag: 'Compliance', title: 'Evidence and Certification', desc: 'Live DO-178C Table A from the project. Each objective routes to a specialist agent. A review package is prepared in stages and sealed as HTML + JSON whose SHA-256 is the audit-trail head. Requirements import from CSV, ReqIF or Markdown. Print-ready .docx plans and records.' },
+        { video: DEMO + 'misra-finding.mp4', poster: DEMO + 'misra-finding.jpg', tag: 'Verification', title: 'CBMC, CodeQL, catalog', desc: 'Real CBMC bounded model checking. Real CodeQL CLI, offline packs. Vendored analysis-tools-dev (755 tools), executable subset cppcheck, clang-tidy, ESLint, Ruff, ShellCheck. Cyber Assurance is a real-source SBOM with OSV CVE lookup.' },
       ];
       return (
         <section className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Engines" title="Certification and verification, as engines." />
+            <SectionHead title="Certification and verification, as engines." />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {cards.map((c, i) => (
                 <Reveal key={c.tag} delay={i * 0.06} className="tile p-2.5 lift flex flex-col">
                   <div className="frame relative aspect-video">
-                    <LoopVideo src={c.video} className="absolute inset-0 w-full h-full object-cover" />
+                    <LoopVideo src={c.video} poster={c.poster} label={c.title + ', recorded in the IDE'} className="absolute inset-0 w-full h-full object-cover object-top" />
                   </div>
                   <div className="p-4 md:p-5 pt-5">
                     <span className="chip mb-4">{c.tag}</span>
@@ -1922,7 +1922,7 @@
           <div className="wrap">
             <Reveal className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 md:mb-14">
               <div>
-                <div className="eyebrow">Release notes</div>
+                
                 <h2 className="h2" style={{ maxWidth: '44rem' }}>What changed, version by version.</h2>
               </div>
               <Seg label="Version" value={v} onChange={setV} items={RELEASES.map((x) => [x.v, x.v])} />
@@ -1967,7 +1967,7 @@
     /* ---------- DO-178C run (2.0.6) ---------- */
     const DAL_STEPS = [
       { k: 'Requirements', clip: 'requirements', clipCap: 'Requirements & Evidence · select a requirement and its evidence ledger follows', t: 'Write the high-level requirements', d: '15 high-level requirements authored into the SRS with per-requirement lint and system trace. System requirements import from CSV, ReqIF-lite or Markdown, and low-level requirements enter the set only through human review.', shot: '06-requirements-authoring.png', cap: 'Requirements Authoring · HLRs written into SRS-001 with lint and system trace' },
-      { k: 'Verification', t: 'Measure, prove, and analyse', d: '57 host tests. 100% MC/DC on five modules, measured with LLVM on the host with stubs, and stated as such. Five CBMC harnesses with 1,172 properties proved. MISRA findings from 549 down to 210, the rest carried as recorded deviations.', shot: '16-formal-verification.png', cap: 'CBMC Formal Verification · bounded model checking with per-function harnesses' },
+      { k: 'Verification', t: 'Measure, prove, and analyse', d: '57 host tests. 100% MC/DC on five modules, measured with LLVM on the host with stubs, and stated as such. Five CBMC harnesses with 1,172 properties proved. Every cppcheck MISRA finding stays listed: 383 open on the latest run, none hidden.', shot: '16-formal-verification.png', cap: 'CBMC Formal Verification · bounded model checking with per-function harnesses' },
       { k: 'Documents', clip: 'documents', clipCap: 'DO-178C Documents · the 17-document library, filtered by folder and opened', t: 'Complete the document set', d: 'All 17 life-cycle documents authored from the workspace. Every open item is classified as a proposal, an engineer decision, or missing evidence, and each has a way to close. A document issues only when nothing is open.', shot: '23-do178c-documents.png', cap: 'DO-178C Documents · the 17-document set, authored, completed and baselined' },
       { k: 'Decisions', t: 'Let agents propose, engineers decide', d: 'Engineering-judgment sections such as software level, partitioning and certification basis are drafted by an agent with rationale, evidence and confidence. An engineer accepts them in a review queue, and acceptance is recorded as an independent review.', shot: '27-review-workflow.png', cap: 'Review Workflow · reviews with author and reviewer independence' },
       { k: 'Baseline', t: 'Baseline only a consistent set', d: 'Contradictions between documents block a baseline unless a named person records a waiver. Problem reports follow AC/AMC 20-189 with CCB decisions and independent closure. Every compliance run is a hashed, reproducible record.', shot: '11-compliance-run.png', cap: 'Compliance Run · one reproducible, hashed record of what was measured' },
@@ -1975,7 +1975,7 @@
     const DalA = () => {
       const [i, setI] = useState(0);
       const s = DAL_STEPS[i];
-      const results = [['17', 'DO-178C documents issued'], ['15', 'high-level requirements'], ['57', 'host tests'], ['1,172', 'CBMC properties proved'], ['549→210', 'MISRA findings, rest deviated']];
+      const results = [['17', 'DO-178C documents issued'], ['15', 'high-level requirements'], ['57', 'host tests'], ['1,172', 'CBMC properties proved'], ['100%', 'decision coverage, measured modules']];
       return (
         <section id="dal-a" className="section">
           <div className="wrap">
@@ -2046,7 +2046,7 @@
       return (
         <section id="trust" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Trust" title="Evidence you can defend in an audit.">
+            <SectionHead title="Evidence you can defend in an audit.">
               Most tools are judged on how green the dashboard looks. An auditor judges the opposite: what was measured, by whom, against which configuration. These are the rules Noyce holds itself to.
             </SectionHead>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -2080,7 +2080,7 @@
       return (
         <section id="compare" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Compare" title="Everyone owns a slice. Nobody owns the graph.">
+            <SectionHead title="Everyone owns a slice. Nobody owns the graph.">
               Vendor IDEs optimize for silicon. Cursor and Copilot optimize for shipping software. Analysis suites sell documents after the fact. None of them hold the thread that runs from a register, through the source, to the objective an auditor signs.
             </SectionHead>
             <Reveal className="tile p-3 md:p-4 overflow-x-auto">
@@ -2115,7 +2115,7 @@
       return (
         <section id="market" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Company · Market" title="Evidence is the expensive half.">
+            <SectionHead title="Evidence is the expensive half.">
               Certification is not paperwork bolted on at the end. It is a large, funded line item that today is spent on engineers assembling documents by hand. Noyce is aimed at that line, not at the editor subscription next to it.
             </SectionHead>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -2164,7 +2164,7 @@
       return (
         <section id="traction" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Company · Traction" title="Where this actually is.">
+            <SectionHead title="Where this actually is.">
               Early, and stated plainly. Noyce is deployed at two companies and has been used on six firmware projects. What it has not done yet is carry a program all the way through certification, and that is the next thing.
             </SectionHead>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -2184,7 +2184,7 @@
     const Team = () => (
       <section id="team" className="section">
         <div className="wrap">
-          <SectionHead eyebrow="Company · Team" title="Built by someone who ships the IDE." />
+          <SectionHead title="Built by someone who ships the IDE." />
           <Reveal className="tile p-2.5 grid grid-cols-1 md:grid-cols-[17rem_1fr] gap-2.5">
             <div className="well p-4 flex flex-col gap-4">
               <img src="icons_resources/founder.jpg" alt="Hithesh Karanth" loading="lazy" className="w-full aspect-square object-cover rounded-xl" style={{ border: '1px solid var(--border)' }} />
@@ -2236,7 +2236,7 @@
       return (
         <section id="download" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="Download" title="Install or review the build.">
+            <SectionHead title="Install or review the build.">
               macOS ships today. Windows is in beta. Source is public for diligence.
             </SectionHead>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -2285,7 +2285,7 @@
     const FAQ = () => (
       <section id="faq" className="section">
         <div className="wrap">
-          <SectionHead eyebrow="FAQ" title="Questions engineers ask first." />
+          <SectionHead title="Questions engineers ask first." />
           <Reveal className="tile tile-pad faq">
             <div className="hair">
               {FAQS.map((f) => (
@@ -2319,7 +2319,7 @@
         <section id="contact" className="section">
           <div className="wrap grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-10 lg:gap-16 items-start">
             <Reveal>
-              <div className="eyebrow">Contact</div>
+              
               <h2 className="h2 mb-4">Talk to us.</h2>
               <p className="lede mb-8">
                 Fastest path is to install the macOS build and open your own project. If you would rather be walked through it, or you want the local model running on your own LAN before anything touches your source, say so and we will set that up.
@@ -2415,7 +2415,7 @@
     const DemoVideo = () => (
       <section id="demo" className="section">
         <div className="wrap">
-          <SectionHead eyebrow="Demo" title={<span>Watch the workbench <span className="muted">run end to end.</span></span>}>
+          <SectionHead title={<span>Watch the workbench <span className="muted">run end to end.</span></span>}>
             A full walkthrough of the pin graph, the register knowledge path, and the sealed certification package coming out the other side.
           </SectionHead>
           <Reveal className="tile p-2.5">
@@ -2570,7 +2570,7 @@
       return (
         <section id="system" className="section">
           <div className="wrap">
-            <SectionHead eyebrow="How it works" title={<span>From your source tree to a reviewable package. <span className="muted">Four layers, all on your network.</span></span>}>
+            <SectionHead title={<span>From your source tree to a reviewable package. <span className="muted">Four layers, all on your network.</span></span>}>
               Firmware goes in at the bottom. Deterministic engines analyse it, every result lands in a hash-chained ledger, and the top layer is what a certification reviewer reads.
             </SectionHead>
             <Reveal>

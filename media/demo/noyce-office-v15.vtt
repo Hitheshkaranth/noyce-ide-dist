@@ -1,0 +1,201 @@
+WEBVTT
+
+1
+00:00:00.333 --> 00:00:02.925
+We took every element, tested it to the
+
+2
+00:00:02.925 --> 00:00:05.516
+worst possible environment it could be in, and
+
+3
+00:00:05.516 --> 00:00:08.107
+assured that it would work in that environment.
+
+4
+00:00:08.667 --> 00:00:13.359
+That discipline matters in safety-critical software. Avionics certification
+
+5
+00:00:13.359 --> 00:00:18.051
+can span years. Connect development, verification, documentation, and
+
+6
+00:00:18.051 --> 00:00:21.570
+evidence, starting with the first draft.
+
+7
+00:00:22.500 --> 00:00:26.155
+The wage rate comes from U.S. labour data.
+
+8
+00:00:26.155 --> 00:00:29.810
+This first-draft model compares three hundred twenty hours
+
+9
+00:00:29.810 --> 00:00:33.465
+with eight. That is about twenty thousand four
+
+10
+00:00:33.465 --> 00:00:37.120
+hundred dollars of drafting capacity. Review, target testing,
+
+11
+00:00:37.120 --> 00:00:38.948
+and approval remain separate.
+
+12
+00:00:40.000 --> 00:00:44.807
+Noyce IDE connects an end-to-end, AI-assisted certification workflow,
+
+13
+00:00:44.807 --> 00:00:49.613
+with local models inside an air-gapped installation. Engineers
+
+14
+00:00:49.613 --> 00:00:51.415
+review the outputs.
+
+15
+00:00:53.000 --> 00:00:56.068
+Take a motor controller. Its two opposing outputs
+
+16
+00:00:56.068 --> 00:00:59.137
+must never be active together. Start with the
+
+17
+00:00:59.137 --> 00:01:02.205
+circuit and its registers, then carry that constraint
+
+18
+00:01:02.205 --> 00:01:05.273
+into a software requirement. That requirement becomes a
+
+19
+00:01:05.273 --> 00:01:08.341
+thread through the engineering work, connecting the physical
+
+20
+00:01:08.341 --> 00:01:11.410
+intent to the checks that follow. Recover the
+
+21
+00:01:11.410 --> 00:01:14.478
+architecture to understand dependencies, and trace the requirement
+
+22
+00:01:14.478 --> 00:01:17.546
+into its implementation and tests. Now a change
+
+23
+00:01:17.546 --> 00:01:20.614
+has context: you can see what it affects,
+
+24
+00:01:20.614 --> 00:01:23.683
+what supports it, and which links still need
+
+25
+00:01:23.683 --> 00:01:24.066
+attention.
+
+26
+00:01:26.000 --> 00:01:29.328
+With that context in place, inspect static analysis
+
+27
+00:01:29.328 --> 00:01:32.656
+findings and review a proposed patch before staging
+
+28
+00:01:32.656 --> 00:01:35.984
+it. The suggestion is only a starting point;
+
+29
+00:01:35.984 --> 00:01:39.312
+the engineer decides what changes. Then examine decision
+
+30
+00:01:39.312 --> 00:01:42.640
+coverage and use bounded checks to investigate properties
+
+31
+00:01:42.640 --> 00:01:45.968
+and counterexamples. Resource budgets add another constraint, so
+
+32
+00:01:45.968 --> 00:01:49.296
+inspect Flash, RAM, and stack estimates alongside build
+
+33
+00:01:49.296 --> 00:01:52.624
+changes. If the target faults, decode the exception
+
+34
+00:01:52.624 --> 00:01:55.952
+frame and fault registers to guide the investigation.
+
+35
+00:01:55.952 --> 00:01:59.280
+Each view contributes a different part of the
+
+36
+00:01:59.280 --> 00:02:02.608
+engineering picture. Review the findings together, because a
+
+37
+00:02:02.608 --> 00:02:05.520
+passing test alone cannot explain every failure.
+
+38
+00:02:11.000 --> 00:02:14.655
+Noyce takes the project through a connected pipeline.
+
+39
+00:02:14.655 --> 00:02:18.311
+AI agents prepare lifecycle-document drafts from project context,
+
+40
+00:02:18.311 --> 00:02:21.966
+while verification and audit records stay with the
+
+41
+00:02:21.966 --> 00:02:25.622
+work. Engineers review the drafts, resolve open items,
+
+42
+00:02:25.622 --> 00:02:29.277
+and issue a versioned baseline. The workflow assembles
+
+43
+00:02:29.277 --> 00:02:32.933
+the supporting evidence into an engineering review package.
+
+44
+00:02:32.933 --> 00:02:36.588
+Inspect each compliance objective against the records, identify
+
+45
+00:02:36.588 --> 00:02:40.243
+remaining gaps, and keep the next action visible.
+
+46
+00:02:40.243 --> 00:02:43.899
+Automation prepares the material; the project team owns
+
+47
+00:02:43.899 --> 00:02:45.270
+review and acceptance.
+
+48
+00:02:50.500 --> 00:02:53.651
+The first draft is just the start. Connect
+
+49
+00:02:53.651 --> 00:02:56.802
+the certification workflow end to end, with Noyce
+
+50
+00:02:56.802 --> 00:02:57.195
+IDE.

@@ -1,0 +1,123 @@
+NOYCE IDE — CURRENT-UI PRODUCT FILM v15 — AIR-GAPPED OFFICE
+
+Aircraft: Boeing 737-800 exterior, FlightGear 737 contributors.
+Source: https://github.com/omega13a/737-Next-Generation
+SpiceJet livery: Pilot2938, from the GPL livery source retained in the personal-site repository.
+License for aircraft and livery: GPL-2.0.
+License text and corresponding original source: accompanying boeing-source.zip.
+Site conversion: scripts/import-flightgear-boeing.py in personal-website.
+Film changes: imported the site's civil-flightgear.glb, rescaled, positioned,
+relit in a physical studio set, animated camera, rendered to video.
+
+Automotive: "Honda City RS", by 3DHA (howtodrwcars).
+Source: https://sketchfab.com/3d-models/1d5a7dc0b3674e779bf88afdd2f4fd46
+License: Creative Commons Attribution 4.0 International (CC BY 4.0).
+License link: https://creativecommons.org/licenses/by/4.0/
+Asset used: original downloaded GLB retained in the personal-site repository,
+not its decimated 8,000-triangle web export. Film changes: preserved original
+materials/textures and detailed geometry; rescaled, positioned, relit, animated
+camera, rendered to video.
+
+Models illustrate safety-critical engineering domains. No manufacturer,
+airline, model artist, or source contributor endorses Noyce IDE or this film.
+
+Opening: authentic Robert Noyce archival excerpt; direct bridge into actual IDE footage.
+Supplied Noyce horizontal logo used unchanged.
+
+Original Noyce illustrations:
+Development-to-certification-evidence rail: original Blender project-input
+pages, controller, verification modules, layered drafts, amber human-review
+gate and evidence binder. This illustrates preparation and review, not approval.
+Detailed motor-controller board: original Blender geometry including QFP pins,
+landing pads, copper routes, crystal, power connectors, capacitors, programming
+header, plated vias, test points, silkscreen, heat sink and motor end rings.
+The board is a concept illustration, not a validated circuit design.
+Animated bounded-property counterexample: original programmatic 00 -> 10 -> 11
+state progression and assertion failure; not a recorded solver result.
+The earlier paper-reference insert and evidence conveyor are absent in v14.
+
+Current product media:
+Captured 24 October 2026 from the running Noyce IDE / noyce_ide-codex checkout,
+HB_run5 (a copy of CANISTER_H_BRIDGE_CONTROLLER_V1, STM32G431).
+Supplied by the user's existing Claude compliance session at the user's request.
+Provenance: incoming/current-ui/manifest.json and capture-response.json;
+accepted edit sources: src/clean-captures.generated.json.
+Full-window current UI; uniformly contained in rounded presentation windows.
+Cuts omit loading delays. Real capture cursor overlays follow recorded inputs.
+Existing project findings, gaps and pending decisions remain visible. No
+approval, baseline, patch application, firmware execution or target flash was
+performed for filming. The memory view was retaken after its map loaded.
+The architecture segment uses a populated current Project Graph; empty
+architecture/register/schematic views are omitted. Hardware is original CGI.
+
+Product narration: AI-generated using Sarvam bulbul:v4-flash, simran_en_narration,
+en-IN, pace 0.86, 48 kHz. Seven continuous product narration passages.
+No brand pronunciation dictionary; synthesis-only phonetic cue used in two
+complete sentences. No time compression of the new product narration.
+Original generated files retained locally.
+Narration phrase timing is estimated from the mastered clip durations.
+Original Robert Noyce archival footage and voice restored.
+Computer History Museum, The Impact of Integrated Circuits, 11 May 1984.
+https://www.youtube.com/watch?v=AfxUq_QrpyY
+Source 22:34.36–22:42.10. No voice reconstruction.
+The product narrative and tagline are separate editorial material.
+
+New original hardware illustration:
+Controller PCB, MCU package, copper traces, passives, MOSFET packages,
+connector, motor and firmware/evidence layers authored for this film in Blender.
+Conceptual geometry and code labels illustrate relationships; not a board design,
+electrical simulation, live target capture or newly verified property.
+
+Music:
+New 120 BPM arrangement of installed Apple Loops from GarageBand / 07 Chillwave:
+Golden Years Layers 01; Evolving Space Bass; Time Delay Synth;
+Evolving Space Synth; Solid Structure Beat 01; Solid Structure Beat 02.
+Tempo adjusted from 100 BPM, instruments arranged by section, EQ and loudness
+adjusted, mixed beneath narration. Distributed as part of the film.
+Apple usage information: https://support.apple.com/en-us/102034
+
+Transition reference study:
+OpenAI, Introducing the Codex app:
+https://openai.com/index/introducing-the-codex-app/
+CodeRabbit, How does CodeRabbit Security work?:
+https://www.youtube.com/watch?v=ZG3eyZMvWCE
+https://www.coderabbit.ai/blog/introducing-coderabbit-security
+Reference films studied for stable window framing, connected stages and
+concept-to-interface handoffs. No new reference film footage, audio, logos,
+commercial statistics or product claims are incorporated into this film.
+
+New original 3D plots:
+Authored in Blender by this project: proportional, zero-based drafting-effort
+and wage-equivalent cost columns; orthographic animated camera; per-frame
+projected label anchors. Hours are modelled inputs, not a measured Noyce run.
+
+Public source data:
+US BLS / Department of Labor, May 2025 national software-developer median wage:
+USD 65.38/hour; wage-only proxy, excludes benefits and overhead.
+https://www.bls.gov/ooh/computer-and-information-technology/software-developers.htm
+https://cloudfront.careeronestop.org/Toolkit/Wages/find-salary.aspx?dataview=table&hourly=False&keyword=Software+Developers&location=Texas&national=True&soccode=151252
+Wind River, Accelerating Avionics Safety Certification: 18–36 months and several
+million dollars as full-component certification context, not first-draft timing.
+https://www.windriver.com/resource/accelerating-avionics-safety-certification-case-study
+
+Model assumptions: 320 drafting hours over 8 working weeks versus 8 drafting
+hours. Wage-equivalent amounts: USD 20,921.60 versus USD 523.04. Difference:
+312 hours / USD 20,398.56 (about USD 20.4k). No measured first-draft Noyce benchmark
+was established by the internet research. The film explicitly labels the model.
+Excludes review, target testing, approval, hardware, model/compute costs, benefits
+and overhead. Not product pricing, cash savings or total certification cost.
+Full methodology and data scopes: VALUE-REVIEW.md and value-sources.json.
+
+New v15 air-gapped office:
+Original Blender geometry, lighting and animation by this project. Three furnished
+engineering workstations, monitor/code illustrations, keyboards, chairs, office
+fixtures, LAN switch and internal patch cables, local inference rack, exposed
+compute trays with heat sinks/memory/copper pipes and animated cooling fans.
+A removable rack side and compute trays move apart during an orbiting camera
+shot. Animated markers illustrate requests and responses within the local LAN.
+There is no modelled external uplink. This is a concept illustration, not footage
+of an actual deployment, a security assessment or measured server performance.
+Authoring: office-models.py; out/office-frames/air-gapped-office.blend.
+Onscreen composition: src/OfficeScene.tsx; full edition: src/OfficeFilm.tsx.
+V14 is retained. The existing archival speech, audio mix and all other chapters
+are retained; the office replaces 40.0–49.0s with a clean handoff through 49.6s.
