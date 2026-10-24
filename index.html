@@ -148,6 +148,11 @@
     .frame { overflow: hidden; border: 1px solid var(--border); border-radius: calc(var(--r-panel) - 10px); background: var(--surface-raised); }
     .frame img, .frame video { display: block; width: 100%; height: auto; }
     .hair > * + * { border-top: 1px solid var(--border-subtle); }
+    .faq summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 0; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary .faq-chev { flex-shrink: 0; color: var(--text-3, var(--text-2)); transition: transform .2s ease; }
+    .faq details[open] summary .faq-chev { transform: rotate(180deg); }
+    .faq details > p { margin: 0 0 20px; max-width: 46rem; }
     .dots { background-image: radial-gradient(oklch(100% 0 0 / .06) 1px, transparent 1px); background-size: 18px 18px; }
 
     /* Controls */
@@ -643,6 +648,10 @@
 
     /* ---------- Hero mosaic tiles ---------- */
     const SHOT = 'docs/screenshots/2.0.6/';
+    // The current screenshots from the user manual (docs/img, captured from the
+    // running build); 2.0.6 captures remain only where the manual has none yet.
+    const CURRENT = {"01-ai-orchestrator":"orchestrator","02-ai-models":"models","04-semantic-search":"semantic-search-query","05-requirements":"requirements","06-requirements-authoring":"requirements-authoring","07-low-level-requirements":"low-level-requirements","08-traceability-graph":"traceability-graph","09-annotations":"annotations","10-compliance-dashboard":"compliance","11-compliance-run":"compliance-run-taken","12-certification-readiness":"readiness","13-evidence-records":"evidence-records","26-audit-trail":"audit-log","27-review-workflow":"records-reviews","23-do178c-documents":"do178c-documents","24-document-reader":"document-reader","19-mcdc-coverage":"mcdc","16-formal-verification":"cbmc","17-codeql-scanning":"codeql-results","14-misra-diagnostics":"misra","15-analysis-tools":"analysis-tools","18-test-explorer":"test-explorer","20-coupling":"coupling","21-object-code-trace":"object-code","25-cyber-assurance":"cyber","22-quality-trend":"quality-trend","33-project-graph":"project-graph","31-architecture":"architecture","34-project-truth-graph":"truth-graph","32-archify":"archify","37-pin-configurator":"pin-config","40-register-knowledge":"register-knowledge-gpioafsel","39-register-inspector":"register-inspector","35-schematic":"schematic","36-bom-studio":"bom-studio","38-peripherals":"peripherals","41-firmware-memory":"firmware-memory-ti","43-debug-probe":"debug-probe","44-fault-analyzer":"fault","46-serial-monitor":"serial-monitor","29-build-pipeline":"ci-pipeline","30-project-templates":"project-templates","28-team-activity":"team-activity","42-memory-view":"memory-view","45-signal-viewer":"signal-viewer","47-modbus":"modbus","48-live-data":"live-data","49-energy-profiler":"energy-profiler","50-data-recorder":"data-recorder","51-hil-runner":"hil-runner","52-fpga-workspace":"fpga-workspace","53-fpga-synthesis":"fpga-synthesis"};
+    const shot = (name) => { const n = name.replace(/\.png$/, ''); return CURRENT[n] ? 'docs/img/' + CURRENT[n] + '.webp' : SHOT + n + '.png'; };
     const ShotTile = ({ c, r, src, label, meta, hide, i }) => (
       <div className={'mt tile-in' + (hide ? ' m-hide' : '')} style={{ '--c': c, '--r': r, animationDelay: (0.08 + i * 0.045) + 's' }} aria-hidden="true">
         <div className="mt-head"><span>{label}</span><span>{meta}</span></div>
@@ -655,8 +664,8 @@
       </div>
     );
 
-    /* Independent review of the 71 Annex A objectives after the H-Bridge DO-178C run (2.0.6). */
-    const ANNEX = [['Satisfied', 5, 'var(--success)'], ['Partial', 36, 'var(--warning)'], ['Open', 27, 'oklch(48% 0 0)'], ['N/A', 3, 'oklch(32% 0 0)']];
+    /* The current IDE's grading of the 71 Annex A objectives on the H-Bridge project, re-run 24 Oct 2026. */
+    const ANNEX = [['Satisfied', 0, 'var(--success)'], ['Partial', 39, 'var(--warning)'], ['Open', 32, 'oklch(48% 0 0)']];
     const AnnexBar = ({ size }) => (
       <div>
         <div className={'flex rounded-full overflow-hidden gap-[2px] ' + (size === 'lg' ? 'h-3' : 'h-2')}>
@@ -693,7 +702,7 @@
                 <div className="mt-auto"><AnnexBar /></div>
               </div>
             </WidgetTile>
-            <ShotTile c="2 / 4" r="1" i={4} src={SHOT + '10-compliance-dashboard.png'} label="Compliance" meta="DO-178C" hide />
+            <ShotTile c="2 / 4" r="1" i={4} src={shot('10-compliance-dashboard')} label="Compliance" meta="DO-178C" hide />
             <WidgetTile c="4" r="1" i={2} hide>
               <div className="mt-head"><span>Handoff chain</span><span>15 agents</span></div>
               <div className="flex flex-col gap-1.5 px-1">
@@ -705,15 +714,15 @@
                 ))}
               </div>
             </WidgetTile>
-            <ShotTile c="5 / 7" r="1" i={5} src={SHOT + '08-traceability-graph.png'} label="Traceability" meta="REQ to code to test" hide />
-            <ShotTile c="7" r="1" i={9} src={SHOT + '37-pin-configurator.png'} label="Pin Configurator" meta="STM32G431" hide />
+            <ShotTile c="5 / 7" r="1" i={5} src={shot('08-traceability-graph')} label="Traceability" meta="REQ to code to test" hide />
+            <ShotTile c="7" r="1" i={9} src={shot('37-pin-configurator')} label="Pin Configurator" meta="STM32G431" hide />
 
             {/* Row 2 */}
-            <ShotTile c="1" r="2" i={7} src={SHOT + '40-register-knowledge.png'} label="Register Knowledge" meta="page-cited" hide />
+            <ShotTile c="1" r="2" i={7} src={shot('40-register-knowledge')} label="Register Knowledge" meta="page-cited" hide />
             <WidgetTile c="2" r="2" i={1}>
               <div className="mt-head"><span>CBMC · DO-178C run</span><span>H-Bridge</span></div>
               <div className="px-1 flex flex-col gap-3 flex-1 md:items-end md:text-right">
-                <div className="num text-[40px]"><Count value="1,002" /></div>
+                <div className="num text-[40px]"><Count value="1,172" /></div>
                 <div className="small" style={{ marginTop: -6 }}>properties proved</div>
                 <div className="flex gap-1.5 flex-wrap"><span className="chip chip-ok">0 failed</span><span className="chip">5 harnesses</span></div>
                 <div className="mt-auto w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--surface-muted)' }}><div className="h-full rounded-full" style={{ width: '100%', background: 'var(--success)' }} /></div>
@@ -747,10 +756,10 @@
                 <div className="mt-auto flex justify-between text-[12px]"><span className="muted">Public cloud</span><span style={{ color: 'var(--text-2)' }}>{prov === 'local' ? 'not required' : 'your choice'}</span></div>
               </div>
             </WidgetTile>
-            <ShotTile c="7" r="2" i={8} src={SHOT + '19-mcdc-coverage.png'} label="MC/DC" meta="measured · LLVM" hide />
+            <ShotTile c="7" r="2" i={8} src={shot('19-mcdc-coverage')} label="MC/DC" meta="measured · LLVM" hide />
 
             {/* Row 3 */}
-            <ShotTile c="1 / 3" r="3" i={10} src={SHOT + '01-ai-orchestrator.png'} label="AI Orchestrator" meta="live tokens · rate" hide />
+            <ShotTile c="1 / 3" r="3" i={10} src={shot('01-ai-orchestrator')} label="AI Orchestrator" meta="live tokens · rate" hide />
             <WidgetTile c="3" r="3" i={2} hide>
               <div className="mt-head"><span>Document set</span><span>DO-178C</span></div>
               <div className="px-1 flex flex-col flex-1">
@@ -761,7 +770,7 @@
                 </div>
               </div>
             </WidgetTile>
-            <ShotTile c="4 / 6" r="3" i={6} src={SHOT + '23-do178c-documents.png'} label="DO-178C Documents" meta="completion · baseline" hide />
+            <ShotTile c="4 / 6" r="3" i={6} src={shot('23-do178c-documents')} label="DO-178C Documents" meta="completion · baseline" hide />
             <WidgetTile c="6" r="3" i={4}>
               <div className="mt-head"><span>Working directory</span><span>gitignored</span></div>
               <div className="term px-1 text-[11.5px] leading-[1.75]" style={{ color: 'var(--text-2)' }}>
@@ -772,7 +781,7 @@
               </div>
               <div className="mt-auto pt-2 px-1"><span className="chip chip-ok chip-dot">firmware tree clean</span></div>
             </WidgetTile>
-            <ShotTile c="7" r="3" i={11} src={SHOT + '31-architecture.png'} label="Architecture" meta="C4" hide />
+            <ShotTile c="7" r="3" i={11} src={shot('31-architecture')} label="Architecture" meta="C4" hide />
           </div>
         </section>
       );
@@ -798,7 +807,7 @@
 
     /* Live demo clips recorded in the running IDE on the H-Bridge project (media/demo). */
     const DEMO = 'media/demo/';
-    const Media = ({ clip, src, alt }) => clip ? (
+    const Media = ({ clip, src, alt }) => clip && !src.startsWith('docs/img/') ? (
       <div className="relative">
         <LoopVideo key={clip} src={DEMO + clip + '.mp4'} poster={DEMO + clip + '.jpg'} label={alt} className="block w-full h-auto" />
         <span className="chip chip-ok chip-dot absolute top-3 left-3" style={{ background: 'oklch(18% 0 0 / .88)', border: '1px solid var(--border)' }}>Live demo</span>
@@ -810,20 +819,20 @@
       const track = useRef(null);
       useScrollProgress(track, (r, vh) => REDUCE ? 1 : (-r.top / Math.max(1, r.height - vh)) * 1.5);
       return (
-        <section ref={track} className="reel-track" aria-label="Noyce IDE 2.0.6 demo reel">
+        <section ref={track} className="reel-track" aria-label="Noyce IDE demo reel">
           <div className="reel-pin">
             <div className="reel-head wrap">
               <h2 className="display">See it work.<br /><span className="ink">On real firmware.</span></h2>
-              <p className="lede mx-auto" style={{ maxWidth: '34rem' }}>Ninety-five seconds inside the running IDE, on an STM32G431 motor controller taken to a DO-178C document set.</p>
+              <p className="lede mx-auto" style={{ maxWidth: '34rem' }}>Three minutes of recorded Noyce IDE footage: from the hardware to the code, the tests and the DO-178C document set.</p>
             </div>
             <div className="wrap">
               <div className="reel-win glow">
-                <Window title="Noyce IDE 2.0.6 — CANISTER_H_BRIDGE_CONTROLLER_V1">
-                  <LoopVideo src={DEMO + 'noyce-2.0.6-demo.mp4'} poster={DEMO + 'noyce-2.0.6-demo.jpg'} controls label="Noyce IDE 2.0.6 live demo" />
+                <Window title="Noyce IDE">
+                  <LoopVideo src={DEMO + 'noyce-reel.mp4'} poster={DEMO + 'noyce-reel.jpg'} controls label="Noyce IDE demo reel" />
                 </Window>
                 <div className="reel-cap flex flex-wrap items-center justify-between gap-2 px-1 pt-4">
-                  <span className="small">Live demo · recorded in the running IDE · 1:35</span>
-                  <span className="chip chip-ok chip-dot">Real build, real project</span>
+                  <span className="small">Recorded in the running IDE, edited for narrative · 3:00</span>
+                  <span className="chip chip-ok chip-dot">Actual IDE recordings</span>
                 </div>
               </div>
             </div>
@@ -907,7 +916,7 @@
       { clip: 'documents', k: 'Documents', win: 'DO-178C Documents', t: 'Seventeen life-cycle documents, under control.', d: 'PSAC through SAS, authored from the workspace and filed under .noyce/. Each document shows what is complete, what is proposed, and what still needs an engineer.' },
       { clip: 'mcdc', k: 'Coverage', win: 'MC/DC Coverage', t: 'MC/DC that is measured, not estimated.', d: 'Decisions and conditions come from the real source. Measured coverage comes from an LLVM-instrumented build, so the numerator is something that actually executed.' },
       { clip: 'architecture', k: 'Architecture', win: 'System Architecture', t: 'A C4 model built from the tree.', d: 'Components, dependencies and data flow are derived from the code itself, so the design description stays tied to what ships.' },
-      { clip: 'compliance', k: 'Compliance', win: 'Compliance Dashboard', t: 'Graded against all 71 objectives.', d: 'Each of the 71 Annex A objectives is graded satisfied, partial or open, and nothing is rounded up to a pass. In this recording the dashboard grades 0 satisfied, 39 partial and 32 open: stricter than the independent review.' },
+      { clip: 'compliance', k: 'Compliance', win: 'Compliance Dashboard', t: 'Graded against all 71 objectives.', d: 'Each of the 71 Annex A objectives is graded satisfied, partial or open, and nothing is rounded up to a pass. In this recording the dashboard grades 0 satisfied, 39 partial and 32 open, the same grading the current IDE gives this project.' },
       { clip: 'audit', k: 'Audit', win: 'Audit Trail', t: 'Every action, hash-chained.', d: 'Runs, reviews and approvals land in an append-only ledger. Each entry carries the hash of the one before it, so an edited record breaks the chain where anyone can see it.' },
     ];
     const STORY_VH = 72;
@@ -1140,7 +1149,7 @@
         <section id="features" className="section">
           <div className="wrap">
             <SectionHead eyebrow="Product" title={<span>{SURFACE_COUNT} surfaces. <span className="muted">One window.</span></span>}>
-              Every screenshot and every <span style={{ color: 'var(--success)' }}>▶ demo</span> clip below is the running Code-OSS build with the H-Bridge project open. Nothing is a mockup. Generated artifacts stay in <span className="code">.noyce/</span> and the firmware tree stays git-clean.
+              Every screenshot below is the running Code-OSS build with a real firmware project open. Nothing is a mockup. Generated artifacts stay in <span className="code">.noyce/</span> and the firmware tree stays git-clean.
             </SectionHead>
             <Reveal className="mb-4">
               <Seg label="Product area" value={area} onChange={(v) => { setArea(v); setPick(0); }} items={AREAS.map((x) => [x.k, x.l])} />
@@ -1161,7 +1170,7 @@
                 </div>
               </div>
               <div className="flex flex-col">
-                <div key={it[0]} className="frame" style={{ animation: REDUCE ? 'none' : 'tile-in 420ms var(--ease-enter) both' }}><Media clip={DEMO_CLIPS[it[0]]} src={SHOT + it[0] + '.png'} alt={it[1] + ': ' + it[2]} /></div>
+                <div key={it[0]} className="frame" style={{ animation: REDUCE ? 'none' : 'tile-in 420ms var(--ease-enter) both' }}><Media clip={DEMO_CLIPS[it[0]]} src={shot(it[0])} alt={it[1] + ': ' + it[2]} /></div>
                 <div className="px-2 pt-3 pb-1">
                   <span className="text-sm font-medium">{it[1]}</span>
                   <span className="small"> · {it[2]}</span>
@@ -1251,7 +1260,7 @@
               </div>
             </Reveal>
             <Reveal className="tile p-2.5 mt-4">
-              <div className="frame"><Media clip="orchestrator" src={SHOT + '01-ai-orchestrator.png'} alt="AI Orchestrator kanban with the live model, concurrency and sprint progress" /></div>
+              <div className="frame"><Media clip="orchestrator" src={shot('01-ai-orchestrator')} alt="AI Orchestrator kanban with the live model, concurrency and sprint progress" /></div>
               <p className="small px-2 pt-3 pb-1 m-0">AI Orchestrator · objectives as cards along the handoff chain, with the live model, context window, tokens and rate, and items awaiting review</p>
             </Reveal>
           </div>
@@ -1958,7 +1967,7 @@
     /* ---------- DO-178C run (2.0.6) ---------- */
     const DAL_STEPS = [
       { k: 'Requirements', clip: 'requirements', clipCap: 'Requirements & Evidence · select a requirement and its evidence ledger follows', t: 'Write the high-level requirements', d: '15 high-level requirements authored into the SRS with per-requirement lint and system trace. System requirements import from CSV, ReqIF-lite or Markdown, and low-level requirements enter the set only through human review.', shot: '06-requirements-authoring.png', cap: 'Requirements Authoring · HLRs written into SRS-001 with lint and system trace' },
-      { k: 'Verification', t: 'Measure, prove, and analyse', d: '57 host tests. 100% MC/DC on five modules, measured with LLVM on the host with stubs, and stated as such. Five CBMC harnesses with 1,002 properties proved. MISRA findings from 549 down to 210, the rest carried as recorded deviations.', shot: '16-formal-verification.png', cap: 'CBMC Formal Verification · bounded model checking with per-function harnesses' },
+      { k: 'Verification', t: 'Measure, prove, and analyse', d: '57 host tests. 100% MC/DC on five modules, measured with LLVM on the host with stubs, and stated as such. Five CBMC harnesses with 1,172 properties proved. MISRA findings from 549 down to 210, the rest carried as recorded deviations.', shot: '16-formal-verification.png', cap: 'CBMC Formal Verification · bounded model checking with per-function harnesses' },
       { k: 'Documents', clip: 'documents', clipCap: 'DO-178C Documents · the 17-document library, filtered by folder and opened', t: 'Complete the document set', d: 'All 17 life-cycle documents authored from the workspace. Every open item is classified as a proposal, an engineer decision, or missing evidence, and each has a way to close. A document issues only when nothing is open.', shot: '23-do178c-documents.png', cap: 'DO-178C Documents · the 17-document set, authored, completed and baselined' },
       { k: 'Decisions', t: 'Let agents propose, engineers decide', d: 'Engineering-judgment sections such as software level, partitioning and certification basis are drafted by an agent with rationale, evidence and confidence. An engineer accepts them in a review queue, and acceptance is recorded as an independent review.', shot: '27-review-workflow.png', cap: 'Review Workflow · reviews with author and reviewer independence' },
       { k: 'Baseline', t: 'Baseline only a consistent set', d: 'Contradictions between documents block a baseline unless a named person records a waiver. Problem reports follow AC/AMC 20-189 with CCB decisions and independent closure. Every compliance run is a hashed, reproducible record.', shot: '11-compliance-run.png', cap: 'Compliance Run · one reproducible, hashed record of what was measured' },
@@ -1966,7 +1975,7 @@
     const DalA = () => {
       const [i, setI] = useState(0);
       const s = DAL_STEPS[i];
-      const results = [['17', 'DO-178C documents issued'], ['15', 'high-level requirements'], ['57', 'host tests'], ['1,002', 'CBMC properties proved'], ['549→210', 'MISRA findings, rest deviated']];
+      const results = [['17', 'DO-178C documents issued'], ['15', 'high-level requirements'], ['57', 'host tests'], ['1,172', 'CBMC properties proved'], ['549→210', 'MISRA findings, rest deviated']];
       return (
         <section id="dal-a" className="section">
           <div className="wrap">
@@ -1991,7 +2000,7 @@
                 ))}
               </Reveal>
               <Reveal delay={0.06} className="tile p-2.5 flex flex-col">
-                <div className="frame"><Media clip={s.clip} src={SHOT + s.shot} alt={s.clip ? s.clipCap : s.cap} /></div>
+                <div className="frame"><Media clip={s.clip} src={shot(s.shot)} alt={s.clip ? s.clipCap : s.cap} /></div>
                 <p className="small px-2 pt-3 pb-1 m-0">{s.clip ? s.clipCap : s.cap}</p>
               </Reveal>
             </div>
@@ -2005,9 +2014,9 @@
             </div>
             <Reveal className="tile tile-pad grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-8 lg:gap-12">
               <div>
-                <div className="label mb-2">Annex A, graded by independent review</div>
-                <h3 className="h3 h3-lg mb-3">5 of 71 objectives satisfied. That is the honest starting point.</h3>
-                <p className="body m-0">An independent review of all 71 Annex A objectives found 5 satisfied, 36 partial, 27 open and 3 not applicable. The Software Accomplishment Summary states non-compliance. The IDE shows the same gap list, not a green dashboard.</p>
+                <div className="label mb-2">Annex A, graded by the current IDE · re-run 24 Oct 2026</div>
+                <h3 className="h3 h3-lg mb-3">None of 71 satisfied until a person reviews them. That is the honest starting point.</h3>
+                <p className="body m-0">The current IDE grades the project 39 partial and 32 open. Two objectives, decision and statement coverage under A-7, are fully evidenced by measurement and wait for review: Noyce never marks an objective satisfied without a human reviewer, and AI earns no independence credit. The Software Accomplishment Summary states non-compliance. The IDE shows the same gap list, not a green dashboard.</p>
               </div>
               <div className="flex flex-col gap-6">
                 <AnnexBar size="lg" />
@@ -2261,6 +2270,39 @@
       );
     };
 
+    /* ---------- FAQ: every answer is something the README or the manual already states. ---------- */
+    const FAQS = [
+      { q: 'What does Noyce IDE do?', a: 'It takes a working firmware prototype to DO-178C certification evidence in one Code-OSS window: requirements, plans, static analysis, formal verification, coverage, traceability and the audit trail, all reading the same project.' },
+      { q: 'Does Noyce IDE certify my software?', a: 'No. Certification is granted by your authority. Noyce produces the evidence and the documents, reports every Annex A objective as a ratio with its open items, and never gives AI-assisted reviews independence credit.' },
+      { q: 'How much does it cost?', a: 'It is free during the beta. The licence is proprietary, and the source is available for technical review.' },
+      { q: 'Does my code leave my machine?', a: 'Not unless you choose a cloud model. Noyce works with LM Studio, Ollama and vLLM on your own hardware. Gemini, Anthropic and OpenAI are used only if you configure them. Everything Noyce generates stays under .noyce/ in your project.' },
+      { q: 'Which projects can I open?', a: 'STM32CubeIDE and CubeMX (.ioc), TI Tiva and Code Composer Studio, MPLAB X, or a plain folder. Portable Makefile builds come from CubeIDE, CCS, Keil MDK and CubeMX projects.' },
+      { q: 'Which operating systems are supported?', a: 'macOS 13 or later on Apple silicon is released. Windows 11 x64 is in beta. On Linux, build and launch from source.' },
+      { q: 'Do I need my own copy of DO-178C?', a: 'Yes, for the objective wording. RTCA text is licensed, so Noyce identifies objectives by number until you import your copy, and plans and summaries stay marked DRAFT until then.' },
+      { q: 'Does it sync with DOORS or Jama Connect?', a: 'Not yet. Export ReqIF or CSV from either tool and import the file in Requirements Authoring.' },
+      { q: 'Is every number in the IDE measured?', a: 'A surface either shows what it measured on your project or says it has nothing. The few that show simulated or example data are bannered, and all of them are listed on the known limitations page.' },
+    ];
+    const FAQ = () => (
+      <section id="faq" className="section">
+        <div className="wrap">
+          <SectionHead eyebrow="FAQ" title="Questions engineers ask first." />
+          <Reveal className="tile tile-pad faq">
+            <div className="hair">
+              {FAQS.map((f) => (
+                <details key={f.q}>
+                  <summary><h3 className="h3 m-0">{f.q}</h3><Icon name="chevronDown" size={18} className="faq-chev" /></summary>
+                  <p className="body">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </Reveal>
+          <p className="small mt-6" style={{ fontSize: '.875rem' }}>
+            Not answered here? Read the <a href="/docs/limitations" className="underline">known limitations</a> or <a href="#contact" className="underline">get in touch</a>.
+          </p>
+        </div>
+      </section>
+    );
+
     /* ---------- Contact ---------- */
     const Contact = () => {
       const [f, setF] = useState({ name: '', email: '', team: '', ctx: '' });
@@ -2398,7 +2440,7 @@
     const Footer = () => {
       const cols = [
         { h: 'Product', links: [['DO-178C run', '#dal-a'], ['Tour', '#how'], ['Surfaces', '#features'], ['Agents', '#ai'], ['Trust', '#trust'], ['Models', '#models'], ['Compare', '#compare'], ['Download', '#download']] },
-        { h: 'Resources', links: [['Docs', '/docs'], ['Install guide', '/docs/install'], ['Release notes', REPO + '/blob/main/RELEASE_NOTES.md'], ['Releases', REPO + '/releases'], ['What changed', '#releases']] },
+        { h: 'Resources', links: [['Docs', '/docs'], ['Install guide', '/docs/install'], ['Release notes', REPO + '/blob/main/RELEASE_NOTES.md'], ['Releases', REPO + '/releases'], ['What changed', '#releases'], ['FAQ', '#faq']] },
         { h: 'Company', links: [['Pitch', '#yc'], ['Team', '#team'], ['Market', '#market'], ['Traction', '#traction'], ['The name', '#name'], ['Contact', '#contact'], ['Email', 'mailto:' + CONTACT_EMAIL]] },
       ];
       return (
@@ -2447,7 +2489,7 @@
       { name: 'Six local engines', tone: [215, 0.09], cols: 2, line: 'Deterministic tools produce the findings, not a language model. They all run on your machine.',
         blocks: [
           { id: 'misra', t: 'MISRA C', s: 'rule checks', h: 40, d: 'cppcheck with the MISRA addon. Fix with Noyce proposes a change set for one finding; nothing is applied until an engineer approves it.' },
-          { id: 'cbmc', t: 'CBMC', s: 'model checking', h: 40, d: 'Bounded model checking on harnesses. On the H-Bridge DO-178C run: 1,002 properties proved, 0 failed.' },
+          { id: 'cbmc', t: 'CBMC', s: 'model checking', h: 40, d: 'Bounded model checking on harnesses. On the H-Bridge DO-178C run: 1,172 properties proved, 0 failed.' },
           { id: 'codeql', t: 'CodeQL', s: 'code scanning', h: 40, d: 'CodeQL queries run offline against your build, with results kept as SARIF.' },
           { id: 'mcdc', t: 'MC/DC', s: 'llvm-cov', h: 40, d: 'Decisions and conditions come from the source. Coverage is measured from an LLVM-instrumented build, so the numerator actually executed.' },
           { id: 'mem', t: 'Memory', s: 'stack · flash', h: 40, d: 'Flash and RAM budget and worst-case stack for every build, with a diff against the last one.' },
@@ -2835,7 +2877,7 @@
 
 
     /* ---------- Anatomy: the IDE taken apart into the layers a certification pass moves through ---------- */
-    /* Real 2.0.6 screenshots stacked as plates in CSS 3D. Scrolling pulls the stack apart, then walks
+    /* Real IDE screenshots stacked as plates in CSS 3D. Scrolling pulls the stack apart, then walks
        up it one plate at a time; a leader line ties the active plate to its callout. */
     const ANAT = [
       { img: '40-register-knowledge', tone: 250, k: 'Your firmware', t: 'Read where it lives.', d: 'Source, requirements, build outputs and the MCU reference manual, indexed in place. Registers are cited to the page and linked to the code that touches them.' },
@@ -2852,7 +2894,7 @@
           {ANAT.map((a, i) => (
             <button type="button" key={a.img} className="an-plate" data-on={act === i ? '' : undefined} data-dim={act >= 0 && act !== i ? '' : undefined}
               style={{ '--i': i, '--h': a.tone }} onClick={() => onPick && onPick(i)} aria-label={a.k + ': ' + a.t}>
-              <img src={SHOT + a.img + '.png'} alt="" loading="lazy" draggable="false" />
+              <img src={shot(a.img)} alt="" loading="lazy" draggable="false" />
               <span className="an-tab"><b className="mono">{i + 1}</b>{a.k}</span>
               {i > 0 && <><i className="an-post" style={{ left: 0, top: '100%' }} /><i className="an-post" style={{ left: '100%', top: '100%' }} /><i className="an-post" style={{ left: '100%', top: 0 }} /></>}
               <i className="an-pin" />
@@ -3055,6 +3097,7 @@
           <Releases />
           <Competition />
           <Download />
+          <FAQ />
           {/* Company: for partners and investors, kept below the product. */}
           <YCSnapshot />
           <Market />
