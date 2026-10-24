@@ -115,6 +115,7 @@
 <li>Select <strong>Generate harnesses</strong> to write one harness per code unit from your accepted low-level requirements: inputs bounded by each LLR&#39;s stated ranges, called functions stubbed from their prototypes, and the LLR&#39;s properties asserted. Harnesses are written to <code>cbmc-harness/llr/</code> as a change set, so you approve them like any other code.</li>
 <li>Select <strong>Run Verification</strong> (or <strong>Run harnesses</strong>). Each property is reported as proved or failed with its trace.</li>
 </ol>
+<p>The project&#39;s own harnesses run for the target architecture, for example <code>--arch arm</code>. On macOS, CBMC sometimes cannot read the computer&#39;s C library headers that way. Those harnesses are then checked with the host data model, and the result says so: <code>int</code>, <code>long</code> and pointer widths may differ from the target, so review any property that depends on them.</p>
 <p>CBMC results are analysis: they support code review and never count as tests. A failed property can be sent to <strong>Fix with Noyce</strong> or turned into a problem report.</p>
 <h2 id="code-scanning-codeql">Code Scanning (CodeQL)<a class="anchor" href="#code-scanning-codeql" aria-label="Link to this section">#</a></h2>
 <p>A semantic security scan that follows data from inputs through your code. Open it from the tile or <strong>Noyce Compliance: Open Code Scanning (CodeQL)</strong>.</p>
@@ -133,7 +134,7 @@
 <p>Coverage is measured per module, with a test driver for each:</p>
 <ol class="steps">
 <li>Write a driver under <code>tests/mcdc/</code> that exercises one source file, and name the file it covers in a comment: <code>// @coverage-source ../AUTO_SEQUENCE.c</code>.</li>
-<li>Pick the module and select <strong>Measure module</strong>. Noyce IDE builds it with LLVM&#39;s MC/DC instrumentation, runs the driver and reads the result. Each run is a background job you can cancel, with a five-minute limit.</li>
+<li>Pick the <strong>Module</strong>. The <strong>Driver</strong> follows it, choosing the driver that names that module; change it if you keep several. Select <strong>Measure module</strong>. Noyce IDE builds it with LLVM&#39;s MC/DC instrumentation, runs the driver and reads the result. Each run is a background job you can cancel, with a five-minute limit.</li>
 <li><strong>Generate Coverage Tests</strong> has an agent write and check tests for the decisions shown, and <strong>Fix Uncovered Decisions</strong> gives the decisions still missing independence pairs to the coding agent. Both open <strong>Agent output</strong> so you can follow the work.</li>
 </ol>
 <p>Until a module is measured, its obligations are counted and its coverage reads 0% with the note &quot;a structural zero, not a result&quot;.</p>

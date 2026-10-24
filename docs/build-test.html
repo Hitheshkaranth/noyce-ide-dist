@@ -98,6 +98,7 @@
 <li><strong>Artifacts:</strong> the files the build wrote, with size and modified time.</li>
 <li><strong>History:</strong> the latest stored CCS build of each configuration, with its result and duration. Every build is listed in the sidebar <strong>Build Status</strong> view (below).</li>
 </ul>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/ci-pipeline.webp" alt="The Build view blocked on an STM32 project" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The Build view on the H-Bridge copy: Build blocked, because the Debug makefiles name paths from another computer. Build with a generated makefile builds it from the .cproject instead.</figcaption></figure>
 <h3 id="where-the-output-goes">Where the output goes<a class="anchor" href="#where-the-output-goes" aria-label="Link to this section">#</a></h3>
 <p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 470" role="img" aria-label="Builds started from the keyboard, the status bar, the Build view or the STM32 task go through toolchain discovery, which only runs compilers it found itself; their objects, image, map and stack-usage files, build record and history land in .noyce/build, which Firmware Memory, the Build view and Build Status read." class="diagram">
 <defs>
