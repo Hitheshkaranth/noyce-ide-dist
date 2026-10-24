@@ -681,6 +681,7 @@
     );
 
     /* The current IDE's grading of the 71 Annex A objectives on the H-Bridge project, re-run 24 Oct 2026. */
+    /* The IDE's grade on 24 Oct 2026. */
     const ANNEX = [['Satisfied', 0, 'var(--success)'], ['Partial', 39, 'var(--warning)'], ['Open', 32, 'oklch(48% 0 0)']];
     const AnnexBar = ({ size }) => (
       <div>
@@ -932,7 +933,7 @@
       { clip: 'documents', k: 'Documents', win: 'DO-178C Documents', t: 'Seventeen life-cycle documents, under control.', d: 'PSAC through SAS, authored from the workspace and filed under .noyce/. Each document shows what is complete, what is proposed, and what still needs an engineer.' },
       { clip: 'mcdc', k: 'Coverage', win: 'MC/DC Coverage', t: 'MC/DC that is measured, not estimated.', d: 'Decisions and conditions come from the real source. Measured coverage comes from an LLVM-instrumented build, so the numerator is something that actually executed.' },
       { clip: 'architecture', k: 'Architecture', win: 'System Architecture', t: 'A C4 model built from the tree.', d: 'Components, dependencies and data flow are derived from the code itself, so the design description stays tied to what ships.' },
-      { clip: 'compliance', k: 'Compliance', win: 'Compliance Dashboard', t: 'Graded against all 71 objectives.', d: 'Each of the 71 Annex A objectives is graded satisfied, partial or open, and nothing is rounded up to a pass. In this recording the dashboard grades 0 satisfied, 39 partial and 32 open, the same grading the current IDE gives this project.' },
+      { clip: 'compliance', k: 'Compliance', win: 'Compliance Dashboard', t: 'Graded against all 71 objectives.', d: 'Each of the 71 Annex A objectives is graded satisfied, partial or open, and nothing is rounded up to a pass. This project grades 39 partial and 32 open. None counts as satisfied until a person reviews it.' },
       { clip: 'audit', k: 'Audit', win: 'Audit Trail', t: 'Every action, hash-chained.', d: 'Runs, reviews and approvals land in an append-only ledger. Each entry carries the hash of the one before it, so an edited record breaks the chain where anyone can see it.' },
     ];
     const STORY_VH = 72;
@@ -2031,8 +2032,8 @@
             <Reveal className="tile tile-pad grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] gap-8 lg:gap-12">
               <div>
                 <div className="label mb-2">Annex A, graded by the current IDE · re-run 24 Oct 2026</div>
-                <h3 className="h3 h3-lg mb-3">39 of 71 objectives evidenced. Two fully measured, waiting for a reviewer.</h3>
-                <p className="body m-0">Decision and statement coverage under A-7 are fully evidenced by measurement. Satisfied takes a person: Noyce never marks an objective satisfied without a human reviewer, and AI earns no independence credit, so the count stays at 0 satisfied until those reviews are recorded. The other 32 objectives are open, and the IDE lists each gap instead of a green dashboard.</p>
+                <h3 className="h3 h3-lg mb-3">39 of 71 objectives evidenced in part. None satisfied until a person reviews them.</h3>
+                <p className="body m-0">Statement and decision coverage are 100% on the six application modules; main.c and the CubeMX-generated sources are not measured yet, so A-7 coverage stays partial. Satisfied takes a person: Noyce never marks an objective satisfied without a human reviewer, and AI earns no independence credit. The other 32 objectives are open, and the IDE lists each gap instead of a green dashboard.</p>
               </div>
               <div className="flex flex-col gap-6">
                 <AnnexBar size="lg" />
