@@ -106,6 +106,18 @@
     .sc-tab:hover { color: var(--fg); background: var(--surface-raised); }
     .sc-tab[aria-selected="true"] { color: var(--fg); background: var(--surface-hover); border-color: var(--border-strong); box-shadow: var(--shadow-resting); }
     .sc-tab:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+    .sc-tab { position: relative; overflow: hidden; }
+    .sc-prog { position: absolute; left: 10px; right: 10px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--grad-line); transform-origin: left; transform: scaleX(0); }
+    .sc-prog[data-run="true"] { animation: sc-fill var(--sc-ms, 6000ms) linear forwards; }
+    .sc-prog[data-run="paused"] { animation: sc-fill var(--sc-ms, 6000ms) linear forwards; animation-play-state: paused; }
+    @keyframes sc-fill { to { transform: scaleX(1); } }
+    .sc-pause { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1px solid var(--border); border-radius: var(--r-control); background: none; color: var(--text-2); cursor: pointer; }
+    .sc-pause:hover { color: var(--fg); background: var(--surface-raised); }
+    .sc-pause:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+    .rot { display: inline-grid; vertical-align: bottom; }
+    .rot > span { grid-area: 1 / 1; color: var(--fg); transition: opacity .45s var(--ease-std), transform .45s var(--ease-std); }
+    .rot > span[data-on="false"] { opacity: 0; transform: translateY(.45em); }
+    @media (prefers-reduced-motion: reduce) { .sc-prog { display: none; } .rot > span { transition: none; } }
     .sc-stage { position: relative; overflow: hidden; padding: clamp(14px, 3vw, 40px) clamp(14px, 3vw, 40px) 0; border-radius: var(--r-panel); background:
         radial-gradient(120% 90% at 50% 0%, oklch(48% .09 190 / .55), transparent 70%),
         repeating-linear-gradient(115deg, transparent 0 46px, oklch(100% 0 0 / .035) 46px 47px),
@@ -473,6 +485,8 @@
     /* ---------- Icons (inline; lucide geometry) ---------- */
     const ICONS = {
       arrowRight: ['M5 12h14', 'm12 5 7 7-7 7'],
+      pause: ['M6 4h4v16H6z', 'M14 4h4v16h-4z'],
+      play: ['m6 3 14 9-14 9z'],
       arrowUpRight: ['M7 7h10v10', 'M7 17 17 7'],
       download: ['M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4', 'm7 10 5 5 5-5', 'M12 15V3'],
       mail: ['M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z', 'm22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'],
@@ -738,7 +752,7 @@
                 <h1 className="h1">Noyce IDE</h1>
               </div>
               <p className="lede text-center" style={{ maxWidth: '30rem', fontSize: 'clamp(1.0625rem, .9rem + .5vw, 1.3125rem)', color: 'var(--text-2)' }}>
-                The AI-native Code-OSS workbench for firmware that has to certify.
+                The AI-native Code-OSS workbench for firmware you have to <Rotator />.
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2.5 mt-8">
                 <a href="#download" className="btn btn-primary"><Icon name="download" size={15} /> Download 2.0.8</a>
@@ -3024,9 +3038,47 @@
       { id: 'agents', icon: 'graph', label: 'Agents', img: 'docs/img/orchestrator.webp', alt: 'The AI Orchestrator board with objective and document cards',
         text: 'Specialist agents work a board of objectives and documents on your own model. Every result waits in Handover for a person to review.', href: 'docs/ai-agents#ai-orchestrator', cta: 'AI Orchestrator' },
     ];
+    /* One word in the hero line cycles through what the IDE does; screen readers get the full list. */
+    const ROT_WORDS = ['build', 'verify', 'document', 'certify'];
+    const Rotator = () => {
+      const [i, setI] = useState(ROT_WORDS.length - 1);
+      useEffect(() => {
+        if (REDUCE) return;
+        const t = setInterval(() => setI((n) => (n + 1) % ROT_WORDS.length), 2200);
+        return () => clearInterval(t);
+      }, []);
+      return (
+        <>
+          <span className="sr-only">build, verify, document and certify</span>
+          <span className="rot" aria-hidden="true">{ROT_WORDS.map((w, k) => <span key={w} data-on={k === i}>{w}</span>)}</span>
+        </>
+      );
+    };
+
+    const SC_MS = 6000;
     const Showcase = () => {
       const [cur, setCur] = useState(0);
+      const [paused, setPaused] = useState(REDUCE);
+      const [hold, setHold] = useState(false);
+      const [seen, setSeen] = useState(false);
+      const root = useRef(null);
       const tabs = useRef([]);
+      useEffect(() => {
+        const el = root.current; if (!el || typeof IntersectionObserver === 'undefined') { setSeen(true); return; }
+        const io = new IntersectionObserver(([e]) => setSeen(e.isIntersecting), { threshold: 0.35 });
+        io.observe(el);
+        return () => io.disconnect();
+      }, []);
+      const running = seen && !paused && !hold;
+      useEffect(() => {
+        if (!running) return;
+        const t = setTimeout(() => setCur((c) => (c + 1) % SHOWCASE.length), SC_MS);
+        return () => clearTimeout(t);
+      }, [running, cur]);
+      useEffect(() => {
+        const el = tabs.current[cur]; const row = el?.parentElement;
+        if (row && row.scrollWidth > row.clientWidth) row.scrollTo({ left: el.offsetLeft - 8, behavior: REDUCE ? 'auto' : 'smooth' });
+      }, [cur]);
       const item = SHOWCASE[cur];
       const onKey = (e) => {
         const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
@@ -3037,7 +3089,8 @@
         tabs.current[next]?.focus();
       };
       return (
-        <section className="pb-12 md:pb-20" aria-label="Noyce IDE screens">
+        <section ref={root} className="pb-12 md:pb-20" aria-label="Noyce IDE screens"
+          onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)} onFocus={() => setHold(true)} onBlur={() => setHold(false)}>
           <div className="wrap sc">
             <div className="sc-note" aria-hidden="true">
               <svg width="34" height="22" viewBox="0 0 34 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M32 3C22 2 12 6 5 17" /><path d="m4 10 1 8 7-3" /></svg>
@@ -3047,10 +3100,12 @@
               <div className="sc-tabs" role="tablist" aria-label="Choose a surface" onKeyDown={onKey}>
                 {SHOWCASE.map((t, i) => (
                   <button key={t.id} ref={(el) => { tabs.current[i] = el; }} id={`sc-tab-${t.id}`} role="tab" className="sc-tab"
-                    aria-selected={i === cur} aria-controls="sc-panel" tabIndex={i === cur ? 0 : -1} onClick={() => setCur(i)}>
+                    aria-selected={i === cur} aria-controls="sc-panel" tabIndex={i === cur ? 0 : -1} onClick={() => { setCur(i); setPaused(true); }}>
                     <Icon name={t.icon} size={15} />{t.label}
+                    {i === cur && !paused && <span key={cur + '-' + running} className="sc-prog" data-run={running ? 'true' : 'paused'} style={{ '--sc-ms': SC_MS + 'ms' }} aria-hidden="true" />}
                   </button>
                 ))}
+                {!REDUCE && <button type="button" className="sc-pause" onClick={() => setPaused((v) => !v)} aria-pressed={paused} aria-label={paused ? 'Play the screen tour' : 'Pause the screen tour'}><Icon name={paused ? 'play' : 'pause'} size={14} /></button>}
               </div>
               <div id="sc-panel" role="tabpanel" aria-labelledby={`sc-tab-${item.id}`}>
                 <div className="sc-stage">
@@ -3077,6 +3132,7 @@
         <Header />
         <Hero />
         <Showcase />
+        <VendorRoll />
         <main id="main">
           <About />
           <Anatomy />
@@ -3086,7 +3142,6 @@
           <DalA />
           <Trust />
           <KnowledgeGraph />
-          <VendorRoll />
           <Product />
           <Agents />
           <LocalModels />
