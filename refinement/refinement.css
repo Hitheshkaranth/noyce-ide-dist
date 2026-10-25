@@ -8,11 +8,10 @@
 .nx-support-logos { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 24px 42px; }
 .nx-support-item { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 40px; color: var(--text-2); font-size: 14px; font-weight: 500; text-decoration: none; transition: color 160ms ease-out; }
 .nx-support-item img { width: 27px; height: 27px; object-fit: contain; filter: grayscale(1) brightness(0) invert(1); opacity: .65; transition: opacity 160ms ease-out; }
+.nx-support-item img[src$=".png"] { filter: grayscale(1); border-radius: 6px; opacity: .85; }
 a.nx-support-item:hover { color: var(--fg); }
 a.nx-support-item:hover img { opacity: 1; }
 a.nx-support-item:focus-visible { outline: 2px solid var(--brand-from); outline-offset: 6px; border-radius: 3px; }
-.nx-support-upcoming { color: var(--text-3); gap: 8px; }
-.nx-upcoming-label { padding: 2px 6px; border: 1px solid var(--border-strong); border-radius: 4px; font-size: 10px; font-weight: 400; }
 .nx-support p { margin: 18px 0 0; color: var(--text-3); font-size: 11px; text-align: center; letter-spacing: .02em; }
 @media (max-width: 600px) { .nx-support { padding: 24px 0 30px; } .nx-support-logos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; max-width: 340px; margin: auto; } .nx-support-item { justify-content: start; font-size: 13px; } .nx-support-item img { width: 24px; height: 24px; } }
 .nx-section { padding-top: clamp(48px, 7vw, 100px); padding-bottom: 36px; }

@@ -817,8 +817,8 @@
           <div className="nx-support-logos">
             {[
               ['claude', 'Claude Code'], ['openai', 'Codex'], ['gemini', 'Gemini CLI'], ['ollama', 'Ollama'],
-            ].map(([icon, name]) => <a key={name} href="#models" className="nx-support-item" aria-label={name + ' integration'}><img src={'refinement/agents/' + icon + '.svg'} alt="" width="28" height="28" /><span>{name}</span></a>)}
-            {['Signa', 'Lab'].map(name => <span key={name} className="nx-support-item nx-support-upcoming"><span>{name}</span><span className="nx-upcoming-label">Upcoming</span></span>)}
+              ['vllm', 'vLLM'], ['qwen', 'Qwen'], ['ornith', 'Ornith AI', 'png'], ['gemma', 'Gemma'],
+            ].map(([icon, name, format = 'svg']) => <a key={name} href="#models" className="nx-support-item" aria-label={name + ' integration'}><img src={'refinement/agents/' + icon + '.' + format} alt="" width="28" height="28" /><span>{name}</span></a>)}
           </div>
           <p>Supported agents &amp; models</p>
         </div>
@@ -3162,20 +3162,20 @@
     const NGImage = ({ name, alt, className = '' }) => <img className={className} src={'docs/img/' + name + '.webp'} alt={alt} width="1600" height="958" loading="lazy" decoding="async" />;
     const NGButton = ({ href, children }) => <a href={href} className="ng-glow-button">{children}</a>;
 
-    const NG_FILMS = [['noyce-office-v15','Full walkthrough'], ['requirements','Requirements'], ['traceability','Traceability'], ['mcdc','Verification'], ['orchestrator','Agents'], ['audit','Audit trail']];
+    const NG_FILMS = [['noyce-launch','Launch video'], ['noyce-office-v15','Full walkthrough','orchestrator','noyce-office-v15.vtt','noyce-office-v15-credits.txt'], ['requirements','Requirements'], ['traceability','Traceability'], ['mcdc','Verification'], ['orchestrator','Agents'], ['audit','Audit trail']];
     const NGFilm = () => {
       const [active, setActive] = useState(0), [started, setStarted] = useState(false), [playing, setPlaying] = useState(false), [failed, setFailed] = useState(false);
       const video = useRef(null);
-      const clip = NG_FILMS[active][0];
+      const [clip, title, poster = clip, captions, credits] = NG_FILMS[active];
       useEffect(() => {
         const el = video.current; if (!el) return;
         const io = new IntersectionObserver(([e]) => { if (!e.isIntersecting) el.pause(); });
         io.observe(el); return () => io.disconnect();
       }, [active]);
       const play = async () => { try { setStarted(true); await video.current.play(); } catch { setFailed(true); } };
-      return <section className="ng-film-section" aria-label="Recorded Noyce walkthroughs">
-        <div className="ng-film-frame"><div className="ng-film-stage"><video key={clip} ref={video} src={'media/demo/' + clip + '.mp4'} poster={'media/demo/' + (active === 0 ? 'orchestrator' : clip) + '.jpg'} preload="none" playsInline controls={started} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} aria-label={'Noyce recording: ' + NG_FILMS[active][1]}>{active === 0 && <track kind="captions" src="media/demo/noyce-office-v15.vtt" srcLang="en" label="English" />}</video>{!playing && !failed && <button type="button" className="ng-film-play" onClick={play} aria-label={'Play ' + NG_FILMS[active][1]}><Icon name="play" size={22} /></button>}{failed && <a className="ng-film-fallback" href={'media/demo/' + clip + '.mp4'}>Open the recording <Icon name="arrowUpRight" size={16} /></a>}<span className="ng-film-corner ng-film-corner-tl" aria-hidden="true">+</span><span className="ng-film-corner ng-film-corner-br" aria-hidden="true">+</span></div>
-        <div className="ng-film-tabs" role="group" aria-label="Choose a recorded workflow"><span>Noyce in action</span>{NG_FILMS.map(([file,label],i) => <button key={file} type="button" aria-pressed={i === active} onClick={() => { video.current?.pause(); setActive(i); setStarted(false); setPlaying(false); setFailed(false); }}>{label}</button>)}{active === 0 && <a className="ng-film-credits" href="media/demo/noyce-office-v15-credits.txt">Film credits</a>}</div></div>
+      return <section className="ng-film-section" aria-label="Noyce launch video and recorded walkthroughs">
+        <div className="ng-film-frame"><div className="ng-film-stage"><video key={clip} ref={video} src={'media/demo/' + clip + '.mp4'} poster={'media/demo/' + poster + '.jpg'} preload="none" playsInline controls={started} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} aria-label={'Noyce video: ' + title}>{captions && <track kind="captions" src={'media/demo/' + captions} srcLang="en" label="English" />}</video>{!playing && !failed && <button type="button" className="ng-film-play" onClick={play} aria-label={'Play ' + title}><Icon name="play" size={22} /></button>}{failed && <a className="ng-film-fallback" href={'media/demo/' + clip + '.mp4'}>Open the video <Icon name="arrowUpRight" size={16} /></a>}<span className="ng-film-corner ng-film-corner-tl" aria-hidden="true">+</span><span className="ng-film-corner ng-film-corner-br" aria-hidden="true">+</span></div>
+        <div className="ng-film-tabs" role="group" aria-label="Choose a Noyce video"><span>Noyce in action</span>{NG_FILMS.map(([file,label],i) => <button key={file} type="button" aria-pressed={i === active} onClick={() => { video.current?.pause(); setActive(i); setStarted(false); setPlaying(false); setFailed(false); }}>{label}</button>)}{credits && <a className="ng-film-credits" href={'media/demo/' + credits}>Film credits</a>}</div></div>
         <div className="ng-guide-strip">{[['TI Tiva','Import and build a real project','/docs/import-walkthrough'],['DO-178C','Follow the evidence workflow','/docs/do178c-walkthrough'],['AI changes','Inspect the review gates','/docs/review-ai-changes']].map(([tag,title,href]) => <a key={tag} href={href}><span>{tag}</span><strong>{title}</strong><Icon name="arrowUpRight" size={16} /></a>)}</div>
       </section>;
     };
