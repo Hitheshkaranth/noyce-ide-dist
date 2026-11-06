@@ -390,13 +390,14 @@ export function mount(canvas, { onStop, still = false, imgBase = '/refinement/sc
     const group = new THREE.Group(), q0 = new THREE.Quaternion(), m4 = new THREE.Matrix4(), c0 = new THREE.Color();
     const AMB = new THREE.Color(0xffb44a), DIM = new THREE.Color(0x1b2024), GRN = new THREE.Color(GREEN), BLU = new THREE.Color(0x4fa3d1);
     if (kind === 'graph') {
-      const N = 46, rr = (() => { let s = 41; return () => (s = (s * 16807) % 2147483647) / 2147483647; })(), pts = [];
-      for (let i = 0; i < N; i++) { const a = rr() * Math.PI * 2, z = rr() * 2 - 1, r = Math.sqrt(1 - z * z), R0 = 6.2 * (0.5 + rr() * 0.5); pts.push(V(Math.cos(a) * r * R0 * 1.85, z * R0, Math.sin(a) * r * R0 * 0.8)); }
-      const nodes = new THREE.InstancedMesh(new THREE.SphereGeometry(0.46, 14, 10), new THREE.MeshBasicMaterial({ toneMapped: false }), N);
-      pts.forEach((p, i) => { m4.compose(p, q0, one); nodes.setMatrixAt(i, m4); nodes.setColorAt(i, i < 15 ? BLU : i < 34 ? GRN : AMB); }); group.add(nodes);
+      const N = 46, rr = (() => { let s = 41; return () => (s = (s * 16807) % 2147483647) / 2147483647; })(), pts = [], inner = new THREE.Group(); inner.position.z = 6; group.add(inner);
+      const cells = []; for (let r = 0; r < 6; r++) for (let c = 0; c < 8; c++) cells.push([c, r]); for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(rr() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
+      for (let i = 0; i < N; i++) { const [c, r] = cells[i]; pts.push(V((c - 3.5) * 3.1 + (rr() - 0.5) * 1.7, (r - 2.5) * 2.05 + (rr() - 0.5) * 1, (rr() - 0.5) * 5)); }
+      const nodes = new THREE.InstancedMesh(new THREE.SphereGeometry(0.6, 14, 10), new THREE.MeshBasicMaterial({ toneMapped: false }), N);
+      pts.forEach((p, i) => { m4.compose(p, q0, one); nodes.setMatrixAt(i, m4); nodes.setColorAt(i, i < 15 ? BLU : i < 34 ? GRN : AMB); }); inner.add(nodes);
       const seg = []; for (let i = 15; i < N; i++) { let best = 0, bd = 1e9; for (let j = 0; j < 15; j++) { const d = pts[i].distanceTo(pts[j]); if (d < bd) { bd = d; best = j; } } seg.push(pts[i], pts[best]); }
-      const lines = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(seg), new THREE.LineBasicMaterial({ color: 0x7fb6c8, transparent: true, opacity: 0.55, toneMapped: false })); group.add(lines);
-      return { group, update(v, t) { group.rotation.y = t * 0.35; nodes.scale.setScalar(v); lines.scale.setScalar(v); } };
+      const lines = new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(seg), new THREE.LineBasicMaterial({ color: 0x7fb6c8, transparent: true, opacity: 0.8, toneMapped: false })); inner.add(lines);
+      return { group, update(v, t) { const g0 = Math.max(0.001, ramp(v, 0, 0.3) * 0.84); inner.rotation.y = Math.sin(t * 0.35) * 0.22; nodes.scale.setScalar(g0); lines.scale.setScalar(g0); } };
     }
     if (kind === 'tests') {
       const C = 11, Rw = 9, cube = new THREE.InstancedMesh(new RoundedBoxGeometry(1.75, 0.95, 0.9, 1, 0.1), new THREE.MeshBasicMaterial({ toneMapped: false }), 99);
@@ -484,7 +485,7 @@ export function mount(canvas, { onStop, still = false, imgBase = '/refinement/sc
     const cnt = geo.attributes.position.count, col = new Float32Array(cnt * 3), tmp = new THREE.Color();
     for (let k = 0; k < cnt; k++) { tmp.copy(colA).lerp(colB, (i + k / cnt) / (PANES.length - 1)); col.set([tmp.r, tmp.g, tmp.b], k * 3); }
     geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
-    const mesh = new THREE.Mesh(geo, threadMat); scene.add(mesh); threads.push({ mesh, total: geo.index.count, curve });
+    const mesh = new THREE.Mesh(geo, threadMat.clone()); scene.add(mesh); threads.push({ mesh, total: geo.index.count, curve });
   }
   const headMat = new THREE.MeshBasicMaterial({ color: 0xeafff6, toneMapped: false });
   const head = new THREE.Mesh(new THREE.SphereGeometry(0.62, 18, 12), headMat); scene.add(head);
@@ -500,7 +501,7 @@ export function mount(canvas, { onStop, still = false, imgBase = '/refinement/sc
   // ---------- Camera ----------
   let width = 1, height = 1, frac = 0.64;
   function paneDistance() {
-    const tan = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+    const tan = Math.tan(THREE.MathUtils.degToRad(32 / 2)); // The resting lens: camera.fov widens in transit.
     const byW = PANE_W / frac / (2 * tan * camera.aspect), byH = PANE_H / (width >= 900 ? 0.84 : 0.9) / (2 * tan);
     return Math.max(byW, byH);
   }
@@ -538,6 +539,7 @@ export function mount(canvas, { onStop, still = false, imgBase = '/refinement/sc
   }
 
   const id0 = new THREE.Quaternion();
+  const threadFade = (p, i) => 1 - ramp(p, paneArrive(i + 1) + 0.004, paneArrive(i + 1) + 0.026);
   let lastStop = -1;
   function pose(p, t) {
     const [cx, cy, cz, tx, ty, tz] = track(p);
@@ -583,10 +585,12 @@ export function mount(canvas, { onStop, still = false, imgBase = '/refinement/sc
     let headAt = null;
     threads.forEach((th, i) => {
       const d = ramp(p, paneArrive(i) + DWELL * 0.7, paneArrive(i + 1) + 0.005);
-      th.mesh.geometry.setDrawRange(0, Math.floor(th.total * d / 3) * 3); th.mesh.visible = d > 0.002;
+      // Once it has landed, the thread clears so the screen is left unobstructed. The ring marks the landing.
+      const fade = threadFade(p, i); th.mesh.material.opacity = fade;
+      th.mesh.geometry.setDrawRange(0, Math.floor(th.total * d / 3) * 3); th.mesh.visible = d > 0.002 && fade > 0.003;
       if (d > 0.002 && d < 0.998) headAt = th.curve.getPointAt(clamp(d));
     });
-    let bi = 0; threads.forEach((th, i) => { const d = ramp(p, paneArrive(i) + DWELL * 0.7, paneArrive(i + 1) + 0.005); for (let k = 0; k < 5; k++) { const f = ((t * 0.16 + k / 5) % 1) * d; if (d > 0.04) { mx.compose(th.curve.getPointAt(clamp(f)), id0, one); } else mx.makeScale(0, 0, 0); beads.setMatrixAt(bi++, mx); } }); beads.instanceMatrix.needsUpdate = true; beads.visible = p > 0.26;
+    let bi = 0; threads.forEach((th, i) => { const d = ramp(p, paneArrive(i) + DWELL * 0.7, paneArrive(i + 1) + 0.005); for (let k = 0; k < 5; k++) { const f = ((t * 0.16 + k / 5) % 1) * d; if (d > 0.04 && threadFade(p, i) > 0.5) { mx.compose(th.curve.getPointAt(clamp(f)), id0, one); } else mx.makeScale(0, 0, 0); beads.setMatrixAt(bi++, mx); } }); beads.instanceMatrix.needsUpdate = true; beads.visible = p > 0.26;
     head.visible = headGlow.visible = !!headAt; if (headAt) { head.position.copy(headAt); headGlow.position.copy(headAt); }
     rings.forEach(({ ring, ringMat }, i) => {
       const lit = i === 0 ? ramp(p, paneArrive(0) - 0.01, paneArrive(0) + 0.02) : ramp(p, paneArrive(i) - 0.01, paneArrive(i) + 0.015);
