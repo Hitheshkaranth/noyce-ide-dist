@@ -36,7 +36,7 @@
 .ng-feature:hover { border-color: var(--border-strong); }
 .ng-feature-copy { padding: 30px 30px 24px; }
 .ng-feature-copy h3, .ng-infra-copy h3 { margin: 0; font: 600 24px/1.17 var(--font-display); letter-spacing: -.025em; text-wrap: balance; }
-.ng-feature-copy p, .ng-infra-copy p { max-width: 55ch; margin: 12px 0 18px; color: #aaaab0; font-size: 16px; line-height: 1.5; text-wrap: pretty; }
+.ng-feature-copy p, .ng-infra-copy p { max-width: 55ch; margin: 12px 0 18px; color: #cfcfd5; font-size: 16px; line-height: 1.5; text-wrap: pretty; }
 .ng-feature-visual { position: relative; min-width: 0; margin-top: auto; height: 225px; overflow: hidden; padding: 10px 0 0 25px; }
 .ng-feature-visual img { display: block; width: 114%; max-width: none; height: auto; border: 1px solid var(--border-strong); border-radius: 7px 0 0 0; object-position: top left; }
 .ng-feature-wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.25fr); height: 360px; }
@@ -212,7 +212,7 @@
 .ng-feature-trace .ng-feature-visual img { width: 155%; border: 0; transform: translate(-24%, -5%); }
 .ng-feature-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 20px; margin-top: 24px; }
 .ng-glow-button { position: relative; z-index: 0; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; min-height: 38px; padding: 8px 20px; border: 0; border-radius: 999px; background: #fcfcfc; color: #08080a; font: 400 16px/1.25 var(--font-body); text-decoration: none; white-space: nowrap; cursor: pointer; box-shadow: inset 0 1px white, inset 0 -2px 6px rgb(0 0 0 / .12); }
-.ng-glow-button::before { content: ''; position: absolute; z-index: -2; inset: -3px; border-radius: inherit; background: linear-gradient(100deg,#39d5eb,#b6a0fa,#5cddbd); filter: blur(13px); opacity: .55; pointer-events: none; }
+.ng-glow-button::before { content: ''; position: absolute; z-index: -2; inset: -3px; border-radius: inherit; background: linear-gradient(100deg,#39d5eb,#62d2e8,#5cddbd); filter: blur(13px); opacity: .55; pointer-events: none; }
 .ng-glow-button::after { content: ''; position: absolute; z-index: -1; inset: 0; border-radius: inherit; background: #fcfcfc; pointer-events: none; }
 .ng-glow-button:hover::before { opacity: .8; }
 .ng-glow-button:focus-visible { outline: 2px solid var(--brand-from); outline-offset: 6px; }
@@ -311,9 +311,9 @@
 .ng-tour-row.is-active::before { top: 25px; bottom: 25px; background: #737378; }
 .ng-tour-controls .ng-tour-row button { flex: 1; min-height: 60px; padding: 16px 16px 16px 32px; border: 0; border-radius: 8px; background: transparent; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; }
 .ng-tour-controls .ng-tour-row button[aria-selected="true"] { background: transparent; }
-.ng-tour-title { color: #a1a1aa; font-size: 20px; line-height: 28px; font-weight: 500; }
+.ng-tour-title { color: #c4c4cc; font-size: 20px; line-height: 28px; font-weight: 500; }
 .ng-tour-row.is-active .ng-tour-title, .ng-tour-row button:hover .ng-tour-title { color: #fafafa; }
-.ng-tour-description { margin-top: 8px; color: #aaaab0; font-size: 18px; line-height: 1.3; }
+.ng-tour-description { margin-top: 8px; color: #cfcfd5; font-size: 18px; line-height: 1.3; }
 .ng-tour-row > .ng-link { align-self: flex-end; flex: none; color: var(--brand-from); margin: 0 20px 16px; padding: 8px 0; }
 .ng-detail-index { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; border-block: 1px solid var(--border); padding: 24px 0; margin-bottom: 32px; }
 .ng-detail-index > span { font-weight: 500; margin-right: auto; }
@@ -377,3 +377,254 @@
 .ng-feature-trace .ng-feature-visual { padding: 12px 24px; }
 .ng-feature-trace .ng-feature-visual img { width: 100%; height: 100%; object-fit: contain; transform: none; }
 @media (max-width: 767px) { .ng-feature-proof .ng-review-art { width: calc(100% - 44px); margin: 10px 22px 22px; } }
+
+/* Hero plain statement, and real IDE captures lifted so they read on the dark page. */
+.hero-plain { margin: 12px 0 0; max-width: 34rem; color: var(--text-2); font-size: 14.5px; line-height: 1.5; text-wrap: pretty; }
+.mt-shot img, .ng-site main img[src*="docs/"] { filter: brightness(1.22) contrast(1.03); }
+
+/* Let captures fill their cards instead of floating small in empty panels. */
+@media (min-width: 768px) {
+  .ng-feature-build .ng-feature-visual { height: 100%; min-height: 220px; }
+  .ng-feature-build .ng-feature-visual img { height: 100%; object-fit: cover; object-position: top left; border-radius: 6px 6px 0 0; border-bottom: 0; }
+  .ng-feature-trace .ng-feature-visual { height: 230px; padding: 12px 24px 0; }
+  .ng-feature-trace .ng-feature-visual img { object-fit: cover; object-position: center; border-radius: 6px 6px 0 0; }
+}
+@media (min-width: 1200px) {
+  .ng-tour { height: 640px; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
+  .ng-tour-media { padding: 20px; }
+}
+
+/* Film posters now fill the stage, so the corner marks would sit on the footage. */
+.ng-film-corner { display: none; }
+
+/* === Quiet pass: calm type, flat surfaces, pill controls, more room. Remove this block to revert. === */
+.ng-site .hdr-bar { border-color: transparent; background: rgb(14 14 16 / .72); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+.ng-site .hdr .btn, .ng-page #download .btn, .ng-closing .btn, .ng-site .btn { border-radius: 999px; }
+.ng-glow-button::before { display: none; }
+.mt { border-color: transparent; background: #131315; box-shadow: none; }
+.mt-shot { border-color: transparent; }
+.hero-card { border-color: #232327; box-shadow: none; background: #101012; }
+.h1 { font-weight: 400; letter-spacing: -.035em; }
+.ng-film-frame { border: 0; border-radius: 20px; background: #131315; box-shadow: none; }
+.ng-film-tabs { border-top: 0; }
+.ng-film-tabs button { border-radius: 999px; }
+.ng-guide-strip a { border-color: transparent; background: #131315; border-radius: 16px; }
+.ng-tour { border: 0; padding: 0; }
+.ng-tour-media { border: 0; box-shadow: none; background: #131315; border-radius: 20px; }
+.ng-tour-cross { display: none; }
+.ng-tour-images { border-color: transparent; box-shadow: none; }
+.ng-tour-controls button { border-color: transparent; border-radius: 16px; }
+.ng-feature { border: 0; border-radius: 20px; background: #131315; box-shadow: none; }
+.ng-feature-grid { gap: 12px; }
+.ng-feature-visual img, .ng-feature-build .ng-feature-visual img { border-color: transparent; }
+.ng-review-art { border-color: transparent; }
+.ng-page .tile, .ng-page #download .tile { border-color: transparent; background: #131315; }
+.ng-footer-wordmark { color: #2c2c31; }
+.ng-heading p, .ng-closing p { color: var(--text-2); }
+@media (min-width: 768px) {
+  .ng-page .ng-section, .ng-page > .ng-container > .section { margin: 168px 0; }
+  .ng-page .ng-overview { margin-top: 128px; }
+  .ng-page .ng-heading { margin-bottom: 72px; }
+  .ng-heading h2, .ng-closing h2, .ng-page .h2, .ng-page .ng-reference .h2 { font-weight: 400; font-size: clamp(2.25rem, 3.5vw, 3.25rem); line-height: 1.1; letter-spacing: -.025em; }
+  .ng-heading p, .ng-closing p, .ng-page #download .lede, .ng-page #faq .lede, .ng-page .ng-reference .lede { font-size: 18px; line-height: 1.5; }
+  .ng-feature-copy h3, .ng-infra-copy h3, .ng-feature-wide .ng-feature-copy h3 { font-weight: 500; font-size: 26px; letter-spacing: -.02em; }
+}
+
+/* What happens between the build and the audit. */
+.ng-proof-grid { display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) {
+  .ng-proof-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .ng-proof-card { grid-column: span 2; }
+  .ng-proof-card-lg { grid-column: span 3; }
+}
+
+/* === Open layout: full-screen hero, mosaic as a grid below, large left-aligned headings, flat top bar. Remove this block and restore the hero markup to revert. === */
+:root { --bg: #000; }
+body, .ng-site { background: #000; }
+.ng-site .hdr { padding: 0; }
+.ng-site .hdr .wrap { max-width: none; }
+.ng-site .hdr-bar { height: 64px; min-height: 64px; padding: 0 24px; border: 0; border-radius: 0; background: rgb(0 0 0 / .78); }
+.ng-feature, .ng-tour-media, .ng-film-frame, .ng-guide-strip a, .mt, .ng-page .tile, .ng-page #download .tile { background: #101012; }
+.hero { display: block; min-height: 0; padding: 0; overflow: visible; }
+.hero .hero-stage { position: relative; min-height: 100svh; align-items: flex-start; justify-content: flex-end; padding: 96px clamp(16px, 4vw, 64px) clamp(40px, 7vh, 80px); text-align: left; background: #000; border: 0; border-radius: 0; box-shadow: none; }
+.hero-stage .hero-ascii { opacity: .85; -webkit-mask-image: linear-gradient(90deg, rgb(0 0 0 / .12) 0%, rgb(0 0 0 / .12) 38%, #000 72%); mask-image: linear-gradient(90deg, rgb(0 0 0 / .12) 0%, rgb(0 0 0 / .12) 38%, #000 72%); }
+.hero-stage .h1 { font-size: clamp(3.5rem, 10.5vw, 10rem); line-height: .95; letter-spacing: -.045em; }
+.hero-stage .hero-mark { width: clamp(44px, 7vw, 112px); height: clamp(44px, 7vw, 112px); }
+.hero-stage .lede { margin-top: 24px; max-width: 44rem !important; text-align: left; font-size: clamp(1.25rem, 1rem + 1vw, 1.875rem) !important; line-height: 1.25; letter-spacing: -.015em; color: var(--fg) !important; }
+.hero-stage .hero-plain { margin-top: 16px; max-width: 40rem; font-size: clamp(1rem, .95rem + .25vw, 1.125rem); }
+.hero-stage .btn { height: 48px; padding: 0 22px; font-size: .9375rem; }
+.hero-stage > div.flex.flex-wrap { justify-content: flex-start; margin-top: 28px; }
+@media (max-width: 767px) { .hero-stage .hero-ascii { display: none; } .hero .mosaic { padding: 0 16px 40px; } }
+@media (min-width: 768px) {
+  .hero .mosaic { position: relative; inset: auto; left: auto; width: min(1280px, calc(100% - 48px)); margin: 96px auto 0; padding: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: none; grid-auto-rows: 260px; gap: 12px; -webkit-mask-image: none; mask-image: none; }
+  .hero .mosaic > * { grid-column: auto; grid-row: auto; border-radius: 20px; }
+  .hero .mosaic > :nth-child(4), .hero .mosaic > :nth-child(5), .hero .mosaic > :nth-child(6), .hero .mosaic > :nth-child(9), .hero .mosaic > :nth-child(14) { display: none; }
+  .hero .mosaic > :nth-child(1) { order: 1; }
+  .hero .mosaic > :nth-child(2) { order: 2; grid-column: span 2; }
+  .hero .mosaic > :nth-child(3) { order: 3; }
+  .hero .mosaic > :nth-child(7) { order: 4; }
+  .hero .mosaic > :nth-child(10) { order: 5; grid-column: span 2; }
+  .hero .mosaic > :nth-child(8) { order: 6; }
+  .hero .mosaic > :nth-child(11) { order: 7; }
+  .hero .mosaic > :nth-child(12) { order: 8; grid-column: span 2; }
+  .hero .mosaic > :nth-child(13) { order: 9; }
+  .ng-container { width: min(1280px, calc(100% - 48px)); }
+  .ng-page .ng-heading { max-width: 960px; margin: 0 0 72px; text-align: left; }
+  .ng-page .ng-heading p { margin-inline: 0; }
+  .ng-heading h2, .ng-closing h2, .ng-page .h2, .ng-page .ng-reference .h2 { font-size: clamp(2.75rem, 5.2vw, 4.75rem); line-height: 1.02; letter-spacing: -.035em; }
+  .ng-heading p, .ng-closing p { font-size: clamp(1.125rem, 1rem + .5vw, 1.5rem); line-height: 1.35; }
+  .ng-feature-copy h3, .ng-infra-copy h3, .ng-feature-wide .ng-feature-copy h3 { font-size: clamp(1.75rem, 1.2rem + 1vw, 2.25rem); line-height: 1.1; letter-spacing: -.025em; }
+  .ng-closing { text-align: left; }
+  .ng-closing h2, .ng-closing p { margin-inline: 0; max-width: 960px; }
+  .ng-closing > div { justify-content: flex-start; }
+  .ng-page #download .mb-10, .ng-page #faq .mb-10 { margin-inline: 0; max-width: 960px; text-align: left; }
+  .ng-page #download .lede, .ng-page #faq .lede { margin-inline: 0; font-size: 20px; }
+}
+.ng-film-play { inset: auto auto 24px 24px; margin: 0; }
+@media (max-width: 767px) { .hero .hero-stage { min-height: 0; padding: 112px 16px 40px; } .ng-film-play { inset: auto auto 12px 12px; } }
+
+/* Engineers first: full detail behind one panel, and older section heads brought into line. */
+.ng-more-body[hidden] { display: none !important; }
+.ng-explore { margin: 168px 0 0; padding: clamp(28px, 5vw, 72px); border-radius: 24px; background: #101012; }
+.ng-explore h2 { margin: 0; font: 400 clamp(2.25rem, 4.4vw, 4rem)/1.05 var(--font-display); letter-spacing: -.03em; }
+.ng-explore p { max-width: 44rem; margin: 20px 0 28px; color: var(--text-2); font-size: clamp(1.0625rem, 1rem + .4vw, 1.375rem); line-height: 1.4; }
+.ng-explore .ng-detail-index { margin: 36px 0 0; padding: 24px 0 0; border-block: 0; border-top: 1px solid #26262b; }
+.ng-restored-details > .ng-reference { border-bottom: 0; }
+.ng-more-body { margin-top: 72px; }
+.ng-page .h2 .ink { background: none; -webkit-text-fill-color: currentColor; color: var(--fg); }
+@media (min-width: 768px) {
+  .ng-page .h2 { max-width: 60rem !important; }
+  .ng-page .section .lede { max-width: 48rem; font-size: 20px; line-height: 1.4; }
+  .ng-page .ng-reference .text-center.flex-col { align-items: flex-start; text-align: left; }
+  .ng-page .ng-reference .text-center.flex-col .lede { margin-left: 0 !important; }
+}
+@media (max-width: 767px) { .ng-explore { margin-top: 96px; } }
+.ng-page .ng-more-body .ng-reference .section { content-visibility: visible; }
+@media (max-width: 767px) {
+  .ng-page .ng-heading { margin-inline: 0; text-align: left; }
+  .ng-page .ng-heading p { margin-inline: 0; }
+  .ng-closing { text-align: left; }
+  .ng-closing > div { justify-content: flex-start; }
+  .ng-page #download .mb-10, .ng-page #faq .mb-10 { margin-inline: 0; text-align: left; }
+  .ng-page #download .lede, .ng-page #faq .lede { margin-inline: 0; }
+  .ng-page .ng-reference .text-center.flex-col { align-items: flex-start; text-align: left; }
+  .ng-page .ng-reference .text-center.flex-col .lede { margin-left: 0 !important; }
+}
+
+/* Proof and a way to start: hero note, and the H-Bridge case study frame. */
+.hero-stage .hero-note { margin: 18px 0 0; max-width: 40rem; color: var(--text-2); font-size: .9375rem; line-height: 1.5; }
+.hero-note a { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+.ng-case { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; margin: 0 0 48px; }
+.ng-case > div { padding-top: 16px; border-top: 1px solid #2a2a2f; }
+.ng-case span { display: block; margin-bottom: 8px; color: var(--text-3); font-size: .875rem; }
+.ng-case p { margin: 0; color: var(--fg); font-size: 1.0625rem; line-height: 1.4; }
+@media (min-width: 900px) { .ng-case { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; } }
+
+/* Finer ASCII art lives on the right; it fades out fully under the text. */
+.hero-stage .hero-ascii { opacity: 1; -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 46%, #000 56%); mask-image: linear-gradient(90deg, transparent 0%, transparent 46%, #000 56%); }
+@media (max-width: 1199px) { .hero-stage .hero-ascii { -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 62%, #000 74%); mask-image: linear-gradient(90deg, transparent 0%, transparent 62%, #000 74%); opacity: .7; } }
+.hero-stage .hero-ascii { top: 64px; bottom: auto; height: calc(100% - 64px); }
+
+/* The 3D bench: a pinned, scroll-driven scene. */
+.ng-page .ng-bench { position: relative; width: 100vw; margin: 168px 0 0 calc(50% - 50vw); height: 1100vh; }
+.ng-bench-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: #000; }
+.ng-bench-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.ng-bench-copy { position: absolute; z-index: 1; left: clamp(16px, 5.5vw, 80px); top: 92px; bottom: 32px; width: min(25rem, 34vw); display: flex; flex-direction: column; pointer-events: none; }
+.ng-bench-copy > * { pointer-events: auto; }
+.ng-bench-copy::before { content: ''; position: absolute; z-index: -1; inset: -92px -9vw -32px -80px; background: linear-gradient(90deg, rgb(0 0 0 / .95), rgb(0 0 0 / .86) 66%, transparent); pointer-events: none; }
+.ng-bench-copy h2 { margin: 0; font: 400 clamp(2rem, 3.1vw, 3rem)/1.04 var(--font-display); letter-spacing: -.03em; }
+.ng-bench-step { margin-top: auto; animation: bench-step .55s cubic-bezier(.22,1,.36,1) both; }
+.ng-bench-k { color: var(--brand-from); font: 500 .8125rem var(--font-mono); }
+.ng-bench-step h3 { margin: 10px 0 12px; font: 500 clamp(1.5rem, 2.1vw, 2rem)/1.1 var(--font-display); letter-spacing: -.02em; }
+.ng-bench-step p { margin: 0 0 14px; color: var(--text-2); font-size: 1rem; line-height: 1.45; }
+.ng-bench-step ul { margin: 0 0 16px; padding: 0; list-style: none; color: var(--fg); font: 400 .8125rem/1.7 var(--font-mono); }
+.ng-bench-nav { display: flex; gap: 6px; margin-top: 24px; }
+.ng-bench-nav button { flex: 1; min-height: 44px; padding: 8px 0 0; border: 0; background: none; color: var(--text-3); font: 400 .6875rem var(--font-body); text-align: left; cursor: pointer; }
+.ng-bench-nav i { display: block; height: 2px; margin-bottom: 8px; background: #33363b; transition: background .3s; }
+.ng-bench-nav button[aria-pressed="true"] { color: var(--fg); }
+.ng-bench-nav button[aria-pressed="true"] i { background: linear-gradient(90deg, var(--brand-from), var(--brand-to)); }
+@keyframes bench-step { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.ng-bench.is-still { height: auto; }
+.ng-bench.is-still .ng-bench-pin { position: relative; }
+.ng-bench.is-failed .ng-bench-canvas { display: none; }
+@media (max-width: 899px) {
+  .ng-page .ng-bench { margin-top: 96px; height: 950vh; }
+  .ng-bench-canvas { height: 46%; }
+  .ng-bench-copy { left: 16px; right: 16px; top: 46%; bottom: 12px; width: auto; }
+  .ng-bench-copy::before { display: none; }
+  .ng-bench-copy h2 { display: none; }
+  .ng-bench-step { margin-top: 8px; }
+  .ng-bench-step h3 { font-size: 1.375rem; margin: 6px 0 8px; }
+  .ng-bench-step p { font-size: .875rem; margin-bottom: 8px; }
+  .ng-bench-step ul { font-size: .6875rem; line-height: 1.55; margin-bottom: 8px; }
+  .ng-bench-nav { margin-top: auto; }
+  .ng-bench-nav button { font-size: 0; min-height: 28px; }
+  .ng-bench.is-failed .ng-bench-copy { top: 72px; }
+}
+@media (prefers-reduced-motion: reduce) { .ng-bench-step { animation: none; } }
+[id^="release-"] { scroll-margin-top: 100px; }
+
+/* Scroll-linked 3D where the browser supports it; everything still reads without. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    @keyframes tilt-in { from { opacity: .25; transform: perspective(1500px) rotateX(16deg) translateY(70px) scale(.95); } to { opacity: 1; transform: none; } }
+    @keyframes hero-away { to { opacity: 0; transform: translateY(-70px) scale(.985); } }
+    @keyframes ascii-away { to { opacity: 0; transform: perspective(1200px) rotateX(10deg) scale(1.08); } }
+    .ng-film-frame, .ng-feature, .ng-proof-card, .ng-tour-media, .ng-infra-image, .ng-explore, .hero .mosaic > * { animation: tilt-in linear both; animation-timeline: view(); animation-range: entry 0% entry 75%; transform-origin: 50% 100%; }
+    .hero-stage > :not(canvas) { animation: hero-away linear both; animation-timeline: view(); animation-range: exit 15% exit 85%; }
+    .hero-stage .hero-ascii { animation: ascii-away linear both; animation-timeline: view(); animation-range: exit 0% exit 85%; }
+  }
+}
+.ng-page section#anatomy.ng-bench { scroll-margin-top: 0; }
+.ng-page .ng-bench.is-failed { height: auto; }
+.ng-bench.is-failed .ng-bench-pin { height: auto; overflow: visible; padding: 0 clamp(16px, 5.5vw, 80px); }
+.ng-bench.is-failed .ng-bench-copy { position: static; width: auto; max-width: 44rem; }
+.ng-bench.is-failed .ng-bench-copy::before { display: none; }
+.ng-bench.is-failed .ng-bench-copy h2 { display: block; }
+.ng-bench.is-failed .ng-bench-step { margin-top: 28px; }
+
+/* Inside Noyce: step copy and clean text transitions. */
+.ng-bench-steps { position: relative; margin-top: auto; }
+.ng-bench-steps .ng-bench-step { margin-top: 0; animation: none; }
+.ng-bench-step.is-leaving { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: none; animation: tx-leave .3s cubic-bezier(.4,0,1,1) both; }
+.ng-bench-step:not(.is-leaving) .ng-bench-k { animation: tx-fade .5s .1s cubic-bezier(.22,1,.36,1) both; }
+.ng-bench-step:not(.is-leaving) p { animation: tx-rise .7s .24s cubic-bezier(.22,1,.36,1) both; }
+.ng-bench-step:not(.is-leaving) .ng-link { animation: tx-rise .7s .34s cubic-bezier(.22,1,.36,1) both; }
+.ng-bench-step:not(.is-leaving) .tx-w > span { animation: tx-word .75s calc(.1s + var(--i, 0) * 45ms) cubic-bezier(.22,1,.36,1) both; }
+.ng-bench-note { margin: 18px 0 0; color: var(--text-3); font-size: .6875rem; line-height: 1.45; }
+.ng-bench-nav button { min-height: 28px; padding-top: 12px; }
+.ng-bench-nav i { margin-bottom: 0; }
+.tx-w { display: inline-block; overflow: hidden; padding: .08em 0 .14em; margin: -.08em 0 -.14em; vertical-align: top; }
+.tx-w > span { display: inline-block; }
+.tx-ready .tx-w > span {
+  --t: clamp(0, calc((var(--p, 0) * (var(--n, 1) + 4) - var(--i, 0)) / 4), 1);
+  opacity: var(--t); transform: translateY(calc((1 - var(--t)) * 108%)) rotate(calc((1 - var(--t)) * 5deg)); transform-origin: 0 100%;
+  transition: transform .32s cubic-bezier(.22,1,.36,1), opacity .22s linear; will-change: transform;
+}
+.tx-para { --t: clamp(0, calc((var(--p, 0) - .22) / .78), 1); opacity: var(--t); transform: translateY(calc((1 - var(--t)) * 30px)); transition: transform .34s cubic-bezier(.22,1,.36,1), opacity .25s linear; }
+.tx-hero .tx-w > span { animation: tx-word 1s calc(var(--d, 0s) + var(--i, 0) * var(--gap, 34ms)) cubic-bezier(.22,1,.36,1) both; }
+.tx-hero-chars .tx-w > span { display: inline-block; animation-duration: 1.1s; animation-delay: calc(.08s + var(--i, 0) * 42ms); }
+.hero-stage .lede .rot > span { animation: none; }
+.hero-stage .lede .rot { animation: tx-fade .7s .9s both; }
+@keyframes tx-word { from { transform: translateY(112%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes tx-rise { from { transform: translateY(14px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes tx-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tx-leave { to { transform: translateY(-16px); opacity: 0; } }
+/* Hero entrance, staggered, then lifting away on scroll. */
+@keyframes hero-in { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .hero-stage > :not(canvas) { animation: hero-away linear both; animation-timeline: view(); animation-range: exit 15% exit 85%; }
+    .hero-stage > a.chip, .hero-stage > div.flex.flex-wrap { animation: hero-in 1s cubic-bezier(.22,1,.36,1) .5s both, hero-away linear both; animation-timeline: auto, view(); animation-range: normal, exit 15% exit 85%; }
+  }
+  @supports not (animation-timeline: view()) {
+    .hero-stage > a.chip, .hero-stage > div.flex.flex-wrap { animation: hero-in 1s cubic-bezier(.22,1,.36,1) .5s both; }
+  }
+}
+@media (prefers-reduced-motion: reduce) { .ng-bench-step *, .ng-bench-step.is-leaving { animation: none !important; } .ng-bench-step.is-leaving { display: none; } .ng-bench-step .tx-w > span { transform: none; opacity: 1; } }
+@media (max-width: 899px) { .ng-bench-note { display: none; } .ng-bench-steps { margin-top: 8px; } }
+.ng-bench.is-failed .ng-bench-steps { margin-top: 28px; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-stage > .hero-note { animation: hero-in 1s cubic-bezier(.22,1,.36,1) .85s both; }
+  @supports (animation-timeline: view()) { .hero-stage > .hero-note { animation: hero-in 1s cubic-bezier(.22,1,.36,1) .85s both, hero-away linear both; animation-timeline: auto, view(); animation-range: normal, exit 15% exit 85%; } }
+}
