@@ -1119,7 +1119,7 @@
         <section id="top" className="hero">
             <div className="hero-card hero-stage tile-in" style={{ animationDelay: '0s' }}>
               <HeroAscii />
-              <a href="#release-208" className="chip mb-4 hover:text-white" style={{ height: 30, padding: '0 12px' }}><span className="ink font-semibold">New in 2.0.8</span><span>Import and build real projects</span><Icon name="arrowRight" size={13} /></a>
+              <a href="#release-209" className="chip mb-4 hover:text-white" style={{ height: 30, padding: '0 12px' }}><span className="ink font-semibold">New in 2.0.9</span><span>Signed baselines and a verification chain</span><Icon name="arrowRight" size={13} /></a>
               <div className="flex items-center gap-4 md:gap-5">
                 <h1 className="h1">Noyce IDE</h1>
               </div>
@@ -1128,7 +1128,7 @@
               </p>
               <p className="hero-plain">Takes working firmware to DO-178C evidence. MISRA, CBMC, CodeQL and MC/DC run on your own project and models, and every gap stays visible.</p>
               <div className="flex flex-wrap items-center justify-center gap-2.5 mt-5">
-                <a href="#download" className="btn btn-primary"><Icon name="download" size={15} /> Download 2.0.8</a>
+                <a href="#download" className="btn btn-primary"><Icon name="download" size={15} /> Download 2.0.9</a>
                 <a href="#how" className="btn btn-secondary">Take the tour <Icon name="arrowRight" size={15} /></a>
               </div>
               <p className="hero-note">In use at two companies on six firmware projects. Free during the beta. <a href="#contact">Talk to us about a pilot</a>.</p>
@@ -2257,6 +2257,18 @@
     /* ---------- Releases: one section, switched by version ---------- */
     const RELEASES = [
       {
+        v: '2.0.9', id: 'release-209', title: 'Signed baselines and a verification chain.',
+        lede: 'Verification evidence is now bound to the build it ran on, configuration baselines are signed by named people, and the DO-178C documents are written from the project\'s own records. Everything was exercised in the IDE on copies of real firmware taken through DO-178C.',
+        points: [
+          { k: 'Verification', t: 'Requirement → case → procedure → result → review.', d: 'Procedures are structured steps. Each result is bound to the commit, inputs, sealed run, case and procedure it ran against, and goes stale when any of them changes. A review counts as independent only between two people on the roster.' },
+          { k: 'Baselines', t: 'Configuration baselines, signed.', d: 'One digest freezes source, requirements, cases, results, tools, problem reports, documents and the audit-ledger head, behind a gate that follows the assurance level. Ed25519 sign-off with keys in the OS keychain; keys and roles count only through signed ledger entries.' },
+          { k: 'Documents', t: 'Documents written from the project.', d: 'Memory, interrupts, timer periods, stack, pins, compiler flags and verification status are computed from the map, clock tree, .ioc and records. AI-accepted text is re-checked on every regeneration, and regeneration converges.' },
+          { k: 'Engines', t: 'Verification engines with qualification corpora.', d: 'Host and target coverage, measured data and control coupling, object-code branch coverage from trace, timing and stack, and a MISRA C:2012 rule engine covering 206 of 221 guidelines with an accuracy benchmark.' },
+          { k: 'CLI', t: 'The noyce CLI for CI.', d: 'model, analyze, cover, verify, couple, trace, grade, gate, kit, qualify and baseline. noyce baseline verify checks a baseline, its signatures and the audit ledger offline.' },
+          { k: 'Limits', t: 'What is not proven yet.', d: 'On-target paths (probe-rs, RTT, DWT, ETM) are not yet proven on hardware, ALM connectors are tested against mocks only, and tool-qualification determinations must be confirmed by the applicant.' },
+        ],
+      },
+      {
         v: '2.0.8', id: 'release-208', title: 'Import and build real projects.',
         lede: 'Real TI and ST projects were imported and built end to end, and every gap the run found is fixed. The release also brings two more DO-178C field runs, one design system across every surface, and a user manual.',
         points: [
@@ -2605,7 +2617,7 @@
 
     /* ---------- Traction ---------- */
     const Traction = () => {
-      const stats = [['2', 'companies running it on their own firmware'], ['6', 'firmware projects it has been used on'], ['2.0.8', 'public dist, source open for technical review']];
+      const stats = [['2', 'companies running it on their own firmware'], ['6', 'firmware projects it has been used on'], ['2.0.9', 'public dist, source open for technical review']];
       return (
         <section id="traction" className="section">
           <div className="wrap">
@@ -2674,8 +2686,8 @@
     };
     const Download = () => {
       const cards = [
-        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 388 MB · 2.0.8', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.8', cta: 'Download · arm64', primary: true },
-        { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 180 MB · 2.0.8', sig: 'not code-signed yet', href: REPO + '/releases/tag/v2.0.8', cta: 'Download · x64', primary: false },
+        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 403 MB · 2.0.9', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.9', cta: 'Download · arm64', primary: true },
+        { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 180 MB · 2.0.9', sig: 'not code-signed yet', href: REPO + '/releases/tag/v2.0.9', cta: 'Download · x64', primary: false },
         { os: 'Linux', status: 'Roadmap', sc: '', desc: 'Packaged AppImage and deb builds are on the roadmap. Today, build and launch from source.', cmds: ['npm ci && npm run build', 'npm run codeoss:bootstrap', 'npm run workbench:launch -- /path/to/firmware'], pkg: 'from source', sig: 'build it yourself', href: 'https://github.com/Hitheshkaranth/noyce_ide#build-from-source', cta: 'Build from source', primary: false },
       ];
       return (
@@ -2708,7 +2720,7 @@
                 <h3 className="h3 mb-1.5">Also on GitHub Packages</h3>
                 <p className="small m-0" style={{ fontSize: '.875rem' }}>Every release is published as <span className="code">ghcr.io/hitheshkaranth/noyce-ide</span>, tagged by version and <span className="code">latest</span>.</p>
               </div>
-              <CopyCmd cmd="oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.8" />
+              <CopyCmd cmd="oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.9" />
             </Reveal>
           </div>
         </section>
@@ -2899,7 +2911,7 @@
                     <span className="font-medium" style={{ fontFamily: 'var(--font-display)', letterSpacing: '-.02em' }}>Noyce IDE</span>
                   </div>
                   <p className="small m-0" style={{ maxWidth: '16rem' }}>An AI-native Code-OSS workbench for certifiable embedded firmware.</p>
-                  <div className="mt-5 flex flex-wrap gap-1.5"><span className="chip chip-ok">v2.0.8</span><span className="chip">macOS + Windows</span><span className="chip">Free during beta</span></div>
+                  <div className="mt-5 flex flex-wrap gap-1.5"><span className="chip chip-ok">v2.0.9</span><span className="chip">macOS + Windows</span><span className="chip">Free during beta</span></div>
                 </div>
                 {cols.map((col) => (
                   <div key={col.h}>
