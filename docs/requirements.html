@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.8">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -44,7 +44,7 @@
       <kbd>/</kbd>
       <div id="results" class="results" role="listbox" hidden></div>
     </div>
-    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements" aria-current="page">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements" aria-current="page">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
   </aside>
   <main class="main" id="content">
     <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
@@ -72,18 +72,23 @@
 <p>The register of every requirement with its status and trace state. Open it from the <strong>Requirements</strong> tile or <strong>Noyce Compliance: Show Requirements Explorer</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/requirements.webp" alt="Requirements &amp; Evidence register listing 29 requirements with status and trace state" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>The register on the Canister firmware: 29 requirements, none trace-ready yet, so all 29 show as coverage gaps. The selected requirement's linked evidence is on the right.</figcaption></figure>
 <ul>
-<li>The counters at the top show requirements that are trace-ready, coverage gaps, and requirements with verified evidence.</li>
-<li>Select a requirement to see its rationale, its linked documents, the system requirement it traces to, and the code that implements it. <strong>Open in traceability map</strong> jumps to it in the graph.</li>
-<li><strong>Questioned</strong> marks an SRS requirement that does not state what the product must do: every code location it traces to is vendor code, its subject is a supplier library or API, or it names the function or source file that implements it. The reason is shown with it. Rewrite the requirement, or select <strong>Accept requirement</strong> if it is right as written. An acceptance applies to that exact statement and is kept in <code>.noyce/requirements/subject-acceptances.json</code>; editing the statement questions it again.</li>
+<li><p>The counters at the top show requirements that are trace-ready, coverage gaps, and requirements with verified evidence.</p>
+</li>
+<li><p>Select a requirement to see its rationale, its linked documents, the system requirement it traces to, and the code that implements it. <strong>Open in traceability map</strong> jumps to it in the graph.</p>
+</li>
+<li><p><strong>Questioned</strong> marks an SRS requirement that does not state what the product must do: every code location it traces to is vendor code, its subject is a supplier library or API, or it names the function or source file that implements it. The reason is shown with it. Rewrite the requirement, or select <strong>Accept requirement</strong> if it is right as written. An acceptance applies to that exact statement and is kept in <code>.noyce/requirements/subject-acceptances.json</code>; editing the statement questions it again.</p>
+</li>
+<li><p><strong>Import CSV / ReqIF…</strong> imports system requirements. A ReqIF file imported here is kept, so <strong>Export ReqIF with trace</strong> can write Noyce IDE&#39;s trace links back into it. The <strong>Suspect links</strong> and <strong>Change impact</strong> tabs show which trace links a changed requirement has made suspect, and what the change affects. See <a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a>.</p>
+</li>
 </ul>
-<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>External ALM tools such as Jama Connect and IBM DOORS Next are not connected; the view says so. Export from those tools to ReqIF or CSV and import the file in Requirements Authoring.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>To read requirements straight from IBM DOORS Next, Siemens Polarion or Jama Connect and push trace links back, use the <strong>ALM connectors</strong> tab. See <a href="/docs/alm-connectors">ALM connectors</a>. You can always export from those tools to ReqIF or CSV and import the file instead; see <a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a>.</p>
 </div></div></aside>
 <h2 id="requirements-authoring">Requirements Authoring<a class="anchor" href="#requirements-authoring" aria-label="Link to this section">#</a></h2>
 <p>Write high-level requirements, import system requirements, and check them as you type. Open it with <strong>Noyce Compliance: Open Requirements Authoring</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/requirements-authoring.webp" alt="Requirements Authoring with the high-level requirements of the SRS" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Requirements Authoring on the Canister copy: 17 high-level requirements in draft, each tracing up to a system requirement; 15 of them still have a lint error to fix.</figcaption></figure>
 <ul>
 <li><strong>High-level requirements</strong> are written into the SRS document (<code>SRS-001</code>), so the document and the register never disagree.</li>
-<li><strong>System requirements</strong> import from CSV, ReqIF, or a Markdown table. The imported file&#39;s hash is recorded, so you can show which version of the customer&#39;s requirements you worked from.</li>
+<li><strong>System requirements</strong> import from CSV, ReqIF, Excel or a Markdown table. For a ReqIF file you want to export back with trace, import it in Requirements &amp; Evidence instead; an import here does not keep the file for export. The imported file&#39;s hash is recorded, so you can show which version of the customer&#39;s requirements you worked from.</li>
 <li><strong>The live check</strong> flags a requirement with two &quot;shall&quot;s, a TBD, or no parent, and will not let it be marked reviewed or baselined until it is fixed.</li>
 </ul>
 <h3 id="recover-system-requirements-from-a-prototype">Recover system requirements from a prototype<a class="anchor" href="#recover-system-requirements-from-a-prototype" aria-label="Link to this section">#</a></h3>
@@ -117,7 +122,7 @@
     </article>
     <nav class="pager" aria-label="Previous and next">
       <a class="prev" href="/docs/projects"><small>Previous</small><span>Projects</span></a>
-      <a class="next" href="/docs/compliance"><small>Next</small><span>Compliance &amp; certification</span></a>
+      <a class="next" href="/docs/reqif-round-trip"><small>Next</small><span>ReqIF &amp; change impact</span></a>
     </nav>
   </main>
   <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#requirements-evidence">Requirements &amp; Evidence</a></li><li><a class="l2" href="#requirements-authoring">Requirements Authoring</a></li><li><a class="l3" href="#recover-system-requirements-from-a-prototype">Recover system requirements from a prototype</a></li><li><a class="l2" href="#low-level-requirements">Low-Level Requirements</a></li><li><a class="l2" href="#annotation-navigator">Annotation Navigator</a></li><li><a class="l2" href="#traceability-graph">Traceability Graph</a></li><li><a class="l2" href="#project-truth-graph">Project Truth Graph</a></li></ul></nav>
@@ -127,8 +132,8 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.8</span>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
 </div></footer>
-<script src="/docs/assets/docs.js?v=2.0.8" defer></script>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
 </body>
 </html>

@@ -56,3 +56,30 @@ jobs:
             --annotation "org.opencontainers.image.version=${{ steps.tag.outputs.version }}" \
             --annotation "org.opencontainers.image.licenses=LicenseRef-Proprietary" \
             *
+
+  # The public Homebrew tap is this repository (the source repo is private), so
+  # keep Casks/noyce-ide.rb pointed at this release's .dmg.
+  bump-cask:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Update cask version and sha256
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ github.event.release.tag_name || inputs.tag }}"
+          version="${tag#v}"
+          sha="$(gh release view "$tag" --repo "${{ github.repository }}" --json assets \
+            -q '.assets[] | select(.name | endswith("darwin-arm64.dmg")) | .digest' | sed 's/^sha256://')"
+          [ -n "$sha" ] || { echo "Release $tag has no darwin-arm64 .dmg"; exit 1; }
+          sed -i -E "s/^  version \".*\"/  version \"$version\"/" Casks/noyce-ide.rb
+          sed -i -E "s/^  sha256 .*/  sha256 \"$sha\"/" Casks/noyce-ide.rb
+          if git diff --quiet Casks/noyce-ide.rb; then echo "Cask already at $version"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "chore(cask): noyce-ide $version ($sha)"
+          git push origin HEAD:main

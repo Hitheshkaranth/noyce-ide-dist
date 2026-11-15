@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>ISO 26262 and IEC 61508 method tables · Noyce IDE Docs</title>
+<meta name="description" content="How a project certified to ISO 26262 (ASIL) or IEC 61508 (SIL) is graded against the software method tables - the built-in tables, two-person verification and overrides, a licensed import, and what the Compliance Run grades.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/other-standards">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ISO 26262 and IEC 61508 method tables · Noyce IDE Docs">
+<meta property="og:description" content="How a project certified to ISO 26262 (ASIL) or IEC 61508 (SIL) is graded against the software method tables - the built-in tables, two-person verification and overrides, a licensed import, and what the Compliance Run grades.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/other-standards">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards" aria-current="page">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>ISO 26262 and IEC 61508 method tables</h1>
+      <p class="lede">How a project certified to ISO 26262 (ASIL) or IEC 61508 (SIL) is graded against the software method tables - the built-in tables, two-person verification and overrides, a licensed import, and what the Compliance Run grades.</p>
+      
+      <div class="rule"></div>
+      <p>ISO 26262-6 and IEC 61508-3 do not list objectives the way DO-178C Annex A does. They list methods and techniques, each with a recommendation per integrity level: <code>++</code> highly recommended, <code>+</code> recommended, <code>o</code> no recommendation (ISO 26262, per ASIL A–D); <code>HR</code>, <code>R</code>, <code>-</code> and <code>NR</code> not recommended (IEC 61508, per SIL 1–4). Noyce IDE grades a project against these tables with the same rules as <a href="/docs/annex-a-tables">Annex A</a>: a built-in table that counts only after two people verify it, signed overrides, or a licensed table you import.</p>
+<h2 id="which-framework-a-run-grades">Which framework a run grades<a class="anchor" href="#which-framework-a-run-grades" aria-label="Link to this section">#</a></h2>
+<p>The <a href="/docs/compliance#compliance-run">Compliance Run</a> grades the framework and level your project has recorded on the Compliance Dashboard. A recorded DO-178C software level takes precedence, so an existing DO-178C project is graded exactly as before. Otherwise the run uses the ISO 26262 ASIL or the IEC 61508 SIL you recorded. No level is assumed: with none recorded, <strong>Take a run</strong> asks you to choose one.</p>
+<p>ASIL QM levies no Part 6 method table, so a run at QM is refused with &quot;ASIL QM levies no ISO 26262-6 method table&quot;.</p>
+<h2 id="the-built-in-tables">The built-in tables<a class="anchor" href="#the-built-in-tables" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Tables built in</th>
+<th>Entries</th>
+<th>Cells</th>
+<th>Least certain</th>
+<th>Not entered</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ISO 26262-6:2018</td>
+<td>6-1 to 6-12</td>
+<td>79</td>
+<td>316</td>
+<td>88</td>
+<td>4 (row 6-10.1d)</td>
+</tr>
+<tr>
+<td>IEC 61508-3:2010</td>
+<td>A.1, A.3, A.4, A.5, A.9, B.1, B.2, B.3, B.8, B.9</td>
+<td>78</td>
+<td>312</td>
+<td>88</td>
+<td>0</td>
+</tr>
+</tbody></table></div>
+<p>The tables hold entry ids and recommendation symbols only. They contain no method names, no clause text and no table titles; the short topic shown beside each table id is Noyce&#39;s own label. Every cell carries the provenance <strong>declared</strong> (producer <code>noyce.builtin-iso26262-6</code> or <code>noyce.builtin-iec61508-3</code>).</p>
+<p>Each entry records its source:</p>
+<ul>
+<li>ISO 26262-6 Table 6-1 rows 1a–1h and IEC 61508-3 Table B.9 match a public reproduction (exida, &quot;Software Metrics: ISO 26262 / IEC 61508&quot;, 2018).</li>
+<li>Every other entry is the product author&#39;s transcription, not checked against a licensed copy.</li>
+</ul>
+<p>Cells the author is least sure of are marked <strong>check first</strong> in the verification checklist. A cell that could not be stated from public sources is <strong>Not entered</strong> rather than guessed: it is neither met nor missed, and it has to be filled by an override before the table can be verified. Tables not listed above (for example ISO 26262-6 Tables 13 onward, IEC 61508-3 Table A.2) are not built in; they come only from a licensed import.</p>
+<p>While the table is unverified, the Compliance Dashboard shows <strong>ISO 26262-6 method tables from built-in table, not verified</strong> (or the IEC 61508-3 equivalent): &quot;Runs graded against it cannot be exported and plans stay draft until two rostered people verify it, or a licensed table is imported.&quot;</p>
+<h2 id="verify-the-built-in-table">Verify the built-in table<a class="anchor" href="#verify-the-built-in-table" aria-label="Link to this section">#</a></h2>
+<p>The checklist is the same as for Annex A. Two different people on the <a href="/docs/evidence-records#start-with-the-roster">roster</a> each confirm every cell against their own licensed copy.</p>
+<ol class="steps">
+<li>Select <strong>Verify…</strong> on the Compliance Dashboard, or open <strong>Evidence Records → ISO 26262-6 method tables</strong> (or <strong>IEC 61508-3 technique tables</strong>). The tab is named for the project&#39;s framework.</li>
+<li>Choose yourself under <strong>Verifier</strong> and name your copy under <strong>Licensed copy</strong>.</li>
+<li>Pick a table. For each entry and level, set what your copy says: <strong>Agree — …</strong>, <strong>Disagree — …</strong>, or, for a not-entered cell, <strong>State — …</strong> with the value your copy gives.</li>
+<li><strong>Agree with the rest of <em>table</em></strong> marks every untouched stated cell as agreeing. Not-entered cells are left for you to state.</li>
+<li>When every cell is marked, select <strong>Sign verification</strong>.</li>
+</ol>
+<p>The table becomes <strong>Built-in, verified</strong> when two distinct rostered people have signed, every value each stated equals the effective cell, no cell is still not entered, and neither record is stale. Each record carries the SHA-256 of the table it checked; an override or a product update re-opens it. Records are stored one file per record under <code>.noyce/process/iso26262-6-verification/</code> or <code>.noyce/process/iec61508-3-verification/</code>, and are release inputs.</p>
+<p>Under <strong>Cells to resolve</strong>, a disagreement or a stated not-entered cell is turned into an override: choose <strong>Override recorded by</strong>, give a <strong>Reason</strong>, and select <strong>Override to <em>value</em></strong>. The override is a signed record; both verifiers then verify the changed table again.</p>
+<h2 id="import-a-licensed-table">Import a licensed table<a class="anchor" href="#import-a-licensed-table" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>Import a licensed table instead</strong> at the bottom of the checklist. <strong>Write blank template</strong> writes <code>.noyce/compliance/&lt;standard&gt;-licensed.template.json</code> with every entry id and empty cells. Fill every cell (and, optionally, the method names) from your licensed copy, paste the JSON, choose <strong>Imported by</strong> and select <strong>Import and sign</strong>. The table is stored at <code>.noyce/compliance/iso26262-6-licensed.json</code> or <code>.noyce/compliance/iec61508-3-licensed.json</code> with its content hash, and takes precedence over the built-in table. A table edited after import no longer verifies and is ignored.</p>
+<h2 id="what-the-run-grades">What the run grades<a class="anchor" href="#what-the-run-grades" aria-label="Link to this section">#</a></h2>
+<p>An ISO 26262 or IEC 61508 run shows <strong>Highly recommended methods</strong> as its headline figure and a method-table section in place of Annex A. Each entry reads its recommendation at your level, then:</p>
+<ul>
+<li><strong>Evidenced</strong>: a producer that genuinely applies the method ran and passed.</li>
+<li><strong>Failing</strong>: that producer ran and failed (for example a levied coverage criterion below 100%).</li>
+<li><strong>Open</strong>: highly recommended or recommended, with no evidence. Many methods (walk-throughs, design notations, defensive implementation) have no producer in Noyce IDE; a review record or a justification closes them.</li>
+<li><strong>Advisory</strong>: evidence exists but cannot close anything (heuristic, or declared without a rostered signer).</li>
+<li><strong>Not levied</strong>: no recommendation at this level.</li>
+<li><strong>Not entered</strong>: the table does not state the cell.</li>
+</ul>
+<p>Which producers evidence which entries:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Producer</th>
+<th>ISO 26262-6</th>
+<th>IEC 61508-3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MISRA C analysis</td>
+<td>6-1.1b, 6-1.1c, 6-7.1h, 6-10.1g</td>
+<td>A.3.3, A.4.5, A.9.3, B.1.1</td>
+</tr>
+<tr>
+<td>CodeQL</td>
+<td>6-7.1h, 6-10.1g</td>
+<td>A.9.3</td>
+</tr>
+<tr>
+<td>CBMC</td>
+<td>6-7.1e</td>
+<td>A.5.10, B.8.9</td>
+</tr>
+<tr>
+<td>Verification cases (executed)</td>
+<td>6-7.1j, 6-8.1a</td>
+<td>A.5.4</td>
+</tr>
+<tr>
+<td>Requirements trace</td>
+<td>—</td>
+<td>A.5.9</td>
+</tr>
+<tr>
+<td>Structural coverage (measured)</td>
+<td>6-9.1a statement, 6-9.1b branch, 6-9.1c MC/DC</td>
+<td>B.2.7b statement, B.2.7c branch, B.2.7d MC/DC</td>
+</tr>
+<tr>
+<td>Data and control coupling (measured)</td>
+<td>6-10.1f, 6-12.1b</td>
+<td>A.5.7</td>
+</tr>
+<tr>
+<td>Timing &amp; Stack (measured record)</td>
+<td>6-7.1m, 6-10.1d</td>
+<td>A.5.5</td>
+</tr>
+</tbody></table></div>
+<p>Measured timing is a resource-usage evaluation and performance test, never a WCET analysis. CBMC is bounded model checking, not a formal proof.</p>
+<h3 id="structural-coverage-thresholds">Structural coverage thresholds<a class="anchor" href="#structural-coverage-thresholds" aria-label="Link to this section">#</a></h3>
+<p>Only a criterion the table rates <strong>highly recommended</strong> at your level is levied, at 100%. A <strong>recommended</strong> criterion is measured and reported but never failed, because both standards let a justified alternative replace it. From the built-in tables:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Statement</th>
+<th>Branch</th>
+<th>MC/DC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ASIL A</td>
+<td>100% levied</td>
+<td>recommended</td>
+<td>recommended</td>
+</tr>
+<tr>
+<td>ASIL B</td>
+<td>100% levied</td>
+<td>100% levied</td>
+<td>recommended</td>
+</tr>
+<tr>
+<td>ASIL C</td>
+<td>recommended</td>
+<td>100% levied</td>
+<td>recommended</td>
+</tr>
+<tr>
+<td>ASIL D</td>
+<td>recommended</td>
+<td>100% levied</td>
+<td>100% levied</td>
+</tr>
+<tr>
+<td>SIL 1</td>
+<td>recommended</td>
+<td>recommended</td>
+<td>recommended</td>
+</tr>
+<tr>
+<td>SIL 2</td>
+<td>100% levied</td>
+<td>recommended</td>
+<td>recommended</td>
+</tr>
+<tr>
+<td>SIL 3</td>
+<td>100% levied</td>
+<td>100% levied</td>
+<td>recommended</td>
+</tr>
+<tr>
+<td>SIL 4</td>
+<td>100% levied</td>
+<td>100% levied</td>
+<td>100% levied</td>
+</tr>
+</tbody></table></div>
+<p>Overrides and an imported table change these thresholds. The run lists the wording for your level, for example &quot;MC/DC: recommended at SIL 3 — measured and reported, not levied (a justified alternative may replace it)&quot;.</p>
+<p>A run graded against the unverified built-in table records that in its configuration and cannot be exported: &quot;ISO 26262-6:2018 recommendations from the built-in table — not yet verified against a licensed copy.&quot;</p>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>The built-in tables have not been verified by Noyce against licensed copies; your project&#39;s two verifications are what make them usable.</li>
+<li>Only part of each standard&#39;s tables is built in (see the table above). IEC 62304 and EN 50716 have no built-in table.</li>
+<li>The plans and documents Noyce IDE generates are DO-178C documents; ISO 26262 and IEC 61508 work products are not generated.</li>
+<li>Most methods have no producer and stay open until a review or justification closes them outside the run.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/annex-a-tables"><small>Previous</small><span>Annex A tables</span></a>
+      <a class="next" href="/docs/qualification-kits"><small>Next</small><span>Qualification kits</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#which-framework-a-run-grades">Which framework a run grades</a></li><li><a class="l2" href="#the-built-in-tables">The built-in tables</a></li><li><a class="l2" href="#verify-the-built-in-table">Verify the built-in table</a></li><li><a class="l2" href="#import-a-licensed-table">Import a licensed table</a></li><li><a class="l2" href="#what-the-run-grades">What the run grades</a></li><li><a class="l3" href="#structural-coverage-thresholds">Structural coverage thresholds</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

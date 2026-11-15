@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>ReqIF round trip, suspect links and change impact · Noyce IDE Docs</title>
+<meta name="description" content="Import a ReqIF 1.2 file from your requirements tool, send Noyce IDE's trace links back to it, see which links went suspect when a requirement changed, and walk what a change affects.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/reqif-round-trip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReqIF round trip, suspect links and change impact · Noyce IDE Docs">
+<meta property="og:description" content="Import a ReqIF 1.2 file from your requirements tool, send Noyce IDE's trace links back to it, see which links went suspect when a requirement changed, and walk what a change affects.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/reqif-round-trip">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip" aria-current="page">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>ReqIF round trip, suspect links and change impact</h1>
+      <p class="lede">Import a ReqIF 1.2 file from your requirements tool, send Noyce IDE's trace links back to it, see which links went suspect when a requirement changed, and walk what a change affects.</p>
+      
+      <div class="rule"></div>
+      <p>Your system requirements usually live in a requirements tool such as IBM DOORS Next, Siemens Polarion or Jama Connect. Noyce IDE exchanges them with that tool through a ReqIF 1.2 file. It does not sync with the tool directly; see <a href="/docs/alm-connectors">ALM connectors</a> for the state of live connectors.</p>
+<p>All of this happens in <strong>Requirements &amp; Evidence</strong>. Open it from the <strong>Requirements</strong> tile or <strong>Noyce Compliance: Show Requirements Explorer</strong>. The view has four tabs: <strong>Software requirements</strong>, <strong>System requirements (imported)</strong> (shown once something is imported), <strong>Suspect links</strong> and <strong>Change impact</strong>.</p>
+<!-- capture: Requirements & Evidence header on the H-Bridge copy after a ReqIF import, showing "Import CSV / ReqIF…", "Export ReqIF with trace", the "ALM connectors" menu and the four tabs -->
+
+<h2 id="import-a-reqif-file">Import a ReqIF file<a class="anchor" href="#import-a-reqif-file" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li>Select <strong>Import CSV / ReqIF…</strong> and choose the <code>.reqif</code> file exported from your requirements tool.</li>
+<li>The notice says how many system requirements were imported, which tool wrote the file, how many objects, relations and specifications it held, and whether any trace link has gone suspect.</li>
+</ol>
+<p>What is read:</p>
+<ul>
+<li>The whole ReqIF 1.2 structure: the header, all seven datatypes (string, XHTML, integer, real, Boolean, date, enumeration), spec types with their attribute definitions and defaults, SPEC-OBJECTs, the specification hierarchy, SPEC-RELATIONs and relation groups. Vendor tool extensions are kept but not interpreted.</li>
+<li>For each SPEC-OBJECT, the requirement&#39;s id comes from <code>ReqIF.ForeignID</code> (else the object&#39;s identifier), its title from <code>ReqIF.Name</code> or <code>ReqIF.ChapterName</code>, and its text from <code>ReqIF.Text</code>. The other attributes are kept for display and for the suspect-link check. XHTML text is also converted to plain text.</li>
+<li>An object with no identifier or no text is skipped, and the notice says why.</li>
+</ul>
+<p>What is kept: a copy of the file under <code>.noyce/requirements/reqif/</code>, named by the start of its SHA-256, and an entry in <code>.noyce/requirements/reqif/index.json</code>. Export writes into the latest kept copy.</p>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><ul>
+<li>The SPEC-RELATIONs and hierarchy in the imported file are counted but not turned into Noyce trace links. Noyce IDE&#39;s trace links come from your HLRs and LLRs naming their parents.</li>
+<li><code>.reqifz</code> archives are not read. Extract the <code>.reqif</code> file and import that.</li>
+<li>The file is not validated against the ReqIF schema.</li>
+<li>Only <strong>Import CSV / ReqIF…</strong> in Requirements &amp; Evidence does the round trip. <strong>Import file…</strong> in Requirements Authoring imports the same requirements, but it does not keep the file for export and does not check the trace links before and after. Use Requirements &amp; Evidence for ReqIF.</li>
+</ul>
+</div></div></aside>
+<p>CSV, Markdown tables and Excel workbooks (<code>.xlsx</code>, <code>.xls</code>) import through the same button as plain system requirements, without round trip.</p>
+<h2 id="export-the-trace-back">Export the trace back<a class="anchor" href="#export-the-trace-back" aria-label="Link to this section">#</a></h2>
+<p>Select <strong>Export ReqIF with trace</strong>. Noyce IDE first re-checks the trace links, then writes <code>.noyce/requirements/reqif/exports/&lt;name&gt;-noyce-trace-&lt;time&gt;.reqif</code>, and records the export in the <a href="/docs/compliance#audit-trail">audit trail</a>.</p>
+<ul>
+<li><strong>If a ReqIF file was imported</strong>, the export is that file with Noyce content added, and nothing else changed. The additions all have identifiers starting <code>_noyce-x-</code>: a relation type &quot;Noyce trace link&quot;, one SPEC-RELATION per trace link (source is the refining requirement, target is its parent), and a specification &quot;Noyce software requirements&quot; holding your HLRs and accepted LLRs. Exporting again replaces the previous Noyce content, so the file does not grow.</li>
+<li><strong>If no ReqIF file was imported</strong>, the export is a new ReqIF 1.2 file holding the system requirements, the HLRs, the accepted LLRs and the links.</li>
+</ul>
+<p>Each exported link carries <code>noyce.linkKind</code> and <code>noyce.linkStatus</code> (<code>current</code>, <code>suspect</code> or <code>cleared</code>), so a suspect link reaches your requirements tool marked as suspect. Only requirement-to-requirement links are exported (HLR to system requirement, LLR to HLR); links to code, tests and coverage are not. A link whose end is missing is skipped, and the notice lists it.</p>
+<p>Import the exported file into your requirements tool to see Noyce IDE&#39;s trace there.</p>
+<h2 id="suspect-links">Suspect links<a class="anchor" href="#suspect-links" aria-label="Link to this section">#</a></h2>
+<p>A trace link records what both of its ends said when it was last reviewed. When one end changes, the link turns <strong>suspect</strong> until a person reviews the change.</p>
+<!-- capture: Suspect links tab with one suspect HLR → system link selected, the "Review the change" section showing the word diff, the "Reviewed by" select and "Review & clear" -->
+
+<p><strong>Which links.</strong> An HLR that names an imported system requirement as its parent (<strong>HLR → system</strong>), and an accepted LLR that names an HLR (<strong>LLR → HLR</strong>).</p>
+<p><strong>What is compared.</strong> A SHA-256 of each end&#39;s id, title, text and significant attributes. For an HLR these are its verification method, DAL, derived flag and safety flag; for an LLR, its verification method and derived flag; for a system requirement, its imported attributes. Bookkeeping attributes such as modified-by, modified-on, created-by and owner are not hashed, so a re-export from the requirements tool that only touched those does not raise a suspect link.</p>
+<p><strong>When it is checked.</strong> When Requirements &amp; Evidence opens, when you select <strong>Re-check links</strong>, before and after a ReqIF import, and before an export. Editing an HLR does not flag its links until one of these happens.</p>
+<p><strong>Clearing a suspect link.</strong></p>
+<ol class="steps">
+<li>Select the link. <strong>Review the change</strong> shows which end changed, a word diff of the text as reviewed and now, any changed attributes, and the old and new content hash.</li>
+<li>Choose who reviewed it under <strong>Reviewed by</strong>. Only people on the <a href="/docs/evidence-records#start-with-the-roster">roster</a> are offered.</li>
+<li>Under <strong>Why the trace still holds</strong>, say why the link is still right (at least 15 characters).</li>
+<li>Select <strong>Review &amp; clear</strong>.</li>
+</ol>
+<p>The review is written to the audit trail in the reviewer&#39;s name first; that ledger entry is the signature. Only then does the new text become the link&#39;s baseline. If the ledger write fails, the link stays suspect. Cleared links are listed under <strong>Cleared by review</strong> with the reviewer, rationale and signature.</p>
+<p>If both ends change back to what was reviewed, the link stops being suspect by itself.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>Clearing a suspect link needs a person on the roster, but it does not check that the reviewer is independent of whoever changed the requirement. Choose the reviewer accordingly.</p>
+</div></div></aside>
+<p>Links are stored one file per link under <code>.noyce/requirements/trace-links/</code>, so two branches adding links merge cleanly. See <a href="/docs/cli-ci#team-use-without-a-server">Command line, CI and team use</a>.</p>
+<h2 id="change-impact">Change impact<a class="anchor" href="#change-impact" aria-label="Link to this section">#</a></h2>
+<p>From a changed requirement, list everything it affects. Open the <strong>Change impact</strong> tab, select <strong>Impact</strong> on a row of the system requirements, or select <strong>Show change impact</strong> on a requirement or a suspect link.</p>
+<p>The walk goes from the changed requirement down to the requirements that refine it (system requirement, HLR, LLR), then to:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Tile</th>
+<th>What it lists</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Requirements</td>
+<td>The changed requirement and every requirement refining it, with the one it was reached from.</td>
+</tr>
+<tr>
+<td>Code</td>
+<td>Implementation points: <code>@req</code> tags and the HLR&#39;s implemented-by links.</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>Tests tagged with or linked to an affected requirement.</td>
+</tr>
+<tr>
+<td>Results</td>
+<td>Those tests&#39; results in the latest sealed test run. &quot;No sealed test run&quot; when there is none.</td>
+</tr>
+<tr>
+<td>Coverage records</td>
+<td>Measured coverage records over the affected source files. &quot;No measured coverage&quot; when there are none.</td>
+</tr>
+</tbody></table></div>
+<p>An id that is not in the project is listed under <strong>Not in the project</strong>. Sample data has no workspace trace, so change impact is not offered for it.</p>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>No live connection to DOORS Next, Polarion or Jama; exchange is by ReqIF file. See <a href="/docs/alm-connectors">ALM connectors</a>.</li>
+<li><code>.reqifz</code> archives are not read.</li>
+<li>ReqIF relations and hierarchy from the requirements tool are not imported as trace links.</li>
+<li>Only requirement-to-requirement links are exported.</li>
+<li>Suspect links are re-checked on open, on <strong>Re-check links</strong> and on import or export, not as you edit.</li>
+<li>Clearing a suspect link does not check reviewer independence.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/requirements"><small>Previous</small><span>Requirements &amp; traceability</span></a>
+      <a class="next" href="/docs/alm-connectors"><small>Next</small><span>ALM connectors</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#import-a-reqif-file">Import a ReqIF file</a></li><li><a class="l2" href="#export-the-trace-back">Export the trace back</a></li><li><a class="l2" href="#suspect-links">Suspect links</a></li><li><a class="l2" href="#change-impact">Change impact</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

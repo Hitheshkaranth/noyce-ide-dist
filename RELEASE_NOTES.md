@@ -1,3 +1,83 @@
+# Noyce IDE v2.0.9 Release
+
+Noyce IDE 2.0.9 is the LDRA-parity release. It adds verification engines with qualification corpora, a requirements-based verification chain, signed configuration baselines, and DO-178C documents that are written from the project's own records. Everything here was exercised in the running IDE on copies of real DAL A firmware.
+
+## Verification chain: requirement → case → procedure → result → review
+- **Test procedures are data.** Each has ordered steps (action, input, expected result), preconditions, setup, teardown and pass criteria, with a version and a content hash.
+- **Results are bound to what they ran against.** Each result records the commit, the input digest and the sealed test run, plus the case and procedure as they were when the test ran. Edit any of these and the result goes **stale**. Stale and unbound results never count.
+- **Reviews are bound to what they reviewed.** Editing a case or its procedure voids its review. A review counts as independent only when the author and reviewer are two different people on the roster. An AI review never earns independence, and an AI-drafted case needs a human author before it can be independently reviewed.
+- **Verification chain view** (new tile): requirements with their coverage state, cases with freshness and review status, a procedure editor, review recording with a checklist that starts unanswered, and case withdrawal.
+- Target-run results are attributed to cases through the same strict join, together with the image hash.
+
+## Signed configuration baselines
+- **Baselines view** (new tile). A baseline freezes the source, release inputs, requirements, cases, procedures, results, test runs, tools, problem reports, documents and the audit-ledger head under one digest, in an append-only store.
+- **A gate refuses to baseline** a dirty or unknown tree, unreadable records, open significant problem reports, failing or stale results, unreviewed cases, or uncovered requirements. The rules follow the DAL.
+- **Ed25519 sign-off.** Private keys stay in the OS keychain, and every signature is confirmed in a dialog showing the purpose, baseline and digest. The configuration manager establishes a baseline; a different person signs SQA conformity.
+- **Key and role governance.** Keys, roles and revocations count only through signed audit-ledger entries, never through the editable roster file:
+  - the first key is a bootstrap key with proof of possession;
+  - every other key is approved by a different configuration manager, from a machine that doesn't hold it;
+  - revocations are monotone, and a compromise revocation cuts from a named ledger entry.
+- **Verify and Compare**, plus an independent offline verifier: `noyce baseline list|show|verify|diff|anchor`. The ledger is tamper-evident, not tamper-proof; export its head with `noyce baseline anchor` and keep it outside the project.
+- *Migration:* signatures made before this release read invalid. Register a bootstrap key, grant roles, approve the other keys, then re-sign. The Roster view shows these steps.
+
+## DO-178C documents written from the project
+The 17 generated life-cycle documents were scored DER-style on a DAL A project. 60 checklist items were factually wrong, and all of those are fixed.
+- **Stale AI text no longer survives regeneration.** Text that only an AI accepted is re-checked on every run. A false claim reopens the section, naming the claim and the current fact (for example "states TIM6 priority 5; the source sets priority 1").
+- **Facts are computed, not guessed:**
+  - memory margins from the verified link map;
+  - the full interrupt set, including fault handlers;
+  - timer periods from the clock tree;
+  - a nested worst-case stack compared with the linker reservation;
+  - ICD pins and settings from the `.ioc`;
+  - current complexity metrics and MISRA results;
+  - the actual compiler and link flags per configuration;
+  - result freshness, review independence and baseline status.
+- **Plans name the certification basis:** AC 20-115D, AC 20-189 and xx.1301/1309, with the TC/STC/TSO choice open. Tool determinations not yet confirmed are shown as open. LLRs drafted from code are disclosed as reverse engineering.
+- **Regeneration converges:** a second run saves nothing. Previously the plans cycled.
+- **Autonomous documentation workflow:** authors, reviews and repairs draft sections. It is resumable and bounded, and it never rewrites human decisions or issued documents.
+
+## LDRA-parity verification engines
+- **Program model and evidence provenance.** Functions, CFGs and DO-248C decisions come from clang. Heuristic or unsigned evidence can't close an objective.
+- **Coverage:**
+  - host statement, decision and MC/DC coverage graded over every project module;
+  - target coverage probes and an on-target flow (`noyce verify --target`) bound to the image hash;
+  - a coverage review sign-off;
+  - measured data and control coupling (A-7(8));
+  - object-code branch coverage from trace (A-7(9));
+  - timing and stack analysis (A-5(6)).
+- **MISRA C:2012 rule engine:** 206 of 221 guidelines, with 13 directives checked by review, deviation linkage and an accuracy benchmark (69.1 % precision, 94.8 % recall). There is also a first MISRA C++:2023 slice (31 rules).
+- **Annex A objective tables** with a two-person verification register, **DO-330 qualification kits** per engine, and ISO 26262-6 / IEC 61508-3 method tables.
+- **ALM connectors** for DOORS Next, Polarion and Jama, with credentials in the OS keychain. **ReqIF 1.2 round-trip** with suspect links.
+- **`noyce` CLI** for CI: `model`, `analyze`, `cover`, `verify`, `couple`, `trace`, `grade`, `gate`, `kit`, `qualify`, `baseline`.
+
+## Real surfaces
+An audit of all 62 views replaced every fabricated or demo-data surface with real flows:
+- live channels over probe memory, RTT and serial;
+- a HIL runner (build, flash, RTT, Unity);
+- a Modbus map;
+- FPGA synthesis through yosys, nextpnr or Vivado;
+- SVD register reads and read-modify-write writes;
+- fault capture;
+- a verification pipeline and project activity from git;
+- compilable project templates.
+
+Demo data appears only in the browser preview, and is labelled.
+
+## Fixes
+- **CodeQL:** installs GitHub's pinned bundle on first use, and traces the build that actually works.
+- **Coverage:** grades the whole project and counts conditions the way LLVM does.
+- **Review checklists** in Evidence records start unanswered.
+- The Compliance run's **Mark baseline** is now **Mark as reference run**, to avoid confusion with signed baselines.
+- **CI:** macOS runners move to `macos-15`.
+
+## Known limits
+- **On-target paths are not yet proven on hardware:** probe-rs readout, RTT, DWT and ETM.
+- **ALM connectors** have been tested against mocks of the documented APIs only.
+- **Tool qualification** determinations shipped as demo data must be confirmed by the applicant.
+- **OEM-specific document structures** (Airbus, Boeing and others) are not claimed. Only formatting can be matched, through the document template import.
+
+
+
 # Noyce IDE v2.0.8 Release
 
 ## Import and build real projects

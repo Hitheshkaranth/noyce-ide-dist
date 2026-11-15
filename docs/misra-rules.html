@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>MISRA rule engine · Noyce IDE Docs</title>
+<meta name="description" content="Noyce IDE's own MISRA C:2012 checker, which reads the program model rather than matching text. How many guidelines it implements, the project rule set in .noyce/rules.json, deviations, the Guideline Compliance Summary and the comparison with cppcheck.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/misra-rules">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MISRA rule engine · Noyce IDE Docs">
+<meta property="og:description" content="Noyce IDE's own MISRA C:2012 checker, which reads the program model rather than matching text. How many guidelines it implements, the project rule set in .noyce/rules.json, deviations, the Guideline Compliance Summary and the comparison with cppcheck.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/misra-rules">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules" aria-current="page">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>MISRA rule engine</h1>
+      <p class="lede">Noyce IDE's own MISRA C:2012 checker, which reads the program model rather than matching text. How many guidelines it implements, the project rule set in .noyce/rules.json, deviations, the Guideline Compliance Summary and the comparison with cppcheck.</p>
+      
+      <div class="rule"></div>
+      <p>Noyce IDE checks MISRA C:2012 (including Amendments 1 to 4) with its own rule engine, which reads a clang-parsed model of the code rather than matching lines of text. It runs next to cppcheck, not instead of it: where the two disagree you see both, and nothing is merged. Open <strong>MISRA Diagnostics</strong> and select <strong>Scan</strong>; see <a href="/docs/analysis#misra-diagnostics">Analysis &amp; proof</a> for the rest of the view.</p>
+<h2 id="how-many-guidelines-are-checked">How many guidelines are checked<a class="anchor" href="#how-many-guidelines-are-checked" aria-label="Link to this section">#</a></h2>
+<p>The engine implements part of MISRA C:2012. It does not claim full compliance checking, and the count is not fixed in these docs: it is read from the guideline catalogue that ships with Noyce IDE (<code>services/noyce-core/rules/misra-c-2012.json</code>, one entry per guideline with <code>implemented: true</code> or <code>false</code>).</p>
+<p>The MISRA Diagnostics page subtitle shows the count for your last scan, for example &quot;Guidelines checked: <em>n</em> of <em>total</em> (MISRA C:2012 rules and directives)&quot;, and &quot;· <em>n</em> TUs not checked&quot; when some translation units could not be checked. Before any scan it reads &quot;Guidelines checked: Not measured (MISRA C:2012)&quot;. Both numbers count rules and directives.</p>
+<!-- capture: MISRA Diagnostics header after a scan on the H-Bridge copy, showing the "Guidelines checked: n of total" subtitle and the Findings / Disagreements / Compliance Summary tabs -->
+
+<p>No guideline text is shipped; it is MISRA&#39;s copyright. If you hold a licence, put headline texts in <code>.noyce/rules/headlines.json</code> as <code>{&quot;Rule 10.4&quot;: &quot;…&quot;}</code> and the Compliance Summary shows a <strong>Headline</strong> column. There is no import screen for this file.</p>
+<p>Some rules cannot always be decided from the code alone. For those the engine reports a <strong>possible violation</strong> with its reasoning instead of a violation.</p>
+<h2 id="run-a-scan">Run a scan<a class="anchor" href="#run-a-scan" aria-label="Link to this section">#</a></h2>
+<p><strong>Scan</strong> in MISRA Diagnostics runs cppcheck and the rule engine together. The rule engine shows &quot;Rule engine: <em>x</em>/<em>y</em> TUs · <em>file</em>&quot; while it runs, with <strong>Cancel rule scan</strong>. It times out after 120 seconds by default; the <strong>cppcheck budget</strong> setting in the view also sets the rule engine&#39;s time limit. A scan that times out or is cancelled reads &quot;Not measured — timed out&quot; or &quot;Not measured — cancelled&quot;, never compliant.</p>
+<p>From a terminal, <code>noyce analyze</code> runs the same scan. Results are written to <code>.noyce/analysis/rules/results.json</code>.</p>
+<p>Code classified as vendor code (for example <code>Drivers/</code>, <code>CMSIS/</code>, HAL, <code>Middlewares/</code>, <code>third_party/</code>) is excluded automatically and reported separately under <strong>Excluded adopted code</strong>.</p>
+<h2 id="the-project-rule-set">The project rule set<a class="anchor" href="#the-project-rule-set" aria-label="Link to this section">#</a></h2>
+<p><code>.noyce/rules.json</code> sets which guidelines apply to your project. There is no editor for it in the IDE; write it by hand. Without the file, every implemented guideline is enabled:</p>
+<div class="code"><div class="code-bar"><span>json</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">{</span>
+<span class="line">  &quot;schema&quot;: &quot;noyce.rules-config/1&quot;,</span>
+<span class="line">  &quot;edition&quot;: &quot;MISRA C:2012&quot;,</span>
+<span class="line">  &quot;enabled&quot;: [&quot;*&quot;],</span>
+<span class="line">  &quot;disabled&quot;: [&quot;Rule 15.5&quot;],</span>
+<span class="line">  &quot;recategorize&quot;: { &quot;Rule 15.7&quot;: &quot;required&quot;, &quot;Rule 2.7&quot;: &quot;disapplied&quot; },</span>
+<span class="line">  &quot;exclude&quot;: [&quot;src/generated/**&quot;],</span>
+<span class="line">  &quot;timeoutSeconds&quot;: 300</span>
+<span class="line">}</span></code></pre></div>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>schema</code>, <code>edition</code></td>
+<td><code>schema</code> must be <code>noyce.rules-config/1</code> and <code>edition</code> must start with <code>MISRA C:2012</code> (the catalogue&#39;s longer edition name is accepted). Anything else discards the whole file and applies the defaults, with a &quot;Rule configuration problems&quot; notice.</td>
+</tr>
+<tr>
+<td><code>enabled</code>, <code>disabled</code></td>
+<td>Guideline ids such as <code>&quot;Rule 10.4&quot;</code>, or <code>&quot;*&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>recategorize</code></td>
+<td>Per MISRA Compliance:2020: raise a guideline&#39;s category (advisory → required → mandatory), or set an advisory guideline to <code>disapplied</code>. Lowering a category is ignored with a notice.</td>
+</tr>
+<tr>
+<td><code>exclude</code></td>
+<td>Path globs relative to the project root. <code>*</code> does not cross <code>/</code>; <code>**</code> does.</td>
+</tr>
+<tr>
+<td><code>timeoutSeconds</code></td>
+<td>The rule engine&#39;s time limit (1 to 1800).</td>
+</tr>
+</tbody></table></div>
+<p>Unknown guideline ids and malformed fields are reported in the Compliance Summary under <strong>Rule configuration problems</strong>.</p>
+<h2 id="guideline-compliance-summary">Guideline Compliance Summary<a class="anchor" href="#guideline-compliance-summary" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Compliance Summary</strong> tab gives one row per guideline, in the style of MISRA Compliance:2020: <strong>Guideline</strong>, <strong>Kind</strong>, <strong>Category</strong> (with &quot;re-categorised from …&quot; where you changed it), <strong>Compliance</strong>, <strong>Violations</strong>, <strong>Possible</strong> and <strong>Deviations</strong>. Tiles and filters count <strong>Compliant</strong>, <strong>Compliant with deviations</strong>, <strong>Violations</strong>, <strong>Disapplied</strong> and <strong>Not checked</strong>.</p>
+<!-- capture: Compliance Summary tab with the five tiles and the per-guideline table, filtered to Violations -->
+
+<p>A guideline is:</p>
+<ol class="steps">
+<li><strong>Disapplied</strong> if your rule set disapplies it;</li>
+<li><strong>Not checked</strong> if it is not implemented, not enabled, or was not run;</li>
+<li><strong>Violations</strong> if any violation or possible violation remains;</li>
+<li><strong>Not checked</strong> if the scan was incomplete: a translation unit failed to parse or timed out. One file that fails to parse turns every guideline without findings into Not checked rather than Compliant;</li>
+<li><strong>Compliant with deviations</strong> if every finding is covered by an approved deviation;</li>
+<li><strong>Compliant</strong> otherwise.</li>
+</ol>
+<h2 id="deviations">Deviations<a class="anchor" href="#deviations" aria-label="Link to this section">#</a></h2>
+<p>A finding counts as compliant with deviation only when a deviation in <strong>Evidence Records → MISRA deviations</strong> covers it: same rule (or <code>*</code>), matching file and lines or vendor directory, status approved, with a rationale, an assessed risk, an approval date and an approver who is a person on the roster. A mandatory guideline cannot be deviated.</p>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>The rule engine reads deviations from <code>.noyce/process/deviations/</code> and the roster from <code>.noyce/process/roster/</code> (one file per record, as the IDE saves them), plus anything still in the older single files. When a project keeps no roster at all, any approver who is not an AI agent is accepted.</p>
+</div></div></aside>
+<h2 id="disagreements-with-cppcheck">Disagreements with cppcheck<a class="anchor" href="#disagreements-with-cppcheck" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Disagreements</strong> tab compares the rule engine&#39;s findings with cppcheck&#39;s MISRA addon, for the rules both implement: <strong>Only Noyce rule engine</strong>, <strong>Only cppcheck</strong>, <strong>Agreed locations</strong> and <strong>Outside rule overlap</strong>, then a table of each disagreement. &quot;Disagreements are reviewed, not merged.&quot; It needs a completed run of both.</p>
+<h2 id="misra-c-2023">MISRA C++:2023<a class="anchor" href="#misra-c-2023" aria-label="Link to this section">#</a></h2>
+<p>C++ translation units are checked against MISRA C++:2023, and C translation units against MISRA C:2012: each rule set runs only on its own language, and one project can have both. A unit is C++ when its compile command selects C++ (<code>-x c++</code>, or a <code>g++</code> / <code>clang++</code> / <code>c++</code> driver) or its file ends in <code>.cpp</code>, <code>.cc</code>, <code>.cxx</code> or <code>.C</code>. The C++ standard appears only when the last scan found at least one C++ unit.</p>
+<p>The engine implements a first slice of <strong>31 of the 179</strong> MISRA C++:2023 guidelines. All 31 are decidable rules whose construct is unambiguous in the clang AST: C-style, functional and <code>reinterpret_cast</code> casts, pointer/integer casts, null pointer constants other than <code>nullptr</code>, <code>goto</code>, unbraced bodies, <code>else if</code> chains, the comma operator, unary <code>+</code>, several variables in one declaration, <code>asm</code>, bit-fields, <code>union</code>, virtual inheritance, <code>virtual</code> / <code>override</code> / <code>final</code>, non-explicit converting constructors and conversion operators, overloaded <code>&amp;&amp;</code> / <code>||</code> / unary <code>&amp;</code>, pointer exception objects, <code>throw;</code> outside a handler, program-terminating functions, <code>#pragma</code>, <code>atof</code>-family functions, <code>offsetof</code>, <code>&lt;cstdarg&gt;</code> and <code>std::vector&lt;bool&gt;</code>. The catalogue is <code>services/noyce-core/rules/misra-cpp-2023.json</code>.</p>
+<ul>
+<li>The page subtitle adds &quot;· <em>n</em> of 179 (MISRA C++:2023, <em>m</em> C++ TUs)&quot; after the MISRA C count.</li>
+<li>C++ findings appear in the Findings tab with the rule shown as &quot;MISRA C++:2023 Rule 9.6.1&quot;.</li>
+<li>The <strong>Compliance Summary</strong> tab gets a <strong>MISRA C:2012 / MISRA C++:2023</strong> switch. The C++ summary uses the same compliance rules as MISRA C, over C++ units only.</li>
+</ul>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>The guideline ids, categories, decidability and scope in the C++ catalogue come from one public listing (codeql-coding-standards <code>rules.csv</code>) and were not cross-checked against a second source. Every entry is marked <code>review: &quot;unconfirmed&quot;</code>, and the C++ summary shows a &quot;Guideline categories unconfirmed&quot; notice. Confirm the categories against your licensed copy, and correct one with <code>cpp.recategorize</code> until then.</p>
+</div></div></aside>
+<p>To configure C++, add a <code>cpp</code> section to <code>.noyce/rules.json</code> beside the MISRA C settings:</p>
+<div class="code"><div class="code-bar"><span>json</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">{</span>
+<span class="line">  &quot;schema&quot;: &quot;noyce.rules-config/1&quot;,</span>
+<span class="line">  &quot;edition&quot;: &quot;MISRA C:2012&quot;,</span>
+<span class="line">  &quot;disabled&quot;: [&quot;Rule 15.5&quot;],</span>
+<span class="line">  &quot;exclude&quot;: [&quot;src/generated/**&quot;],</span>
+<span class="line">  &quot;cpp&quot;: {</span>
+<span class="line">    &quot;disabled&quot;: [&quot;Rule 9.6.1&quot;],</span>
+<span class="line">    &quot;recategorize&quot;: { &quot;Rule 8.2.2&quot;: &quot;mandatory&quot; }</span>
+<span class="line">  }</span>
+<span class="line">}</span></code></pre></div>
+<p>A C++-only project can put <code>&quot;edition&quot;: &quot;MISRA C++:2023&quot;</code> at the top level instead; MISRA C then uses its defaults for any C units. The <code>cpp</code> section takes the same <code>enabled</code>, <code>disabled</code>, <code>recategorize</code> and <code>exclude</code> fields. Without its own <code>exclude</code> it inherits the top-level one. Ids from the other standard are reported as unknown. Headlines for C++ guidelines go in the same <code>.noyce/rules/headlines.json</code>, keyed by id (<code>&quot;Rule 8.2.2&quot;</code>). Deviations work as for MISRA C.</p>
+<p>C++-specific limitations:</p>
+<ul>
+<li>Templates are checked as written (the declared pattern), not per instantiation. A construct that only arises for a particular template argument is not reported.</li>
+<li><code>virtual</code> / <code>override</code> / <code>final</code> (Rule 13.3.1) resolves base classes among the classes the translation unit sees. A base defined only outside the project gives no finding.</li>
+<li>Exceptions in the licensed text are not applied unless they are certain. Rule 8.2.2 exempts only casts to <code>void</code>, Rule 8.2.5 exempts nothing, and Rule 13.3.1 also reports overriding destructors without <code>override</code>. These rules may over-report until reviewed against the licensed copy.</li>
+<li>The program model builds no control-flow graph for C++ functions containing <code>try</code>/<code>catch</code>, <code>throw</code> or range-based <code>for</code> (no implemented C++ rule needs one).</li>
+<li>The C++ qualification corpus (<code>qualification/corpus/misra-cpp-rules</code>, engine id <code>misra-cpp-rules</code>) is Noyce&#39;s own, not the licensed MISRA C++ Example Suite. See <code>qualification/known-problems/misra-cpp-rules.md</code>.</li>
+</ul>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Only part of MISRA C:2012 is implemented; directives are not checked. The count is in the page subtitle.</li>
+<li>Only 31 of 179 MISRA C++:2023 guidelines are implemented, with categories from one unconfirmed public listing (see <a href="#misra-c-2023">MISRA C++:2023</a>).</li>
+<li>The rule engine&#39;s results are not yet counted as A-5 evidence; coding-standard objectives read cppcheck.</li>
+<li>In the Findings tab a possible violation looks like a violation; only the Summary&#39;s <strong>Possible</strong> column separates them.</li>
+<li>No guideline text; headlines only from your own <code>.noyce/rules/headlines.json</code>.</li>
+<li>The qualification corpus is Noyce&#39;s own, not the licensed MISRA Example Suite. Known problems include Rule 11.7 not being detectable end to end (clang rejects the construct), and essential-type rules that need review against the licensed edition. See <code>qualification/known-problems/misra-rules.md</code> and <a href="/docs/qualification-kits">Qualification kits</a>.</li>
+<li>The MISRA tile in Quality Trend uses a separate scan, not the rule engine.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/program-model"><small>Previous</small><span>Program model &amp; provenance</span></a>
+      <a class="next" href="/docs/metrics-flowgraph"><small>Next</small><span>Metrics &amp; flowgraph</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#how-many-guidelines-are-checked">How many guidelines are checked</a></li><li><a class="l2" href="#run-a-scan">Run a scan</a></li><li><a class="l2" href="#the-project-rule-set">The project rule set</a></li><li><a class="l2" href="#guideline-compliance-summary">Guideline Compliance Summary</a></li><li><a class="l2" href="#deviations">Deviations</a></li><li><a class="l2" href="#disagreements-with-cppcheck">Disagreements with cppcheck</a></li><li><a class="l2" href="#misra-c-2023">MISRA C++:2023</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

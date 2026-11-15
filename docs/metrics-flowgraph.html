@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Metrics, flowgraph and cross-reference · Noyce IDE Docs</title>
+<meta name="description" content="Per-function control-flow graphs, code metrics computed from the program model and checked against a quality model, and a cross-reference of every global and call.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/metrics-flowgraph">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Metrics, flowgraph and cross-reference · Noyce IDE Docs">
+<meta property="og:description" content="Per-function control-flow graphs, code metrics computed from the program model and checked against a quality model, and a cross-reference of every global and call.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/metrics-flowgraph">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph" aria-current="page">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>Metrics, flowgraph and cross-reference</h1>
+      <p class="lede">Per-function control-flow graphs, code metrics computed from the program model and checked against a quality model, and a cross-reference of every global and call.</p>
+      
+      <div class="rule"></div>
+      <p><strong>Flowgraph &amp; Cross-Reference</strong> shows each function&#39;s control-flow graph, its metrics against your quality model, and where each symbol is defined, read, written and called. Everything here is computed from the <a href="/docs/program-model">program model</a> and tagged <strong>Derived</strong>. Open it with <strong>Noyce Compliance: Open Flowgraph &amp; Cross-Reference</strong>, from the Compliance hub, or with <strong>Open flowgraph</strong> on a Quality Trend hotspot.</p>
+<!-- capture: Flowgraph view on the H-Bridge copy with a high-complexity function selected: function list on the left, its control-flow graph with a back-edge, the Metrics section and the cross-reference below -->
+
+<h2 id="compute-metrics">Compute metrics<a class="anchor" href="#compute-metrics" aria-label="Link to this section">#</a></h2>
+<p>Select <strong>Compute metrics</strong>. It rebuilds the program model, then computes metrics for every function, and writes <code>.noyce/analysis/metrics.json</code>. Until then the view reads &quot;Not measured — build the program model&quot;. The header shows how many functions and translation units were measured, any parse errors, and the model and engine version.</p>
+<p>The function list can be searched, filtered to <strong>Violations</strong>, and sorted by <strong>Complexity</strong> or <strong>File order</strong>. It shows V(G), ev(G), nesting depth and the number of violations.</p>
+<h2 id="the-metrics">The metrics<a class="anchor" href="#the-metrics" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>How it is computed</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cyclomatic complexity V(G)</td>
+<td>E − N + 2 over the function&#39;s control-flow graph, at least 1.</td>
+</tr>
+<tr>
+<td>Essential complexity ev(G)</td>
+<td>V(G) after repeatedly collapsing structured single-entry, single-exit subgraphs.</td>
+</tr>
+<tr>
+<td>Maximum nesting, statements</td>
+<td>From the syntax tree.</td>
+</tr>
+<tr>
+<td>Knots</td>
+<td>Pairs of jump arcs that cross, in source-line order.</td>
+</tr>
+<tr>
+<td>Halstead</td>
+<td>Operators and operands (n1, n2, N1, N2), length, vocabulary, volume, difficulty (n1/2 · N2/n2) and effort (difficulty × volume).</td>
+</tr>
+<tr>
+<td>Lines</td>
+<td>Physical, blank, code and comment lines; comment density = comment lines ÷ code lines.</td>
+</tr>
+<tr>
+<td>Fan-in, fan-out</td>
+<td>Distinct callers and callees; pointer calls and parameter count.</td>
+</tr>
+<tr>
+<td>Returns</td>
+<td>Return points.</td>
+</tr>
+</tbody></table></div>
+<h2 id="the-quality-model">The quality model<a class="anchor" href="#the-quality-model" aria-label="Link to this section">#</a></h2>
+<p>Limits live in <code>.noyce/quality-model.json</code>, written with defaults from the HIS Source Code Metrics 1.3.1 recommended limits the first time metrics are computed: cyclomatic ≤ 10, essential ≤ 4, nesting ≤ 4, knots 0, statements ≤ 50, parameters ≤ 5, fan-out ≤ 7, fan-in ≤ 5, returns ≤ 1, comment density ≥ 0.2. Edit the file for your project. A value violates a limit only when it is strictly outside it. The <strong>Metrics</strong> section of a function lists its violations as Metric, Value, Limit.</p>
+<h2 id="control-flow-graph">Control-flow graph<a class="anchor" href="#control-flow-graph" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Control flow graph</strong> section draws the selected function: a diamond is a decision, a dashed curve is a back-edge, and dotted or muted blocks are unreachable. Select a block to open its source line.</p>
+<h2 id="cross-reference">Cross-reference<a class="anchor" href="#cross-reference" aria-label="Link to this section">#</a></h2>
+<p>For the selected function, <strong>Globals accessed by function</strong> lists each global with its reads and writes. Choose any symbol to see its <strong>Definitions</strong>, <strong>Declarations</strong>, <strong>Reads</strong>, <strong>Writes</strong>, <strong>Callers</strong> and <strong>Callees</strong>.</p>
+<h2 id="quality-trend">Quality Trend<a class="anchor" href="#quality-trend" aria-label="Link to this section">#</a></h2>
+<p><strong>Capture Snapshot</strong> in Quality Trend now uses these derived metrics. If the model cannot be built, it falls back to the older text-based estimate, says so, and only on that fallback shows the maintainability proxy (&quot;Proxy, not the SEI index&quot;). On the derived path maintainability is not computed: &quot;no validated maintainability formula&quot;.</p>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Coverage is not drawn on the flowgraph yet; the legend says &quot;Coverage overlay: not measured&quot;.</li>
+<li>Symbols are matched by name, so two static functions or globals with the same name in different files are conflated.</li>
+<li>Calls and accesses through unresolved pointers are excluded from the cross-reference (their count is shown).</li>
+<li>Comment lines are counted for each translation unit&#39;s main file only, not its headers.</li>
+<li>Per-level limits in the quality model (<code>byDal</code>) are not applied by the view, and Quality Trend&#39;s &quot;over 10&quot; complexity count uses a fixed limit of 10 rather than the quality model.</li>
+<li>Compute metrics cannot be cancelled from this view.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/misra-rules"><small>Previous</small><span>MISRA rule engine</span></a>
+      <a class="next" href="/docs/structural-coverage"><small>Next</small><span>Structural coverage</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#compute-metrics">Compute metrics</a></li><li><a class="l2" href="#the-metrics">The metrics</a></li><li><a class="l2" href="#the-quality-model">The quality model</a></li><li><a class="l2" href="#control-flow-graph">Control-flow graph</a></li><li><a class="l2" href="#cross-reference">Cross-reference</a></li><li><a class="l2" href="#quality-trend">Quality Trend</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

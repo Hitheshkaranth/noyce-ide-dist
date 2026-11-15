@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.8">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -44,7 +44,7 @@
       <kbd>/</kbd>
       <div id="results" class="results" role="listbox" hidden></div>
     </div>
-    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder" aria-current="page">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder" aria-current="page">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
   </aside>
   <main class="main" id="content">
     <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Reference</li></ol>
@@ -94,10 +94,19 @@
 <span class="line">│   └── set-baseline.json         the declared document-set baseline</span>
 <span class="line">├── templates/                    your corporate .docx template settings</span>
 <span class="line">├── requirements/                 imported system requirements, low-level requirements</span>
-<span class="line">├── process/                      roster, reviews, problem reports, CCB, MISRA deviations</span>
+<span class="line">├── process/                      roster, reviews, problem reports, CCB, deviations, coverage classifications, Annex A verifications (one file per record)</span>
 <span class="line">├── change-sets/                  staged code changes awaiting approval</span>
 <span class="line">├── verification/                 test cases, results, CBMC runs, target test runs</span>
-<span class="line">├── coverage/                     measured MC/DC per driver</span>
+<span class="line">├── coverage/                     measured coverage records (host MC/DC, target probes)</span>
+<span class="line">├── cov/build/  cov/streams/      instrumented coverage builds and RTT captures</span>
+<span class="line">├── analysis/                     program model, rule engine results, metrics, concurrency</span>
+<span class="line">├── quality-model.json            metric limits for the flowgraph view</span>
+<span class="line">├── rules.json                    your MISRA rule set, if you write one</span>
+<span class="line">├── coupling/                     component map, couplings, measured runs, justifications</span>
+<span class="line">├── timing/                       timing runtime builds and target timing records</span>
+<span class="line">├── tests/                        unit test vectors, generated drivers and runs</span>
+<span class="line">├── socta/  objcov/               object-code analysis and imported execution traces</span>
+<span class="line">├── qualification/                qualification results and kits (in a Noyce checkout)</span>
 <span class="line">├── manuals/                      the downloaded reference manual (PDF)</span>
 <span class="line">├── knowledge/                    the indexed register knowledge base</span>
 <span class="line">├── rag/                          the Semantic Search index</span>
@@ -127,7 +136,7 @@
 
     </article>
     <nav class="pager" aria-label="Previous and next">
-      <a class="prev" href="/docs/ai-agents"><small>Previous</small><span>AI &amp; agents</span></a>
+      <a class="prev" href="/docs/cli-ci"><small>Previous</small><span>CLI, CI &amp; teams</span></a>
       <a class="next" href="/docs/commands"><small>Next</small><span>Commands &amp; shortcuts</span></a>
     </nav>
   </main>
@@ -138,8 +147,8 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.8</span>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
 </div></footer>
-<script src="/docs/assets/docs.js?v=2.0.8" defer></script>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
 </body>
 </html>

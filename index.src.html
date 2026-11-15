@@ -2686,7 +2686,7 @@
     };
     const Download = () => {
       const cards = [
-        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide', 'brew install --cask noyce-ide'], pkg: 'arm64 · 403 MB · 2.0.9', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.9', cta: 'Download · arm64', primary: true },
+        { os: 'macOS', status: 'Released', sc: 'chip-ok', desc: 'Apple silicon. Install with Homebrew after adding the tap, or download the .dmg.', cmds: ['brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce-ide-dist', 'brew install --cask noyce-ide'], pkg: 'arm64 · 403 MB · 2.0.9', sig: 'ad-hoc signed', href: REPO + '/releases/tag/v2.0.9', cta: 'Download · arm64', primary: true },
         { os: 'Windows', status: 'Beta', sc: 'chip-warn', desc: 'Windows 11 · x64 · system installer from the release page.', cmds: [], pkg: 'x64 · 180 MB · 2.0.9', sig: 'not code-signed yet', href: REPO + '/releases/tag/v2.0.9', cta: 'Download · x64', primary: false },
         { os: 'Linux', status: 'Roadmap', sc: '', desc: 'Packaged AppImage and deb builds are on the roadmap. Today, build and launch from source.', cmds: ['npm ci && npm run build', 'npm run codeoss:bootstrap', 'npm run workbench:launch -- /path/to/firmware'], pkg: 'from source', sig: 'build it yourself', href: 'https://github.com/Hitheshkaranth/noyce_ide#build-from-source', cta: 'Build from source', primary: false },
       ];

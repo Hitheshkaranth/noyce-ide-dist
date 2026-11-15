@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Annex A objective tables · Noyce IDE Docs</title>
+<meta name="description" content="Which DO-178C Annex A applicability and independence table a project grades against - the built-in table, two-person verification and overrides, or an imported licensed table - and what each means for your plans.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/annex-a-tables">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Annex A objective tables · Noyce IDE Docs">
+<meta property="og:description" content="Which DO-178C Annex A applicability and independence table a project grades against - the built-in table, two-person verification and overrides, or an imported licensed table - and what each means for your plans.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/annex-a-tables">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables" aria-current="page">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>Annex A objective tables</h1>
+      <p class="lede">Which DO-178C Annex A applicability and independence table a project grades against - the built-in table, two-person verification and overrides, or an imported licensed table - and what each means for your plans.</p>
+      
+      <div class="rule"></div>
+      <p>Every objective in DO-178C Annex A applies, applies with independence, or does not apply, depending on the software level. Grading, the <a href="/docs/compliance#compliance-run">Compliance Run</a> and the PSAC, SVP, SCMP, SQAP and SAS all read that table. Noyce IDE can take it from three places, in this order of precedence:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Badge</th>
+<th>What it carries</th>
+<th>Plans</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A licensed table you imported</td>
+<td><strong>Imported</strong></td>
+<td>Applicability, independence, control category, section references and outputs, entered from your licensed copy.</td>
+<td>Can be issued.</td>
+</tr>
+<tr>
+<td>The built-in table, verified</td>
+<td><strong>Built-in, verified</strong></td>
+<td>Applicability and independence only.</td>
+<td>Can be issued; control categories read &quot;Not entered&quot;.</td>
+</tr>
+<tr>
+<td>The built-in table, not verified</td>
+<td><strong>Built-in, unverified</strong></td>
+<td>Applicability and independence only.</td>
+<td>Stay draft.</td>
+</tr>
+</tbody></table></div>
+<p>You see the source on the Compliance Dashboard header line <strong>Annex A table</strong>, with <strong>Verify…</strong> and <strong>Import licensed table…</strong> beside it, and in <strong>Evidence Records → Annex A table</strong>.</p>
+<h2 id="the-built-in-table">The built-in table<a class="anchor" href="#the-built-in-table" aria-label="Link to this section">#</a></h2>
+<p>Noyce IDE ships a matrix of the 71 objective ids against levels A to E: applies with independence, applies, or not applicable. It contains no objective wording, outputs, control categories or section references; those are RTCA&#39;s licensed text and come only from an imported table.</p>
+<p>The matrix is the product author&#39;s transcription. Its totals match the widely cited DO-178C totals (applicable A 71, B 69, C 62, D 26, E 0; with independence A 30, B 18, C 5, D 2), but a matching total does not prove every cell. That is why it counts for your project only after two people have checked it against a licensed copy. Every built-in cell carries the provenance <strong>declared</strong>, producer <code>noyce.builtin-annex-a</code>.</p>
+<p>While the table is unverified, the Compliance Dashboard shows the notice <strong>Annex A from built-in table, not verified</strong>: &quot;PSAC, SVP, SCMP, SQAP and SAS stay draft until two rostered people verify it, or a licensed table is imported.&quot; Those documents carry the note &quot;Applicability from built-in table — not yet verified against a licensed copy&quot;, and an issued one says it is not for submission.</p>
+<!-- capture: Compliance Dashboard header with the "Annex A from built-in table, not verified" notice and its Verify… action -->
+
+<h2 id="verify-the-built-in-table">Verify the built-in table<a class="anchor" href="#verify-the-built-in-table" aria-label="Link to this section">#</a></h2>
+<p>Two different people on the <a href="/docs/evidence-records#start-with-the-roster">roster</a> each confirm every cell against their own licensed copy. Add both to the roster first; with fewer than two people the panel says &quot;The roster needs two people&quot;.</p>
+<ol class="steps">
+<li>Select <strong>Verify…</strong> on the Compliance Dashboard, or open <strong>Evidence Records → Annex A table</strong>.</li>
+<li>Choose yourself under <strong>Verifier</strong> and name your copy under <strong>Licensed copy</strong> (for example the RTCA document and licence number).</li>
+<li>Pick a table (A-1 to A-10). For each objective and level, the cell shows <strong>Built-in:</strong> and its value. Set what your copy says: <strong>Agree — …</strong> or <strong>Disagree — …</strong> with the value your copy gives. Cells marked <strong>check first</strong> are the ones the author is least sure of.</li>
+<li><strong>Agree with the rest of A-n</strong> marks every cell you have not touched in that table as agreeing. Use it only after reading the table.</li>
+<li>When all 355 cells (71 objectives × 5 levels) are marked, select <strong>Sign verification</strong>.</li>
+</ol>
+<!-- capture: Evidence Records → Annex A table, table A-5 selected, with a mix of agreed cells and one "Disagree" cell and the "n of 355 cells marked" counter -->
+
+<p>The table becomes <strong>Built-in, verified</strong> when:</p>
+<ul>
+<li>two distinct people on the roster have each signed a verification (an AI identity never counts),</li>
+<li>every value each of them stated equals the effective value of every cell, and</li>
+<li>neither record is stale. Each record carries the SHA-256 of the matrix it checked; if a product update or an override changes any cell, the record stops counting (&quot;matrix changed since verification; verify again&quot;).</li>
+</ul>
+<p>A person who verifies again replaces their own earlier record. Records are stored one file per record under <code>.noyce/process/annex-a-verification/</code>.</p>
+<h2 id="resolve-a-disagreement-with-an-override">Resolve a disagreement with an override<a class="anchor" href="#resolve-a-disagreement-with-an-override" aria-label="Link to this section">#</a></h2>
+<p>A disagreement does not change the table by itself. Under <strong>Disagreements to resolve</strong>, each cell where a verifier&#39;s copy differs is listed as &quot;<em>name</em> reads <em>value</em>; matrix has <em>value</em>&quot;.</p>
+<ol class="steps">
+<li>Choose who records the override under <strong>Override recorded by</strong> (a person on the roster).</li>
+<li>Under <strong>Reason</strong>, say what the licensed copy states and where.</li>
+<li>Select <strong>Override to <em>value</em></strong>.</li>
+</ol>
+<p>The override is itself a signed record and changes the effective cell for this project. Because the matrix changed, any verifier who agreed with the old value has to verify again.</p>
+<h2 id="import-a-licensed-table">Import a licensed table<a class="anchor" href="#import-a-licensed-table" aria-label="Link to this section">#</a></h2>
+<p>If your organisation holds the licensed DO-178C text, import the full table instead. Run <strong>Noyce Compliance: Import Licensed Annex A Table (applicability, independence)</strong>, or select <strong>Import licensed table…</strong> on the Compliance Dashboard.</p>
+<ol class="steps">
+<li><strong>Open blank template</strong> writes a template with the 71 objective ids and opens it. Fill every empty value from your licensed copy and save.</li>
+<li><strong>Load filled template</strong> reads it into the form, or paste the table JSON. The form lists what is still missing: objectives, applicability or independence per level, section references, outputs or control categories.</li>
+<li>Enter <strong>Your name</strong> (a person, not an agent) and the <strong>Licensed copy</strong>, then select <strong>Import and sign</strong>.</li>
+</ol>
+<p>The table is stored in <code>.noyce/compliance/annex-a-licensed.json</code> with its content hash, and takes precedence over the built-in table. Verifying the built-in table changes nothing while an imported table stands.</p>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>The built-in table carries no control categories, section references or outputs; those read &quot;Not entered — control categories come only from an imported licensed table&quot; until a licensed table is imported.</li>
+<li>The built-in table has not been verified by Noyce against a licensed copy. Your project&#39;s two verifications are what make it usable.</li>
+<li>ISO 26262 and IEC 61508 have their own built-in method tables with the same verification rules; see <a href="/docs/other-standards">ISO 26262 and IEC 61508</a>. IEC 62304 has none.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/unit-tests"><small>Previous</small><span>Unit tests</span></a>
+      <a class="next" href="/docs/other-standards"><small>Next</small><span>ISO 26262 / IEC 61508</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#the-built-in-table">The built-in table</a></li><li><a class="l2" href="#verify-the-built-in-table">Verify the built-in table</a></li><li><a class="l2" href="#resolve-a-disagreement-with-an-override">Resolve a disagreement with an override</a></li><li><a class="l2" href="#import-a-licensed-table">Import a licensed table</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

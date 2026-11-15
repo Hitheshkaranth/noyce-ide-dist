@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>ALM connectors · Noyce IDE Docs</title>
+<meta name="description" content="Connect Noyce IDE to IBM DOORS Next, Siemens Polarion or Jama Connect to pull system requirements and push trace links back.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/alm-connectors">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ALM connectors · Noyce IDE Docs">
+<meta property="og:description" content="Connect Noyce IDE to IBM DOORS Next, Siemens Polarion or Jama Connect to pull system requirements and push trace links back.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/alm-connectors">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors" aria-current="page">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
+    <article class="doc">
+      <h1>ALM connectors</h1>
+      <p class="lede">Connect Noyce IDE to IBM DOORS Next, Siemens Polarion or Jama Connect to pull system requirements and push trace links back.</p>
+      
+      <div class="rule"></div>
+      <p>Noyce IDE can read system requirements straight from IBM DOORS Next, Siemens Polarion or Jama Connect, and write its trace links back to them as links. The pulled requirements go into the same system register as a <a href="/docs/requirements#requirements-authoring">ReqIF or CSV import</a>. Suspect links and change impact work on them the same way.</p>
+<aside class="callout warning"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg><div><p class="callout-t">Warning</p><div class="callout-b"><p>The three connectors were built from each vendor&#39;s public API documentation. They are tested against mock servers that replay the documented requests and responses, but not yet against a live server. The view marks each one <strong>Not verified against a live server</strong>. Check your first pull and your first push by hand. If a connector does not work with your server, exchange a <a href="/docs/requirements#requirements-authoring">ReqIF file</a> instead.</p>
+</div></div></aside>
+<h2 id="what-each-connector-does">What each connector does<a class="anchor" href="#what-each-connector-does" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Server</th>
+<th>Protocol</th>
+<th>Pull</th>
+<th>Push (both ends on the server)</th>
+<th>Push (Noyce-only requirement)</th>
+<th>Authentication</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IBM DOORS Next</td>
+<td>OSLC RM 2.0 (RDF/XML)</td>
+<td>Requirements from the project area&#39;s query capability, paged</td>
+<td>Link property on the system requirement (default <code>oslc_rm:satisfiedBy</code>)</td>
+<td>The same link property, pointing at the Noyce requirement&#39;s URI</td>
+<td>User name and password, or a bearer token</td>
+</tr>
+<tr>
+<td>Siemens Polarion</td>
+<td>REST API v1 (JSON:API)</td>
+<td>Work items of the project, optionally filtered by type and Lucene query, paged</td>
+<td>Linked work item from the refining item to the system requirement (default role <code>relates_to</code>)</td>
+<td>Linked OSLC resource on the system requirement</td>
+<td>Personal access token</td>
+</tr>
+<tr>
+<td>Jama Connect</td>
+<td>REST API v1</td>
+<td>Items of the project, optionally of one item type, paged; pick-list values resolved to their names</td>
+<td>Relationship from the system requirement to the downstream item</td>
+<td>URL link on the system requirement</td>
+<td>OAuth client credentials, or user name and password</td>
+</tr>
+</tbody></table></div>
+<p>Every connector pulls typed attributes: DOORS Next custom attributes, Polarion fields and Jama fields (labelled by the item type&#39;s own field definitions). Bookkeeping fields such as created and modified dates and authors are left out. A change to a requirement&#39;s text or to one of its attributes makes its trace links suspect. Fetching the same requirement again does not.</p>
+<p>Push writes links only. It never changes a requirement&#39;s text or fields. A link already on the server is not written a second time, so pushing twice is safe.</p>
+<h2 id="set-up-a-connection">Set up a connection<a class="anchor" href="#set-up-a-connection" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li>In <strong>Requirements &amp; Evidence</strong>, open the <strong>ALM connectors</strong> tab, or pick the server from the <strong>ALM connectors</strong> menu in the header.</li>
+<li>Choose the server and fill in <strong>Server URL</strong> and <strong>Project</strong>:<ul>
+<li>DOORS Next: the RM application URL, such as <code>https://jazz.example.com:9443/rm</code>, and the project area&#39;s title.</li>
+<li>Polarion: the server root, such as <code>https://polarion.example.com</code>, and the project id.</li>
+<li>Jama Connect: the server root, such as <code>https://example.jamacloud.com</code>, and the project id (the number in the project&#39;s URL).</li>
+</ul>
+</li>
+<li>Choose the authentication, enter the user name or client id, enter the secret, and select <strong>Save</strong> next to it.</li>
+<li>Open <strong>Field mapping</strong> if you need it: item type, query, which field holds the id or text, the link role written back, and which attributes to keep.</li>
+<li>Select <strong>Save settings</strong>.</li>
+</ol>
+<p>The settings are kept in <code>.noyce/requirements/alm/connections.json</code> and can be committed with the project. The secret is not. It goes to the IDE&#39;s secret storage on your machine, keyed by connector and server, and the view only shows whether one is stored. <strong>Forget</strong> removes it.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>The view cannot reach the server itself. Every request goes through the IDE, which adds the stored credential. The IDE only sends requests to the server you configured and does not follow redirects to another server.</p>
+</div></div></aside>
+<h2 id="test-connection">Test connection<a class="anchor" href="#test-connection" aria-label="Link to this section">#</a></h2>
+<p><strong>Test connection</strong> checks each step of reaching your requirements and stops at the first one that fails. It shows the HTTP status, the URL and the server&#39;s own message, for example:</p>
+<ul>
+<li><strong>Credential</strong>: no credential is stored for this server.</li>
+<li><strong>Root services</strong> (DOORS Next): HTTP 401, the server rejected the credential.</li>
+<li><strong>Project area</strong> (DOORS Next): no project area has that title. The project areas your account can see are listed.</li>
+<li><strong>Project</strong> (Polarion, Jama): HTTP 404, project not found; or HTTP 403, your account has no permission for it.</li>
+<li><strong>Item type</strong> (Jama): the item type id does not exist.</li>
+<li><strong>Read requirements</strong>: how many requirements the query returns.</li>
+</ul>
+<p>For Jama with OAuth, a wrong client id or secret is reported as a failed token request, not as a project error.</p>
+<h2 id="pull-requirements">Pull requirements<a class="anchor" href="#pull-requirements" aria-label="Link to this section">#</a></h2>
+<p><strong>Pull requirements</strong> reads every requirement the project and mapping select and imports it into the system register, under <strong>System requirements (imported)</strong>. Each requirement keeps where it came from: the connector, server, project, the server&#39;s item id, its revision, and when it was fetched. Hover the source column to see them.</p>
+<p>Pulling again replaces what the previous pull from that project brought in. Trace links are checked before and after the pull, so a requirement that changed on the server shows up under <strong>Suspect links</strong> with the old and new text side by side. The pull is recorded in the <a href="/docs/compliance#audit-trail">audit trail</a> with a hash of what was pulled. The last pull is kept in <code>.noyce/requirements/alm/&lt;connector&gt;-pulled.json</code>; push uses it to find each requirement on the server.</p>
+<p>If the server limits how fast you can send requests, the connector waits as long as the server asks and tries again, up to four times.</p>
+<h2 id="push-trace-links">Push trace links<a class="anchor" href="#push-trace-links" aria-label="Link to this section">#</a></h2>
+<p><strong>Push trace links</strong> writes each of the project&#39;s trace links back to the server:</p>
+<ul>
+<li>When both ends of a link are on the server (for example an HLR kept in Polarion that refines a system requirement), it writes the server&#39;s own link: a Polarion linked work item, a Jama relationship, or a DOORS Next link property between the two requirements.</li>
+<li>When the refining requirement exists only in Noyce, it writes a link from the system requirement to that requirement&#39;s URI. The URI is <code>urn:noyce:requirement:&lt;id&gt;</code> unless you set <strong>Noyce requirement URI base</strong>, for example to a web page that shows your requirements.</li>
+</ul>
+<p>A link to a requirement that was not pulled from this server is skipped and listed with the reason. The push is recorded in the audit trail.</p>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><ul>
+<li>None of the connectors has been run against a live server yet.</li>
+<li>DOORS Next form-based login (<code>j_security_check</code>) and OpenID Connect are not supported. Use basic authentication or a bearer token your server accepts, or exchange ReqIF files.</li>
+<li>Self-signed server certificates are not accepted unless your operating system trusts them.</li>
+<li>Polarion enumeration values are recorded by their ids, not their display names.</li>
+<li>DOORS Next custom attributes are named by the last part of their property URI unless you map them under <strong>Attributes to keep</strong>.</li>
+<li>Classic DOORS (9.x) has no connector. Exchange ReqIF files with it.</li>
+</ul>
+</div></div></aside>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/reqif-round-trip"><small>Previous</small><span>ReqIF &amp; change impact</span></a>
+      <a class="next" href="/docs/compliance"><small>Next</small><span>Compliance &amp; certification</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#what-each-connector-does">What each connector does</a></li><li><a class="l2" href="#set-up-a-connection">Set up a connection</a></li><li><a class="l2" href="#test-connection">Test connection</a></li><li><a class="l2" href="#pull-requirements">Pull requirements</a></li><li><a class="l2" href="#push-trace-links">Push trace links</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

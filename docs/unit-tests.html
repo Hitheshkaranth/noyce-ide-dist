@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Unit test generation · Noyce IDE Docs</title>
+<meta name="description" content="Generate a test driver, stubs and a register-file fake for any function in the program model, fill a table of test vectors with expected values from requirements, propose inputs with CBMC, run on the host and track regressions.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/unit-tests">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unit test generation · Noyce IDE Docs">
+<meta property="og:description" content="Generate a test driver, stubs and a register-file fake for any function in the program model, fill a table of test vectors with expected values from requirements, propose inputs with CBMC, run on the host and track regressions.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/unit-tests">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests" aria-current="page">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>Unit test generation</h1>
+      <p class="lede">Generate a test driver, stubs and a register-file fake for any function in the program model, fill a table of test vectors with expected values from requirements, propose inputs with CBMC, run on the host and track regressions.</p>
+      
+      <div class="rule"></div>
+      <p><strong>Unit Tests</strong> builds a test driver for one function at a time from the <a href="/docs/program-model">program model</a>, and keeps its test vectors in a table you edit. Open it with <strong>Noyce Test: Open Unit Tests</strong>.</p>
+<!-- capture: Unit Tests on the H-Bridge copy with one function selected: its signature, globals and stubbed callees, the Test vectors table with two pending boundary rows and one filled row, and the Latest run tiles -->
+
+<h2 id="use-it">Use it<a class="anchor" href="#use-it" aria-label="Link to this section">#</a></h2>
+<ol class="steps">
+<li>If there is no model yet, select <strong>Build program model</strong>. Functions in vendor trees and functions defined in headers are not listed.</li>
+<li>Select a function. The view shows its signature, file, the globals it reads and writes, the callees it stubs, and whether register accesses use a register-file fake (from the SVD file, or an architectural address map).</li>
+<li>Review the <strong>Test vectors</strong>. Rows are proposed from the parameter types: boundary, equivalence and robustness values for fixed-width integers, <code>bool</code>, <code>char</code> and <code>size_t</code>. Other types get no proposed values.</li>
+<li>Fill each row&#39;s expected values. Enter your name in <strong>Engineer name</strong> first; the row records who filled it and when. Select <strong>Save row</strong>.</li>
+<li>Select <strong>Generate driver</strong> to write the driver, or <strong>Run on host</strong> to generate it, build it and run it.</li>
+</ol>
+<p><strong>Expected values never come from running the code.</strong> Every proposed row starts with its expected values pending: &quot;Pending rows can never pass. Expected values come from requirements or an engineer, never from running the code.&quot; A pending row is skipped in the host driver, left out of the target driver, and reads pending in the results.</p>
+<p>Inputs and expected values are JSON, for example <code>{&quot;param:x&quot;: 1}</code> and <code>{&quot;return&quot;: 2}</code>. Inputs can set <code>param:</code>, <code>global:</code>, <code>stub:&lt;callee&gt;.returns</code> (a sequence of returns) and <code>reg:0x…</code> keys; expected values can check <code>return</code>, outputs through pointers, globals, stub call counts and arguments, call order, and registers. <strong>Requirement ids</strong> link a row to the requirements it verifies.</p>
+<h2 id="propose-inputs-with-cbmc">Propose inputs with CBMC<a class="anchor" href="#propose-inputs-with-cbmc" aria-label="Link to this section">#</a></h2>
+<p>Choose <strong>MC/DC</strong> or <strong>Branch</strong> and select <strong>Propose inputs (CBMC)</strong>. CBMC searches for inputs that reach each coverage goal of the function, with the generated stubs, and adds the new inputs as rows (origin <code>cbmc-mcdc</code> or <code>cbmc-branch</code>) with expected values pending. Goals CBMC could not reach are listed; that is not a proof that they are unreachable. Inputs CBMC cannot set (structures, function pointers, nested pointers) are listed under <strong>Inputs not proposed</strong>. CBMC must be installed; see <a href="/docs/analysis#formal-verification-cbmc">Formal Verification</a>.</p>
+<h2 id="run-and-compare">Run and compare<a class="anchor" href="#run-and-compare" aria-label="Link to this section">#</a></h2>
+<p><strong>Run on host</strong> builds the driver with the generated Makefile (<code>clang</code> unless <code>CC</code> is set) using Unity, runs it, and records the run. <strong>Latest run</strong> shows pass, fail, pending and not run. Each run carries the note that host execution does not establish target compatibility, timing or peripheral behaviour (DO-178C 6.4.1).</p>
+<p><strong>Regression</strong> compares the latest run with the previous run, or with the latest run tagged with the current document-set baseline, and lists rows that regressed, were fixed, are new or were removed. <strong>Flaky rows</strong> passed and failed with the same source and inputs.</p>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>Runs are tagged with the document-set baseline by reading <code>.noyce/set-baseline.json</code>, but the baseline is stored at <code>.noyce/documents/set-baseline.json</code>. In this release runs are therefore never tagged, and comparing with <strong>Current set baseline</strong> finds no earlier run. Compare with <strong>Previous run</strong>.</p>
+</div></div></aside>
+<h2 id="run-on-the-target">Run on the target<a class="anchor" href="#run-on-the-target" aria-label="Link to this section">#</a></h2>
+<p>Select <strong>Copy driver to tests/target</strong> to put the generated <code>target_&lt;unit&gt;.c</code> in <code>tests/target/</code>. Test Explorer&#39;s <strong>Run on target</strong>, and <strong>On target</strong> below the vectors (the <a href="/docs/structural-coverage#target-verification">target verification</a> flow), then build it into the firmware test image:</p>
+<ul>
+<li>The driver is compiled <strong>in place of the unit&#39;s source</strong>, so the unit is linked once. It is self-contained: its stubs are inlined.</li>
+<li>Every symbol the driver defines on the unit&#39;s behalf (the stubs, their controls, test-owned globals) gets a name private to that file (<code>noyce_t_&lt;unit&gt;__&lt;name&gt;</code>), so the firmware&#39;s real collaborators and globals still link beside it.</li>
+<li>One driver per source file per image: two functions of the same file cannot be in <code>tests/target/</code> together (the image would link that file twice). Keep one, run, then swap.</li>
+<li>A driver for a function in the file that defines <code>main()</code> cannot run on the target; the test image replaces that file.</li>
+</ul>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>Target unit runs are built, linked and checked against a fake device; they have <strong>not been run on hardware</strong>.</p>
+</div></div></aside>
+<h2 id="files">Files<a class="anchor" href="#files" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Path under <code>.noyce/</code></th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tests/&lt;file&gt;__&lt;function&gt;.vectors.json</code></td>
+<td>The vector table (schema <code>noyce.unit-vectors/1</code>).</td>
+</tr>
+<tr>
+<td><code>tests/build/&lt;unit&gt;/</code></td>
+<td>The generated host driver <code>test_&lt;unit&gt;.c</code>, target driver <code>target_&lt;unit&gt;.c</code>, stubs, register-file fake, Makefile and CBMC harness.</td>
+</tr>
+<tr>
+<td><code>tests/unity/</code></td>
+<td>The bundled Unity framework.</td>
+</tr>
+<tr>
+<td><code>tests/runs/&lt;unit&gt;/</code></td>
+<td>One record per run, tagged <strong>Measured</strong>.</td>
+</tr>
+</tbody></table></div>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Target runs of generated drivers are unverified on hardware. Only one function&#39;s driver per source file can be in an image.</li>
+<li>The register-file fake stores values only; peripheral side effects and timing are not simulated.</li>
+<li>CBMC runs with the host architecture and a fixed unwind of 16, so its proposals are bounded.</li>
+<li>Structures passed by value, nested pointers and function pointers get no proposed inputs.</li>
+<li>Comparison with the document-set baseline does not work (see above).</li>
+<li>Firmware that needs Arm-only instructions or linker symbols does not build on the host.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/coupling-timing-concurrency"><small>Previous</small><span>Coupling, timing &amp; interrupts</span></a>
+      <a class="next" href="/docs/annex-a-tables"><small>Next</small><span>Annex A tables</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#use-it">Use it</a></li><li><a class="l2" href="#propose-inputs-with-cbmc">Propose inputs with CBMC</a></li><li><a class="l2" href="#run-and-compare">Run and compare</a></li><li><a class="l2" href="#run-on-the-target">Run on the target</a></li><li><a class="l2" href="#files">Files</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

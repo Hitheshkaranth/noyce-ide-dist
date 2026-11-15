@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Tool qualification kits · Noyce IDE Docs</title>
+<meta name="description" content="The DO-330 qualification data Noyce IDE produces for its own verification engines - operational requirements, oracle corpora, signed results, known problems and the kit that bundles them - and how to build, verify and re-run a kit.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/qualification-kits">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tool qualification kits · Noyce IDE Docs">
+<meta property="og:description" content="The DO-330 qualification data Noyce IDE produces for its own verification engines - operational requirements, oracle corpora, signed results, known problems and the kit that bundles them - and how to build, verify and re-run a kit.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/qualification-kits">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits" aria-current="page">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>Tool qualification kits</h1>
+      <p class="lede">The DO-330 qualification data Noyce IDE produces for its own verification engines - operational requirements, oracle corpora, signed results, known problems and the kit that bundles them - and how to build, verify and re-run a kit.</p>
+      
+      <div class="rule"></div>
+      <p>When you take certification credit for a tool&#39;s output without verifying that output by other means, DO-178C §12.2 asks you to qualify the tool. Noyce IDE&#39;s verification engines, such as host coverage or the MISRA rule checker, are such tools. For each one, Noyce provides qualification data and assembles it into a signed <strong>kit</strong> for one exact engine version.</p>
+<aside class="callout important"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v4M12 14h.01"/></svg><div><p class="callout-t">Important</p><div class="callout-b"><p>A kit is qualification data, not a qualification. Its Tool Qualification Plan and Tool Accomplishment Summary are templates that only you, the applicant, can complete: certification basis, operational environment, credit sought and liaison. The criterion and TQL shown for each engine are Noyce&#39;s proposal; you confirm or replace them in your PSAC.</p>
+</div></div></aside>
+<h2 id="the-engines">The engines<a class="anchor" href="#the-engines" aria-label="Link to this section">#</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Engine id</th>
+<th>Engine</th>
+<th>Known problems file</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cov-host</code></td>
+<td>Host structural coverage (statement, decision, MC/DC)</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>cov-probe</code></td>
+<td>Target structural coverage probes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>coupling</code></td>
+<td>Measured data and control coupling</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>object-coverage</code></td>
+<td>Object-code coverage and source-to-object traceability</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>timing-stack</code></td>
+<td>Worst-case stack usage and timing measurement</td>
+<td>none recorded</td>
+</tr>
+<tr>
+<td><code>metrics</code></td>
+<td>Code metrics and flowgraphs</td>
+<td>none recorded</td>
+</tr>
+<tr>
+<td><code>concurrency</code></td>
+<td>Concurrency and shared-data analysis</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>unit-gen</code></td>
+<td>Unit test generation and execution</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>misra-rules</code></td>
+<td>MISRA C rule checker</td>
+<td>yes</td>
+</tr>
+</tbody></table></div>
+<p>Each is classified as §12.2 criterion 3 (a verification tool whose defect could fail to detect an error), which is TQL-5 at levels A to D. The rationale, and when another criterion would apply, is shown for each engine.</p>
+<h2 id="where-the-data-lives">Where the data lives<a class="anchor" href="#where-the-data-lives" aria-label="Link to this section">#</a></h2>
+<p>These files are in the Noyce IDE source repository, not in your project:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Location</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tool Operational Requirements (TOR), with <code>@tor</code> ids</td>
+<td><code>docs/qualification/&lt;engine&gt;/tor.md</code></td>
+</tr>
+<tr>
+<td>Oracle corpus: inputs with independently reasoned expected results</td>
+<td><code>qualification/corpus/&lt;engine&gt;/&lt;case&gt;/</code> (<code>case.json</code>, <code>expected.json</code>, <code>README.md</code>, sources)</td>
+</tr>
+<tr>
+<td>Known problems: investigated defects, their TOR, root cause and credit impact</td>
+<td><code>qualification/known-problems/&lt;engine&gt;.md</code></td>
+</tr>
+<tr>
+<td>Differential comparisons against a reference tool</td>
+<td><code>qualification/differential/</code></td>
+</tr>
+<tr>
+<td>Results record of a corpus run</td>
+<td><code>.noyce/qualification/&lt;engine&gt;/&lt;engine version&gt;/results.json</code></td>
+</tr>
+<tr>
+<td>Built kits</td>
+<td><code>.noyce/qualification/kits/&lt;engine&gt;/&lt;engine version&gt;/</code></td>
+</tr>
+<tr>
+<td>In-situ re-run kits</td>
+<td><code>.noyce/qualification/in-situ/&lt;engine&gt;/&lt;engine version&gt;/</code></td>
+</tr>
+</tbody></table></div>
+<p>The engine version is <code>&lt;git commit&gt;[-dirty]+&lt;digest of the engine&#39;s source files&gt;</code>, so a kit identifies exactly which code it qualifies.</p>
+<h2 id="run-the-corpus">Run the corpus<a class="anchor" href="#run-the-corpus" aria-label="Link to this section">#</a></h2>
+<p>From a Noyce IDE source checkout:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">noyce qualify --engine cov-host     # one engine</span>
+<span class="line">noyce qualify --all                 # every engine with an adapter</span></code></pre></div>
+<p><code>npm run qualification:run -- --engine &lt;id&gt;</code> does the same. Each case runs in a fresh temporary copy. A TOR passes only when at least one case verifies it and all its cases pass; an untested TOR fails the run. The results record carries a SHA-256 digest of its content and, if you have a signing key, an Ed25519 signature (<code>results.sig.json</code>).</p>
+<p>The corpus runs use the same tools as the engines: for coverage, a clang with <code>-fcoverage-mcdc</code>, <code>llvm-profdata</code>, <code>llvm-cov</code> and <code>nm</code>; for the sidecar engines, the <code>noyce-core</code> binary. The runner needs Node 26.</p>
+<h2 id="build-a-kit">Build a kit<a class="anchor" href="#build-a-kit" aria-label="Link to this section">#</a></h2>
+<p>You sign kits with your own Ed25519 key. Noyce IDE never generates one for you. Create it once:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">noyce kit --init-key                # or: npm run qualification:kit -- --init-key</span></code></pre></div>
+<p>The private key goes to <code>~/.config/noyce/qualification-signing.key</code> (mode 600; <code>NOYCE_SIGNING_KEY</code> chooses another path), and the public key to <code>qualification/signing-keys/</code> in the checkout, where verification looks for trusted keys.</p>
+<p>Then build, verify and export:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>noyce kit --engine &lt;id&gt;</code> or <code>--all</code></td>
+<td>Builds and signs a kit from the latest results.</td>
+</tr>
+<tr>
+<td><code>noyce kit --engine &lt;id&gt; --allow-dirty</code></td>
+<td>Builds a kit from a run taken on uncommitted code, marked DRAFT on every page and in the manifest.</td>
+</tr>
+<tr>
+<td><code>noyce kit --verify &lt;kit-dir&gt;</code></td>
+<td>Checks every file against the signed manifest and the signature against the trusted keys.</td>
+</tr>
+<tr>
+<td><code>noyce kit --verify-results &lt;results.json&gt;</code></td>
+<td>Checks one results record and its signature.</td>
+</tr>
+<tr>
+<td><code>noyce kit --in-situ --engine &lt;id&gt; [--dest &lt;dir&gt;]</code></td>
+<td>Exports the in-situ re-run kit.</td>
+</tr>
+<tr>
+<td><code>noyce kit --status [--engine &lt;id&gt;]</code></td>
+<td>Readiness and kit state for each engine.</td>
+</tr>
+</tbody></table></div>
+<p><code>--public-key &lt;pem&gt;</code> adds a trusted key for either verify command.</p>
+<p><strong>A kit is refused, never built with a caveat,</strong> when the latest run has a failing or erroring case, an untested TOR, was a partial run of selected cases, has an altered record or signature, or was produced by a different engine version, corpus or TOR set than the checkout building the kit. A run on uncommitted code is refused unless you pass <code>--allow-dirty</code>.</p>
+<p>A kit contains:</p>
+<ul>
+<li><code>01-TOR</code>, <code>02-TOVV</code> (verification cases, procedures and results), <code>03-KNOWN-PROBLEMS</code>, <code>04-TCI</code> (Tool Configuration Index), <code>05-TQP-TEMPLATE</code> and <code>06-TAS-TEMPLATE</code>, each as Markdown and as a formal <code>.docx</code>;</li>
+<li><code>results/results.json</code> with its signature, <code>tci.json</code>, the engine&#39;s corpus, <code>kit.html</code>, <code>INDEX.md</code>, the signer&#39;s public key, and <code>manifest.json</code> with <code>manifest.sig.json</code> covering every file.</li>
+</ul>
+<h2 id="the-in-situ-re-run-kit">The in-situ re-run kit<a class="anchor" href="#the-in-situ-re-run-kit" aria-label="Link to this section">#</a></h2>
+<p>The in-situ kit lets the applicant re-run the corpus in their own environment and sign their own results. Hand them the folder:</p>
+<ol class="steps">
+<li>Check out Noyce IDE at the commit the kit names and install its dependencies.</li>
+<li>Install the production toolchain. The tool overrides are the same as in development (<code>NOYCE_COV_CC</code>, <code>NOYCE_COV_PROFDATA</code>, <code>NOYCE_COV</code>, <code>NOYCE_COV_NM</code>, <code>NOYCE_CORE_BIN</code>, <code>NOYCE_CBMC</code>).</li>
+<li>Create their own key: <code>node tools/insitu.mjs init-key</code>.</li>
+<li>Run <code>NOYCE_ROOT=/path/to/noyce ./run.sh</code>.</li>
+</ol>
+<p>They get their own signed results record and a signed <code>comparison.json</code> / <code>comparison.md</code>: case-by-case and TOR-by-TOR agreement with the shipped results, and every toolchain or platform difference. Exit 0 means their run passed and agrees; 1 it failed or differs; 2 an environment problem. Agreement is evidence for their Tool Qualification Plan, not a qualification by itself.</p>
+<h2 id="in-the-ide">In the IDE<a class="anchor" href="#in-the-ide" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>Evidence Records → Tool qualification</strong>. Below the project&#39;s tool register, the kits table lists the nine engines with <strong>Criterion · TQL</strong> at the project&#39;s level, <strong>Latest run</strong>, <strong>Version</strong> and <strong>Kit</strong>. Select an engine for <strong>Build kit</strong>, <strong>Verify kit</strong> and <strong>Export in-situ kit</strong>. Every disabled button says why, and a refused kit lists the builder&#39;s reasons.</p>
+<!-- capture: Evidence Records → Tool qualification, kits table below the register with one engine selected after a passing corpus run and a built kit, showing the Build kit / Verify kit / Export in-situ kit buttons -->
+
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>The kit actions run from a Noyce IDE source checkout and read that checkout&#39;s <code>.noyce/qualification/</code>, not your firmware project&#39;s. An installed app without the corpus says &quot;Kit status not measured&quot; and builds nothing. Run <code>noyce qualify</code> and <code>noyce kit</code> from the checkout root (or pass <code>--out &lt;checkout&gt;/.noyce</code>), or the panel will not see the results.</p>
+</div></div></aside>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Kits are built only from a Noyce IDE source checkout; the installed app does not include the corpus or the kit builder.</li>
+<li>The corpus runner needs Node 26.</li>
+<li><code>timing-stack</code> and <code>metrics</code> have no known-problems file; that means none is recorded, not that the engines are free of defects.</li>
+<li>The TQP and TAS are templates you complete.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/other-standards"><small>Previous</small><span>ISO 26262 / IEC 61508</span></a>
+      <a class="next" href="/docs/cli-ci"><small>Next</small><span>CLI, CI &amp; teams</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#the-engines">The engines</a></li><li><a class="l2" href="#where-the-data-lives">Where the data lives</a></li><li><a class="l2" href="#run-the-corpus">Run the corpus</a></li><li><a class="l2" href="#build-a-kit">Build a kit</a></li><li><a class="l2" href="#the-in-situ-re-run-kit">The in-situ re-run kit</a></li><li><a class="l2" href="#in-the-ide">In the IDE</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.8">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -44,7 +44,7 @@
       <kbd>/</kbd>
       <div id="results" class="results" role="listbox" hidden></div>
     </div>
-    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis" aria-current="page">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis" aria-current="page">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
   </aside>
   <main class="main" id="content">
     <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
@@ -64,7 +64,7 @@
 </thead>
 <tbody><tr>
 <td>MISRA Diagnostics</td>
-<td>cppcheck (MISRA addon) or clang-tidy</td>
+<td>cppcheck (MISRA addon) or clang-tidy, plus the <a href="/docs/misra-rules">MISRA rule engine</a></td>
 <td>A-5</td>
 </tr>
 <tr>
@@ -84,21 +84,22 @@
 </tr>
 <tr>
 <td>Data &amp; Control Coupling</td>
-<td>Project graph</td>
+<td>Program model and instrumented host tests (clang)</td>
 <td>A-7(8)</td>
 </tr>
 <tr>
 <td>Object Code Traceability</td>
-<td><code>arm-none-eabi-objdump</code></td>
+<td><code>arm-none-eabi-objdump</code>, execution traces</td>
 <td>A-7(9)</td>
 </tr>
 </tbody></table></div>
+<p>The engines added for LDRA-level verification have their own pages: <a href="/docs/program-model">Program model &amp; provenance</a>, <a href="/docs/misra-rules">MISRA rule engine</a>, <a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a>, <a href="/docs/structural-coverage">Structural coverage</a>, <a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a> and <a href="/docs/unit-tests">Unit tests</a>.</p>
 <h2 id="misra-diagnostics">MISRA Diagnostics<a class="anchor" href="#misra-diagnostics" aria-label="Link to this section">#</a></h2>
 <p>Coding-standard findings from every analyzer, in one list. Open it from the tile or <strong>Noyce Compliance: Open MISRA Diagnostics</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/misra.webp" alt="Static Analysis with 624 stored findings on the Canister firmware" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Static Analysis on the Canister copy. The counts line explains itself: 1,532 project findings, 1,408 from cppcheck and 124 from the heuristic scan, which is marked not evidence.</figcaption></figure>
 <p><strong>How to use it</strong></p>
 <ol class="steps">
-<li>Select <strong>Scan</strong>. Noyce IDE runs cppcheck with the MISRA addon, or clang-tidy, and falls back to a built-in heuristic scan only when neither is installed.</li>
+<li>Select <strong>Scan</strong>. Noyce IDE runs cppcheck with the MISRA addon, or clang-tidy, together with its own <a href="/docs/misra-rules">MISRA rule engine</a>, and falls back to a built-in heuristic scan only when no analyzer is installed. The view has three tabs: <strong>Findings</strong>, <strong>Disagreements</strong> (rule engine against cppcheck) and <strong>Compliance Summary</strong>.</li>
 <li>Filter by <strong>Severity</strong> (Mandatory, Required, Advisory) or by <strong>Tool</strong>.</li>
 <li>Select a finding to see its rule, its file and line, and the tool that reported it. <strong>Open in Editor</strong> jumps to the line.</li>
 <li><strong>Fix with Noyce</strong> proposes a fix as a change set; see <a href="/docs/review-ai-changes">Review AI changes</a>. To accept a finding instead, record a deviation in <strong>Evidence Records → MISRA deviations</strong>.</li>
@@ -136,20 +137,18 @@
 <ol class="steps">
 <li>Write a driver under <code>tests/mcdc/</code> that exercises one source file, and name the file it covers in a comment: <code>// @coverage-source ../AUTO_SEQUENCE.c</code>.</li>
 <li>Pick the <strong>Module</strong>. The <strong>Driver</strong> follows it, choosing the driver that names that module; change it if you keep several. Select <strong>Measure module</strong>. Noyce IDE builds it with LLVM&#39;s MC/DC instrumentation, runs the driver and reads the result. Each run is a background job you can cancel, with a five-minute limit.</li>
-<li><strong>Generate Coverage Tests</strong> has an agent write and check tests for the decisions shown, and <strong>Fix Uncovered Decisions</strong> gives the decisions still missing independence pairs to the coding agent. Both open <strong>Agent output</strong> so you can follow the work.</li>
+<li><strong>Generate coverage tests</strong> has an agent write and check tests for the decisions shown, and <strong>Fix uncovered decisions</strong> gives the decisions still missing independence pairs to the coding agent. Both open <strong>Agent output</strong> so you can follow the work.</li>
 </ol>
 <p>Until a module is measured, its obligations are counted and its coverage reads 0% with the note &quot;a structural zero, not a result&quot;.</p>
-<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>MC/DC needs LLVM/Clang 18 or newer. With only GCC and gcov installed you get statement and branch coverage, and MC/DC reads &quot;unavailable&quot;.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>MC/DC needs LLVM/Clang 18 or newer. With only GCC and gcov installed, <strong>Measure module</strong> is disabled (&quot;This toolchain cannot measure MC/DC&quot;) and no coverage is measured.</p>
 </div></div></aside>
+<p>The <strong>Measured coverage</strong> and <strong>Review uncovered</strong> tabs, the MC/DC form setting, target probes and the signed review of uncovered code are described in <a href="/docs/structural-coverage">Structural coverage</a>.</p>
 <h2 id="data-control-coupling">Data &amp; Control Coupling<a class="anchor" href="#data-control-coupling" aria-label="Link to this section">#</a></h2>
-<p>Which components call and share data with which, and whether a requirement-based test exercises each coupling. Open it from the <strong>DC/CC Analysis</strong> tile.</p>
-<figure class="fig"><div class="fig-frame"><img src="/docs/img/coupling.webp" alt="Data &amp; Control Coupling with the coupling matrix and 65 uncovered couplings" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Data &amp; Control Coupling on the Canister copy: 23 components, 65 uncovered couplings, measured against the 100% Level A threshold.</figcaption></figure>
-<p>On the Canister copy coupling coverage is shown as <strong>not measured</strong>: no executed requirement-based test exists yet, so no coupling can be counted as exercised. That is the honest state, not a failure of the tool.</p>
+<p>Which components call and share data with which, enumerated from the program model and measured by instrumented requirements-based test runs. Open it from the <strong>DC/CC analysis</strong> tile or <strong>Noyce Compliance: Open Data &amp; Control Coupling</strong>. See <a href="/docs/coupling-timing-concurrency#data-control-coupling">Coupling, timing &amp; interrupts</a>.</p>
+<p>A coupling counts only when a requirements-based test exercised it or a person on the roster justified it. Until a measured run exists, coupling reads <strong>not measured</strong>; that is the honest state, not a failure of the tool.</p>
 <h2 id="object-code-traceability">Object Code Traceability<a class="anchor" href="#object-code-traceability" aria-label="Link to this section">#</a></h2>
-<p>For DO-178C A-7(9) at Level A: object code that no source line accounts for, such as soft-float helpers, C runtime start-up and the reset vector, each of which needs a named person&#39;s justification. Open it with <strong>Noyce Compliance: Open Object Code Traceability</strong>.</p>
+<p>For DO-178C A-7(9) at Level A: object code that no source line accounts for, such as soft-float helpers, C runtime start-up and the reset vector, each of which needs a named person&#39;s justification, and object-code branch coverage from execution traces. Open it with <strong>Noyce Compliance: Open Object Code Traceability</strong>, choose the linked image and select <strong>Capture disassembly</strong>; it needs <code>arm-none-eabi-objdump</code> (or <code>llvm-objdump</code>) and an image built with <code>-g</code>. See <a href="/docs/structural-coverage#object-code-branch-coverage">Structural coverage</a>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/object-code.webp" alt="Object Code Traceability with no analysis on record" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Object Code Traceability before any analysis.</figcaption></figure>
-<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>This view reads an analysis produced outside it: the view suggests <code>npm run socta -- --project &lt;path&gt;</code>, a script in the Noyce IDE source repository that is not available in the installed app. It needs a linked image and <code>arm-none-eabi-objdump</code>.</p>
-</div></div></aside>
 <h2 id="test-explorer">Test Explorer<a class="anchor" href="#test-explorer" aria-label="Link to this section">#</a></h2>
 <p>Finds the project&#39;s tests, runs them with <strong>Run All</strong>, drafts new ones with <strong>AI Generate</strong>, and records test runs on the target as verification evidence. Open it with <kbd>⌘</kbd><kbd>⌥</kbd><kbd>N</kbd> then <kbd>T</kbd>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/test-explorer.webp" alt="Test Explorer on a project with no Unity or C tests yet" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Test Explorer on the Canister copy, which has no Unity or C tests yet.</figcaption></figure>
@@ -178,8 +177,8 @@
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.8</span>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
 </div></footer>
-<script src="/docs/assets/docs.js?v=2.0.8" defer></script>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
 </body>
 </html>

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Coupling, timing and interrupt analysis · Noyce IDE Docs</title>
+<meta name="description" content="Data and control coupling measured by instrumented requirements-based test runs (A-7(8)), execution time and stack depth measured on the target with static comparison (A-5(6), A-6(5)), and the analysis of data shared between interrupts and thread code.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/coupling-timing-concurrency">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coupling, timing and interrupt analysis · Noyce IDE Docs">
+<meta property="og:description" content="Data and control coupling measured by instrumented requirements-based test runs (A-7(8)), execution time and stack depth measured on the target with static comparison (A-5(6), A-6(5)), and the analysis of data shared between interrupts and thread code.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/coupling-timing-concurrency">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency" aria-current="page">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>Coupling, timing and interrupt analysis</h1>
+      <p class="lede">Data and control coupling measured by instrumented requirements-based test runs (A-7(8)), execution time and stack depth measured on the target with static comparison (A-5(6), A-6(5)), and the analysis of data shared between interrupts and thread code.</p>
+      
+      <div class="rule"></div>
+      <h2 id="data-control-coupling">Data &amp; Control Coupling<a class="anchor" href="#data-control-coupling" aria-label="Link to this section">#</a></h2>
+<p>DO-178C A-7(8) asks that tests exercise the data and control coupling between components. Noyce IDE enumerates every coupling from the <a href="/docs/program-model">program model</a>, measures which ones a requirements-based test run actually exercised, and lets a rostered person justify the rest. Open it with <strong>Noyce Compliance: Open Data &amp; Control Coupling</strong> or the <strong>DC/CC analysis</strong> tile.</p>
+<!-- capture: Data & Control Coupling on the H-Bridge copy after Analyze and Measure coupling (host): stat tiles, the coupling table filtered to Open, and the Component map section with its review state -->
+
+<p><strong>What is a coupling.</strong> A data coupling is a writer in one component, a variable, and a reader in another. A control coupling is a call from one component into another, including calls through function pointers, whose candidate targets are the address-taken functions of a matching type.</p>
+<h3 id="use-it">Use it<a class="anchor" href="#use-it" aria-label="Link to this section">#</a></h3>
+<ol class="steps">
+<li><strong>Analyze coupling</strong> parses the project&#39;s own sources and enumerates every coupling between components. Vendor trees are out of scope. The result is written to <code>.noyce/coupling/static.json</code>.</li>
+<li><strong>Measure coupling (host)</strong> builds each host test driver twice, plainly and with coupling probes, runs it case by case, and collects which couplings each test exercised. Drivers are <code>tests/**/test_*.c</code> files that carry the same <code>@coverage-source</code> comments as <a href="/docs/structural-coverage#measure-a-module">MC/DC drivers</a>. Results go to <code>.noyce/coupling/measured-*.json</code>, and test results are appended to <code>.noyce/verification/results.jsonl</code>.</li>
+<li>Review the table. The default filter is <strong>Open</strong>; others are <strong>Not measurable</strong>, <strong>Satisfied</strong> and <strong>All</strong>.</li>
+</ol>
+<p>Both jobs run in the background with <strong>Cancel</strong>. Analyze is limited to 10 minutes, Measure to 20.</p>
+<h3 id="when-a-coupling-counts">When a coupling counts<a class="anchor" href="#when-a-coupling-counts" aria-label="Link to this section">#</a></h3>
+<p>A coupling is <strong>Satisfied</strong> only when a test run exercised it and that run is requirements-based: a verification case in <strong>Evidence Records → Verification cases</strong> names the test, verifies at least one requirement, and its latest result is a pass with an execution record. Requirement ids are never guessed from test names. A coupling exercised only by other tests reads <strong>Not by a requirements test</strong>.</p>
+<p>A coupling no test exercised can be <strong>Justified</strong>: a reason, an author on the roster, and at Levels A and B a reviewer who is a different person on the roster. Justifications are stored in <code>.noyce/coupling/justifications.json</code>.</p>
+<p><strong>Unresolved accesses</strong> (pointer accesses, escaped addresses and pointer calls the analysis could not resolve) are listed separately and must each be justified.</p>
+<p>The objective is satisfied only when nothing blocks it. <strong>What keeps A-7(8) open</strong> lists the blockers: not analyzed, not measured, couplings not exercised, couplings outside the measured build, no requirements-based runs, unjustified unresolved accesses, or a component map nobody has reviewed.</p>
+<h3 id="the-component-map">The component map<a class="anchor" href="#the-component-map" aria-label="Link to this section">#</a></h3>
+<p>Which source files make up each component comes from the SDD&#39;s component table (columns <code>Component</code> and <code>Source Files</code>). Without one, each source file is its own component, and the view says this is a default, not the design. The map is stored in <code>.noyce/coupling/components.json</code>. Choose a reviewer on the roster and select <strong>Record review</strong>; editing the map afterwards makes the review stale. The map can only be edited by hand in that file.</p>
+<h3 id="level">Level<a class="anchor" href="#level" aria-label="Link to this section">#</a></h3>
+<p>The view uses the software level recorded in Compliance. If none is recorded it assumes Level A and shows &quot;(assumed)&quot;. <code>noyce couple</code> refuses to assume a level.</p>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><ul>
+<li><strong>Collect from target (probe)</strong> reads <code>.noyce/cov/build/coupling/target.elf</code>. Build it with <strong>Coupling probes</strong> ticked in <a href="/docs/structural-coverage#target-verification">Target verification</a> (or <code>noyce verify --target --coupling</code>), which also flashes, runs and collects in one go. Target coupling collection is <strong>unverified on hardware</strong>.</li>
+<li>A test driver whose instrumented run behaves differently from its plain run is dropped from the measurement without a notice in the view.</li>
+<li>The Compliance Dashboard and the life-cycle documents still use the older name-matching estimate when no measured report exists; that estimate is marked heuristic and cannot close A-7(8).</li>
+</ul>
+</div></div></aside>
+<p>Known engine problems, such as <code>memcpy</code> counting as a whole-object access and interrupt and thread probes not being serialised, are listed in <code>qualification/known-problems/coupling.md</code>.</p>
+<h2 id="timing-stack">Timing &amp; Stack<a class="anchor" href="#timing-stack" aria-label="Link to this section">#</a></h2>
+<p>Execution time and stack depth measured on the target, compared with the static worst-case stack. Open it with <strong>Noyce Compliance: Open Timing &amp; Stack</strong>. Every measured figure is labelled &quot;measured — not a bound&quot;: a measurement shows what happened in that run, never a worst case.</p>
+<!-- capture: Timing & Stack after a collection on a Cortex-M4 board: Cycle counter Running, Stack high-water and Static worst case tiles, Execution time table -->
+
+<h3 id="use-it-1">Use it<a class="anchor" href="#use-it-1" aria-label="Link to this section">#</a></h3>
+<p>With unit drivers in <code>tests/target/</code>, <code>noyce verify --target --timing</code> does steps 1 to 4 in one go: one timing site per driver, the runtime compiled into the verification image, collected after coverage.</p>
+<ol class="steps">
+<li>Select <strong>Prepare runtime</strong>. It writes the timing runtime to <code>.noyce/timing/build/&lt;config&gt;/</code>. Add those sources to your build, compile with <code>-DNOYCE_TIMING -DNOYCE_TIMING_HAS_CONFIG -I &lt;dir&gt;</code>, and link with the <code>-Wl,--wrap=…</code> options the notice lists for interrupt handlers.</li>
+<li>Call <code>noyce_timing_init()</code> and <code>noyce_stack_paint()</code> first in <code>main</code>.</li>
+<li>Flash and run the firmware, attach the debug probe in the <strong>Debug Probe</strong> view, and halt the target.</li>
+<li>Select <strong>Collect from target</strong>. Results go to <code>.noyce/timing/timing-&lt;config&gt;-target.json</code>.</li>
+</ol>
+<p>Set <strong>Core clock</strong> to see microseconds; it is read from the project&#39;s CubeMX <code>.ioc</code> file when there is exactly one, otherwise type it. Without a clock, times stay in cycles. <strong>Config</strong> names the build.</p>
+<p><strong>How it measures.</strong> Time uses the DWT cycle counter around each timed site. Cortex-M0, M0+ and M23 have no cycle counter, so time is Not measured there. Stack depth comes from painting the stack with a pattern and reading the high-water mark; painting needs CMSIS (<code>__StackLimit</code> / <code>__StackTop</code>) or STM32Cube (<code>_estack</code>, <code>_Min_Stack_Size</code>) symbols in the linker script. Interrupt handlers are timed only, not painted. Durations above 2^32 cycles wrap without detection. Per-call figures come from the <a href="/docs/unit-tests">unit test</a> drivers built with <code>-DNOYCE_TIMING</code>.</p>
+<p><strong>Static worst case</strong> walks the program model&#39;s call edges with the compiler&#39;s <code>.su</code> stack-usage files, so build with <code>-fstack-usage</code> and build the program model (<strong>Build program model</strong>). It reports main plus every handler nested at once; NVIC priorities would lower that. The walk does not follow function-pointer calls.</p>
+<p><strong>WCET.</strong> Noyce IDE does not compute worst-case execution time. <strong>Import WCET report…</strong> reads bounds from an external analyser (<code>noyce.wcet/1</code> JSON, or CSV with <code>function</code> and <code>wcet_cycles</code> or <code>wcet_us</code> columns) and compares measurements with them: &quot;Within bound&quot; is consistent, never a confirmation.</p>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><ul>
+<li>On-target collection (cycle counter, stack painting, probe-rs reads) has not been verified on hardware.</li>
+<li>A static stack figure reads <strong>Complete</strong> even when the code calls through function pointers; those calls are listed only in the warnings and are not counted.</li>
+<li>The runtime wraps every handler the static walk recognises by name, including reset and fault handlers. Check the wrap list before you build.</li>
+</ul>
+</div></div></aside>
+<h2 id="interrupt-shared-data">Interrupt &amp; Shared Data<a class="anchor" href="#interrupt-shared-data" aria-label="Link to this section">#</a></h2>
+<p>Finds every interrupt service routine and every global accessed from both interrupt and thread context, and flags accesses that can be torn or lost. Open it with <strong>Noyce Compliance: Open Interrupt &amp; Shared Data</strong>, or run it with <code>noyce analyze</code>. Results are <strong>Derived</strong> and stored in <code>.noyce/analysis/concurrency/result.json</code>.</p>
+<!-- capture: Interrupt & Shared Data on the Canister copy after Analyze: ISR and shared-variable tiles, the findings table with one Non-atomic read-modify-write selected and its ISR and thread access paths -->
+
+<p><strong>Analyze</strong> builds the program model, then analyses it; <strong>Re-run without rebuilding model</strong> skips the build.</p>
+<p><strong>Interrupts</strong> are found from C vector-table initialisers, assembly vector tables, <code>interrupt</code> attributes and vendor keywords, and run-time registration calls such as <code>IntRegister</code>. A handler found only by its name is listed as unconfirmed and not analysed as an ISR. <strong>Thread context</strong> is <code>main</code>, the reset handler, and RTOS task entries (FreeRTOS <code>xTaskCreate</code>, CMSIS-RTOS <code>osThreadNew</code>, ThreadX <code>tx_thread_create</code>).</p>
+<p><strong>Findings</strong>: non-atomic read-modify-write, multi-word access, a function that runs in both contexts, missing <code>volatile</code>, and unprotected write/write. Each is <strong>Definite</strong> or <strong>Possible</strong>, with the reason when it is only possible (for example protected on some paths only, or the interrupt was found only by registration). Accesses inside a recognised critical section (<code>__disable_irq</code>/<code>__enable_irq</code>, <code>IntMasterDisable</code>/<code>Enable</code>, BASEPRI and PRIMASK writes, FreeRTOS and CMSIS-RTOS critical sections, <code>__HAL_LOCK</code>), or made before interrupts are enabled, are listed as suppressed with what protected them.</p>
+<p>The results support DO-178C A-5(6); &quot;Analysis, not a review; these results support A-5.6 and cannot satisfy it alone.&quot;</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><ul>
+<li>All RTOS tasks are treated as one thread context, so task-against-task races are not reported, and nested interrupt priorities are not modelled, so interrupt-against-interrupt races are not reported.</li>
+<li>The critical-section, interrupt-enable and task-creation lists are built in; there is no project file to change them in this release.</li>
+<li>Pointer aliasing is not resolved; unresolved pointer accesses are listed for review.</li>
+<li>Functions reachable only through unresolved function pointers are in no context.</li>
+</ul>
+</div></div></aside>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Target coupling collection is built and tested against a fake device only; it is unverified on hardware.</li>
+<li>Timing and stack collection on the target is unverified on hardware; no static WCET is computed.</li>
+<li>The interrupt analysis&#39;s configuration lists are not user-configurable.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/structural-coverage"><small>Previous</small><span>Structural coverage</span></a>
+      <a class="next" href="/docs/unit-tests"><small>Next</small><span>Unit tests</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#data-control-coupling">Data &amp; Control Coupling</a></li><li><a class="l3" href="#use-it">Use it</a></li><li><a class="l3" href="#when-a-coupling-counts">When a coupling counts</a></li><li><a class="l3" href="#the-component-map">The component map</a></li><li><a class="l3" href="#level">Level</a></li><li><a class="l2" href="#timing-stack">Timing &amp; Stack</a></li><li><a class="l3" href="#use-it-1">Use it</a></li><li><a class="l2" href="#interrupt-shared-data">Interrupt &amp; Shared Data</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

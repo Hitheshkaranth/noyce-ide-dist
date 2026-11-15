@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Structural coverage · Noyce IDE Docs</title>
+<meta name="description" content="Statement, decision and MC/DC coverage measured on the host with LLVM, target coverage probes, object-code branch coverage from execution traces, and the signed review of what is left uncovered.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/structural-coverage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Structural coverage · Noyce IDE Docs">
+<meta property="og:description" content="Statement, decision and MC/DC coverage measured on the host with LLVM, target coverage probes, object-code branch coverage from execution traces, and the signed review of what is left uncovered.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/structural-coverage">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage" aria-current="page">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>Structural coverage</h1>
+      <p class="lede">Statement, decision and MC/DC coverage measured on the host with LLVM, target coverage probes, object-code branch coverage from execution traces, and the signed review of what is left uncovered.</p>
+      
+      <div class="rule"></div>
+      <p>DO-178C Table A-7 asks for statement, decision and MC/DC coverage (objectives 5 to 7, depending on level) and, at Level A, for object code that is not traceable to source to be verified (objective 9). Noyce IDE measures coverage in three ways, and shows each with its environment so you can see what kind of credit it supports:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Way</th>
+<th>Environment</th>
+<th>State in this release</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Host coverage with LLVM</td>
+<td>Host, with vendor SDK calls stubbed</td>
+<td>Works in the IDE and the CLI.</td>
+</tr>
+<tr>
+<td>Target coverage probes</td>
+<td>Target</td>
+<td>One flow in the IDE (<strong>Target verification</strong>) and the CLI (<code>noyce verify --target</code>): build instrumented, flash, run, collect. Tested against a fake device and real toolchains; <strong>not verified on hardware</strong>.</td>
+</tr>
+<tr>
+<td>Object-code branch coverage</td>
+<td>Simulator or target trace</td>
+<td>Disassembly and trace import work in the IDE; no real trace has been ingested yet.</td>
+</tr>
+</tbody></table></div>
+<h2 id="host-coverage-mc-dc-coverage">Host coverage (MC/DC Coverage)<a class="anchor" href="#host-coverage-mc-dc-coverage" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>MC/DC Coverage</strong> from its tile or <strong>Noyce Compliance: Open MC/DC Coverage</strong>. It has three tabs: <strong>Decisions</strong>, <strong>Measured coverage</strong> and <strong>Review uncovered</strong>.</p>
+<!-- capture: MC/DC Coverage, Measured coverage tab on the H-Bridge copy after one module was measured: Module and Driver pickers, Measure module, the records table with Environment "Host, stubbed" and Tool "llvm-cov" -->
+
+<h3 id="what-it-needs">What it needs<a class="anchor" href="#what-it-needs" aria-label="Link to this section">#</a></h3>
+<p>clang, <code>llvm-nm</code> (or <code>nm</code>), <code>llvm-profdata</code> and <code>llvm-cov</code>, LLVM 18 or newer, so that clang accepts <code>-fcoverage-mcdc</code>. Noyce IDE checks this by compiling a test file. Override the tools with <code>NOYCE_COV_CC</code>, <code>NOYCE_COV_NM</code>, <code>NOYCE_COV_PROFDATA</code> and <code>NOYCE_COV_COV</code>.</p>
+<p>With only GCC and gcov, <strong>Measure module</strong> is disabled with &quot;This toolchain cannot measure MC/DC&quot;, and no coverage is measured. No statement or branch figure is shown in place of MC/DC.</p>
+<h3 id="measure-a-module">Measure a module<a class="anchor" href="#measure-a-module" aria-label="Link to this section">#</a></h3>
+<ol class="steps">
+<li>Write a test driver with a <code>main()</code> under <code>tests/mcdc/</code> that exercises one source file, and name that file in a comment: <code>// @coverage-source ../../src/my_module.c</code>. Add <code>// @coverage-extra-source &lt;file&gt;</code> for other files to link and <code>// @coverage-include &lt;dir&gt;</code> for include directories.</li>
+<li>In <strong>Measured coverage</strong>, pick the <strong>Module</strong>; the <strong>Driver</strong> follows it. Select <strong>Measure module</strong>. The module is built with LLVM&#39;s coverage and MC/DC instrumentation, the driver runs, and the result is read back. A run is a background job you can <strong>Cancel</strong>, limited to five minutes by default.</li>
+<li>Each record shows its environment, tool, MC/DC form and status. <strong>Reread results</strong> reads the records again.</li>
+</ol>
+<p>Vendor headers and functions the module needs but the host does not have are generated as stubs that return 0. The record lists every stubbed symbol, because a branch decided by a stub was decided by the stub, not by your code. The record is marked <strong>Host, stubbed</strong>, and its caveat says DO-178C 6.4.1 requires the differences between this environment and the target to be analysed before it counts as verification credit.</p>
+<p><code>noyce cover --host</code> runs every driver in <code>tests/mcdc/</code> and writes <code>.noyce/coverage/&lt;driver&gt;.json</code> and the merged <code>mcdc.json</code>.</p>
+<h3 id="mc-dc-form">MC/DC form<a class="anchor" href="#mc-dc-form" aria-label="Link to this section">#</a></h3>
+<p>Both unique-cause and masking MC/DC are measured. Choose the form with the setting <code>noyce.coverage.mcdcForm</code> (<code>unique-cause</code> by default, or <code>masking</code>); it is recorded on every coverage record and must match what your PSAC and SVP state.</p>
+<h3 id="how-results-combine">How results combine<a class="anchor" href="#how-results-combine" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>A re-run of the same driver, module, environment and tool replaces the previous record.</li>
+<li>Records of different drivers for the same module are combined by their condition vectors, so an independence pair split across two drivers counts.</li>
+<li>Different environments or tools are not combined in the dashboard figure: each module counts the newest environment&#39;s records.</li>
+<li>A record measured on a different version of the source is excluded and listed as stale; measure the module again.</li>
+<li>A module that has not been measured counts its obligations with no coverage, marked &quot;a structural zero, not a result&quot;.</li>
+</ul>
+<h2 id="target-coverage-probes">Target coverage probes<a class="anchor" href="#target-coverage-probes" aria-label="Link to this section">#</a></h2>
+<p>For coverage on the target with your own toolchain, the <code>noyce-core</code> engine can instrument the sources: a statement probe at each basic block, and decision and condition probes that keep short-circuit evaluation. Instrumented copies go to <code>.noyce/cov/build/&lt;config&gt;/</code>, with a small runtime (<code>noyce_cov.c</code>, no heap, no C library) and a probe map; your sources are never edited. A statement-only mode is available for small parts, and an RTT streaming mode. Collected counter RAM becomes <code>.noyce/coverage/cov-probe-&lt;config&gt;-&lt;host|target&gt;.json</code>, tagged <strong>Measured</strong>, and appears in <strong>Measured coverage</strong> with tool &quot;Noyce probes&quot; and its chip, probe and MC/DC form.</p>
+<h3 id="target-verification">Target verification<a class="anchor" href="#target-verification" aria-label="Link to this section">#</a></h3>
+<p>MC/DC Coverage → <strong>Measured</strong> and Unit tests → <strong>On target</strong> have a <strong>Target verification</strong> section. It reads &quot;Not verified on hardware — connect a probe&quot; until a probe has produced a record.</p>
+<ul>
+<li><strong>Build instrumented image</strong> instruments the project&#39;s own C sources (vendor trees, SDK paths, <code>system_*.c</code> and SEGGER RTT are left out, with the reason), stages them as overlay slots and builds the firmware with the <a href="/docs/build-test#build">portable build</a> and your cross toolchain. The image, its link map, the probe map and <code>image.json</code> (the image hash) go to <code>.noyce/cov/build/target/</code>. No probe is needed.</li>
+<li><strong>Flash &amp; run</strong> takes the image last built (refusing one whose hash changed, or built for other tests), attaches, flashes with read-back verification, runs, halts and reads the counters.</li>
+<li><strong>Build, flash &amp; collect</strong> does both in one go.</li>
+</ul>
+<p>With target tests in <code>tests/target/</code> the image runs them to their <code>END</code> line over RTT, masks interrupts, and is halted; without, the application runs for 5 seconds and is halted. Generated unit drivers copied there from <a href="/docs/unit-tests#run-on-the-target">Unit tests</a> are compiled in place of their unit, so each unit is linked once. Tick <strong>Coupling probes</strong> to build <code>.noyce/cov/build/coupling/target.elf</code> instead, the image Data &amp; Control Coupling&#39;s <strong>Collect from target</strong> reads.</p>
+<p>The steps show live: Detect probe, Read build and chip, Instrument sources, Build instrumented image, Attach, Flash and verify, Run, Halt, Read counters, Detach, Write records. The first one that fails stops the run and is named; the probe is always released. The counters are only ever read from the target&#39;s RAM; before reading, the image on disk is hashed again and must still be the one flashed, and the collected record must name that image and build. The run record (<code>.noyce/verification/target-verify/runs/&lt;id&gt;.json</code>) carries the chip, probe and serial, image hash, toolchain, the RTT text&#39;s hash and the coverage totals; the target tests&#39; verdicts also go to Test Explorer&#39;s Run on target records.</p>
+<p>The chip comes from the <strong>Chip</strong> field, else the CubeMX <code>.ioc</code> (<code>Mcu.UserName</code>, e.g. <code>STM32G431VBTx</code>), else the build&#39;s MCU. The same flow runs headless as <code>noyce verify --target</code> (<a href="/docs/cli-ci#commands">CLI</a>).</p>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><ul>
+<li>The flow is built and tested against a fake device and with real cross-compiles, but it has <strong>not been run on hardware</strong>. Do not rely on target probe coverage until a first board run has produced a record.</li>
+<li>A TI CCS project (Canister, TM4C1294) has no GNU ld linker script, so the portable build cannot link an image and the flow stops at <strong>Read build and chip</strong>.</li>
+<li><code>noyce cover --target &lt;probe&gt; --config &lt;id&gt; (--dumps … | --elf …)</code> still collects from an image you built, flashed and ran yourself.</li>
+</ul>
+</div></div></aside>
+<h2 id="object-code-branch-coverage">Object-code branch coverage<a class="anchor" href="#object-code-branch-coverage" aria-label="Link to this section">#</a></h2>
+<p>Open <strong>Object Code Traceability</strong> (<strong>Noyce Compliance: Open Object Code Traceability</strong>). It has three tabs: <strong>Untraceable runs</strong>, <strong>Object branches</strong> and <strong>Execution targets</strong>.</p>
+<h3 id="capture-the-disassembly">Capture the disassembly<a class="anchor" href="#capture-the-disassembly" aria-label="Link to this section">#</a></h3>
+<p>Build the firmware with <code>-g</code>, choose the image, then select <strong>Capture disassembly</strong>. Noyce IDE runs <code>arm-none-eabi-objdump</code> (or <code>llvm-objdump</code>, or <code>objdump</code>) on the linked image and analyses it in the view; nothing outside the app is needed. It looks on <code>PATH</code> and in the Arm toolchain set in <code>noyce.stm32.armToolchainPath</code> or <code>noyce.stm32.cubeIdePath</code>. Results are written to <code>.noyce/socta/</code>. An image with no DWARF line table is &quot;Not analysed&quot;.</p>
+<p><strong>Untraceable runs</strong> lists object code no source line accounts for, each needing a justification. At Level A a justification by one person shows <strong>Not independent</strong>.</p>
+<h3 id="import-an-execution-trace">Import an execution trace<a class="anchor" href="#import-an-execution-trace" aria-label="Link to this section">#</a></h3>
+<p><strong>Object branches</strong> lists every conditional branch in the image, mapped to a source decision where there is one. A branch with no source decision (compiler-generated code such as switch tables or division helpers) must be covered or justified. Until a trace is imported the tab reads <strong>Not measured</strong>: branch outcomes are unknown, not zero.</p>
+<p>Run the image yourself, then select <strong>Import trace…</strong>. Accepted formats:</p>
+<ul>
+<li>QEMU <code>-d exec,nochain</code> log, or the QEMU execlog plugin output;</li>
+<li>Renode ExecutionTracer output (PC, PCAndOpcode or Disassembly; opcode-only is refused);</li>
+<li>an address list decoded from ETM or MTB trace, which must say which. ETM and MTB decoding is not done in Noyce IDE.</li>
+</ul>
+<p>The trace is copied to <code>.noyce/objcov/traces/</code>. A trace taken from a different build of the image is not joined.</p>
+<!-- capture: Object branches tab after importing a fixture trace, with the "Not evidence" notice and the coverage states Both outcomes / Taken only / Never reached -->
+
+<h3 id="execution-targets">Execution targets<a class="anchor" href="#execution-targets" aria-label="Link to this section">#</a></h3>
+<p><strong>Execution targets</strong> lists what can run the image here: hardware through probe-rs, QEMU and Renode, and whether each was found. <strong>Simulator support by part</strong> is taken from the simulators&#39; documentation, marked <strong>Not verified</strong>:</p>
+<ul>
+<li><strong>STM32G431</strong> (the H-Bridge controller): no STM32G4 machine in QEMU, and no STM32G4 platform confirmed in Renode. Object coverage needs ETM trace from the target, if the part has it fitted, or a core-only QEMU board for portable code.</li>
+<li><strong>TM4C1294</strong> (the Canister controller): no Tiva C machine in QEMU (<code>lm3s6965evb</code> is a different part) and none confirmed in Renode. Use hardware trace.</li>
+</ul>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>No real execution trace has been ingested yet; only synthetic fixtures were tested, and a fixture trace is marked &quot;it is a fixture and will not count as evidence&quot;. There is no button to run QEMU or Renode from the view, although the <strong>Not measured</strong> notice suggests running them: run the simulator yourself and import its trace.</p>
+</div></div></aside>
+<h2 id="coverage-review">Coverage review<a class="anchor" href="#coverage-review" aria-label="Link to this section">#</a></h2>
+<p>The <strong>Review uncovered</strong> tab of MC/DC Coverage lists every obligation left uncovered by measured runs, and asks a person to classify each one:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Classification</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Missing test case</strong></td>
+<td>Drafts a verification case for the requirement you name. The item stays open until a test covers it.</td>
+</tr>
+<tr>
+<td><strong>Dead code</strong></td>
+<td>Raises a problem report. The item stays open: dead code is removed, not justified away.</td>
+</tr>
+<tr>
+<td><strong>Deactivated code</strong></td>
+<td>Closes the item. Needs the mechanism (configuration or design), a reference, and how execution is prevented.</td>
+</tr>
+<tr>
+<td><strong>Justified</strong></td>
+<td>Closes the item, with the analysis.</td>
+</tr>
+</tbody></table></div>
+<!-- capture: Review uncovered tab with the Shortfall by criterion table and the classification form for one uncovered condition, Signed by and Independent reviewer filled -->
+
+<p><strong>Signing.</strong> Choose who signs under <strong>Signed by</strong>, a person on the roster (an AI never counts). Closing classifications need the verifier role. At Levels A and B the signer must be independent of the code&#39;s authors, which are read from the file&#39;s git history. If the file has no git history, an <strong>Independent reviewer</strong> with the verifier or SQA role co-signs. Select <strong>Sign classification</strong>; the record is written to the audit trail.</p>
+<p>Records are append-only, one file each under <code>.noyce/process/coverage-classifications/</code>. A record stops counting, and shows <strong>Reclassify</strong>, when the source changed since it was signed, the record was altered, or the signer left the roster.</p>
+<p>Obligations that cannot be proven either way, for example a macro decision whose MC/DC LLVM did not report, show &quot;Measure again before classifying&quot; and cannot be classified.</p>
+<p>The review counts an obligation as covered if any record from the same tool covered it, in any environment; the dashboard figure counts only each module&#39;s newest environment. The two can therefore differ.</p>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Host coverage needs LLVM/Clang 18 or newer; there is no gcov path.</li>
+<li>Host records are stubbed; DO-178C 6.4.1 environment analysis is yours to do.</li>
+<li>Target probe coverage is unverified on hardware; the flow has been tested against a fake device only.</li>
+<li>Object-code coverage has been tested with synthetic traces only. QEMU and Renode do not model STM32G431 or TM4C1294; ETM or MTB traces must be decoded outside Noyce IDE.</li>
+<li>Known engine problems are listed in <code>qualification/known-problems/</code> (<code>cov-host.md</code>, <code>cov-probe.md</code>, <code>object-coverage.md</code>); for example, LLVM&#39;s summary reports 0/0 MC/DC for decisions inside macros although its detail is correct.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/metrics-flowgraph"><small>Previous</small><span>Metrics &amp; flowgraph</span></a>
+      <a class="next" href="/docs/coupling-timing-concurrency"><small>Next</small><span>Coupling, timing &amp; interrupts</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#host-coverage-mc-dc-coverage">Host coverage (MC/DC Coverage)</a></li><li><a class="l3" href="#what-it-needs">What it needs</a></li><li><a class="l3" href="#measure-a-module">Measure a module</a></li><li><a class="l3" href="#mc-dc-form">MC/DC form</a></li><li><a class="l3" href="#how-results-combine">How results combine</a></li><li><a class="l2" href="#target-coverage-probes">Target coverage probes</a></li><li><a class="l3" href="#target-verification">Target verification</a></li><li><a class="l2" href="#object-code-branch-coverage">Object-code branch coverage</a></li><li><a class="l3" href="#capture-the-disassembly">Capture the disassembly</a></li><li><a class="l3" href="#import-an-execution-trace">Import an execution trace</a></li><li><a class="l3" href="#execution-targets">Execution targets</a></li><li><a class="l2" href="#coverage-review">Coverage review</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

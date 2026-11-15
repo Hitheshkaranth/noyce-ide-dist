@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.8">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -44,7 +44,7 @@
       <kbd>/</kbd>
       <div id="results" class="results" role="listbox" hidden></div>
     </div>
-    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance" aria-current="page">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance" aria-current="page">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
   </aside>
   <main class="main" id="content">
     <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
@@ -124,14 +124,14 @@
 <li><strong>A person closes it.</strong> The final step is always a review record by someone on the roster. Whether that review counts as independent is worked out from who wrote the item and who reviewed it.</li>
 <li><strong>&quot;Open&quot; is not &quot;failed&quot;.</strong> An objective with nothing mapped yet is open. It only shows as failing when a check mapped to it actually failed.</li>
 </ul>
-<h3 id="licensed-annex-a-table">Licensed Annex A table<a class="anchor" href="#licensed-annex-a-table" aria-label="Link to this section">#</a></h3>
-<p>Expand <strong>Licensed Annex A table</strong> to import the applicability, independence and control category of each objective from your licensed copy of DO-178C. <strong>Write blank template</strong> creates the file to fill in. Until the table is imported, the PSAC, SVP, SCMP, SQAP and SAS stay marked DRAFT.</p>
+<h3 id="annex-a-table">Annex A table<a class="anchor" href="#annex-a-table" aria-label="Link to this section">#</a></h3>
+<p>The header line <strong>Annex A table</strong> says which applicability and independence table the project grades against: the built-in table (unverified or verified by two people on the roster) or a licensed table you imported. <strong>Verify…</strong> opens the cell-by-cell verification checklist and <strong>Import licensed table…</strong> the import. Until the built-in table is verified or a licensed table is imported, the PSAC, SVP, SCMP, SQAP and SAS stay marked DRAFT. See <a href="/docs/annex-a-tables">Annex A tables</a>.</p>
 <h2 id="compliance-run">Compliance Run<a class="anchor" href="#compliance-run" aria-label="Link to this section">#</a></h2>
 <p>A reproducible measurement of the whole project at one commit. Open it from the <strong>Compliance Run</strong> tile or <strong>Noyce Compliance: Take a Compliance Run</strong>.</p>
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/compliance-run.webp" alt="Compliance Run with the guided DAL path" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Compliance Run before the first run: the DAL path lists each stage, from plans and standards to the summaries, with what it still needs.</figcaption></figure>
 <ul>
 <li><strong>Take a run</strong> runs every evidence producer (static analysis, code scanning, formal verification, structural coverage and the rest) against the current configuration and stores the result under <code>.noyce/compliance-runs/</code>.</li>
-<li><strong>Mark baseline</strong> fixes a run as the reference later runs are compared with.</li>
+<li><strong>Mark as reference run</strong> fixes a run as the reference later runs are compared with; <code>noyce gate --baseline</code> gates regressions against it. It is not a configuration baseline: signed configuration baselines are in <strong>Baselines</strong>.</li>
 <li><strong>Annex A overlay</strong> sets up the objective map and objective text files.</li>
 <li><strong>Objective map</strong> shows which producer discharges which objective. <strong>Map…</strong> assigns one; a mapping always records its basis.</li>
 </ul>
@@ -152,7 +152,7 @@
 <p>The <strong>Security</strong> dimension runs its own CodeQL scan when the view refreshes, so its alert count can differ from Code Scanning, which shows only scans started from that view. A count is shown only when CodeQL really ran; otherwise the dimension says why it was not measured.</p>
 <h2 id="evidence-records">Evidence Records<a class="anchor" href="#evidence-records" aria-label="Link to this section">#</a></h2>
 <p>The project&#39;s process records. Open it from the <strong>Evidence Records</strong> tile. Each record type, its fields and the rules that make it count are described in <a href="/docs/evidence-records">Evidence records</a>.</p>
-<figure class="fig"><div class="fig-frame"><img src="/docs/img/evidence-records.webp" alt="Evidence Records with its ten record types" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Evidence Records: verification cases, problem reports, CCB, change sets, MISRA deviations, reviews, SQA / CM / liaison, roster, tool qualification and parameter data.</figcaption></figure>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/evidence-records.webp" alt="Evidence Records with its record types" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Evidence Records: verification cases, problem reports, CCB, change sets, MISRA deviations, reviews, SQA / CM / liaison, roster, tool qualification and parameter data.</figcaption></figure>
 <div class="table"><table>
 <thead>
 <tr>
@@ -193,8 +193,12 @@
 <td>The people who may review, approve and sign. Add everyone here first.</td>
 </tr>
 <tr>
+<td>Annex A table</td>
+<td>Which Annex A table the project grades against, and the two-person verification of the built-in table. See <a href="/docs/annex-a-tables">Annex A tables</a>.</td>
+</tr>
+<tr>
 <td>Tool qualification</td>
-<td>The tools used and their qualification status.</td>
+<td>The tools used and their qualification status, and the <a href="/docs/qualification-kits">qualification kits</a> for Noyce IDE&#39;s own engines.</td>
 </tr>
 <tr>
 <td>Parameter data</td>
@@ -233,19 +237,19 @@
 
     </article>
     <nav class="pager" aria-label="Previous and next">
-      <a class="prev" href="/docs/requirements"><small>Previous</small><span>Requirements &amp; traceability</span></a>
+      <a class="prev" href="/docs/alm-connectors"><small>Previous</small><span>ALM connectors</span></a>
       <a class="next" href="/docs/evidence-records"><small>Next</small><span>Evidence records</span></a>
     </nav>
   </main>
-  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#compliance-dashboard">Compliance Dashboard</a></li><li><a class="l3" href="#how-an-objective-is-graded">How an objective is graded</a></li><li><a class="l3" href="#licensed-annex-a-table">Licensed Annex A table</a></li><li><a class="l2" href="#compliance-run">Compliance Run</a></li><li><a class="l3" href="#prepare-a-review-package">Prepare a review package</a></li><li><a class="l2" href="#certification-readiness">Certification Readiness</a></li><li><a class="l2" href="#evidence-records">Evidence Records</a></li><li><a class="l2" href="#audit-trail">Audit Trail</a></li><li><a class="l2" href="#evidence-pack">Evidence Pack</a></li><li><a class="l2" href="#certification-package">Certification Package</a></li><li><a class="l2" href="#review-inbox">Review Inbox</a></li><li><a class="l2" href="#other-compliance-surfaces">Other compliance surfaces</a></li></ul></nav>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#compliance-dashboard">Compliance Dashboard</a></li><li><a class="l3" href="#how-an-objective-is-graded">How an objective is graded</a></li><li><a class="l3" href="#annex-a-table">Annex A table</a></li><li><a class="l2" href="#compliance-run">Compliance Run</a></li><li><a class="l3" href="#prepare-a-review-package">Prepare a review package</a></li><li><a class="l2" href="#certification-readiness">Certification Readiness</a></li><li><a class="l2" href="#evidence-records">Evidence Records</a></li><li><a class="l2" href="#audit-trail">Audit Trail</a></li><li><a class="l2" href="#evidence-pack">Evidence Pack</a></li><li><a class="l2" href="#certification-package">Certification Package</a></li><li><a class="l2" href="#review-inbox">Review Inbox</a></li><li><a class="l2" href="#other-compliance-surfaces">Other compliance surfaces</a></li></ul></nav>
 </div>
 <footer class="foot"><div class="foot-in">
   <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.8</span>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
 </div></footer>
-<script src="/docs/assets/docs.js?v=2.0.8" defer></script>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
 </body>
 </html>

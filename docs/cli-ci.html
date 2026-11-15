@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Command line, CI and team use · Noyce IDE Docs</title>
+<meta name="description" content="The noyce command line runs the IDE's analysis, coverage, coupling, trace and grading from a terminal or a CI job, writes the same records the IDE writes, and gates a pull request against a committed baseline run. Plus how a team shares .noyce/ through git.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/cli-ci">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Command line, CI and team use · Noyce IDE Docs">
+<meta property="og:description" content="The noyce command line runs the IDE's analysis, coverage, coupling, trace and grading from a terminal or a CI job, writes the same records the IDE writes, and gates a pull request against a committed baseline run. Plus how a team shares .noyce/ through git.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/cli-ci">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci" aria-current="page">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Reference</li></ol>
+    <article class="doc">
+      <h1>Command line, CI and team use</h1>
+      <p class="lede">The noyce command line runs the IDE's analysis, coverage, coupling, trace and grading from a terminal or a CI job, writes the same records the IDE writes, and gates a pull request against a committed baseline run. Plus how a team shares .noyce/ through git.</p>
+      
+      <div class="rule"></div>
+      <p>The <code>noyce</code> command runs the same services the IDE panels run, bundled for Node. A record the CLI writes is the record the IDE writes for the same action, so opening the project in the IDE shows the CLI&#39;s results.</p>
+<h2 id="install">Install<a class="anchor" href="#install" aria-label="Link to this section">#</a></h2>
+<p>The CLI ships in the Noyce IDE source repository as <code>packages/noyce-engine</code>. From a checkout:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">npm ci</span>
+<span class="line">npm run engine:build                                  # bundles the engine for Node</span>
+<span class="line">node packages/noyce-engine/bin/noyce.mjs --help       # or: npx noyce --help, npm run noyce -- --help</span></code></pre></div>
+<p>Commands that analyse code (<code>model</code>, <code>analyze</code>, <code>cover</code>, <code>verify</code>, <code>couple</code>, <code>grade</code>) need the <code>noyce-core</code> sidecar binary. The CLI looks for it in this order and never builds it: <code>NOYCE_CORE_BIN</code>, <code>services/noyce-core/target/release/noyce-core</code>, <code>services/noyce-core/target/debug/noyce-core</code>, then <code>packages/noyce-engine/vendor/noyce-core</code>. If none is found it exits 3 and lists what it tried.</p>
+<h2 id="commands">Commands<a class="anchor" href="#commands" aria-label="Link to this section">#</a></h2>
+<p>Every command takes <code>--project &lt;path&gt;</code> (default: the current directory), <code>--json</code> (one JSON document on stdout, schema <code>noyce.cli/1</code>) and <code>--out &lt;dir&gt;</code> (where records go; default <code>&lt;project&gt;/.noyce/</code>).</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Does what the IDE does at</th>
+<th>Writes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>model</code></td>
+<td>Builds the <a href="/docs/program-model">program model</a>.</td>
+<td><code>.noyce/analysis/model/</code></td>
+</tr>
+<tr>
+<td><code>analyze [--timeout &lt;s&gt;] [--include-vendor] [--no-extras] [--no-codeql]</code></td>
+<td>MISRA Diagnostics → Scan: every installed analyzer plus the <a href="/docs/misra-rules">rule engine</a>, then metrics and concurrency (skipped with <code>--no-extras</code>), then a CodeQL scan if CodeQL is installed (skipped with <code>--no-codeql</code>).</td>
+<td><code>.noyce/compliance/static-analysis.json</code>, <code>.noyce/analysis/{rules,metrics,concurrency}/</code>, <code>.noyce/codeql/</code></td>
+</tr>
+<tr>
+<td><code>cover --host</code></td>
+<td>MC/DC Coverage: runs every <code>tests/mcdc/*.c</code> driver.</td>
+<td><code>.noyce/coverage/</code></td>
+</tr>
+<tr>
+<td><code>cover --target &lt;probe&gt; --config &lt;id&gt; (--dumps &lt;a.bin,b.bin&gt; | --elf &lt;f&gt;) [--uninstrumented-elf &lt;f&gt;] [--chip &lt;name&gt;]</code></td>
+<td>Attaches to the probe through probe-rs and collects target coverage, from counter-RAM dumps you captured or, with only <code>--elf</code>, by halting the core and reading the counters. <code>&lt;probe&gt;</code> is a probe serial or identifier, or <code>auto</code>. Always detaches. Untested on hardware.</td>
+<td><code>.noyce/coverage/cov-probe-*.json</code></td>
+</tr>
+<tr>
+<td><code>verify --target [--probe &lt;serial|auto&gt;] [--chip &lt;name&gt;] [--coupling] [--timing] [--run tests|duration] [--timeout &lt;s&gt;] [--duration &lt;s&gt;] [--statement] [--gcc-path &lt;dir&gt;] [--build-only | --reuse-image]</code></td>
+<td><a href="/docs/structural-coverage#target-verification">Target verification</a> → <strong>Build, flash &amp; collect</strong>: detects the probe, builds the coverage-instrumented image with the portable build and your cross toolchain, flashes it, runs <code>tests/target</code> to their END line (or the application for <code>--duration</code>), halts, reads the counters and records them. Stops at the first step that fails and names it. Exit 3 when there is no probe or the target will not attach, flash or halt; 2 when the project cannot be built into an image; 1 when target tests fail, a run does not finish, or the counters do not belong to the flashed image. Unverified on hardware.</td>
+<td><code>.noyce/cov/build/target/</code>, <code>.noyce/coverage/cov-probe-target-target.json</code>, <code>.noyce/verification/target-verify/</code>, <code>.noyce/verification/target/</code></td>
+</tr>
+<tr>
+<td><code>couple [--level &lt;A-E&gt;]</code></td>
+<td>Data &amp; Control Coupling: analyze, measure and evaluate A-7(8).</td>
+<td><code>.noyce/coupling/</code>, <code>.noyce/verification/</code></td>
+</tr>
+<tr>
+<td><code>trace</code></td>
+<td>Exports the traceability matrix.</td>
+<td><code>.noyce/do178c/traceability-matrix-&lt;time&gt;.csv</code></td>
+</tr>
+<tr>
+<td><code>grade [--level &lt;A-E&gt;]</code></td>
+<td>Compliance Run → Take run.</td>
+<td><code>.noyce/compliance-runs/&lt;run-id&gt;/</code></td>
+</tr>
+<tr>
+<td><code>gate [--baseline &lt;run|path&gt;] [--regressions-only]</code></td>
+<td>Compares the newest run with a baseline. CI only.</td>
+<td>nothing</td>
+</tr>
+<tr>
+<td><code>kit …</code></td>
+<td>Builds, signs and verifies <a href="/docs/qualification-kits">qualification kits</a>.</td>
+<td><code>&lt;out&gt;/qualification/kits/</code></td>
+</tr>
+<tr>
+<td><code>qualify --engine &lt;id&gt; | --all</code></td>
+<td>Runs the <a href="/docs/qualification-kits#run-the-corpus">qualification corpus</a>.</td>
+<td><code>&lt;out&gt;/qualification/&lt;engine&gt;/</code></td>
+</tr>
+</tbody></table></div>
+<p><strong>Exit codes.</strong> 0 OK; 1 a gate or check failed; 2 usage or environment error (unknown command or flag, missing project, no runs to gate on, no software level); 3 a required tool is unavailable (no sidecar, no probe, no analyzer could run). An unknown flag is always exit 2; the CLI never runs a default in place of a mistyped flag.</p>
+<p><strong>The software level is never assumed.</strong> <code>couple</code> uses <code>--level</code>, else the level recorded in Compliance. <code>grade</code> uses the recorded level, and accepts <code>--level</code> only when no level is recorded or when it equals the recorded one. With neither, the command exits 2: &quot;Choose and justify the project software level in Compliance (or pass --level) before taking a run. No level is assumed.&quot;</p>
+<h3 id="the-gate">The gate<a class="anchor" href="#the-gate" aria-label="Link to this section">#</a></h3>
+<p><code>noyce gate</code> fails (exit 1) on:</p>
+<ul>
+<li><strong>regressions</strong> against the baseline: a claim that was satisfied and now is missing or failing, a producer that ran and now does not, or fewer objectives evidenced;</li>
+<li><strong>integrity</strong> problems: the run record fails its content hash, archived producer evidence is missing or altered, or the release inputs changed during or since the run;</li>
+<li><strong>readiness</strong> blockers: a producer ran and is unsatisfied, the working tree was dirty or unknown, no commit was recorded, or conformity-review items are open.</li>
+</ul>
+<p>With <code>--regressions-only</code>, readiness blockers are reported as notes and do not fail the gate; regressions and integrity problems still do. Use it while a project is not yet certifiable, to gate on &quot;nothing got worse&quot;.</p>
+<p>The baseline is <code>--baseline</code> (a run id, or a path to a run directory or its <code>run.json</code>), else the run marked as baseline (<strong>Mark as reference run</strong> in Compliance Run), else the run before the newest.</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">$ noyce grade --project fw --level C</span>
+<span class="line">$ noyce gate --project fw --baseline run-20261103-170210 --regressions-only</span></code></pre></div>
+<h3 id="what-the-cli-does-not-do">What the CLI does not do<a class="anchor" href="#what-the-cli-does-not-do" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>Target coverage collection is untested on hardware.</li>
+<li>Anything that needs a person (dialogs, AI agents, document authoring, signing a review) is refused with a reason.</li>
+</ul>
+<h2 id="ci">CI<a class="anchor" href="#ci" aria-label="Link to this section">#</a></h2>
+<p><code>templates/ci/</code> in the source repository holds a pipeline script and templates for GitHub Actions and GitLab CI:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Copy to, in your firmware project</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>templates/ci/noyce-ci.sh</code></td>
+<td><code>.noyce/tools/noyce-ci.sh</code></td>
+</tr>
+<tr>
+<td><code>templates/ci/github/noyce-compliance.yml</code></td>
+<td><code>.github/workflows/</code></td>
+</tr>
+<tr>
+<td><code>templates/ci/github/noyce-target-coverage.yml</code></td>
+<td><code>.github/workflows/</code> (self-hosted runner with a probe)</td>
+</tr>
+<tr>
+<td><code>templates/ci/gitlab/noyce-compliance.gitlab-ci.yml</code></td>
+<td>include it from <code>.gitlab-ci.yml</code></td>
+</tr>
+</tbody></table></div>
+<p><code>noyce-ci.sh</code> looks for <code>clang</code>, <code>llvm-cov</code>, <code>arm-none-eabi-gcc</code>, <code>cppcheck</code> and <code>cbmc</code> and records what it found in <code>toolchains.json</code>, then runs <code>model</code>, <code>analyze</code>, <code>cover</code>, <code>couple</code>, <code>grade</code> and <code>gate --baseline</code>. It writes each step&#39;s JSON and log, <code>summary.md</code> and <code>junit.xml</code> to <code>.noyce/tmp/ci/</code>, and copies the graded run there for upload.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>NOYCE</code></td>
+<td><code>noyce</code></td>
+<td>How to run the CLI, for example <code>node /opt/noyce/packages/noyce-engine/bin/noyce.mjs</code>.</td>
+</tr>
+<tr>
+<td><code>NOYCE_PROJECT</code></td>
+<td><code>.</code></td>
+<td>Project root.</td>
+</tr>
+<tr>
+<td><code>NOYCE_BASELINE</code></td>
+<td>content of <code>.noyce/ci-baseline</code></td>
+<td>Baseline run id or path. Required.</td>
+</tr>
+<tr>
+<td><code>NOYCE_COVER</code></td>
+<td><code>host</code></td>
+<td><code>host</code> or <code>target</code>.</td>
+</tr>
+<tr>
+<td><code>NOYCE_PROBE</code></td>
+<td>none</td>
+<td>Probe selector for target mode. With only this set, the step is <code>noyce verify --target --probe &lt;sel&gt;</code>: build, flash, run, collect.</td>
+</tr>
+<tr>
+<td><code>NOYCE_GCC_PATH</code></td>
+<td>none</td>
+<td>Cross toolchain <code>bin</code> directory for the instrumented build (optional).</td>
+</tr>
+<tr>
+<td><code>NOYCE_VERIFY_COUPLING</code>, <code>NOYCE_VERIFY_TIMING</code></td>
+<td>none</td>
+<td><code>1</code> adds <code>--coupling</code> / <code>--timing</code> (optional).</td>
+</tr>
+<tr>
+<td><code>NOYCE_COVER_CONFIG</code></td>
+<td>none</td>
+<td>Collect-only: the instrumented build id; required with dumps or an ELF.</td>
+</tr>
+<tr>
+<td><code>NOYCE_COVER_DUMPS</code></td>
+<td>none</td>
+<td>Collect-only: comma-separated counter-RAM dumps from a run done outside the job.</td>
+</tr>
+<tr>
+<td><code>NOYCE_COVER_ELF</code></td>
+<td>none</td>
+<td>Collect-only: instrumented ELF; without dumps the CLI reads the counters live.</td>
+</tr>
+<tr>
+<td><code>NOYCE_COVER_UNINSTRUMENTED_ELF</code></td>
+<td>none</td>
+<td>Plain build, to measure probe overhead (optional).</td>
+</tr>
+<tr>
+<td><code>NOYCE_CHIP</code></td>
+<td>none</td>
+<td>probe-rs chip name when it cannot be auto-detected (optional).</td>
+</tr>
+<tr>
+<td><code>NOYCE_REQUIRED_TOOLS</code></td>
+<td>none</td>
+<td>Tools whose absence fails the job before any step runs.</td>
+</tr>
+<tr>
+<td><code>NOYCE_CI_OUT</code></td>
+<td><code>.noyce/tmp/ci</code></td>
+<td>Where outputs go.</td>
+</tr>
+<tr>
+<td><code>NOYCE_CI_LLVM_DIRS</code></td>
+<td>Homebrew LLVM prefixes</td>
+<td>Extra directories searched for LLVM tools.</td>
+</tr>
+</tbody></table></div>
+<p>The job&#39;s exit code follows the CLI: 1 means a regression against the baseline; 2 a setup problem (no baseline, CLI not runnable, a target run with no probe); 3 a missing tool. A regression wins over an environment problem, and the environment annotations stay in the log.</p>
+<p><strong>Baseline.</strong> Commit the run you accept under <code>.noyce/compliance-runs/&lt;run&gt;/</code> and write its id to <code>.noyce/ci-baseline</code>. Re-baselining is then a reviewable commit.</p>
+<p><strong>Signing.</strong> The pipeline never signs anything and never passes a key to the CLI. If <code>NOYCE_SIGNING_KEY</code> or <code>NOYCE_QUALIFICATION_KEY</code> is set in the job, it warns and still does not use it.</p>
+<aside class="callout caution"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></svg><div><p class="callout-t">Limitation</p><div class="callout-b"><p>With <code>NOYCE_COVER=target</code> and no <code>NOYCE_PROBE</code>, the step stops with exit 2. In collect-only mode (<code>NOYCE_COVER_DUMPS</code> or <code>NOYCE_COVER_ELF</code> set) a missing <code>NOYCE_COVER_CONFIG</code> stops it with exit 2 and an annotation naming what is missing; <code>cover</code> is not run. A runner with no probe plugged in makes <code>verify</code> exit 3 (tool unavailable), never a regression.</p>
+</div></div></aside>
+<h2 id="team-use-without-a-server">Team use without a server<a class="anchor" href="#team-use-without-a-server" aria-label="Link to this section">#</a></h2>
+<p>A team shares <code>.noyce/</code> through git, like the code. No server is involved.</p>
+<p><strong>One file per record.</strong> These stores keep each record in its own file, so two people adding records on two branches never conflict:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Store</th>
+<th>Directory under <code>.noyce/</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Review records</td>
+<td><code>process/reviews/</code></td>
+</tr>
+<tr>
+<td>Problem reports</td>
+<td><code>process/problem-reports/</code></td>
+</tr>
+<tr>
+<td>MISRA deviations</td>
+<td><code>process/deviations/</code></td>
+</tr>
+<tr>
+<td>Roster</td>
+<td><code>process/roster/</code></td>
+</tr>
+<tr>
+<td>Coverage classifications</td>
+<td><code>process/coverage-classifications/</code></td>
+</tr>
+<tr>
+<td>Annex A verifications and overrides</td>
+<td><code>process/annex-a-verification/</code></td>
+</tr>
+<tr>
+<td>Trace links and their suspect-link reviews</td>
+<td><code>requirements/trace-links/</code></td>
+</tr>
+</tbody></table></div>
+<ul>
+<li>Adding a record adds a file. Editing a record rewrites only its file, so two branches conflict only when they make different decisions on the same record, which a person should resolve.</li>
+<li>Append-only records (reviews, coverage classifications) are named by id plus a digest of their content, and are never rewritten.</li>
+<li>Removing an editable record writes a tombstone instead of deleting the file.</li>
+<li>An older single-file store (<code>process/review-records.jsonl</code> and the like) is still read, and is split into one file per record the first time the IDE writes to it. Upgrade the whole team together: an older IDE build still writes the old single file.</li>
+</ul>
+<p><strong>The audit ledger</strong> is one hash chain, so it merges with a git merge driver instead. Set it up once per project, then once per clone:</p>
+<div class="code"><div class="code-bar"><span>Terminal</span><button class="copy" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button></div><pre><code><span class="line">bash &lt;noyce&gt;/templates/team/install-team-git.sh       # once per project; commit the results</span>
+<span class="line">git config merge.noyce-ledger.name   &quot;Noyce audit ledger merge&quot;</span>
+<span class="line">git config merge.noyce-ledger.driver &quot;node .noyce/tools/noyce-ledger-merge.mjs %O %A %B %P&quot;</span></code></pre></div>
+<p>The driver verifies both sides and refuses to merge a ledger that does not verify. It keeps every entry from both sides, orders new entries by time, re-chains them after the shared prefix and appends a <code>ledger.merged</code> entry recording each moved entry&#39;s old and new position, so an old signature citation still resolves.</p>
+<p><strong>What to commit.</strong> Everything under <code>.noyce/</code> except caches and scratch. The IDE writes <code>.noyce/.gitignore</code> listing build trees (<code>build/</code>, <code>cov/build/</code>, <code>tests/build/</code>, <code>timing/build/</code>), the program model (<code>analysis/model/</code>), <code>tmp/</code>, CodeQL databases, the search index and downloaded manuals. Never ignore the whole of <code>.noyce/</code>: that hides the evidence from configuration control.</p>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>These instructions run the CLI from a Noyce IDE source checkout; <code>kit</code> and <code>qualify</code> need one, because the corpora and kit builder live there.</li>
+<li>Target verification in CI needs a self-hosted runner with a probe and the cross toolchain, and is unverified on hardware.</li>
+<li>A central record server is not part of Noyce IDE; teams share records through git.</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/qualification-kits"><small>Previous</small><span>Qualification kits</span></a>
+      <a class="next" href="/docs/noyce-folder"><small>Next</small><span>The .noyce folder</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#install">Install</a></li><li><a class="l2" href="#commands">Commands</a></li><li><a class="l3" href="#the-gate">The gate</a></li><li><a class="l3" href="#what-the-cli-does-not-do">What the CLI does not do</a></li><li><a class="l2" href="#ci">CI</a></li><li><a class="l2" href="#team-use-without-a-server">Team use without a server</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

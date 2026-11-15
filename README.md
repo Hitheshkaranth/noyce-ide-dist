@@ -7,7 +7,7 @@
 <p>Requirements, source, DO-178C evidence, hardware tooling and fifteen specialist agents —<br/>in one Code-OSS window, against the code that is actually open.</p>
 
 <p>
-<a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest"><img src="https://img.shields.io/badge/Download-2.0.8-111111?style=for-the-badge&logo=github&logoColor=white" alt="Download 2.0.8" /></a>&nbsp;
+<a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases/latest"><img src="https://img.shields.io/badge/Download-2.0.9-111111?style=for-the-badge&logo=github&logoColor=white" alt="Download 2.0.9" /></a>&nbsp;
 <a href="https://noyce-ide.tech"><img src="https://img.shields.io/badge/Website-noyce--ide.tech-111111?style=for-the-badge&logo=safari&logoColor=white" alt="Website" /></a>&nbsp;
 <a href="https://noyce-ide.tech/docs"><img src="https://img.shields.io/badge/User_manual-111111?style=for-the-badge&logo=bookstack&logoColor=white" alt="User manual" /></a>&nbsp;
 <a href="RELEASE_NOTES.md"><img src="https://img.shields.io/badge/Release_notes-111111?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Release notes" /></a>
@@ -175,6 +175,33 @@ pie showData
 > **AI earns no independence credit.** Reviews record author and reviewer from the project roster; AI-assisted reviews are labelled and never satisfy independence.
 
 ---
+
+## What's new in 2.0.9
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**🔗 A verification chain.** Requirement → case → procedure → result → review. Procedures are versioned, hashed data. Results are bound to the commit, inputs and sealed test run they ran against, and go stale when any of them change. Editing a case voids its review.
+
+**🔏 Signed configuration baselines.** A baseline freezes source, requirements, cases, results, tools, problem reports, documents and the audit-ledger head under one digest. A gate refuses dirty trees, stale results, unreviewed cases and open problem reports. Sign-off is Ed25519 with keys in the OS keychain, and `noyce baseline verify` checks it offline.
+
+**📄 Documents written from the project.** Memory margins, interrupts, timer periods, worst-case stack, ICD pins and compiler flags are computed from the build and the `.ioc`. Stale AI text is re-checked on every run, and regeneration converges.
+
+</td>
+<td width="50%" valign="top">
+
+**🧪 LDRA-parity verification engines.** Host and target statement, decision and MC/DC coverage. Measured data and control coupling (A-7(8)), object-code branch coverage (A-7(9)) and timing and stack analysis (A-5(6)).
+
+**📏 MISRA C:2012 rule engine.** 206 of 221 guidelines, with an accuracy benchmark (69.1 % precision, 94.8 % recall), plus a first MISRA C++:2023 slice. DO-330 qualification kits ship per engine.
+
+**🔌 ALM and CI.** Connectors for DOORS Next, Polarion and Jama (tested against API mocks only), ReqIF 1.2 round-trip, and a `noyce` CLI for CI gates.
+
+</td>
+</tr>
+</table>
+
+> Signatures made before 2.0.9 read invalid: register a bootstrap key, grant roles, then re-sign. On-target coverage paths are not yet proven on hardware. Full details are in the [release notes](RELEASE_NOTES.md).
 
 ## What's new in 2.0.8
 
@@ -495,11 +522,11 @@ Download the installer for **macOS (Apple silicon)** or **Windows (x64)** from t
 
 ```bash
 # Homebrew (macOS)
-brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce_ide
+brew tap Hitheshkaranth/noyce https://github.com/Hitheshkaranth/noyce-ide-dist
 brew install --cask noyce-ide
 
 # GitHub Packages
-oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.7      # or :latest
+oras pull ghcr.io/hitheshkaranth/noyce-ide:2.0.9      # or :latest
 ```
 
 Then open the vendor project you already have — STM32CubeIDE, TI Code Composer / TivaWare, MPLAB X, or any folder — and point **AI Models** at a local server (LM Studio, vLLM, Ollama) or a cloud provider.

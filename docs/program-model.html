@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en" data-base="/docs/">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0f0f0f">
+<title>Program model and provenance · Noyce IDE Docs</title>
+<meta name="description" content="The program model is one clang-parsed description of your C code that the rule engine, metrics, flowgraphs, coupling, unit test generation and timing all read. Provenance says how each result was produced, and decides whether it may close a DO-178C objective.">
+<link rel="canonical" href="https://noyce-ide.tech/docs/program-model">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Program model and provenance · Noyce IDE Docs">
+<meta property="og:description" content="The program model is one clang-parsed description of your C code that the rule engine, metrics, flowgraphs, coupling, unit test generation and timing all read. Provenance says how each result was produced, and decides whether it may close a DO-178C objective.">
+<meta property="og:url" content="https://noyce-ide.tech/docs/program-model">
+<meta property="og:image" content="https://noyce-ide.tech/icons_resources/og-image.png?v=1">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="/icons_resources/icon_large.png">
+<link rel="apple-touch-icon" href="/icons_resources/icon_large.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="hdr"><div class="hdr-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <span class="brand-sep" aria-hidden="true"></span>
+  <a class="brand-docs" href="/docs/" style="text-decoration:none">Docs</a>
+  <nav class="hdr-nav" aria-label="Site">
+    <a href="/" class="hide-sm">Product</a>
+    <a href="/docs/">Docs</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist/blob/main/RELEASE_NOTES.md" class="hide-sm">Release notes</a>
+    <a href="https://github.com/Hitheshkaranth/noyce-ide-dist" rel="noopener">GitHub</a>
+    <a href="/docs/install" class="cta">Install</a>
+  </nav>
+  <button class="menu-btn" type="button" aria-label="Open navigation" aria-expanded="false"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+<div class="scrim"></div>
+<div class="shell">
+  <aside class="side" aria-label="Documentation">
+    <div class="search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search docs" autocomplete="off" aria-label="Search the documentation" aria-controls="results">
+      <kbd>/</kbd>
+      <div id="results" class="results" role="listbox" hidden></div>
+    </div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model" aria-current="page">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+  </aside>
+  <main class="main" id="content">
+    <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Verification engines</li></ol>
+    <article class="doc">
+      <h1>Program model and provenance</h1>
+      <p class="lede">The program model is one clang-parsed description of your C code that the rule engine, metrics, flowgraphs, coupling, unit test generation and timing all read. Provenance says how each result was produced, and decides whether it may close a DO-178C objective.</p>
+      
+      <div class="rule"></div>
+      <h2 id="the-program-model">The program model<a class="anchor" href="#the-program-model" aria-label="Link to this section">#</a></h2>
+<p>Noyce IDE parses your C and C++ sources once with clang and keeps the result as the <strong>program model</strong>: for each function, its signature, attributes, control-flow graph, decisions and conditions, reads and writes of globals, calls and tokens, plus a linkage table across translation units. The <a href="/docs/metrics-flowgraph">flowgraph and metrics</a>, <a href="/docs/coupling-timing-concurrency#timing-stack">Timing &amp; Stack</a> and <a href="/docs/unit-tests">Unit Tests</a> read it, and the <a href="/docs/coupling-timing-concurrency#interrupt-shared-data">interrupt analysis</a> builds it when it runs. The <a href="/docs/misra-rules">MISRA rule engine</a> builds its own copy on every scan.</p>
+<h3 id="build-it">Build it<a class="anchor" href="#build-it" aria-label="Link to this section">#</a></h3>
+<p>There is no separate view for the model. It is built from the surfaces that need it:</p>
+<ul>
+<li><strong>Flowgraph &amp; Cross-Reference → Compute metrics</strong> always rebuilds the model, then computes metrics.</li>
+<li><strong>Timing &amp; Stack → Build program model</strong>, which shows progress and can be cancelled.</li>
+<li><strong>Unit Tests → Build program model</strong>, shown when there is no model yet.</li>
+<li><strong>Quality Trend → Capture Snapshot</strong>.</li>
+<li>From a terminal, <code>noyce model</code> (see <a href="/docs/cli-ci">CLI</a>).</li>
+</ul>
+<p>A build runs as a background job with a 15-minute limit. If it times out or you cancel it, the previous model is kept unchanged.</p>
+<h3 id="what-it-needs">What it needs<a class="anchor" href="#what-it-needs" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>clang</strong> on <code>PATH</code>, or set <code>NOYCE_CLANG</code>. clang is used only as a parser; your own compiler still builds the firmware. No minimum version is enforced; the version used is recorded in the model.</li>
+<li>For Arm targets, the <strong>Arm GNU Toolchain</strong> (which includes newlib) for the C library headers. Noyce IDE looks in the usual install locations, including STM32CubeIDE and TI CCS; set <code>NOYCE_ARM_TOOLCHAIN</code> if yours is elsewhere. A translation unit that cannot find its C library headers is left out of the model, and the build summary says so.</li>
+</ul>
+<h3 id="where-the-compile-flags-come-from">Where the compile flags come from<a class="anchor" href="#where-the-compile-flags-come-from" aria-label="Link to this section">#</a></h3>
+<ol class="steps">
+<li>A <code>compile_commands.json</code> in the project (at the root, in <code>build/</code>, <code>Debug/</code>, <code>Release/</code>, or up to two levels down). If it has no <code>-D</code> defines, defines derived from the project configuration are added.</li>
+<li>Otherwise, the source lists in Eclipse-generated makefiles (<code>Debug/</code>, <code>Release/</code>, <code>build/</code>) and a root <code>Makefile</code>. Make is never run.</li>
+<li>Otherwise, a scan of the project&#39;s source files, with the include paths and defines read from the project configuration.</li>
+</ol>
+<p>Only flags that affect parsing are kept (target, <code>-D</code>, <code>-U</code>, <code>-I</code>, <code>-include</code>, <code>-std</code>, <code>-mcpu</code> and similar); the rest are counted as dropped.</p>
+<p><strong>Compiler dialects.</strong> A header that maps vendor keywords to attributes clang accepts is force-included, chosen from the compiler and project files: TI (<code>armcl</code>, CCS projects), IAR (<code>iccarm</code>, <code>.ewp</code>), Keil (<code>armcc</code>, <code>armclang</code>, <code>.uvproj</code>) or GCC. Two vendor features cannot be mapped this way, and the model records it: IAR <code>@</code> placement, and TI <code>#pragma DATA_SECTION</code> / <code>CODE_SECTION</code>.</p>
+<h3 id="where-it-is-stored">Where it is stored<a class="anchor" href="#where-it-is-stored" aria-label="Link to this section">#</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Path under <code>.noyce/</code></th>
+<th>Holds</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>analysis/compile_commands.json</code>, <code>analysis/build.json</code></td>
+<td>The compile commands used, where they came from, and the build hash.</td>
+</tr>
+<tr>
+<td><code>analysis/model/index.json</code></td>
+<td>The index: clang version, dialects, target, limitations, translation units, linkage, call graph.</td>
+</tr>
+<tr>
+<td><code>analysis/model/&lt;hash&gt;.json</code></td>
+<td>One file per translation unit.</td>
+</tr>
+<tr>
+<td><code>analysis/dialects/*.h</code></td>
+<td>The dialect headers.</td>
+</tr>
+</tbody></table></div>
+<p>The model is regenerated from source, so <code>.noyce/.gitignore</code> excludes <code>analysis/model/</code>.</p>
+<h2 id="provenance">Provenance<a class="anchor" href="#provenance" aria-label="Link to this section">#</a></h2>
+<p>Every result Noyce IDE records carries a <strong>provenance</strong> tag saying how it was produced, shown as a badge next to the result:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Badge</th>
+<th>Meaning</th>
+<th>May close an objective?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Measured</strong></td>
+<td>Produced by executing or instrumenting the real build: coverage counters, traces, test verdicts.</td>
+<td>Yes.</td>
+</tr>
+<tr>
+<td><strong>Derived</strong></td>
+<td>Computed deterministically by an analysis tool from the code.</td>
+<td>Yes.</td>
+</tr>
+<tr>
+<td><strong>Heuristic</strong></td>
+<td>Regex, name matching or model output. Advisory only.</td>
+<td>Never.</td>
+</tr>
+<tr>
+<td><strong>Declared</strong></td>
+<td>A human statement: a justification, deviation or review.</td>
+<td>Only when signed by a person on the project roster.</td>
+</tr>
+</tbody></table></div>
+<p>Hover a badge for the producer, the environment (for example &quot;Measured · host, stubbed&quot;) and, for a declared record, who signed it and whether they are on the roster. A heuristic badge also says &quot;Advisory — cannot close an objective.&quot;</p>
+<p><strong>Grading enforces it.</strong> When the Annex A objectives are graded, evidence that is heuristic, untagged, or declared without a rostered signer is set aside as advisory before anything is counted. It is listed beside its objective but cannot make it satisfied, partial or failing.</p>
+<aside class="callout note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><p class="callout-t">Note</p><div class="callout-b"><p>The MISRA rule engine&#39;s findings are tagged derived, but the rule engine&#39;s runs are not yet used as evidence for objectives: A-5 coding-standard evidence still comes from cppcheck. See <a href="/docs/misra-rules#limitations">MISRA rule engine</a>.</p>
+</div></div></aside>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>clang must be installed; there is no bundled parser.</li>
+<li>Without the Arm GNU Toolchain&#39;s newlib headers, affected translation units are missing from the model.</li>
+<li>IAR <code>@</code> placement and TI section pragmas are not modelled.</li>
+<li>C++ translation units (<code>.cpp</code>, <code>.cc</code>, <code>.cxx</code>, <code>.C</code>, <code>-x c++</code> or a <code>g++</code> / <code>clang++</code> driver) are modelled with their functions and methods under qualified names (<code>ns::Class::method</code>), plus classes, bases, virtual members, namespaces, templates and using-directives. Templates are modelled as written, once, not per instantiation. Functions containing <code>try</code>/<code>catch</code>, <code>throw</code> or range-based <code>for</code> have no control-flow graph (<code>cfg: null</code>), and the model index lists this under its limitations.</li>
+<li>Building the model from the interrupt analysis shows no progress and cannot be cancelled. Progress is also not reported when the build runs on a single worker (3 cores or fewer, or <code>NOYCE_MODEL_JOBS=1</code>).</li>
+</ul>
+
+    </article>
+    <nav class="pager" aria-label="Previous and next">
+      <a class="prev" href="/docs/ai-agents"><small>Previous</small><span>AI &amp; agents</span></a>
+      <a class="next" href="/docs/misra-rules"><small>Next</small><span>MISRA rule engine</span></a>
+    </nav>
+  </main>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#the-program-model">The program model</a></li><li><a class="l3" href="#build-it">Build it</a></li><li><a class="l3" href="#what-it-needs">What it needs</a></li><li><a class="l3" href="#where-the-compile-flags-come-from">Where the compile flags come from</a></li><li><a class="l3" href="#where-it-is-stored">Where it is stored</a></li><li><a class="l2" href="#provenance">Provenance</a></li><li><a class="l2" href="#limitations">Limitations</a></li></ul></nav>
+</div>
+<footer class="foot"><div class="foot-in">
+  <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
+  <div class="foot-links">
+    <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
+  </div>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
+</div></footer>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
+</body>
+</html>

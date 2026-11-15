@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.8">
+<link rel="stylesheet" href="/docs/assets/docs.css?v=2.0.9">
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -44,7 +44,7 @@
       <kbd>/</kbd>
       <div id="results" class="results" role="listbox" hidden></div>
     </div>
-    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records" aria-current="page">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
+    <div class="nav-group"><p class="nav-h">Getting started</p><ul class="nav-list"><li><a href="/docs/">Overview</a></li><li><a href="/docs/install">Install</a></li><li><a href="/docs/quick-start">Quick start</a></li><li><a href="/docs/models">Models</a></li></ul></div><div class="nav-group"><p class="nav-h">Guides</p><ul class="nav-list"><li><a href="/docs/import-walkthrough">Import and build</a></li><li><a href="/docs/do178c-walkthrough">DO-178C walkthrough</a></li><li><a href="/docs/review-ai-changes">Review AI changes</a></li></ul></div><div class="nav-group"><p class="nav-h">Features</p><ul class="nav-list"><li><a href="/docs/projects">Projects</a></li><li><a href="/docs/requirements">Requirements &amp; traceability</a></li><li><a href="/docs/reqif-round-trip">ReqIF &amp; change impact</a></li><li><a href="/docs/alm-connectors">ALM connectors</a></li><li><a href="/docs/compliance">Compliance &amp; certification</a></li><li><a href="/docs/evidence-records" aria-current="page">Evidence records</a></li><li><a href="/docs/documents">DO-178C documents</a></li><li><a href="/docs/analysis">Analysis &amp; proof</a></li><li><a href="/docs/build-test">Build, test &amp; debug</a></li><li><a href="/docs/hardware">Hardware</a></li><li><a href="/docs/architecture-search">Architecture &amp; search</a></li><li><a href="/docs/ai-agents">AI &amp; agents</a></li></ul></div><div class="nav-group"><p class="nav-h">Verification engines</p><ul class="nav-list"><li><a href="/docs/program-model">Program model &amp; provenance</a></li><li><a href="/docs/misra-rules">MISRA rule engine</a></li><li><a href="/docs/metrics-flowgraph">Metrics &amp; flowgraph</a></li><li><a href="/docs/structural-coverage">Structural coverage</a></li><li><a href="/docs/coupling-timing-concurrency">Coupling, timing &amp; interrupts</a></li><li><a href="/docs/unit-tests">Unit tests</a></li><li><a href="/docs/annex-a-tables">Annex A tables</a></li><li><a href="/docs/other-standards">ISO 26262 / IEC 61508</a></li><li><a href="/docs/qualification-kits">Qualification kits</a></li></ul></div><div class="nav-group"><p class="nav-h">Reference</p><ul class="nav-list"><li><a href="/docs/cli-ci">CLI, CI &amp; teams</a></li><li><a href="/docs/noyce-folder">The .noyce folder</a></li><li><a href="/docs/commands">Commands &amp; shortcuts</a></li><li><a href="/docs/limitations">Known limitations</a></li><li><a href="/docs/troubleshooting">Troubleshooting</a></li></ul></div>
   </aside>
   <main class="main" id="content">
     <ol class="crumbs"><li><a href="/docs/">Docs</a></li><li>Features</li></ol>
@@ -54,7 +54,7 @@
       
       <div class="rule"></div>
       <p><strong>Evidence Records</strong> holds everything a certification authority asks you to show about <em>how</em> the software was built: who did what, which problems were raised and decided, which changes were authorised, and which reviews happened. Open it from its tile or <strong>Noyce Compliance: Open Evidence Records</strong>.</p>
-<figure class="fig"><div class="fig-frame"><img src="/docs/img/evidence-records.webp" alt="Evidence Records with its ten record types" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Evidence Records has ten tabs, one per record type. Each is stored as a file in the project's .noyce folder.</figcaption></figure>
+<figure class="fig"><div class="fig-frame"><img src="/docs/img/evidence-records.webp" alt="Evidence Records with its record types" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Evidence Records has one tab per record type. Each is stored as a file in the project's .noyce folder.</figcaption></figure>
 <p><figure class="fig fig-diagram"><div class="diagram-wrap"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 380" role="img" aria-label="The roster of people and roles underlies every record: problem reports are decided by quorate CCB meetings and cited as the authority for change sets, review records count as independent only by the roster, and SQA and configuration-management records close objectives only when made by someone with the right role." class="diagram">
 <defs>
 <linearGradient id="rc-ink" x1="0" y1="0" x2="1180" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#7fd3e6"/><stop offset="1" stop-color="#8ee39b"/></linearGradient>
@@ -197,6 +197,9 @@
 <figure class="fig"><div class="fig-frame"><img src="/docs/img/records-tool-qualification.webp" alt="Tool qualification tab with Seed register and New tool" loading="lazy" decoding="async" width="1600" height="958"></div><figcaption>Tool qualification on the Canister copy: the register is empty. Seed register adds the tools Noyce IDE itself uses.</figcaption></figure>
 <p><strong>Seed register</strong> adds the tools Noyce IDE uses (the IDE itself, compiler, linker, CBMC, CodeQL, llvm-cov, the Unity runner and cppcheck), each with no credit taken. <strong>New tool</strong> adds another. For each, record the version, the executable&#39;s SHA-256, the credit taken (none, verification or development), the DO-330 criterion and, whenever credit is taken, the rationale.</p>
 <p>Qualification is required when credit is taken and the tool&#39;s output is not independently verified. The badge then shows the tool qualification level (TQL-1 to TQL-5) from the criterion and the software level, and asks for the qualification data.</p>
+<p>Below the register, a table lists Noyce IDE&#39;s own verification engines with their proposed criterion and TQL, their latest qualification run and their kit. See <a href="/docs/qualification-kits">Qualification kits</a>.</p>
+<h2 id="annex-a-table">Annex A table<a class="anchor" href="#annex-a-table" aria-label="Link to this section">#</a></h2>
+<p>Which Annex A applicability and independence table the project grades against, and the checklist two people on the roster use to verify the built-in table. See <a href="/docs/annex-a-tables">Annex A tables</a>.</p>
 <h2 id="verification-cases-and-parameter-data">Verification cases and parameter data<a class="anchor" href="#verification-cases-and-parameter-data" aria-label="Link to this section">#</a></h2>
 <p><strong>Verification cases</strong> describe each test, analysis, review or inspection: the requirements it verifies, normal-range or robustness, the environment (target, simulator or host; only a target result discharges A-6(5)), the procedure, the expected result and, at Levels A and B, a reviewer other than the author.</p>
 <p><strong>Parameter data</strong> lists each parameter data item with its file, SHA-256, description, requirements and how it was verified. A project with none can declare <strong>No parameter data</strong> with a statement and a plan reference.</p>
@@ -210,11 +213,11 @@
 </thead>
 <tbody><tr>
 <td>Roster</td>
-<td><code>.noyce/process/roster.json</code></td>
+<td><code>.noyce/process/roster/</code> (one file per person)</td>
 </tr>
 <tr>
 <td>Problem reports</td>
-<td><code>.noyce/process/problem-reports.json</code></td>
+<td><code>.noyce/process/problem-reports/</code> (one file per report)</td>
 </tr>
 <tr>
 <td>CCB</td>
@@ -226,11 +229,11 @@
 </tr>
 <tr>
 <td>MISRA deviations</td>
-<td><code>.noyce/process/misra-deviations.json</code></td>
+<td><code>.noyce/process/deviations/</code> (one file per deviation)</td>
 </tr>
 <tr>
 <td>Reviews</td>
-<td><code>.noyce/process/review-records.jsonl</code></td>
+<td><code>.noyce/process/reviews/</code> (one file per review)</td>
 </tr>
 <tr>
 <td>SQA / CM / liaison</td>
@@ -241,6 +244,10 @@
 <td><code>.noyce/configuration/tool-register.json</code></td>
 </tr>
 <tr>
+<td>Annex A verifications and overrides</td>
+<td><code>.noyce/process/annex-a-verification/</code></td>
+</tr>
+<tr>
 <td>Verification cases</td>
 <td><code>.noyce/verification/cases.json</code></td>
 </tr>
@@ -249,7 +256,7 @@
 <td><code>.noyce/configuration/parameter-data.json</code></td>
 </tr>
 </tbody></table></div>
-<p>These files are not in your git repository; see <a href="/docs/noyce-folder">The .noyce folder</a>.</p>
+<p>The stores kept as one file per record still read an older single file (such as <code>process/review-records.jsonl</code>) and split it on the first write, so two people adding records on two branches do not conflict. Commit <code>.noyce/</code> with the project; see <a href="/docs/noyce-folder">The .noyce folder</a> and <a href="/docs/cli-ci#team-use-without-a-server">Team use without a server</a>.</p>
 
     </article>
     <nav class="pager" aria-label="Previous and next">
@@ -257,15 +264,15 @@
       <a class="next" href="/docs/documents"><small>Next</small><span>DO-178C documents</span></a>
     </nav>
   </main>
-  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#start-with-the-roster">Start with the roster</a></li><li><a class="l2" href="#problem-reports">Problem reports</a></li><li><a class="l2" href="#ccb">CCB</a></li><li><a class="l2" href="#change-sets">Change sets</a></li><li><a class="l2" href="#misra-deviations">MISRA deviations</a></li><li><a class="l2" href="#reviews">Reviews</a></li><li><a class="l2" href="#sqa-cm-liaison">SQA / CM / liaison</a></li><li><a class="l2" href="#tool-qualification">Tool qualification</a></li><li><a class="l2" href="#verification-cases-and-parameter-data">Verification cases and parameter data</a></li><li><a class="l2" href="#where-records-are-stored">Where records are stored</a></li></ul></nav>
+  <nav class="toc" aria-label="On this page"><p class="toc-h">On this page</p><ul><li><a class="l2" href="#start-with-the-roster">Start with the roster</a></li><li><a class="l2" href="#problem-reports">Problem reports</a></li><li><a class="l2" href="#ccb">CCB</a></li><li><a class="l2" href="#change-sets">Change sets</a></li><li><a class="l2" href="#misra-deviations">MISRA deviations</a></li><li><a class="l2" href="#reviews">Reviews</a></li><li><a class="l2" href="#sqa-cm-liaison">SQA / CM / liaison</a></li><li><a class="l2" href="#tool-qualification">Tool qualification</a></li><li><a class="l2" href="#annex-a-table">Annex A table</a></li><li><a class="l2" href="#verification-cases-and-parameter-data">Verification cases and parameter data</a></li><li><a class="l2" href="#where-records-are-stored">Where records are stored</a></li></ul></nav>
 </div>
 <footer class="foot"><div class="foot-in">
   <a class="brand" href="/" aria-label="Noyce IDE home"><img src="/icons_resources/icon_large.png" alt=""><span class="brand-name">Noyce IDE</span></a>
   <div class="foot-links">
     <a href="/">Product</a><a href="/docs/install">Install</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/releases" rel="noopener">Releases</a><a href="https://github.com/Hitheshkaranth/noyce-ide-dist/issues" rel="noopener">Report an issue</a>
   </div>
-  <span>© 2026 Noyce · Docs for v2.0.8</span>
+  <span>© 2026 Noyce · Docs for v2.0.9</span>
 </div></footer>
-<script src="/docs/assets/docs.js?v=2.0.8" defer></script>
+<script src="/docs/assets/docs.js?v=2.0.9" defer></script>
 </body>
 </html>
