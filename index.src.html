@@ -2764,13 +2764,36 @@
     const Contact = () => {
       const [f, setF] = useState({ name: '', email: '', team: '', ctx: '' });
       const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
-      const send = (e) => {
-        e.preventDefault();
+      const [status, setStatus] = useState('idle');
+      const mailtoFallback = () => {
         const body = ['Name: ' + f.name, 'Email: ' + f.email, 'Team size: ' + f.team, '', f.ctx].join('\n');
         window.location.href =
           'mailto:' + CONTACT_EMAIL +
           '?subject=' + encodeURIComponent('Noyce IDE · ' + (f.name || 'design partner enquiry')) +
           '&body=' + encodeURIComponent(body);
+      };
+      const send = async (e) => {
+        e.preventDefault();
+        if (e.target.elements._honey && e.target.elements._honey.value) return;
+        setStatus('sending');
+        try {
+          const r = await fetch('https://formsubmit.co/ajax/' + CONTACT_EMAIL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({
+              _subject: 'Noyce IDE access request · ' + (f.name || 'design partner enquiry'),
+              _template: 'table',
+              _captcha: 'false',
+              name: f.name, email: f.email, 'team size': f.team || 'not given', context: f.ctx || '',
+            }),
+          });
+          const j = await r.json().catch(() => ({}));
+          if (!r.ok || String(j.success) !== 'true') throw new Error(j.message || 'HTTP ' + r.status);
+          setStatus('sent');
+          setF({ name: '', email: '', team: '', ctx: '' });
+        } catch (err) {
+          setStatus('error');
+        }
       };
       return (
         <section id="contact" className="section">
@@ -2813,8 +2836,13 @@
                   <textarea id="c-ctx" rows="3" className="field" placeholder="Standard, target silicon, where you are in the programme." value={f.ctx} onChange={set('ctx')}></textarea>
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 pt-1">
-                  <p className="small m-0">Opens your mail client. Nothing is posted from this page.</p>
-                  <button type="submit" className="btn btn-primary">Send request <Icon name="arrowRight" size={15} /></button>
+                  <input type="text" name="_honey" tabIndex="-1" autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }} />
+                  <p className="small m-0" role="status" aria-live="polite">
+                    {status === 'sent' ? 'Request sent. We will reply to the address you gave.'
+                      : status === 'error' ? <>Could not send it from here. <button type="button" className="underline" onClick={mailtoFallback}>Send it from your mail app instead</button>.</>
+                      : 'Sent to the founders by email via FormSubmit. Nothing else is stored.'}
+                  </p>
+                  <button type="submit" className="btn btn-primary" disabled={status === 'sending'}>{status === 'sending' ? 'Sending…' : 'Send request'} <Icon name="arrowRight" size={15} /></button>
                 </div>
               </form>
             </Reveal>
